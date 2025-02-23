@@ -1,0 +1,103 @@
+/* filtered.css */
+.filter-container {
+    display: flex;
+    flex-direction: column; /* Stack the filter inputs vertically */
+    gap: 10px;
+    margin-left:200px;
+    margin-top: -60px;
+    margin-bottom: -10px;
+    width:auto;
+}
+
+.filter-inputs-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 10px;
+    padding: 10px; /* Add padding to the container */
+    border: 1px solid #ccc; /* Border for the container */
+    border-radius: 30px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.filter-inputs-container option {
+    color: #333; /* Value color */
+    font-weight: bolder;
+}
+
+.filter-inputs-container:hover {
+    background-color: #feeded; /* Change background color on hover */
+    
+}
+
+.filter-inputs-container select,
+.filter-inputs-container input {
+    
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    transition: border-color 0.3s, background-color 0.3s;
+    flex: 1; /* Allow inputs to grow and fill space */
+    min-width: 0px; /* Set a minimum width for inputs */
+}
+
+/* Hover effect for input fields and select elements */
+.filter-inputs-container select:hover,
+.filter-inputs-container input:hover {
+    border-color: #007bff; /* Change border color on hover */
+    background-color: #f0f8ff; /* Light blue background on hover */
+}
+
+.filter-inputs-container select.active-filter,
+.filter-inputs-container input.active-filter {
+    border-color: #007bff; /* Change border color when active */
+    
+}
+
+.filter-inputs-container button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-inputs-container button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.filter-inputs-container button:disabled {
+    background-color: #ccc; /* Grey out disabled buttons */
+    cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
+
+
+/* filtered.css */
+.tooltip-container {
+    position: relative; /* Position relative for absolute positioning of tooltip */
+    display: inline-block; /* Allow tooltip to be positioned relative to the input */
+}
+
+.tooltip {
+    visibility: hidden; /* Hidden by default */
+    width: 200px; /* Set width of tooltip */
+    background-color: #555; /* Dark background */
+    color: #fff; /* White text */
+    text-align: center; /* Center text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px; /* Padding */
+    position: absolute; /* Position tooltip */
+    z-index: 1; /* Ensure tooltip is above other elements */
+    bottom: 125%; /* Position above the input */
+    left: 50%; /* Center tooltip */
+    margin-left: -100px; /* Adjust to center */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s; /* Smooth transition */
+}
+
+/* Show tooltip on hover */
+.tooltip-container:hover .tooltip {
+    visibility: visible; /* Show tooltip */
+    opacity: 1; /* Make tooltip visible */
+}

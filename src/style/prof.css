@@ -1,0 +1,132 @@
+.home-container1 {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+    overflow: auto; /* Prevent scrolling */
+  }
+  
+  .profile-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+    background-color: #f4f4f4;
+    height: auto;
+    margin-left: 200px;
+    gap: 1rem;
+  }
+  
+  .profile-sidebar {
+    width: 35%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+    margin-top: -325px;
+  }
+  
+  .profile-avatar .avatar-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 1px solid #080808;
+  }
+  
+  .change-avatar-button {
+    background-color: #17a2b8;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .profile-form {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 100px;
+    width: 50%;
+  }
+  
+  .profile-form h3 {
+    margin-top: -80px;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #080808;
+    border-radius: 3px;
+  }
+  
+  .save-button {
+    background-color: #850F13;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .save-button:hover {
+    background-color: #F3D558;
+    color: #850F13;
+  }
+  
+  
+  
+  /* Responsive Styles --------------------------------------------------------- */
+  @media (max-width: 1024px) {
+    .profile-container {
+      flex-direction: column;
+      align-items: center;
+      margin-left: 0;
+      padding: 50px;
+      
+    }
+  
+    .profile-sidebar {
+      width: 100%;
+      margin-top: 30px;
+  
+    }
+    
+    .form-group input {
+      padding: 15px;
+      border: 1px solid #080808;
+      border-radius: 3px;
+      width: 90%;
+    }
+  
+    .profile-form {
+      width: 117%;
+      padding: 10px;
+      
+  
+    }
+    .profile-form h3 {
+      margin-top: 0px;
+    }
+  
+  }
+  
+  
+  
+  

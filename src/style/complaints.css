@@ -1,0 +1,607 @@
+/* General layout */
+  
+  .breadcrumb3 {
+    margin: 10px 8px 0px;
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+  }
+
+  .manage-bulletin3 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+    margin-left: 240px; /* Space to avoid8lap with the sidebar */
+    flex-direction:column;
+  }
+
+  
+  /* ----------------------------------------------------------------------------- */
+  
+  
+  
+  .search-bar3 {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    margin-top: 0px;
+     /*height: 3  00px; Full viewport height to center vertically */
+
+    
+  }
+
+  .search-bar3 input:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    
+  }
+  
+  .search-bar3 input {
+    width: 435px;
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+    margin-top: 50px
+  }
+
+  .search-bar3 select:focus, .search-bar3 input:focus {
+    border-color: #3c6abe;
+    outline: none;
+    box-shadow: 0 0 5px rgb(60, 106, 190);
+
+  }
+
+  .search-bar3 input::placeholder {
+    font-weight: bold;
+    font-size:17px;
+    color: #888;
+
+  }
+  
+  .search-icon3, .filter-icon3 {
+    color: #a92525;
+    cursor: pointer;
+    width: 30px; /* Adjust icon size for better proportion with the input */
+    height: 30px; /* Maintain square aspect ratio */
+  }
+
+  .search-icon3:hover, .filter-icon3:hover{
+    transform: translateY(-3px);
+  }
+
+  .search-input3 {
+    padding: 10px 40px 10px 40px; /* Add padding to the input */
+    width: 100%; /* Full width */
+    border: 1px solid #ccc; /* Border style */
+    border-radius: 4px; /* Rounded corners */
+    background: url('search.1024x1024.png') no-repeat 400px center; /* Background image */
+    background-size: 30px; /* Size of the icon */
+  }
+  
+
+/* Top-Right Buttons Container */
+.top-right-buttons3 {
+  display: flex; /* Enable flexbox for alignment */
+  margin-top: 20px;
+  margin-left: 0px;
+
+  }
+  
+  /* Button Styling */
+  .add-item-btn3, .register-qr-btn3 {
+    background-color: #800000; /* Dark red color for buttons */
+    color: white;
+    padding: 10px 10px; /* Adjusted padding for better button sizing */
+    font-size: 20px;
+    height: 60px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px; /* Space between buttons */
+  }
+  
+  .add-item-btn3:hover, .register-qr-btn3:hover {
+    background-color: #660000; /* Darker red on hover */
+    color: #ffd324;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+    
+  }
+  
+
+  
+  
+
+  
+  .view-btn3 {
+    background-color: #4c75af;
+    color: white;
+    padding: 5px 12px;
+    font-size: 15px;
+    margin: 15px 2px; /* Adds horizontal spacing between buttons */
+    border: none;
+    width:115px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 0px;
+    border-radius: 6px;
+  }
+
+
+  .view-btn3:hover{
+    background-color: #5b8cd0;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+  }
+  
+  
+  
+  /* modal
+  .modal-overlay1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal1 {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .modal1 form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .modal1 .submit-btn1,
+  .modal1 .cancel-btn1 {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .modal1 .submit-btn1 {
+    background: #4caf50;
+    color: white;
+  }
+  
+  .modal1 .cancel-btn1 {
+    background: #f44336;
+    color: white;
+  } */
+  
+ 
+
+  
+  .button-container3 {
+    display: flex;
+    
+    align-items: flex-start; /* Align buttons to the start (left) */
+    width: 100%; /* Ensure it takes full width */
+    margin-top: 20px; /* Add some space above the buttons */
+    gap: 10px; /* Space between buttons */
+}
+
+.status-btn3{
+  color: white;
+  padding: 5px 12px;
+  font-size: 12px;
+  margin: 10% 2px; /* Adds horizontal spacing between buttons */
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  width: 110px;
+  border-radius: 20px;
+  margin-left: 0px;
+  
+}
+
+.status-btn3.not-found {
+  background-color: red; /* Red for unclaimed */
+}
+
+.status-btn3.found {
+  background-color: #45a049; /* Green for claimed */
+}
+
+
+
+
+.status-btn3:hover{
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+}
+
+.arrow3 {
+  width: 14px; /* Adjust icon size for better proportion with the input */
+  height: 14px; /* Maintain square aspect ratio */
+}
+
+/* FEB-10-25--------------------------------------------------------------------------- */
+
+.grid-container3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+  margin-top: 30px;
+  margin-left: -37px;
+  row-gap: 35px; /* Space between grid items */
+  column-gap:85px;
+  padding: 16px; /* Padding around the grid */
+  width: 100%; /* Ensure the grid takes full width */
+  justify-items: left; /* Center items within their grid cells */
+}
+
+
+
+.grid-item3 {
+  overflow-y: auto;  /* Enable vertical scrolling */
+  word-wrap: break-word;
+  background-color: #f0f0f0; /* Background color for items */
+  padding: 20px; /* Padding inside items */
+  border: 1px solid #ccc; /* Optional: Border for items */
+  border-radius: 4px; /* Rounded corners */
+  text-align: center; /* Center text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+  width: 105%; /* Ensure grid items take full width of their cell */
+}
+
+
+.grid-item3 h2 {
+  overflow: hidden; /* Hide overflowing content */
+  color: #8B0000;
+  text-align: center; /* Align text to the left */
+  font-weight: bold; /* Make the text bold */
+  margin-bottom:20px ; /* Remove default margin */
+}
+
+.grid-item3 p {
+  margin-top: 20px;
+  text-align: left; /* Align text to the left */
+  margin: 5px 0; /* Add some vertical spacing */
+  font-weight: normal; /* Normal weight for paragraph text */
+  max-height: 100px; /* Set a maximum height for paragraphs */
+  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
+}
+.grid-item3 span {
+  font-weight: bold; /* Normal weight for paragraph text */
+  
+}
+.view-mode-toggle3 {
+  background: none; /* No background */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 38px; /* Adjust size of the icon */
+  color: #8B0000; /* Change color as needed */
+  padding: 5px; /* Add some padding */
+  
+  margin-top: 50px;
+  
+}
+
+
+.view-mode-toggle3:hover {
+  
+  transform: translateY(-2px);
+  color: #a50303; /* Change color on hover */
+
+
+}
+/* ------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .manage-bulletin3 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+      flex-direction:column;
+  }
+
+  .breadcrumb3 {
+    margin: 10px 8px 0 -50px;
+    font-size: 20px;
+    color:#800000;
+    font-weight: bold;
+    width: 150%;
+  }
+
+  .search-bar3 input {
+    width: 320px;
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+    margin-top: 50px;
+    margin-left: -50px;
+  }
+
+  .top-right-buttons3 {
+    display: flex; /* Enable flexbox for alignment */
+    margin-top: 250px;
+    margin-left: -320px;
+    }
+
+   
+
+  .grid-container3 {
+    margin-top: 50px;
+  }
+
+  .grid-item3 {
+    margin-left: -30px;
+    width: 130%; /* Ensure grid items take full width of their cell */
+  }
+  /* modal ---------------------------------- */
+  .modal-overlay3 {
+  width: 100%;
+}
+  .modal3 {
+    display: flex;
+    width: 80%;
+    max-width: 800px; /* Adjusted for more space */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+
+  .modal3 form {
+    display: flex;
+    flex-direction: column; /* Single column layout */
+    gap: 10px;
+    width: 90%; /* Ensure the form takes full width */
+  }
+
+  .modal3 select{
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #cccccc;
+      border-radius: 6px;
+      width: 110%; /* Adjusted for full width in single column */
+    }
+}
+
+/* FEB_10_25------------------------------------------------------------------------------ */
+
+.table-container3 {
+  width: 100%; /* Full width of the parent */
+  max-width: 1600px; /* Set a max width for the container */
+  margin: 30px auto 0; /* Center the container */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+}
+
+
+
+.ffound-items-table3 {
+  width: 100%; /* Full width of the table */
+  border-collapse: collapse; /* Collapse borders */
+  font-size: 14px; /* Font size */
+  table-layout: auto; /* Use auto layout to allow for dynamic widths */
+}
+
+.ffound-items-table3 th, .ffound-items-table3 td {
+  padding: 10px;
+  border: 1px solid #d5d2d2;
+  text-align: center;
+  overflow: hidden; /* Prevent overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  white-space: normal; /* Allow text to wrap */
+  vertical-align: top; /* Align text to the top */
+  
+  word-wrap: break-word; /* Allow long words to break */
+  max-width: 200px; /* Set a max width for cells */
+}
+
+.ffound-items-table3 th {
+  background-color: #ddd;
+}
+
+.ffound-items-table3 tr {
+  height: auto; /* Allow rows to stretch based on content */
+}
+
+.ffound-items-table3 th.action, .ffound-items-table3 td.action {
+  width: 50px; /* Adjust width as needed */
+  text-align: center; /* Center-align the buttons */
+}
+
+
+
+.modal-overlay3 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal3 {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: flex-start; /* Align items to the start */
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px; /* Adjusted for a single column layout */
+  max-height: 85vh; /* Limit height to enable scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  text-align: left;
+}
+
+.modal3 h3 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #222222;
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+}
+
+.modal3 form {
+  display: flex;
+  flex-direction: column; /* Single column layout */
+  gap: 15px;
+  width: 100%; /* Ensure the form takes full width */
+}
+
+.form-group3 {
+  display: flex;
+  flex-direction: column; /* Stack label above input */
+  width: 100%; /* Ensure full width */
+}
+
+.modal3 label {
+  font-weight: 500;
+  color: #444444;
+  margin-bottom: 5px;
+}
+
+.modal3 select,
+.modal3 textarea,
+.modal3 input {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  width: 100%; /* Adjusted for full width in single column */
+}
+
+.modal3 input:focus,
+.modal3 select:focus,
+.modal3 textarea:focus {
+  border-color: #3c6abe;
+  outline: none;
+  box-shadow: 0 0 5px rgb(60, 106, 190);
+}
+
+.item-pic-input3 {
+  border: 2px dashed #aaaaaa;
+  padding: 20px;
+  text-align: center;
+  border-radius: 6px;
+  background: #f9f9f9;
+  font-size: 1rem;
+  color: #777777;
+  cursor: pointer;
+  width: 100%; /* Ensures the input takes full width */
+}
+
+.item-pic3 input:hover {
+  background: #f1f1f1;
+}
+
+.submit-btn3,
+.cancel-btn3,.delete-btn3, .edit-btn3 {
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 48%; /* Adjusted for button alignment */
+
+}
+
+.submit-btn3 {
+  background-color: #45a049;
+  color: white;
+}
+
+.cancel-btn3 {
+  background-color: #FF0000;
+  color: white;
+}
+
+.delete-btn3 {
+background-color: #8B0000;
+color: white;
+}
+.edit-btn3 {
+  background-color: #0090ea;
+  color: white;
+  }
+
+.submit-btn3:hover {
+  background-color: #61ce67;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.cancel-btn3:hover {
+  background-color: #dd1f1f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.delete-btn3:hover {
+  background-color: #c01515;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.edit-btn3:hover {
+  background-color: #1299ed;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+/* -------------------------------------------------- */
+
+.complaint-details3 {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  width: 100%; /* Full width */
+  padding: 10px 0; /* Add some padding to the details container */
+}
+
+.detail-grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 10px; /* Space between grid items */
+}
+
+.detail-item3 {
+  display: flex; /* Use flexbox to align items */
+  justify-content: space-between; /* Space between label and value */
+  padding: 8px 0; /* Adjust padding for detail items */
+  max-width: 100%; /* Prevent stretching beyond the container */
+}
+
+.detail-item3 strong {
+  color: #555; /* Label color */
+}
+
+.detail-item3 span {
+  color: #333; /* Value color */
+  text-align: left; /* Align text to the right */
+  white-space: normal; /* Allow text to wrap to the next line */
+  overflow-wrap: break-word; /* Break long words if necessary */
+  flex: 1; /* Allow the span to take available space */
+  max-width: 200px; /* Set a maximum width for the span */
+}

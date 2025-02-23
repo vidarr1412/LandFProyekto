@@ -1,0 +1,672 @@
+/* General layout */
+.content {
+  width: 100% ;
+}
+.breadcrumb2 {
+    margin: 10px 8px 0 -20px;
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+  }
+  .manage-bulletin2 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+    margin-left: 240px; /* Space to avoid8lap with the sidebar */
+    flex-direction:column;
+  }
+
+  /* ----------------------------------------------------------------------------- */
+  
+  
+
+
+ 
+  .modal-overlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal2 {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start */
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px; /* Adjusted for more space */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.modal2 h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #222222;
+    text-align: center;
+    font-weight: bold;
+}
+
+.modal2 form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns for labels and inputs */
+    gap: 20px;
+    width: 100%; /* Ensure the form takes full width */
+}
+
+.form-group2 {
+    display: flex;
+    flex-direction: column; /* Stack label above input */
+    width: 100%; /* Ensure full width */
+}
+
+.modal2 label {
+    font-weight: 500;
+    color: #444444;
+    margin-bottom: 5px;
+}
+
+.modal2 select{
+  font-weight: 500;
+    color: #444444;
+    margin-bottom: 5px;
+}
+
+.modal2 textarea{
+  font-weight: 500;
+    color: #444444;
+    margin-bottom: 5px;
+    height: 50px;
+}
+
+.modal2 input,
+.modal2 select,
+.modal2 textarea {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    width: 90%;
+}
+
+.modal2 input:focus,
+.modal2 select:focus,
+.modal2 textarea:focus {
+    border-color: #3c6abe;
+    outline: none;
+    box-shadow: 0 0 5px rgb(60, 106, 190);
+}
+
+.item-pic-input2 {
+    border: 2px dashed #aaaaaa;
+    padding: 20px;
+    text-align: center;
+    border-radius: 6px;
+    background: #f9f9f9;
+    font-size: 1rem;
+    color: #777777;
+    cursor: pointer;
+    width: 100%; /* Ensures the input takes full width */
+}
+
+.item-pic2 input:hover {
+    background: #f1f1f1;
+}
+
+.submit-btn2,
+.cancel-btn2,.delete-btn2 {
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 48%; /* Adjusted for button alignment */
+
+}
+
+.submit-btn2 {
+    background-color: #45a049;
+    color: white;
+}
+
+.cancel-btn2 {
+    background-color: #FF0000;
+    color: white;
+}
+
+.delete-btn2 {
+  background-color: #8B0000;
+  color: white;
+}
+
+.submit-btn2:hover {
+    background-color: #61ce67;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+.cancel-btn2:hover {
+    background-color: #dd1f1f;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .delete-btn2:hover {
+    background-color: #c01515;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  
+  .button-container2 {
+    display: flex;
+    
+    align-items: flex-start; /* Align buttons to the start (left) */
+    width: 100%; /* Ensure it takes full width */
+    margin-top: 20px; /* Add some space above the buttons */
+    gap: 10px; /* Space between buttons */
+}
+
+.status-btn2{
+  color: white;
+  padding: 5px 12px;
+  font-size: 12px;
+  margin: 0px 2px; /* Adds horizontal spacing between buttons */
+  border: none;
+  font-size: 15px;
+  border-radius: 20px;
+  margin-left: 0px;
+  display: inline-block; /* Ensure it behaves like a button */
+  max-height: none; /* Remove max-height */
+  overflow: visible; /* Ensure overflow is visible */
+  
+}
+
+.status-btn2.unclaimed {
+  background-color: red; /* Red for unclaimed */
+}
+
+.status-btn2.claimed {
+  background-color: #4CAF50; /* Green for claimed */
+}
+
+.status-btn2.not-found {
+  background-color: red; /* Red for unclaimed */
+}
+
+.status-btn2.found {
+  background-color: #4CAF50; /* Green for claimed */
+}
+
+
+
+
+
+
+.arrow2 {
+  width: 14px; /* Adjust icon size for better proportion with the input */
+  height: 14px; /* Maintain square aspect ratio */
+}
+
+
+
+
+
+
+@media (max-width: 768px) {
+  /* Fixed Header */
+  .content {
+    width: 100%;
+  }
+
+  .manage-bulletin2 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+    flex-direction:column;
+  }
+
+  .search-bar2 {
+    margin-left: -10px;
+    margin-top: -70px;
+    
+  }
+  .search-bar2 input {
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+    margin-left: -50px;
+    width: 260px;
+  }
+
+  .view-mode-toggle2 {
+
+    margin-left: 05px;
+    
+  }
+
+  .breadcrumb2 {
+    margin-top: 0px;
+    margin-left: -60px;
+    font-size: 25px;
+    color:#800000;
+    font-weight: bold;
+    width: 160%;
+  }
+
+
+  .sidhead {
+    width: 85%;
+    height: 120%;
+    margin-left: 240px;
+    margin-top: -3px;
+  }
+
+  .grid-item2 {
+    background-color: #f0f0f0; /* Background color for items */
+    padding: 20px; /* Padding inside items */
+    border: 1px solid #ccc; /* Optional: Border for items */
+    border-radius: 4px; /* Rounded corners */
+    text-align: center; /* Center text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+    width: 250px; /* Ensure grid items take full width of their cell */
+    margin-left: -26px;
+  } 
+
+  .grid-container2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+    margin-top: 30px;
+
+    row-gap: 35px; /* Space between grid items */
+    column-gap:85px;
+    padding: 16px; /* Padding around the grid */
+    justify-items: left; /* Center items within their grid cells */
+  }
+  
+  .top-right-buttons2 {
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Vertically center items */
+    margin-left: -345px;
+    gap: 10px; /* Add spacing between the input and icons */
+    
+    }
+
+    .page-nav2 {
+      height: 40px;
+      font-weight: bold;
+      font-size: 12px;
+      border: 1px solid #8B0000;
+      background-color: #fff;
+      cursor: pointer;
+      color: #8B0000;
+      border-radius:  10px;
+      margin-left: 0;
+  }
+
+  .ppagination1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px; /* Adjust margin to avoid covering the table */
+    margin-left: 10px;
+    margin-bottom: 50px; /* Add some space below the pagination */
+  }
+
+  .add-item-btn2, .register-qr-btn2 {
+    background-color: #800000; /* Dark red color for buttons */
+    color: white;
+    padding: 10px 20px; /* Adjusted padding for better button sizing */
+    font-size: 15px;
+    height: 60px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px; /* Space between buttons */
+    width: 150px;
+  }
+}
+
+
+/*FEB-19-25 ------------------------------------------------------ */
+
+
+.table-container2 {
+  width: 100%; /* Full width of the parent */
+  max-width: 1600px; /* Set a max width for the container */
+  margin: 30px auto 0; /* Center the container */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+}
+
+.ffound-items-table2 {
+  width: 100%; /* Full width of the table */
+  border-collapse: collapse; /* Collapse borders */
+  font-size: 14px; /* Font size */
+  table-layout: auto; /* Use auto layout to allow for dynamic widths */
+}
+
+.ffound-items-table2 th, .ffound-items-table2 td {
+  padding: 10px;
+  border: 1px solid #d5d2d2;
+  text-align: center;
+  overflow: hidden; /* Prevent overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  white-space: normal; /* Allow text to wrap */
+  vertical-align: top; /* Align text to the top */
+  
+  word-wrap: break-word; /* Allow long words to break */
+  max-width: 200px; /* Set a max width for cells */
+}
+
+.ffound-items-table2 th {
+  background-color: #ddd;
+}
+
+.ffound-items-table2 tr {
+  height: auto; /* Allow rows to stretch based on content */
+}
+
+.ffound-items-table2 th.action, .ffound-items-table2 td.action {
+  width: 50px; /* Adjust width as needed */
+  text-align: center; /* Center-align the buttons */
+}
+
+/* --------------------------------------------------------- */
+
+
+  
+.search-bar2 {
+  display: flex;
+  align-items: center; /* Vertically center items */
+  margin-top: 0px;
+   /*height: 3  00px; Full viewport height to center vertically */
+
+  
+}
+
+.search-bar2 input:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  
+}
+
+.search-bar2 input {
+  width: 435px;
+  height: 35px; /* Increased height for better visual balance with icons */
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  border: 1px solid #6d6c6c;
+  border-radius: 35px;
+  margin-top: 50px
+}
+
+.search-bar2 select:focus, .search-bar2 input:focus {
+  border-color: #3c6abe;
+  outline: none;
+  box-shadow: 0 0 5px rgb(60, 106, 190);
+
+}
+
+.search-bar2 input::placeholder {
+  font-weight: bold;
+  font-size:17px;
+  color: #888;
+
+}
+
+.search-icon2, .filter-icon2 {
+  color: #a92525;
+  cursor: pointer;
+  width: 30px; /* Adjust icon size for better proportion with the input */
+  height: 30px; /* Maintain square aspect ratio */
+}
+
+.search-icon2:hover, .filter-icon2:hover{
+  transform: translateY(-3px);
+}
+
+.search-input2 {
+  padding: 10px 40px 10px 40px; /* Add padding to the input */
+  width: 100%; /* Full width */
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 4px; /* Rounded corners */
+  background: url('search.1024x1024.png') no-repeat 400px center; /* Background image */
+  background-size: 30px; /* Size of the icon */
+}
+
+
+.top-right-buttons2 {
+  display: flex; /* Enable flexbox for alignment */
+  align-items: center; /* Vertically center items */
+  margin-left: 0px;
+  margin-top: 20px;
+  gap: 10px; /* Add spacing between the input and icons */
+
+  }
+
+/* Button Styling */
+.add-item-btn2, .register-qr-btn2 {
+  background-color: #800000; /* Dark red color for buttons */
+  color: white;
+  padding: 10px 10px; /* Adjusted padding for better button sizing */
+  font-size: 20px;
+  height: 60px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px; /* Space between buttons */
+}
+
+.add-item-btn2:hover, .register-qr-btn2:hover {
+  background-color: #660000; /* Darker red on hover */
+  color: #ffd324;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+
+
+
+
+.view-btn2 {
+  background-color: #4c75af;
+  color: white;
+  padding: 5px 12px;
+  font-size: 15px;
+  margin: 15px 2px; /* Adds horizontal spacing between buttons */
+  border: none;
+  width:115px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-left: 0px;
+  border-radius: 6px;
+}
+
+
+.view-btn2:hover{
+  background-color: #5888ca;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------- */
+.view-mode-toggle2 {
+  background: none; /* No background */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 38px; /* Adjust size of the icon */
+  color: #8B0000; /* Change color as needed */
+  padding: 5px; /* Add some padding */
+  
+  margin-top: 50px;
+  
+}
+
+
+.view-mode-toggle2:hover {
+  
+  transform: translateY(-2px);
+  color: #a50303; /* Change color on hover */
+}
+
+/* -------------------------------------------------------- */
+.grid-container2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+  margin-top: 30px;
+  row-gap: 35px; /* Space between grid items */
+  column-gap:85px;
+  padding: 16px; /* Padding around the grid */
+  width: 95%; /* Ensure the grid takes full width */
+  justify-items: left; /* Center items within their grid cells */
+
+}
+
+
+
+
+.grid-item2 {
+  overflow-y: auto;  /* Enable vertical scrolling */
+  word-wrap: break-word;
+  background-color: #f0f0f0; /* Background color for items */
+  padding: 20px; /* Padding inside items */
+  border: 1px solid #ccc; /* Optional: Border for items */
+  border-radius: 4px; /* Rounded corners */
+  text-align: center; /* Center text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+  width: 105%; /* Ensure grid items take full width of their cell */
+  max-height: 550px;
+}
+
+
+.grid-item2 h2 {
+  overflow: hidden; /* Hide overflowing content */
+  color: #8B0000;
+  text-align: center; /* Align text to the left */
+  font-weight: bold; /* Make the text bold */
+  margin-bottom:20px ; /* Remove default margin */
+
+  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
+}
+
+.grid-item2 p {
+  margin-top: 20px;
+  text-align: left; /* Align text to the left */
+  margin: 5px 0; /* Add some vertical spacing */
+  font-weight: normal; /* Normal weight for paragraph text */
+  max-height: 100px; /* Set a maximum height for paragraphs */
+  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
+
+}
+
+
+/* -------------------------------------------------------------------------------- */
+
+/* -------------------------------------------------- */
+.default-table-url3 {
+  width: 100%;
+  height: auto;
+  
+  
+
+}
+.default-table-url13 {
+  width: 40%;
+  height: auto;
+  margin-bottom: 10px;
+  border-Radius: 5px;
+   
+}
+
+.default-table-url13:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+cursor: pointer;
+}
+ .default-grid-url3 {
+  width: 100%;
+  height: auto;
+  
+  border-Radius: 5px; 
+}
+.default-grid-url13 {
+  width: 100%;
+  height: 30%;
+  margin-bottom: 10px;
+  border-Radius: 5px; 
+}
+
+.default-grid-url13:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+}
+
+/* ------------------------------------------------- */
+.form-and-camera2 {
+  display: flex;
+  gap: 20px;            /* Space between form and camera */
+  align-items: flex-start; /* Align items at the top; adjust if needed */
+}
+
+.form-fields2 {
+  flex: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Two columns for fields */
+  gap: 15px;
+}
+
+.form-group2 {
+  display: flex;
+  flex-direction: column;
+}
+
+/* If any input needs to span full width, you can use: */
+.form-group2.full-width {
+  grid-column: 1 / -1;
+}
+
+.camera-section2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* Fix the height to roughly match the form fields height */
+  height: 100%;
+  padding-top: 10px;
+}
+
+/* Image preview in the third column */
+.image-preview2 {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center align the image */
+}
+  
+.uploaded-image2 {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  margin-top: 10px; /* Add some space above the image */
+}

@@ -1,0 +1,127 @@
+
+/* Sidebar Styles */
+.sidebar {
+  background-color: #850F13;
+  color: #fff;
+  width: 180px; /* Fixed width for the sidebar */
+  padding: 20px;
+  position: fixed; /* Keep the sidebar fixed */
+  height: 100%; /* Full height */
+  top: 0px; /* Push sidebar down below the header */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  transition: transform 0.3s ease-in-out;
+;
+
+}
+
+/* Logo Styles */
+.logo {
+  width: 220px;
+}
+
+/* Sidebar List Styles */
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Allow the nav to grow */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center nav items vertically */
+  margin-bottom: 180px;
+}
+
+.sidebar ul li {
+  margin: 15px 0; /* Space between items */
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+
+/* Nav Menu */
+.nav-menu {
+list-style-type: none;
+width: 120%;
+padding: 0;
+margin-top: 70px;
+}
+
+.nav-menu a {
+display: flex;
+align-items: center;
+color: #ffffff;
+text-decoration: none;
+font-size: 14px;
+font-weight: 500;
+padding: 14px 20px;
+transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-icon {
+margin-right: 10px; /* Adds space between icon and text */
+font-size: 18px; /* Adjust icon size as needed */
+border: #850F13;
+}
+
+.nav-menu a:hover {
+background-color: #FA0000;
+color: #ffd324;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-2px);
+}
+
+/* Active link styling */
+.nav-menu a.active {
+background-color: #FA0000; /* Active link background color */
+color: #ffffff; /* Active link text color */
+border-right: 4px solid #ffd324;  /* Right side border to indicate active page */
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+/* Menu Toggle Button */
+.menu-toggle {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  background-color: transparent; /* Removes background */
+  color: white;
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 1100;
+}
+
+
+  .logo{
+    z-index: 200;
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+  /* Sidebar for Mobile */
+  .sidebar {
+      width: 200px;
+      left: -240px; /* Initially hidden */
+      position: fixed;
+      top: 0;
+      height: 100 vh;
+      transition: left 0.3s ease-in-out;
+      z-index: 1000;
+  }
+
+  /* Sidebar Open on Mobile */
+  .sidebar.open {
+      left: 0;
+
+  }
+
+
+}

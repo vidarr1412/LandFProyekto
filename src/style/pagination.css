@@ -1,0 +1,74 @@
+.ppagination1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -40px; /* Adjust margin to avoid covering the table */
+    margin-left: 200px;
+    margin-bottom: 50px; /* Add some space below the pagination */
+}
+
+.page-nav1 {
+    padding: 10px 25px; /* Slightly larger padding for a more substantial button */
+    margin: 0 5px; /* Reduced margin for tighter spacing */
+    height: 50px; /* Slightly smaller height */
+    font-weight: 700; /* Medium font weight for better readability */
+    font-size: 20px; /* Slightly smaller font size */
+    border: 0px solid #ccc; /* Lighter border color */
+    background-color: #d7d6d6; /* Light gray background */
+    cursor: pointer;
+    color: #333; /* Darker text color */
+    border-radius: 10px; /* Slightly smaller border radius */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transition for hover effects */
+}
+
+.page-nav1.active {
+    background-color: #c01515; /* Amazon-like yellow for active page */
+    color: #ffffff; /* Dark text color for contrast */
+    
+}
+.page-nav1.active:hover {
+    background-color: white;
+   
+    color: #c01515; /* Dark text color for contrast */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transform: translateY(-1px); /* Slight lift effect */
+    border: 1px solid #c015155f; /* Lighter border color */
+    
+}
+
+.page-nav1:disabled {
+    background-color: #e7e7e7; /* Light gray for disabled state */
+    color: #aaa; /* Lighter text color */
+    cursor: not-allowed;
+}
+
+.page-nav1:disabled:hover {
+    background-color: #e7e7e7; /* No change on hover for disabled */
+    color: #aaa; /* Keep the color same */
+}
+
+.page-nav1:hover {
+    background-color: #c01515; /* Amazon-like yellow on hover */
+    color: #f7f7f7; /* Dark text color on hover */
+    
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transform: translateY(-1px); /* Slight lift effect */
+}
+
+/* Styles for ellipses */
+.page-nav1.ellipsis {
+    background-color: transparent; /* No background for ellipses */
+    color: #333; /* Darker color for ellipses */
+    cursor: default; /* Not clickable */
+    border: none; /* No border */
+    font-weight: 600; /* Medium font weight */
+    font-size: 16px; /* Same font size as other buttons */
+    padding: 0; /* No padding */
+    margin: 0 5px; /* Margin for spacing */
+}
+
+/* Optional hover effect for ellipses */
+.page-nav1.ellipsis:hover {
+    background-color: transparent; /* No hover effect */
+    color: #333; /* Keep the color same */
+}

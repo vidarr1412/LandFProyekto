@@ -1,0 +1,496 @@
+.main-content {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-left: 200px;
+  background-image: url('msu.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  height: auto; /* Adjust based on content */
+  box-sizing: border-box;
+  margin-bottom: 60px;
+}
+
+
+/* Remove large margin */
+.cont {
+  text-align: start;
+  max-width: 600px;
+  width: 100%;
+  margin-left: -500px;
+  margin-top: 180px; /* Adjust for proper spacing */
+}
+.cont h1 {
+  font-size: 8vh;
+}
+
+/* Statistics Section - Ensure it's visible */
+.statistics {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px; /* Adjust spacing */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Individual Stat Items */
+.stat-item {
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  height: 100px;
+  width: 200px;
+    }
+
+.stat-item h2 {
+  font-size:50px;
+  margin-top: 0px;
+  color: rgb(255, 255, 255); /* Highlight important numbers */
+}
+
+.stat-item p {
+  font-size: 18px;
+  margin-top: -30px;
+}
+
+/* Adjust Button Styles */
+.get-qr-button {
+  background-color: #FFD700;
+  color: #8B0000;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1vw;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.get-qr-button:hover {
+  background-color: #ffff00;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+ 
+ .services {
+  font-size: 30px;
+  font-weight: lighter;
+  font-family: Trebuchet MS (sans-serif);
+  margin:-50px 40% 30px 48%; /*top right bottom left*/ 
+  align-items: center;
+  color: #000000;
+  font-weight: bold;
+  width: 250px;
+}
+.services1 {
+  font-size: 30px;
+  font-weight: lighter;
+  font-family: Trebuchet MS (sans-serif);
+  margin:100px 40% 30px 49%; /*top right bottom left*/ 
+  align-items: center;
+  color: #000000;
+  font-weight: bold;
+  width: 250px;
+}
+
+.services-section {
+  margin-top: -100px;
+  padding: 5px;
+  background-color: white;
+  align-items: center;
+  margin-left: 80px;
+}
+
+.services-grid {
+  display: flex;
+  justify-content: center; 
+  flex-wrap: wrap; 
+  gap: 20px; 
+  margin-left: 150px;
+  margin-bottom: 20px;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between; 
+  background-color: #f5f5f5;
+  width: 30%; 
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 1px solid #b0a8a8;
+}
+
+.service-card h3 {
+  margin-bottom: 0px;
+  text-align:left;
+  font-size: 5ch;
+  color: #dd9800;
+  font-family: 'Lucida Sans';
+  margin-top: -10px;
+}
+
+.service-card p {
+  flex-grow: 1; 
+  font-size: 15px;
+  text-align: justify;
+  margin-top: 20px;
+}
+
+
+.service-card img {
+  object-fit: contain; 
+  margin: 0 auto 0 auto; 
+  display: block; 
+  width: 100%;
+}
+
+
+.service-card button {
+  background-color: #990000;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: center; 
+}
+.bottom{
+
+  width: 100%;
+  height: 50px;
+  background-color:#dd9800;
+  margin: auto;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: auto; /* Pushes it to the bottom */
+}
+.bottom p {
+  margin:auto;
+  font-weight: bold;
+  font-size: 14px;
+  
+  width: 100%;
+  align-self: flex-end;
+  color: #780525;
+}
+.pin {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+.service-card::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.service-card button:hover {
+  background-color: #cc0000;
+}
+
+.sidhead {
+  width: 60%;
+  height: 100%;
+  margin-right: 200px;
+}
+.paragraph{
+  width: 50px;
+
+}
+
+
+.bottom img {
+  width: 10%;
+  display: flex;
+  position: relative;
+
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  width: 68%;
+  text-align: justify;
+  text-justify: inter-word;  
+  margin-left:  10px; 
+  margin-top: 10px;
+}
+li {
+  width: 100%;
+}
+
+.service-card h4 {
+  margin: auto;
+  margin-left: -10px;
+}
+
+
+/* Developer Team Section */
+.developer-team-section {
+  text-align: center;
+  margin-bottom: 20px;
+  margin: 0px 100px 50px 350px;
+}
+
+.developer-team-section h2 {
+  color: #780525;
+  font-family: 'Lucida Handwriting';
+}
+
+.developer-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.developer-card {
+  background: #edeef0;
+  padding: 15px;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid  #808285;
+  box-shadow: 0 4px 6px rgba(8, 8, 8, 0.1);
+}
+
+.developer-card img {
+  width: 50%;
+  border-radius: 100%;
+  border: 1px solid #780525;
+}
+.developer-card h3 {
+  font-family: 'Papyrus';
+}
+
+
+
+ /* --------------------------------------------------------------------------------------------------- */
+ @media (max-width: 768px) {
+
+.main-content {
+  width: 100%; /* Adjust width to fit screen */
+  margin-left: 0; /* Remove margin on mobile */
+  padding: 10px; /* Adjust padding */
+  background-image: url('msuphone.jpg'); /* Add your background image */
+  background-size: cover; 
+  background-position: center; /* Keep the center of the image visible */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+
+
+}
+
+  
+  .sidebar.open {
+    left: 0; /* Show the sidebar when opened */
+  }
+
+  /* Adjust Content Section */
+  .cont {
+    max-width: 100%; /* Full width on mobile */
+    margin-left: 0px;
+    margin-top: 150px;
+  }
+
+  .cont h1 {
+    font-size: 15vw; /* Adjust font size for mobile */
+    margin-bottom: -10px;
+  }
+
+  .cont p {
+    font-size: 4vw; /* Adjust font size for mobile */
+    text-align: justify;
+    text-justify: inter-word;
+    width: 90%;
+  }
+
+  .get-qr-button {
+    padding: 12px 24px;
+    font-size: 3vw; /* Adjust font size for mobile */
+  }
+
+  /* Statistics Style on Mobile */
+  .statistics {
+
+    justify-content: space-around; /* Space items evenly */
+    align-items: center; /* Align vertically */
+    padding: 20px;
+    border-radius: 10px; /* Add rounded corners */
+    margin-top: 0px; /* Ensure spacing */
+    width: 90%; /* Ensure full width */
+  }
+  
+  .stat-item {
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    width: 120px; /* Ensure size */
+    margin-bottom: 10px;
+  }
+  
+  .stat-item h2 {
+    font-size: 30px;
+    color: #ffffff;
+  }
+  
+  .stat-item p {
+    font-size: 16px;
+    color: #ffffff;
+  }
+  /* Adjust the QR button */
+  .get-qr-button {
+    font-size: 4vw; /* Adjust font size */
+    padding: 10px 20px; /* Adjust padding */
+  }
+
+  /* General Styles */
+  .services1 {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: "Trebuchet MS", sans-serif;
+    color: #000000;
+    text-align: center; /* Center text */
+    margin: 0 auto 30px auto; /* Centering */
+    margin-left: 100px;
+  }
+
+  .services-section {
+    padding: 5px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content */
+    margin-left: -50px; /* Removed -190px */
+    width: 110%; /* Ensure it takes full width */
+    margin-top: 0px;
+  }
+
+  .services-grid {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 20px; 
+    margin-bottom: 20px;
+    width: 70%; /* Ensure full width */
+    margin-right: 100px;
+  }
+
+  /* Service Card Styles */
+  .service-card {
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; 
+    background-color: #f5f5f5;
+    min-height: 300px; 
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .service-card h3 {
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+  .service-card p {
+    flex-grow: 1; 
+    font-size: 15px;
+    text-align: justify;
+  }
+
+  .service-card img {
+    width: 50px; 
+    height: 30px; 
+    object-fit: contain; 
+    margin: 0 auto; 
+    display: block; 
+  }
+  .bottom p {
+    margin:auto;
+    font-weight: bold;
+    font-size: 10px;
+    width: 70%;
+    align-self: flex-end;
+    color: #780525;
+    margin-right: 10px;
+  }
+  .service-card button {
+    background-color: #990000;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    align-self: center; 
+  }
+
+  .service-card button:hover {
+    background-color: #cc0000;
+  }
+
+  /* Responsive Design for Mobile */
+  .service-card {
+    width: 90%; /* Make it full-width on small screens */
+  }
+
+
+
+  /* Developer Team Section */
+.developer-team-section {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-left: 100px;
+}
+
+.developer-team-section h2 {
+  color: #780525;
+  font-family: 'Lucida Handwriting';
+}
+
+.developer-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.developer-card {
+  background: #edeef0;
+  padding: 15px;
+  border-radius: 8px;
+  width: 150%;
+  height: 100%;
+  border: 1px solid  #808285;
+  box-shadow: 0 4px 6px rgba(8, 8, 8, 0.1);
+}
+
+.developer-card img {
+  width: 80%;
+  border-radius: 100%;
+  border: px solid #780525;
+}
+.developer-card h3 {
+  font-family: 'Papyrus';
+  padding: 10px;
+}
+
+
+}

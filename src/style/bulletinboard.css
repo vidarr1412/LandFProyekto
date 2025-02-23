@@ -1,0 +1,209 @@
+/* Container and Layout */
+.manage-bulletin {
+
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the image */
+    
+    flex-direction: column;
+ 
+    box-sizing: border-box; 
+  }
+  
+  /* Items Table */
+  .items-table {
+    width: 90%;
+    border-collapse: collapse;
+    background-color: #d4cece;
+    margin: 20px auto; /* Center table and add margin */
+  }
+  
+  .items-table th,
+  .items-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #d5d2d2;
+    vertical-align: middle; /* Center content vertically */
+  }
+  
+  .items-table th {
+    background-color: #868080;
+  }
+  
+  /* Spacing between rows */
+  .items-table tr {
+    margin-bottom: 8px; /* Add margin between rows */
+  }
+  
+  /* Action Buttons */
+  .items-table .action {
+    padding: 5px 5px ;
+    margin: 0 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0; /* Space above and below pagination */
+  }
+  
+  /* Navigation and Buttons */
+  .page-nav,
+  .page-number {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #8B0000;
+    background-color: #fff;
+    cursor: pointer;
+    color: #8B0000;
+  }
+  
+  /* Hover and active styles */
+  .page-number.active,
+  .page-number:hover,
+  .page-nav:hover {
+    background-color: #8B0000;
+    color: #fff;
+  }
+  .bulletinview-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+    margin: 0 2px; /* Adds horizontal spacing between buttons */
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 20px;
+  }
+
+  
+  .bulletinview-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 12px;
+    font-size: 12px;
+    margin: 0 2px; /* Adds horizontal spacing between buttons */
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 20px;
+  }
+
+  /* Modal overlay */
+.bulletinmodal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal container */
+.bulletinmodal {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1001;
+  text-align: center;
+}
+
+/* Modal heading */
+.bulletinmodal h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Form labels */
+.bulletinmodal label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* Input fields */
+.bulletinmodal input[type="text"],
+.bulletinmodal textarea {
+  width: 70%;
+  padding: 10px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Textarea customization */
+.bulletinmodal textarea {
+  resize: vertical;
+  height: 80px;
+}
+
+/* Modal buttons container */
+.bulletinmodal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Buttons */
+.bulletinmodal-buttons button {
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Submit button */
+.bulletinmodal-buttons button[type="button"]:first-child {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Cancel button */
+.bulletinmodal-buttons button[type="button"]:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+/* Button hover effects */
+.bulletinmodal-buttons button:hover {
+  opacity: 0.9;
+}
+
+/* Responsive modal */
+@media (max-width: 480px) {
+  .bulletinmodal {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .bulletinmodal-buttons {
+    flex-direction: column;
+  }
+
+  .bulletinmodal-buttons button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

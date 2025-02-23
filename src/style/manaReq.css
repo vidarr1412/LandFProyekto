@@ -1,0 +1,188 @@
+/* General layout */
+  
+.breadcrumb {
+    margin: 10px 8px 0 10px;
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+
+  }
+  .manage-bulletin {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+    margin-left: 240px; /* Space to avoid8lap with the sidebar */
+    flex-direction:column;
+  }
+  
+  .manareqsearch-bar {
+    display: flex;
+    align-items: center;
+    max-width: 60%; /* Adjust the width if necessary */
+    margin: 10px 0px 10px 8px;
+  }
+  
+  .manareqsearch-bar input {
+    width: 225px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .ssearch-icon, .ffilter-icon {
+    margin-left: 10px;
+    color: #a92525;
+    cursor: pointer;
+
+
+  }
+
+/* Top-Right Buttons Container */
+.top-right-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 76%; /* Align to the right without pushing off-screen */
+  }
+  
+  /* Button Styling */
+  .add-item-btn, .register-qr-btn {
+    background-color: #800000; /* Dark red color for buttons */
+    color: white;
+    padding: 10px 10px; /* Adjusted padding for better button sizing */
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px; /* Space between buttons */
+  }
+  
+  .add-item-btn:hover, .register-qr-btn:hover {
+    background-color: #660000; /* Darker red on hover */
+  }
+  
+
+  
+  .found-items-table {
+    width: 100%; /* Adjust the width as needed, e.g., 80%, 70%, or any fixed width like 800px */
+    margin: 8px;
+    border-collapse: collapse;
+    font-size: 14px;
+
+
+  }
+  
+  .found-items-table th, .found-items-table td {
+    padding: 10px;
+    border: 1px solid #d5d2d2;
+    text-align: left;
+  
+  }
+  
+  .found-items-table th {
+    background-color: #ddd;
+    
+  }
+  .found-items-table tr {
+    margin-bottom: 8px;
+    
+  }
+  .found-items-table th.action, .found-items-table td.action {
+    width: 50px; /* Adjust width as needed */
+    text-align: center; /* Center-align the buttons */
+  }
+  
+  
+  .show-btn{
+    padding: 5px 12px;
+    font-size: 12px;
+    margin: 0 2px; /* Adds horizontal spacing between buttons */
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 20px;
+  }
+
+  
+  .show-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+
+  
+  /* Pagination */
+  /* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -80px;
+    margin-left: 110px;
+  }
+  
+  /* Navigation and Buttons */
+  .page-nav {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #8B0000;
+    background-color: #fff;
+    cursor: pointer;
+    color: #8B0000;
+  }
+  
+  /* Hover and active styles */
+  .page-nav:hover {
+    background-color: #8B0000;
+    color: #fff;
+  }
+  
+  .logout a{
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 14px 20px;
+    /* Divider line between items */
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 100px;
+
+
+  }
+  .no-data {
+    text-align: center;
+    color: gray;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  .modalmanagereq {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+  .close-btn-managereq {
+    margin-top: 20px;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .close-btn-managereq:hover {
+    background-color: #0056b3;
+  }
+  
+
+ 

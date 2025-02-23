@@ -1,0 +1,121 @@
+/* Container and Layout */
+.manage-bulletinfinal {
+  margin: 30px;
+  display: flex
+;
+  align-items: flex-start;
+  flex-grow: 1;
+  padding: 50px;
+  margin-left: 240px;
+  flex-direction: column;
+}
+  
+  /* Items Table */
+  .items-table {
+    width: 90%;
+    border-collapse: collapse;
+    background-color: #d4cece;
+    margin: 20px auto; /* Center table and add margin */
+  }
+  
+  .items-table th,
+  .items-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #d5d2d2;
+    vertical-align: middle; /* Center content vertically */
+  }
+  
+  .items-table th {
+    background-color: #868080;
+  }
+  
+  /* Spacing between rows */
+  .items-table tr {
+    margin-bottom: 8px; /* Add margin between rows */
+  }
+  
+  /* Action Buttons */
+  .items-table .action {
+    padding: 5px 5px ;
+    margin: 0 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0; /* Space above and below pagination */
+  }
+  
+  /* Navigation and Buttons */
+  .page-nav,
+  .page-number {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #8B0000;
+    background-color: #fff;
+    cursor: pointer;
+    color: #8B0000;
+  }
+  
+  /* Hover and active styles */
+  .page-number.active,
+  .page-number:hover,
+  .page-nav:hover {
+    background-color: #8B0000;
+    color: #fff;
+  }
+  .bulletinview-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+    margin: 0 2px; /* Adds horizontal spacing between buttons */
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 20px;
+  }
+
+  
+  .view-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 12px;
+    font-size: 12px;
+    margin: 0 2px; /* Adds horizontal spacing between buttons */
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 20px;
+  }
+  .breadcrumbfinal {
+    margin: 10px 8px 0 10px;
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+}
+.top-right-buttonsfinal {
+  display: flex
+;
+  justify-content: flex-end;
+  margin-left: 76%;
+}
+.search-barfinal {
+  display: flex
+;
+  align-items: center;
+  max-width: 60%;
+  margin: -40px 0px 10px 8px;
+}
+.ffound-items-tablefinal {
+  width: 100%;
+  margin: 8px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
