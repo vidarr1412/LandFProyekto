@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "..//style/log.css";
-
+import  showAlert from '../utils/alert';
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ function Auth() {
  
 
     try {
-      const response = await fetch("http://192.168.1.49:5000/signup", {
+      const response = await fetch("http://10.10.83.224:5000/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName,lastName,contactNumber, email, password,college ,year_lvl,}),
@@ -49,7 +49,7 @@ function Auth() {
     const password = e.target.password.value;
 
     try {
-      const response = await fetch("http://192.168.1.49:5000/login", {
+      const response = await fetch("http://10.10.83.224:5000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -57,18 +57,19 @@ function Auth() {
 
       const data = await response.json();
       setLoading(false); // Hide loading animation
-
-      if (response.ok) {
-        // Store JWT in localStorage
-        localStorage.setItem("token", data.token);  // Store token in localStorage
-
-        alert("Login successful!");
-
-        // Redirect to home page
-        window.location.href = "/"; // Redirect to the home page after login
-      } else {
-        alert(data.message || "Login failed.");
-      }
+     showAlert('Log In Success!', 'complaint_success');
+     if (true) {  
+      // Store JWT in localStorage
+      localStorage.setItem("token", data.token);  // Store token in localStorage
+    
+      showAlert('Log In Success!', 'complaint_success');
+    
+      // Redirect to home page
+      window.location.href = "/"; // Redirect to the home page after login
+    } else {
+      alert(data.message || "Login failed.");
+    }
+    
     } catch (err) {
       console.error(err);
       alert("An error occurred during login.");

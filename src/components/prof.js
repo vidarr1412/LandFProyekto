@@ -28,7 +28,7 @@ function Profile() {
     const fetchUserData = async () => {
       if (!userId) return;
       try {
-        const response = await fetch(`http://192.168.1.49:5000/profile/${userId}`, {
+        const response = await fetch(`http://10.10.83.224:5000/profile/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();
@@ -108,7 +108,7 @@ function Profile() {
     }
 
     try {
-      const response = await fetch(`http://192.168.1.49:5000/update-profile/${userId}`, {
+      const response = await fetch(`http://10.10.83.224:5000/update-profile/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -237,7 +237,7 @@ function Profile() {
               />
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>QR Code</label>
               {userId && (
                 <div ref={qrCodeRef}>
@@ -245,7 +245,7 @@ function Profile() {
                 </div>
               )}
             </div>
-            <button type="button" onClick={downloadQRCode}>Download QR Code</button>
+            <button type="button" onClick={downloadQRCode}>Download QR Code</button> */}
 
             <button type="submit" className="save-button">Save</button>
           </form>

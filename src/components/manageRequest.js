@@ -36,7 +36,7 @@ function ManageRequest() {
 
   const fetchRequests = async () => {
     try {
-      const response = await axios.get('http://192.168.1.49:5000/retrieval-requests');
+      const response = await axios.get('http://10.10.83.224:5000/retrieval-requests');
       console.log("API Response Data:", response.data);
 
       if (Array.isArray(response.data) && response.data.length > 0) {
@@ -55,7 +55,7 @@ function ManageRequest() {
 
   const fetchItemDetails = async (itemId) => {
     try {
-      const response = await axios.get(`http://192.168.1.49:5000/items/${itemId}`);
+      const response = await axios.get(`http://10.10.83.224:5000/items/${itemId}`);
       setItemDetails(response.data);
     } catch (error) {
       console.error('Error fetching item details:', error);
@@ -66,13 +66,13 @@ function ManageRequest() {
     let endpoint = '';
 
     if (type === 'request') {
-      endpoint = `http://192.168.1.49:5000/retrieval-request/${id}/status`;
+      endpoint = `http://10.10.83.224:5000/retrieval-request/${id}/status`;
     } else if (type === 'item') {
       if (!id) {
         console.error("Error: Item ID is undefined.");
         return;
       }
-      endpoint = `http://192.168.1.49:5000/found-item/${id}/status`;
+      endpoint = `http://10.10.83.224:5000/found-item/${id}/status`;
     }
 
     try {

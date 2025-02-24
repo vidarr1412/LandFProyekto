@@ -68,7 +68,7 @@ function UserRetrievalRequests() {
         return;
       }
 
-      const response = await axios.get(`http://192.168.1.49:5000/user-retrieval-requests?userId=${userId}`);
+      const response = await axios.get(`http://10.10.83.224:5000/user-retrieval-requests?userId=${userId}`);
       setRequests(Array.isArray(response.data) ? response.data : []);
       setLoading(false);
     } catch (error) {
@@ -81,7 +81,7 @@ function UserRetrievalRequests() {
 
   const fetchItemDetails = async (itemId) => {
     try {
-      const response = await axios.get(`http://192.168.1.49:5000/items/${itemId}`);
+      const response = await axios.get(`http://10.10.83.224:5000/items/${itemId}`);
       setItemDetails(response.data);
     } catch (error) {
       console.error('Error fetching item details:', error);
@@ -95,7 +95,7 @@ function UserRetrievalRequests() {
   const handleUpdateRequest = async () => {
     if (!selectedRequest) return;
     try {
-      await axios.put(`http://192.168.1.49:5000/retrieval-requests/${selectedRequest._id}`, formData);
+      await axios.put(`http://10.10.83.224:5000/retrieval-requests/${selectedRequest._id}`, formData);
       fetchRequests();
       showAlert('Complaint Updated!', 'complaint_success');
       closeModal();
@@ -107,7 +107,7 @@ function UserRetrievalRequests() {
   const handleDeleteRequest = async () => {
     if (!selectedRequest) return;
     try {
-      await axios.delete(`http://192.168.1.49:5000/retrieval-requests/${selectedRequest._id}`);
+      await axios.delete(`http://10.10.83.224:5000/retrieval-requests/${selectedRequest._id}`);
       fetchRequests();
       showAlert('Complaint Deleted!', 'complaint_error');
       closeModal();

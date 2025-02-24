@@ -62,7 +62,7 @@ function Bulletin() {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get('http://192.168.1.49:5000/useritems');
+      const response = await axios.get('http://10.10.83.224:5000/useritems');
       setRequests(response.data);
     } catch (error) {
       console.error('Error fetching items:', error);
@@ -88,7 +88,7 @@ function Bulletin() {
       const now = new Date();
       const formattedDate = now.toISOString().split("T")[0]; // YYYY-MM-DD //5 user based
       const formattedTime = now.toTimeString().split(" ")[0]; // HH:MM:SS //6 user based
-      const response = await axios.post('http://192.168.1.49:5000/retrieval-request', {
+      const response = await axios.post('http://10.10.83.224:5000/retrieval-request', {
         claimer_name: claimer_name,//1
         claimer_college: claimer_college,//2
         claimer_lvl: claimer_lvl,//3

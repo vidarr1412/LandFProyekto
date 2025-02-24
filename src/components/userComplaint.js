@@ -136,7 +136,7 @@ const handleCancelUpload = () => {
     };
 
     try {
-      const response = await fetch("http://192.168.1.49:5000/usercomplaints", {
+      const response = await fetch("http://10.10.83.224:5000/usercomplaints", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComplaint),
@@ -204,7 +204,7 @@ const handleCancelUpload = () => {
 
       try {
         const response = await fetch(
-          `http://192.168.1.49:5000/usercomplaints/${selectedRequest._id}`,
+          `http://10.10.83.224:5000/usercomplaints/${selectedRequest._id}`,
           { method: "DELETE" }
         );
 
@@ -236,7 +236,7 @@ const handleCancelUpload = () => {
     };
   
     try {
-      const response = await fetch(`http://192.168.1.49:5000/usercomplaints/${selectedRequest._id}`, {
+      const response = await fetch(`http://10.10.83.224:5000/usercomplaints/${selectedRequest._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedRequest),
@@ -283,7 +283,7 @@ const handleCancelUpload = () => {
       const userId = decodedToken.id; // Extract userId
 
       // Fetch user-specific complaints using userId
-      const response = await fetch(`http://192.168.1.49:5000/usercomplaints/${userId}`);
+      const response = await fetch(`http://10.10.83.224:5000/usercomplaints/${userId}`);
       const data = await response.json();
       setRequests(data); // Set the fetched data to the state
     } catch (error) {

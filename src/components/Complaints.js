@@ -46,7 +46,7 @@ function Manage() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await fetch("http://192.168.1.49:5000/complaints");
+        const response = await fetch("http://10.10.83.224:5000/complaints");
         const data = await response.json();
         setRequests(data);
         setFilteredRequests(data);
@@ -97,7 +97,7 @@ function Manage() {
     };
 
     try {
-      const response = await fetch("http://192.168.1.49:5000/complaints", {
+      const response = await fetch("http://10.10.83.224:5000/complaints", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComplaint),
@@ -133,7 +133,7 @@ function Manage() {
 
       try {
         const response = await fetch(
-          `http://192.168.1.49:5000/complaints/${selectedRequest._id}`,
+          `http://10.10.83.224:5000/complaints/${selectedRequest._id}`,
           { method: "DELETE" }
         );
 
@@ -168,7 +168,7 @@ function Manage() {
     };
 
     try {
-      const response = await fetch(`http://192.168.1.49:5000/complaints/${selectedRequest._id}`, {
+      const response = await fetch(`http://10.10.83.224:5000/complaints/${selectedRequest._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedRequest),
@@ -225,7 +225,7 @@ function Manage() {
 
   const fetchRequests = async () => {
     try {
-      const response = await fetch("http://192.168.1.49:5000/complaints");
+      const response = await fetch("http://10.10.83.224:5000/complaints");
       const data = await response.json();
       setRequests(data);
     } catch (error) {
@@ -316,7 +316,7 @@ function Manage() {
   const handleStatusChange = async (item) => {
     const newStatus = item.status === 'not-found' ? 'found' : 'not-found'; // Toggle status
     try {
-      await axios.put(`http://192.168.1.49:5000/complaints/${item._id}`, { ...item, status: newStatus });
+      await axios.put(`http://10.10.83.224:5000/complaints/${item._id}`, { ...item, status: newStatus });
       
       setRequests((prevRequests) =>
         prevRequests.map((req) =>

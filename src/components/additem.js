@@ -92,9 +92,9 @@ function Additem() {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get('http://192.168.1.49:5000/items');
-      //192.168.1.49 SID
-      //192.168.1.49 BH
+      const response = await axios.get('http://10.10.83.224:5000/items');
+      //10.10.83.224 SID
+      //10.10.83.224 BH
       const sortedRequests = response.data.sort((a, b) => {
         // Combine DATE_FOUND and TIME_RETURNED into a single Date object
         const dateA = new Date(`${a.DATE_FOUND}T${a.TIME_RETURNED}`);
@@ -141,10 +141,10 @@ function Additem() {
 
     try {
       if (selectedItem) {
-        await axios.put(`http://192.168.1.49:5000/items/${selectedItem._id}`, updatedData);
+        await axios.put(`http://10.10.83.224:5000/items/${selectedItem._id}`, updatedData);
         showAlert('Item Updated!', 'complaint_success');
       } else {
-        const response = await axios.post('http://192.168.1.49:5000/items', updatedData);
+        const response = await axios.post('http://10.10.83.224:5000/items', updatedData);
         setRequests([...requests, response.data]);
         showAlert('Item Added!', 'complaint_success');
       }
@@ -159,7 +159,7 @@ function Additem() {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
       try {
-        await axios.delete(`http://192.168.1.49:5000/items/${id}`);
+        await axios.delete(`http://10.10.83.224:5000/items/${id}`);
         fetchItems();
         showAlert('Item Deleted!', 'complaint_error');
       } catch (error) {
@@ -261,7 +261,7 @@ function Additem() {
   const handleStatusChange = async (item) => {
     const newStatus = item.STATUS === 'unclaimed' ? 'claimed' : 'unclaimed'; // Toggle status
     try {
-      await axios.put(`http://192.168.1.49:5000/items/${item._id}`, { ...item, STATUS: newStatus });
+      await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { ...item, STATUS: newStatus });
       setRequests((prevRequests) =>
         prevRequests.map((req) =>
           req._id === item._id ? { ...req, STATUS: newStatus } : req
@@ -769,7 +769,23 @@ function Additem() {
 
 
                   {/* Camera Section on the Right */}
-                  <div className="camera-section">
+                  {/* <div className="camera-section">
+                    <video ref={videoRef} width="320" height="240" autoPlay />
+                    <canvas ref={canvasRef} style={{ display: 'none' }} />
+                    <div className="camera-buttons">
+                      <button type="button" onClick={captureImage}>Capture Image</button>
+                    </div> */}
+                    {/* Show the saved image only when updating an existing item */}
+                    {/* {selectedItem && itemData.IMAGE_URL && !image && (
+                      <img src={itemData.IMAGE_URL} alt="Saved" className="captured-image" />
+                    )} */}
+
+                    {/* Show the captured image if available */}
+                    {/* {image && (
+                      <img src={image} alt="Captured" className="captured-image" />
+                    )}
+                  </div> */}
+   <div className="camera-section">
                     <video ref={videoRef} width="320" height="240" autoPlay />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
                     <div className="camera-buttons">
