@@ -7,7 +7,8 @@ const Item = require('./src/models/Item'); // Import the Item model
 const jwt = require('jsonwebtoken');
 const Complaint = require('./src/models/Complaint'); // Import the Complaint model
 const RetrievalRequestSchema =require('./src/models/RetrievalRequest');
-
+const axios = require("axios"); // Ensure axios is installed
+const SHEETBEST_URL="https://api.sheetbest.com/sheets/bfc22e8d-557c-41f0-878c-d15a7161217e";
 const app = express();
 const PORT = 5000;
 
@@ -283,41 +284,42 @@ app.delete("/complaints/:id", async (req, res) => {
 });
 
 //------------------------------addding found items for admin database--------------------------------------------------
-app.post('/items', async (req, res) => {
-  const {    FINDER,//based  on their csv
-    FINDER_TYPE,//for data visualization 
-    ITEM,//item name ,based on their csv
-    ITEM_TYPE,//for data visualization
-    DESCRIPTION,//item description ,base on their csv
-    IMAGE_URL,//change to item image later
-    CONTACT_OF_THE_FINDER,//based on their csv
-    DATE_FOUND,//based on their csv
-    GENERAL_LOCATION,//for data visualization
-    FOUND_LOCATION,//based on their csv
-    TIME_RETURNED,  //time received
+app.post("/items", async (req, res) => {
+  const {
+    FINDER,
+    FINDER_TYPE,
+    ITEM,
+    ITEM_TYPE,
+    DESCRIPTION,
+    IMAGE_URL,
+    CONTACT_OF_THE_FINDER,
+    DATE_FOUND,
+    GENERAL_LOCATION,
+    FOUND_LOCATION,
+    TIME_RETURNED,
     OWNER,
     OWNER_COLLEGE,
     OWNER_CONTACT,
     OWNER_IMAGE,
     DATE_CLAIMED,
     TIME_CLAIMED,
-    STATUS } = req.body;
+    STATUS,
+  } = req.body;
 
   try {
-    
-    // Create a new Item object
+    // Step 1: Save to MongoDB
     const newItem = new Item({
-      FINDER,//based  on their csv
-      FINDER_TYPE,//for data visualization 
-      ITEM,//item name ,based on their csv
-      ITEM_TYPE,//for data visualization
-      DESCRIPTION,//item description ,base on their csv
-      IMAGE_URL,//change to item image later
-      CONTACT_OF_THE_FINDER,//based on their csv
-      DATE_FOUND,//based on their csv
-      GENERAL_LOCATION,//for data visualization
-      FOUND_LOCATION,//based on their csv
-      TIME_RETURNED,  //time received
+      FINDER,
+      FINDER_TYPE,
+      ITEM,
+      ITEM_TYPE,
+      DESCRIPTION,
+      IMAGE_URL,
+      CONTACT_OF_THE_FINDER,
+      DATE_FOUND,
+      GENERAL_LOCATION,
+      FOUND_LOCATION,
+      TIME_RETURNED,
       OWNER,
       OWNER_COLLEGE,
       OWNER_CONTACT,
@@ -327,14 +329,41 @@ app.post('/items', async (req, res) => {
       STATUS,
     });
 
-    // Save the new item to the database
     await newItem.save();
 
-    // Respond with the created item
-    res.status(201).json({ message: 'Item added successfully', item: newItem });
+    // Step 2: Save to Google Sheets (Sheet.best)
+    const sheetResponse = await axios.post(SHEETBEST_URL, [
+      {
+        FINDER,
+        FINDER_TYPE,
+        ITEM,
+        ITEM_TYPE,
+        DESCRIPTION,
+        IMAGE_URL,
+        CONTACT_OF_THE_FINDER,
+        DATE_FOUND,
+        GENERAL_LOCATION,
+        FOUND_LOCATION,
+        TIME_RETURNED,
+        OWNER,
+        OWNER_COLLEGE,
+        OWNER_CONTACT,
+        OWNER_IMAGE,
+        DATE_CLAIMED,
+        TIME_CLAIMED,
+        STATUS,
+      },
+    ]);
+
+    // Step 3: Respond with success message
+    res.status(201).json({
+      message: "Item added successfully",
+      item: newItem,
+      sheetResponse: sheetResponse.data,
+    });
   } catch (error) {
-    console.error('Error adding item to MongoDB:', error);
-    res.status(500).json({ message: 'Error adding item', error });
+    console.error("Error adding item:", error);
+    res.status(500).json({ message: "Error adding item", error });
   }
 });
 
@@ -465,26 +494,46 @@ app.get('/useritems', async (req, res) => {
 });
 
 //-----------------------------updating found items for admin user------------------------------------
-app.put('/items/:id', async (req, res) => {
+app.put("/items/:id", async (req, res) => {
   try {
+    // Step 1: Update in MongoDB
     const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedItem) return res.status(404).json({ error: 'Item not found' });
-    res.status(200).json(updatedItem);
+    if (!updatedItem) return res.status(404).json({ error: "Item not found" });
+
+    // Step 2: Update in Google Sheets
+    const sheetResponse = await axios.put(`${SHEETBEST_URL}/FINDER/${updatedItem.FINDER}`, req.body);
+
+    // Step 3: Respond with updated item
+    res.status(200).json({
+      message: "Item updated successfully",
+      updatedItem,
+      sheetResponse: sheetResponse.data,
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update item' });
+    console.error("Error updating item:", error);
+    res.status(500).json({ error: "Failed to update item" });
   }
 });
 
 // -----------------------------------deleting found items for admin user------------------------------------
-app.delete('/items/:id', async (req, res) => {
+
+app.delete("/items/:id", async (req, res) => {
   try {
+    // Step 1: Find and delete the item in MongoDB
     const deletedItem = await Item.findByIdAndDelete(req.params.id);
-    if (!deletedItem) return res.status(404).json({ error: 'Item not found' });
-    res.status(200).json({ message: 'Item deleted successfully' });
+    if (!deletedItem) return res.status(404).json({ error: "Item not found" });
+
+    // Step 2: Delete from Google Sheets based on FINDER
+    await axios.delete(`${SHEETBEST_URL}/FINDER/${deletedItem.FINDER}`);
+
+    // Step 3: Respond with success message
+    res.status(200).json({ message: "Item deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete item' });
+    console.error("Error deleting item:", error);
+    res.status(500).json({ error: "Failed to delete item" });
   }
 });
+
 
 
 //--------------------adding complaints for student users-----------------------------------
