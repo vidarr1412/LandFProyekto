@@ -34,7 +34,7 @@ const updateItemStatuses = async () => {
     for (const item of items) {
       const itemDate = new Date(item.DATE_FOUND);
       let matchedFoundationId = item.foundation_id || null;
-      let newStatus = item.STATUS; // Keep the current status
+
 
       console.log(`Checking item ${item._id}: Current STATUS = ${item.STATUS}, DATE_FOUND = ${item.DATE_FOUND}`);
 
@@ -44,7 +44,7 @@ const updateItemStatuses = async () => {
 
         if (itemDate >= startDate && itemDate <= endDate) {
           matchedFoundationId = foundation._id;
-          newStatus = "donated"; // Change status to "donated"
+          
           console.log(`  ✅ Match found! Assigning foundation_id ${foundation._id} and STATUS = donated`);
           break;
         }
@@ -52,13 +52,12 @@ const updateItemStatuses = async () => {
 
       // Only update if something actually changed
       if (
-        (item.foundation_id?.toString() !== matchedFoundationId?.toString()) ||
-        (item.STATUS !== newStatus)
+        (item.foundation_id?.toString() !== matchedFoundationId?.toString())
       ) {
-        console.log(`  🔄 Updating item ${item._id}: STATUS = ${newStatus}, foundation_id = ${matchedFoundationId}`);
+        console.log(`  🔄 Updating item ${item._id}: foundation_id = ${matchedFoundationId}`);
         await Item.findByIdAndUpdate(item._id, {
           foundation_id: matchedFoundationId,
-          STATUS: newStatus, // Update status
+        
         });
       } else {
         console.log(`  ⏩ No change for item ${item._id}`);
@@ -500,7 +499,7 @@ app.get('/update-items-status', async (req, res) => {
 });
 app.get('/items', async (req, res) => {
   try {
-    await updateItemStatuses();
+ 
 
     const items = await Item.find().populate("foundation_id", "foundation_name"); 
     await updateItemStatuses();
@@ -509,7 +508,7 @@ app.get('/items', async (req, res) => {
     console.error("Error fetching items:", error);
     res.status(500).json({ message: "Error fetching items", error });
   }
-  await updateItemStatuses();
+
 });
 
 //--------------------------------specific printing for found items in retrieval for admin user---------------------------

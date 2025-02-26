@@ -23,7 +23,7 @@ const itemSchema = new mongoose.Schema({
   foundation_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Foundation',
-
+    default: null // Allows items to exist without a foundation
   }
 });
 
