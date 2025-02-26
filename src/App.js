@@ -9,7 +9,7 @@ import ManageRequest from './components/manageRequest';
 import ReportItem from './components/report';
 import Dashboard from './components/dash';
 import Auth from './components/log';
-
+import Foundation from './components/donation';
 import Additem from './components/additem';
 import UserComplaint from './components/userComplaint';
 import Bulletin from './components/bulletinboard';
@@ -64,17 +64,20 @@ function App() {
       <div className="App">
         <Routes>
         {/* <Route path="/prof" element={<Profile />} /> */}
-    
-
-
-
-
           <Route path="/" element={<Home />} />
           <Route
             path="/complaints"
             element={
               <AdminRoute>
                 <Manage />
+              </AdminRoute>
+            }
+          />
+                 <Route
+            path="/donation"
+            element={
+              <AdminRoute>
+                <Foundation />
               </AdminRoute>
             }
           />

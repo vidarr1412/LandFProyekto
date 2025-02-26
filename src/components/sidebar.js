@@ -97,6 +97,9 @@ const Sidebar = () => {
               <NavLink to="/additem" activeClassName="active">
                 <FaQrcode className="nav-icon" /> Found Items
               </NavLink>
+              <NavLink to="/donation" activeClassName="active">
+                <FaQrcode className="nav-icon" /> Donation
+              </NavLink>
             
               <NavLink to="/manaRequests" activeClassName="active">
                 <FaUserCheck className="nav-icon" /> Manage Request

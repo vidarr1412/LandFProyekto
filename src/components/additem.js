@@ -61,6 +61,7 @@ function Additem() {
     DATE_CLAIMED: '',
     TIME_CLAIMED: '',
     STATUS: 'unclaimed',
+    foundation_id:'',
   });
 
   const [image, setImage] = useState(null); // State to hold the captured image
@@ -89,19 +90,20 @@ function Additem() {
     });
   };
 
-
   const fetchItems = async () => {
     try {
+      // First, trigger the backend update
+      await axios.get('http://10.10.83.224:5000/update-items-status');
+  
+      // Then fetch the updated items
       const response = await axios.get('http://10.10.83.224:5000/items');
-      //10.10.83.224 SID
-      //10.10.83.224 BH
+      
       const sortedRequests = response.data.sort((a, b) => {
-        // Combine DATE_FOUND and TIME_RETURNED into a single Date object
         const dateA = new Date(`${a.DATE_FOUND}T${a.TIME_RETURNED}`);
         const dateB = new Date(`${b.DATE_FOUND}T${b.TIME_RETURNED}`);
         return dateB - dateA; // Sort in descending order
       });
-      setCurrentPage(1); // Set current page to 1 when data is fetched
+  
       setRequests(sortedRequests);
     } catch (error) {
       console.error('Error fetching items:', error);
@@ -137,7 +139,7 @@ function Additem() {
     }
 
     // Step 2: Update itemData with the image URL
-    const updatedData = { ...itemData, IMAGE_URL: imageUrl };
+    const updatedData = { ...itemData, foundation_image: imageUrl };
 
     try {
       if (selectedItem) {
@@ -191,6 +193,7 @@ function Additem() {
         DATE_CLAIMED: '',
         TIME_CLAIMED: '',
         STATUS: 'unclaimed',
+        foundation_id:'',
       }
     );
     setImage(null); // Reset the captured image when opening the modal
@@ -408,6 +411,7 @@ function Additem() {
                     <th>Date Claimed</th>{/* for visualization */}
                     <th>Time Claimed</th>
                     <th>Status</th>{/* for visualization */}
+                    <th>Foundation</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -437,15 +441,20 @@ function Additem() {
                       <td>{item.OWNER_IMAGE}</td>
                       <td>{item.DATE_CLAIMED}</td>
                       <td>{item.TIME_CLAIMED}</td>
+                    
                       <td>
                         <button
                           className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' && item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' : 'claimed'}`}
                           onClick={() => handleStatusChange(item)}
                         >
-                          {item.STATUS || 'Unclaimed'}
+                          {item.STATUS || 'unclaimed'}
                           <IoMdArrowDropdown className='arrow1' />
                         </button>
+                        
                       </td>
+                      <td>{item.foundation_id?.foundation_name ? item.foundation_id.foundation_name : "Not Donated"}</td>
+
+
                       <td>
                         <button className="view-btn1" onClick={() => handleViewMore(item)}>
                           <FaPlus /> View More

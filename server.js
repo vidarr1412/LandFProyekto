@@ -11,7 +11,7 @@ const axios = require("axios"); // Ensure axios is installed
 const SHEETBEST_URL="https://api.sheetbest.com/sheets/bfc22e8d-557c-41f0-878c-d15a7161217e";
 const app = express();
 const PORT = 5000;
-
+const FoundationSchema = require('./src/models/Foundation');
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -26,6 +26,53 @@ mongoose
 // Routes
 
 const SECRET_KEY = "polgary";
+const updateItemStatuses = async () => {
+  try {
+    const items = await Item.find();
+    const foundations = await FoundationSchema.find();
+
+    for (const item of items) {
+      const itemDate = new Date(item.DATE_FOUND);
+      let matchedFoundationId = item.foundation_id || null;
+      let newStatus = item.STATUS; // Keep the current status
+
+      console.log(`Checking item ${item._id}: Current STATUS = ${item.STATUS}, DATE_FOUND = ${item.DATE_FOUND}`);
+
+      for (const foundation of foundations) {
+        const startDate = new Date(foundation.foundation_start_date);
+        const endDate = new Date(foundation.foundation_end_date);
+
+        if (itemDate >= startDate && itemDate <= endDate) {
+          matchedFoundationId = foundation._id;
+          newStatus = "donated"; // Change status to "donated"
+          console.log(`  ✅ Match found! Assigning foundation_id ${foundation._id} and STATUS = donated`);
+          break;
+        }
+      }
+
+      // Only update if something actually changed
+      if (
+        (item.foundation_id?.toString() !== matchedFoundationId?.toString()) ||
+        (item.STATUS !== newStatus)
+      ) {
+        console.log(`  🔄 Updating item ${item._id}: STATUS = ${newStatus}, foundation_id = ${matchedFoundationId}`);
+        await Item.findByIdAndUpdate(item._id, {
+          foundation_id: matchedFoundationId,
+          STATUS: newStatus, // Update status
+        });
+      } else {
+        console.log(`  ⏩ No change for item ${item._id}`);
+      }
+    }
+
+    console.log("✅ Item statuses and foundation IDs updated successfully.");
+  } catch (error) {
+    console.error("❌ Error updating item statuses:", error);
+  }
+};
+
+
+
 //--------------------signing upppp----------------------------------------
 app.post("/signup", async (req, res) => {
   const { firstName,lastName, email, password,usertype,contactNumber,college,year_lvl, } = req.body;
@@ -151,7 +198,7 @@ time_complained,
 
  } = req.body;
 
-  try {
+  try {   
     const newComplaint = new Complaint({
       // complainer,
       // itemname,
@@ -176,7 +223,7 @@ time ,
 date,
 date_complained, 
 time_complained, 
-status: "Not Found",
+status: "not-found",
 finder: "N/A",
     });
 
@@ -283,9 +330,10 @@ app.delete("/complaints/:id", async (req, res) => {
   }
 });
 
-//------------------------------addding found items for admin database--------------------------------------------------
+
+
 app.post("/items", async (req, res) => {
-  const {
+  let {
     FINDER,
     FINDER_TYPE,
     ITEM,
@@ -304,7 +352,13 @@ app.post("/items", async (req, res) => {
     DATE_CLAIMED,
     TIME_CLAIMED,
     STATUS,
+    foundation_id,
   } = req.body;
+
+  // Ensure foundation_id is null if empty
+  if (!foundation_id) {
+    foundation_id = null;
+  }
 
   try {
     // Step 1: Save to MongoDB
@@ -327,11 +381,22 @@ app.post("/items", async (req, res) => {
       DATE_CLAIMED,
       TIME_CLAIMED,
       STATUS,
+      foundation_id,
     });
 
     await newItem.save();
+    await updateItemStatuses();
 
-    // Step 2: Save to Google Sheets (Sheet.best)
+    // Step 2: Fetch foundation_name if foundation_id exists
+    let foundationName = "";
+    if (foundation_id) {
+      const foundation = await Foundation.findById(foundation_id);
+      if (foundation) {
+        foundationName = foundation.foundation_name;
+      }
+    }
+
+    // Step 3: Save to Google Sheets with foundation_name only
     const sheetResponse = await axios.post(SHEETBEST_URL, [
       {
         FINDER,
@@ -352,10 +417,11 @@ app.post("/items", async (req, res) => {
         DATE_CLAIMED,
         TIME_CLAIMED,
         STATUS,
+        foundation_id: foundationName, // Only foundation_name, not the _id
       },
     ]);
 
-    // Step 3: Respond with success message
+    // Step 4: Respond with success message
     res.status(201).json({
       message: "Item added successfully",
       item: newItem,
@@ -366,6 +432,8 @@ app.post("/items", async (req, res) => {
     res.status(500).json({ message: "Error adding item", error });
   }
 });
+
+
 
 //---------------------------------------adding found items for user database to be able to display--------------------
 app.post('/useritems', async (req, res) => {
@@ -386,7 +454,8 @@ app.post('/useritems', async (req, res) => {
     OWNER_IMAGE,
     DATE_CLAIMED,
     TIME_CLAIMED,
-    STATUS
+    STATUS,
+    foundation_id,
   } = req.body;
 
   try {
@@ -425,15 +494,24 @@ app.post('/useritems', async (req, res) => {
 });
 
 //-----------------------------------printing found items for admin user----------------------------------
+app.get('/update-items-status', async (req, res) => {
+  await updateItemStatuses();
+  res.json({ message: "Item statuses updated successfully" });
+});
 app.get('/items', async (req, res) => {
   try {
-    const items = await Item.find();
+    await updateItemStatuses();
+
+    const items = await Item.find().populate("foundation_id", "foundation_name"); 
+    await updateItemStatuses();
     res.json(items);
   } catch (error) {
-    console.error('Error fetching items:', error);
-    res.status(500).json({ message: 'Error fetching items', error });
+    console.error("Error fetching items:", error);
+    res.status(500).json({ message: "Error fetching items", error });
   }
+  await updateItemStatuses();
 });
+
 //--------------------------------specific printing for found items in retrieval for admin user---------------------------
 app.get('/items/:itemId', async (req, res) => {
   try {
@@ -580,7 +658,7 @@ app.post("/usercomplaints", async (req, res) => {
       time ,
       date_complained, 
       time_complained, 
-      status: "Not Found",
+      status: "not-found",
       finder: "N/A",
       userId, // Add userId here
       item_image,
@@ -656,7 +734,7 @@ app.put("/usercomplaints/:id", async (req, res) => {
         date_complained, 
         time_complained, 
         userId, // userId is updated as well
-        status: "Not Found",  // Default status can be kept or updated based on your logic
+        status: "not-found",  // Default status can be kept or updated based on your logic
         finder: "N/A", // Default finder value, this can also be updated
         item_image,
       },
@@ -860,7 +938,112 @@ app.delete('/retrieval-requests/:id', async (req, res) => {
     res.status(500).json({ message: 'Error deleting request' });
   }
 });//goods
+//-------------------------donation------------------------
+app.post("/foundations", async (req, res) => {
+  const {
+    foundation_name,
+    foundation_type,
+    foundation_description,
+    foundation_link,
+    foundation_contact,
+    foundation_image,
+    foundation_end_date,
+    foundation_start_date,
+  } = req.body;
 
+  try {
+    // Step 1: Save to MongoDB
+    const newFoundationSchema = new FoundationSchema({
+    foundation_name,
+    foundation_type,
+    foundation_description,
+    foundation_link,
+    foundation_contact,
+    foundation_image,
+    foundation_start_date,
+    foundation_end_date,
+    });
+
+    await newFoundationSchema.save();
+
+    // Step 2: Save to Google Sheets (Sheet.best)
+
+
+    // Step 3: Respond with success message
+    res.status(201).json({
+      message: "Item added successfully",
+      FoundationSchema: newFoundationSchema,
+    
+    });
+  } catch (error) {
+    console.error("Error adding item:", error);
+    res.status(500).json({ message: "Error adding item", error });
+  }
+});
+
+app.put("/foundations/:id", async (req, res) => {
+  try {
+    // Step 1: Update in MongoDB
+    const updatedItem = await FoundationSchema.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedItem) return res.status(404).json({ error: "Item not found" });
+
+    // Step 2: Update in Google Sheets
+    // const sheetResponse = await axios.put(`${SHEETBEST_URL}/FINDER/${updatedItem.FINDER}`, req.body);
+
+    // Step 3: Respond with updated item
+    res.status(200).json({
+      message: "Item updated successfully",
+      updatedItem,
+      // sheetResponse: sheetResponse.data,
+    });
+  } catch (error) {
+    console.error("Error updating item:", error);
+    res.status(500).json({ error: "Failed to update item" });
+  }
+});
+
+app.get('/foundations', async (req, res) => {
+  try {
+    const foundation= await FoundationSchema.find();
+    res.json(foundation);
+  } catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ message: 'Error fetching items', error });
+  }
+});
+
+app.delete("/foundations/:id", async (req, res) => {
+  try {
+    // Step 1: Find and delete the item in MongoDB
+    const deletedItem = await FoundationSchema.findByIdAndDelete(req.params.id);
+    if (!deletedItem) return res.status(404).json({ error: "Item not found" });
+
+    // // Step 2: Delete from Google Sheets based on FINDER
+    // await axios.delete(`${SHEETBEST_URL}/FINDER/${deletedItem.FINDER}`);
+
+    // Step 3: Respond with success message
+    res.status(200).json({ message: "Item deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    res.status(500).json({ error: "Failed to delete item" });
+  }
+});
+// app.delete("/delete", async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     // Find and delete the complaint by its ID
+//     const deletedComplaint = await Complaint.findByIdAndDelete(id);
+
+//     if (!deletedComplaint) {
+//       return res.status(404).json({ message: "Complaint not found" });
+//     }
+
+//     res.status(200).json({ message: "Complaint deleted successfully", deletedComplaint });
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to delete complaint" });
+//   }
+// });
 // Start server
 app.listen(PORT, () => {
   console.log(`deyamemyidol`);

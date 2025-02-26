@@ -20,6 +20,11 @@ const itemSchema = new mongoose.Schema({
   TIME_CLAIMED:String,
   STATUS: String,
   
+  foundation_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Foundation',
+
+  }
 });
 
 const Item = mongoose.model('Item', itemSchema);
