@@ -28,15 +28,14 @@ mongoose
 const SECRET_KEY = "polgary";
 const updateItemStatuses = async () => {
   try {
-    const items = await Item.find();
+    const items = await Item.find({ STATUS: "unclaimed" }); // Get only unclaimed items
     const foundations = await FoundationSchema.find();
 
     for (const item of items) {
       const itemDate = new Date(item.DATE_FOUND);
-      let matchedFoundationId = item.foundation_id || null;
+      let matchedFoundationId = null;
 
-
-      console.log(`Checking item ${item._id}: Current STATUS = ${item.STATUS}, DATE_FOUND = ${item.DATE_FOUND}`);
+      console.log(`Checking unclaimed item ${item._id}: DATE_FOUND = ${item.DATE_FOUND}`);
 
       for (const foundation of foundations) {
         const startDate = new Date(foundation.foundation_start_date);
@@ -44,27 +43,24 @@ const updateItemStatuses = async () => {
 
         if (itemDate >= startDate && itemDate <= endDate) {
           matchedFoundationId = foundation._id;
-          
-          console.log(`  ✅ Match found! Assigning foundation_id ${foundation._id} and STATUS = donated`);
-          break;
+          console.log(`  ✅ Match found! Assigning foundation_id ${foundation._id} and updating STATUS to "donated"`);
+          break; // Stop at the first matching foundation
         }
       }
 
-      // Only update if something actually changed
-      if (
-        (item.foundation_id?.toString() !== matchedFoundationId?.toString())
-      ) {
-        console.log(`  🔄 Updating item ${item._id}: foundation_id = ${matchedFoundationId}`);
+      // Update only if foundation_id changed
+      if (matchedFoundationId && item.foundation_id?.toString() !== matchedFoundationId?.toString()) {
+        console.log(`  🔄 Updating item ${item._id}: foundation_id = ${matchedFoundationId}, STATUS = "donated"`);
         await Item.findByIdAndUpdate(item._id, {
           foundation_id: matchedFoundationId,
-        
+          STATUS: "donated"
         });
       } else {
         console.log(`  ⏩ No change for item ${item._id}`);
       }
     }
 
-    console.log("✅ Item statuses and foundation IDs updated successfully.");
+    console.log("✅ Unclaimed items updated successfully.");
   } catch (error) {
     console.error("❌ Error updating item statuses:", error);
   }
