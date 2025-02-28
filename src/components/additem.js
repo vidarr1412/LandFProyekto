@@ -476,7 +476,9 @@ function Additem() {
                           <IoMdArrowDropdown className='arrow1' />
                         </button>
                       </td>
-                      <td>{item.foundation_id}</td>
+                      <td>
+                      <span>{item.foundation_id?.foundation_name}</span>
+                      </td>
                       <td>
                         <button className="view-btn1" onClick={() => handleViewMore(item)}>
                           <FaPlus /> View More
@@ -506,7 +508,7 @@ function Additem() {
                   <p><span>Location: </span> {item.FOUND_LOCATION}</p>
                   <p><span>Time: </span> {item.TIME_RETURNED}</p>
                   <p><span>Owner: </span> {item.OWNER}</p>
-                  <p><span>Foundation: </span> {item.foundation_id}</p>
+           
                   <button
                     className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' && item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' : 'claimed'}`}
                     onClick={() => handleStatusChange(item)}
@@ -954,7 +956,7 @@ function Additem() {
                     </div>
                     <div className="detail-item1">
                       <strong>Foundation:</strong>
-                      <span>{itemData.foundation_id}</span>
+                      
                     </div>
                   </div>
                   <div className="button-container1">
