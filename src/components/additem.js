@@ -14,7 +14,7 @@ import Header from './header';
 import Filter from '../filterered/foundFilt'; // Adjust the import path as necessary
 import Modal from './image'; // Import the Modal component
 
-import  showAlert from '../utils/alert';
+import showAlert from '../utils/alert';
 
 function Additem() {
   const [filterText, setFilterText] = useState('');
@@ -29,7 +29,8 @@ function Additem() {
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
-  
+  const [activeTab, setActiveTab] = useState('item'); // State for selected image
+
 
   const [itemData, setItemData] = useState({
     // ITEM: '',
@@ -61,10 +62,10 @@ function Additem() {
     DATE_CLAIMED: '',
     TIME_CLAIMED: '',
     STATUS: 'unclaimed',
-    foundation_id:'',
   });
 
   const [image, setImage] = useState(null); // State to hold the captured image
+  const [ownerImage, setOwnerImage] = useState(null); // State to hold the captured owner image
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -82,7 +83,7 @@ function Additem() {
     if (!filterText) {
       return filteredRequests; // If no filter text, return all filtered requests
     }
-  
+
     return filteredRequests.filter(request => {
       // Check if request.ITEM is defined before calling toLowerCase
       const itemName = request.ITEM ? request.ITEM.toLowerCase() : '';
@@ -90,20 +91,19 @@ function Additem() {
     });
   };
 
+
   const fetchItems = async () => {
     try {
-      // First, trigger the backend update
-      await axios.get('http://10.10.83.224:5000/update-items-status');
-  
-      // Then fetch the updated items
       const response = await axios.get('http://10.10.83.224:5000/items');
-      
+      //10.10.83.224 SID
+      //10.10.83.224 BH
       const sortedRequests = response.data.sort((a, b) => {
+        // Combine DATE_FOUND and TIME_RETURNED into a single Date object
         const dateA = new Date(`${a.DATE_FOUND}T${a.TIME_RETURNED}`);
         const dateB = new Date(`${b.DATE_FOUND}T${b.TIME_RETURNED}`);
         return dateB - dateA; // Sort in descending order
       });
-  
+      setCurrentPage(1); // Set current page to 1 when data is fetched
       setRequests(sortedRequests);
     } catch (error) {
       console.error('Error fetching items:', error);
@@ -118,9 +118,10 @@ function Additem() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     let imageUrl = itemData.IMAGE_URL; // Default to existing URL if any
+    let ownerImageUrl = itemData.OWNER_IMAGE; // Default to existing owner image URL if any
 
     // Check if adding a new item and no image is captured
-    if (!selectedItem && !image) {
+    if (!selectedItem && !image && !ownerImage) {
       alert('Please capture an image before submitting the form.'); // Alert if no image is captured
       return; // Exit the function
     }
@@ -132,14 +133,28 @@ function Additem() {
         const downloadURL = await getDownloadURL(imageRef);
 
         imageUrl = downloadURL; // Update the URL
-      
+
       } catch (error) {
         console.error('Error uploading image:', error);
       }
     }
 
-    // Step 2: Update itemData with the image URL
-    const updatedData = { ...itemData, foundation_image: imageUrl };
+    // Step 2: Upload the owner image to Firebase Storage if available
+    if (ownerImage) {
+      const ownerImageRef = ref(storage, `FIRI/owner_${Date.now()}.png`);
+      try {
+        await uploadString(ownerImageRef, ownerImage, 'data_url');
+        const downloadURL = await getDownloadURL(ownerImageRef);
+        ownerImageUrl = downloadURL; // Update the URL for the owner image
+      } catch (error) {
+        console.error('Error uploading owner image:', error);
+        alert('Error uploading owner image. Please try again.'); // Alert on error
+        return; // Exit the function
+      }
+    }
+
+    // Step 3: Update itemData with the image URLs
+    const updatedData = { ...itemData, IMAGE_URL: imageUrl, OWNER_IMAGE: ownerImageUrl };
 
     try {
       if (selectedItem) {
@@ -193,7 +208,6 @@ function Additem() {
         DATE_CLAIMED: '',
         TIME_CLAIMED: '',
         STATUS: 'unclaimed',
-        foundation_id:'',
       }
     );
     setImage(null); // Reset the captured image when opening the modal
@@ -207,44 +221,44 @@ function Additem() {
 
   const applyFilters = (filters) => {
     let filtered = [...requests]; // Use a copy of the original requests state
-  
+
     // Apply filters
     if (filters.finderType) {
       filtered = filtered.filter(item => item.FINDER_TYPE === filters.finderType);
     }
-  
+
     if (filters.itemType) {
       filtered = filtered.filter(item => item.ITEM_TYPE === filters.itemType);
     }
-  
+
     if (filters.dateFound) {
       filtered = filtered.filter(item => item.DATE_FOUND === filters.dateFound);
     }
-  
+
     if (filters.generalLocation) {
       filtered = filtered.filter(item => item.GENERAL_LOCATION.toLowerCase().includes(filters.generalLocation.toLowerCase()));
     }
-  
+
     if (filters.status) {
       filtered = filtered.filter(item => item.STATUS === filters.status);
     }
-  
+
     // Apply sorting
     if (filters.sortByDate === 'ascending') {
       filtered.sort((a, b) => new Date(a.DATE_FOUND) - new Date(b.DATE_FOUND));
     } else if (filters.sortByDate === 'descending') {
       filtered.sort((a, b) => new Date(b.DATE_FOUND) - new Date(a.DATE_FOUND));
     }
-  
+
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {
       setFilteredRequests(filtered);
     }
-  
-    
+
+
   };
-  
-  
+
+
   //UPDATE PAGINATIOn
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
 
@@ -252,14 +266,14 @@ function Additem() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  
+
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
-        setCurrentPage(pageNumber);
+      setCurrentPage(pageNumber);
     }
-};
+  };
 
- 
+
 
   const handleStatusChange = async (item) => {
     const newStatus = item.STATUS === 'unclaimed' ? 'claimed' : 'unclaimed'; // Toggle status
@@ -270,7 +284,7 @@ function Additem() {
           req._id === item._id ? { ...req, STATUS: newStatus } : req
         )
       );
-  
+
       showAlert('Status Uodated', 'complaint_success');
     } catch (error) {
       console.error('Error updating status:', error);
@@ -292,7 +306,7 @@ function Additem() {
         .then((stream) => {
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
-  
+
             // Wait for the stream to be ready before calling play
             videoRef.current.onloadeddata = () => {
               videoRef.current.play()
@@ -311,7 +325,7 @@ function Additem() {
       console.error('getUserMedia is not supported in this browser.');
     }
   };
-  
+
 
   const captureImage = () => {
     const canvas = canvasRef.current;
@@ -323,7 +337,14 @@ function Additem() {
       const context = canvas.getContext('2d');
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const imageData = canvas.toDataURL('image/png'); // Capturing the image in base64 format
-      setImage(imageData); // Set the captured image to state
+      // Update the appropriate state based on the active tab
+      if (activeTab === 'item') {
+        setImage(imageData); // Set the captured image for the item
+        setItemData({ ...itemData, IMAGE_URL: imageData }); // Update itemData with the captured image
+      } else if (activeTab === 'owner') {
+        setOwnerImage(imageData); // Set the captured image for the owner
+        setItemData({ ...itemData, OWNER_IMAGE: imageData }); // Update itemData with the captured owner image
+      }
     }
   };
 
@@ -377,14 +398,14 @@ function Additem() {
               {viewMode === 'table' ? <FaTable /> : <IoGridOutline />}
             </button>
 
-            
+
           </div>
 
           <div className="top-right-buttons1">
-              <button className="add-item-btn1" onClick={() => openModal()}>+ Add Found Item</button>
-              {/* <button className="register-qr-btn1">Register QR Code</button> */}
-            </div>
-            
+            <button className="add-item-btn1" onClick={() => openModal()}>+ Add Found Item</button>
+            {/* <button className="register-qr-btn1">Register QR Code</button> */}
+          </div>
+
           <Filter onApplyFilters={applyFilters} />
 
           {viewMode === 'table' ? (
@@ -392,7 +413,7 @@ function Additem() {
               <table className="ffound-items-table1">
                 <thead>
                   <tr>
-                  <th>ITEM NAME</th>
+                    <th>ITEM NAME</th>
                     <th>Finder</th>
                     <th>Finder Type</th>{/* for visualization */}
                     <th>Item Type</th>{/* for visualization */}
@@ -411,7 +432,7 @@ function Additem() {
                     <th>Date Claimed</th>{/* for visualization */}
                     <th>Time Claimed</th>
                     <th>Status</th>{/* for visualization */}
-                    <th>Foundation</th>
+                    <th>Foundation</th>{/* for visualization */}
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -424,11 +445,11 @@ function Additem() {
                       <td>{item.ITEM_TYPE}</td>
                       <td>{item.DESCRIPTION}</td>
                       <td><img
-                          src={item.IMAGE_URL || "default-image-url1"}
-                          alt="Product"
-                          className="default-image-url11"
-                          onClick={() => handleImageClick(item.IMAGE_URL || "default-image-url1")} // Add click handler
-                        /></td>
+                        src={item.IMAGE_URL || "default-image-url1"}
+                        alt="Product"
+                        className="default-image-url11"
+                        onClick={() => handleImageClick(item.IMAGE_URL || "default-image-url1")} // Add click handler
+                      /></td>
                       <td>{item.CONTACT_OF_THE_FINDER}</td>
                       <td>{item.DATE_FOUND}</td>
                       <td>{item.GENERAL_LOCATION}</td>
@@ -438,23 +459,24 @@ function Additem() {
                       <td>{item.OWNER}</td>
                       <td>{item.OWNER_COLLEGE}</td>
                       <td>{item.OWNER_CONTACT}</td>
-                      <td>{item.OWNER_IMAGE}</td>
+                      <td><img
+                        src={item.OWNER_IMAGE || "default-image-url1"}
+                        alt="Product"
+                        className="default-image-url11"
+                        onClick={() => handleImageClick(item.OWNER_IMAGE || "default-image-url1")} // Add click handler
+                      /></td>
                       <td>{item.DATE_CLAIMED}</td>
                       <td>{item.TIME_CLAIMED}</td>
-                    
                       <td>
                         <button
                           className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' && item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' : 'claimed'}`}
                           onClick={() => handleStatusChange(item)}
                         >
-                          {item.STATUS || 'unclaimed'}
+                          {item.STATUS || 'Unclaimed'}
                           <IoMdArrowDropdown className='arrow1' />
                         </button>
-                        
                       </td>
-                      <td>{item.foundation_id?.foundation_name ? item.foundation_id.foundation_name : "Not Donated"}</td>
-
-
+                      <td>{item.foundation_id}</td>
                       <td>
                         <button className="view-btn1" onClick={() => handleViewMore(item)}>
                           <FaPlus /> View More
@@ -484,6 +506,7 @@ function Additem() {
                   <p><span>Location: </span> {item.FOUND_LOCATION}</p>
                   <p><span>Time: </span> {item.TIME_RETURNED}</p>
                   <p><span>Owner: </span> {item.OWNER}</p>
+                  <p><span>Foundation: </span> {item.foundation_id}</p>
                   <button
                     className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' && item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' : 'claimed'}`}
                     onClick={() => handleStatusChange(item)}
@@ -514,258 +537,281 @@ function Additem() {
           <div className="modal1">
             <h2>{isViewMore ? (isEditing ? 'Edit Item' : 'View Found Item Details') : 'File a Found Item'}</h2>
 
+            {/* Conditionally render the tab buttons */}
+            {!isViewMore || isEditing ? (
+              <div className="tabs1">
+                <button className={`tab-button1 ${activeTab === 'item' ? 'active' : ''}`} onClick={() => setActiveTab('item')}>Item Details</button>
+                <button className={`tab-button1 ${activeTab === 'owner' ? 'active' : ''}`} onClick={() => setActiveTab('owner')}>Owner Details (Optional)</button>
+              </div>
+            ) : null}
+
             {/* Wrap form fields and camera in a flex container */}
             {isViewMore ? (
               isEditing ? (
                 <div className="form-and-camera">
                   <form onSubmit={handleFormSubmit} className="form-fields">
-                    <div className="form-group1">
-                      <label htmlFor="finderName">Finder Name</label>
-                      <input
-                        type="text"
-                        id="finderName"
-                        name="FINDER"
-                        maxLength="100"
-                        placeholder="Finder Name"
-                        value={itemData.FINDER}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      />
-                    </div>
 
 
-                    <div className="form-group1">
-                      <label htmlFor="finderType">Finder TYPE</label>  {/* ADD DROP DOWN */}
+                    {activeTab === 'item' ? (
+                      <>
+                        <div className="form-group1">
+                          <label htmlFor="finderName">Finder Name</label>
+                          <input
+                            type="text"
+                            id="finderName"
+                            name="FINDER"
+                            maxLength="100"
+                            placeholder="Finder Name"
+                            value={itemData.FINDER}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          />
+                        </div>
 
-                      <select
-                        id="finderType"
-                        name="FINDER_TYPE"
 
-                        placeholder="Finder TYPE"
-                        value={itemData.FINDER_TYPE}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      >
-                        <option value="STUDENT">STUDENT</option>
-                        <option value="UTILITIES">UTILITIES</option>
-                        <option value="GUARD">GUARD</option>
-                        <option value="VISITORS">VISITORS</option>
-                      </select>
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="itemName">Item Name</label>
-                      <input
-                        type="text"
-                        id="itemName"
-                        name="ITEM"
-                        maxLength="100"
-                        placeholder="Item Name"
-                        value={itemData.ITEM}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      />
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="itemType">ITEM TYPE</label>  {/* ADD DROP DOWN */}
-                      <select
+                        <div className="form-group1">
+                          <label htmlFor="finderType">Finder TYPE</label>  {/* ADD DROP DOWN */}
 
-                        id="item_Type"
-                        name="ITEM_TYPE"
-                        placeholder="Item TYPE"
-                        value={itemData.ITEM_TYPE}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      >
-                        <option value="Electronics">Electronics</option>
-                        <option value="Personal-Items">Personal Items</option>
-                        <option value="Clothing_Accessories">Clothing & Accessories</option>
-                        <option value="Bags_Stationery">Bags & stationary</option>
-                        <option value="Documents">Documents</option>
-                        <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
-                      </select>
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="description">Item Description</label>
-                      <textarea
-                        id="description"
-                        name="DESCRIPTION"
-                        maxLength="500"
-                        placeholder="Description"
-                        value={itemData.DESCRIPTION}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      ></textarea>
-                    </div>
+                          <select
+                            id="finderType"
+                            name="FINDER_TYPE"
 
-                    <div className="form-group1">
-                      <label htmlFor="contact">Finder Contact</label>
-                      <input
-                        type="text"
-                        id="contact"
-                        name="CONTACT_OF_THE_FINDER"
-                        maxLength="50"
-                        placeholder="Contact Number"
-                        value={itemData.CONTACT_OF_THE_FINDER}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      />
-                    </div>
+                            placeholder="Finder TYPE"
+                            value={itemData.FINDER_TYPE}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          >
+                            <option value="STUDENT">STUDENT</option>
+                            <option value="UTILITIES">UTILITIES</option>
+                            <option value="GUARD">GUARD</option>
+                            <option value="VISITORS">VISITORS</option>
+                          </select>
+                        </div>
+                        <div className="form-group1">
+                          <label htmlFor="itemName">Item Name</label>
+                          <input
+                            type="text"
+                            id="itemName"
+                            name="ITEM"
+                            maxLength="100"
+                            placeholder="Item Name"
+                            value={itemData.ITEM}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          />
+                        </div>
+                        <div className="form-group1">
+                          <label htmlFor="itemType">ITEM TYPE</label>  {/* ADD DROP DOWN */}
+                          <select
 
-                    <div className="form-group1">
-                      <label htmlFor="dateFound">Date Found</label>
-                      <input
-                        type="date"
-                        id="dateFound"
-                        name="DATE_FOUND"
-                        value={itemData.DATE_FOUND}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      />
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="generalLocation">General Location</label>  {/* ADD DROP DOWN */}
+                            id="item_Type"
+                            name="ITEM_TYPE"
+                            placeholder="Item TYPE"
+                            value={itemData.ITEM_TYPE}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          >
+                            <option value="Electronics">Electronics</option>
+                            <option value="Personal-Items">Personal Items</option>
+                            <option value="Clothing_Accessories">Clothing & Accessories</option>
+                            <option value="Bags_Stationery">Bags & stationary</option>
+                            <option value="Documents">Documents</option>
+                            <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                          </select>
+                        </div>
+                        <div className="form-group1">
+                          <label htmlFor="description">Item Description</label>
+                          <textarea
+                            id="description"
+                            name="DESCRIPTION"
+                            maxLength="500"
+                            placeholder="Description"
+                            value={itemData.DESCRIPTION}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          ></textarea>
+                        </div>
 
-                      <select
-                        id="generalLocation"
-                        name="GENERAL_LOCATION"
-                        placeholder="General Location"
-                        value={itemData.GENERAL_LOCATION}
-                        onChange={handleInputChange}
-                      >
-                        <option value="Gym">GYMNASIUM</option>
-                        <option value="adminBuilding">ADMIN BLG</option>
-                        <option value="mph">MPH</option>
-                        <option value="mainLibrary">MAIN LIBRARY</option>
-                        <option value="lawn">LAWN</option>
-                        <option value="ids">IDS</option>
-                        <option value="clinic">CLINIC</option>
-                        <option value="canteen">CANTEEN</option>
-                        <option value="ceba">CEBA</option>
-                        <option value="ccs">CCS</option>
-                        <option value="cass">CASS</option>
-                        <option value="csm">CSM</option>
-                        <option value="coe">COE</option>
-                        <option value="ced">CED</option>
-                        <option value="chs">CHS</option>
-                        <option value="outsideIit">OUTSIDE IIT</option>
-                      </select>
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="location">Specific Location</label>
-                      <input
-                        type="text"
-                        id="location"
-                        name="FOUND_LOCATION"
-                        maxLength="200"
-                        placeholder="Specific Location"
-                        value={itemData.FOUND_LOCATION}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      />
-                    </div>
+                        <div className="form-group1">
+                          <label htmlFor="contact">Finder Contact</label>
+                          <input
+                            type="text"
+                            id="contact"
+                            name="CONTACT_OF_THE_FINDER"
+                            maxLength="50"
+                            placeholder="Contact Number"
+                            value={itemData.CONTACT_OF_THE_FINDER}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          />
+                        </div>
 
-                    <div className="form-group1">
-                      <label htmlFor="timeReceived">Time Received</label>
-                      <input
-                        type="time"
-                        id="timeReceived"
-                        name="TIME_RETURNED"
-                        value={itemData.TIME_RETURNED}
-                        onChange={handleInputChange}
-                        required={!selectedItem}
-                      />
-                    </div>
+                       
+                        <div className="form-group1">
+                          <label htmlFor="generalLocation">General Location</label>  {/* ADD DROP DOWN */}
 
-                    <div className="form-group1">
-                      <label htmlFor="owner">Owner Name</label>
-                      <input
-                        type="text"
-                        id="owner"
-                        name="OWNER"
-                        maxLength="50"
-                        placeholder="May skip if owner is not yet identified"
-                        value={itemData.OWNER}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="ownerCollege">Owner College</label>
-                      <select
-                        id="ownerCollege"
-                        name="OWNER_COLLEGE"
-                        value={itemData.OWNER_COLLEGE}
-                        onChange={handleInputChange}
-                      >
-                        <option value="coe">COE</option>
-                        <option value="ccs">CCS</option>
-                        <option value="cass">CASS</option>
-                        <option value="csm">CSM</option>
-                        <option value="ceba">CEBA</option>
-                        <option value="chs">CHS</option>
-                        <option value="ced">CED</option>
-                      </select>
-                    </div>
+                          <select
+                            id="generalLocation"
+                            name="GENERAL_LOCATION"
+                            placeholder="General Location"
+                            value={itemData.GENERAL_LOCATION}
+                            onChange={handleInputChange}
+                          >
+                            <option value="Gym">GYMNASIUM</option>
+                            <option value="adminBuilding">ADMIN BLG</option>
+                            <option value="mph">MPH</option>
+                            <option value="mainLibrary">MAIN LIBRARY</option>
+                            <option value="lawn">LAWN</option>
+                            <option value="ids">IDS</option>
+                            <option value="clinic">CLINIC</option>
+                            <option value="canteen">CANTEEN</option>
+                            <option value="ceba">CEBA</option>
+                            <option value="ccs">CCS</option>
+                            <option value="cass">CASS</option>
+                            <option value="csm">CSM</option>
+                            <option value="coe">COE</option>
+                            <option value="ced">CED</option>
+                            <option value="chs">CHS</option>
+                            <option value="outsideIit">OUTSIDE IIT</option>
+                          </select>
+                        </div>
+                        <div className="form-group1">
+                          <label htmlFor="location">Specific Location</label>
+                          <input
+                            type="text"
+                            id="location"
+                            name="FOUND_LOCATION"
+                            maxLength="200"
+                            placeholder="Specific Location"
+                            value={itemData.FOUND_LOCATION}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          />
+                        </div>
 
-                    <div className="form-group1">
-                      <label htmlFor="ownerContact">Owner Contact</label>
-                      <input
-                        type="text"
-                        id="ownerContact"
-                        name="OWNER_CONTACT"
-                        maxLength="50"
-                        placeholder="May skip if owner is not yet identified"
-                        value={itemData.OWNER_CONTACT}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="ownerImage">Owner Image</label>
-                      <input
-                        type="text"
-                        id="ownerImage"
-                        name="OWNER_IMAGE"
-                        maxLength="50"
-                        placeholder="May skip if owner is not yet identified"
-                        value={itemData.OWNER_IMAGE}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="dateClaimed">Date Claimed</label>
-                      <input
-                        type="date"
-                        id="dateClaimed"
-                        name="DATE_CLAIMED"
-                        maxLength="50"
-                        placeholder="May skip if owner is not yet identified"
-                        value={itemData.DATE_CLAIMED}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="ownerImage">Time Claimed</label>
-                      <input
-                        type="time"
-                        id="timeClaimed"
-                        name="TIME_CLAIMED"
-                        maxLength="50"
-                        placeholder="May skip if owner is not yet identified"
-                        value={itemData.TIME_CLAIMED}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="form-group1">
-                      <label htmlFor="status">Status</label>
-                      <select
-                        id="status"
-                        name="STATUS"
-                        value={itemData.STATUS}
-                        onChange={handleInputChange}
-                      >
-                        <option value="unclaimed">Unclaimed</option>
-                        <option value="claimed">Claimed</option>
-                      </select>
-                    </div>
+                        <div className="form-group1">
+                          <label htmlFor="dateFound">Date Found</label>
+                          <input
+                            type="date"
+                            id="dateFound"
+                            name="DATE_FOUND"
+                            value={itemData.DATE_FOUND}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          />
+                        </div>
+
+                        <div className="form-group1">
+                          <label htmlFor="timeReceived">Time Received</label>
+                          <input
+                            type="time"
+                            id="timeReceived"
+                            name="TIME_RETURNED"
+                            value={itemData.TIME_RETURNED}
+                            onChange={handleInputChange}
+                            required={!selectedItem}
+                          />
+                        </div>
+
+
+                        <div className="form-group1">
+                          <label htmlFor="status">Status</label>
+                          <select
+                            id="status"
+                            name="STATUS"
+                            value={itemData.STATUS}
+                            onChange={handleInputChange}
+                          >
+                            <option value="unclaimed">Unclaimed</option>
+                            <option value="claimed">Claimed</option>
+                          </select>
+                        </div>
+
+
+                      </>
+                    ) : (
+                      <>
+                        {/* Owner Details Form Fields */}
+                        <div className="form-group1">
+                          <label htmlFor="owner">Owner Name</label>
+                          <input
+                            type="text"
+                            id="owner"
+                            name="OWNER"
+                            maxLength="50"
+                            placeholder="Owner Name"
+                            value={itemData.OWNER}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="form-group1">
+                          <label htmlFor="ownerCollege">Owner College</label>
+                          <select
+                            id="ownerCollege"
+                            name="OWNER_COLLEGE"
+                            value={itemData.OWNER_COLLEGE}
+                            onChange={handleInputChange}
+                          >
+                            <option value="coe">COE</option>
+                            <option value="ccs">CCS</option>
+                            <option value="cass">CASS</option>
+                            <option value="csm">CSM</option>
+                            <option value="ceba">CEBA</option>
+                            <option value="chs">CHS</option>
+                            <option value="ced">CED</option>
+                          </select>
+                        </div>
+                        {/* Add other owner fields here... */}
+                        <div className="form-group1">
+                          <label htmlFor="ownerContact">Owner Contact</label>
+                          <input
+                            type="text"
+                            id="ownerContact"
+                            name="OWNER_CONTACT"
+                            maxLength="50"
+                            placeholder="Owner Contact"
+                            value={itemData.OWNER_CONTACT}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="form-group1">
+                          <label htmlFor="dateClaimed">Date Claimed</label>
+                          <input
+                            type="date"
+                            id="dateClaimed"
+                            name="DATE_CLAIMED"
+                            maxLength="50"
+                            placeholder="May skip if owner is not yet identified"
+                            value={itemData.DATE_CLAIMED}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="form-group1">
+                          <label htmlFor="ownerImage">Time Claimed</label>
+                          <input
+                            type="time"
+                            id="timeClaimed"
+                            name="TIME_CLAIMED"
+                            maxLength="50"
+                            placeholder="May skip if owner is not yet identified"
+                            value={itemData.TIME_CLAIMED}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <div className="form-group1">
+                          <label htmlFor="status">Status</label>
+                          <select
+                            id="status"
+                            name="STATUS"
+                            value={itemData.STATUS}
+                            onChange={handleInputChange}
+                          >
+                            <option value="unclaimed">Unclaimed</option>
+                            <option value="claimed">Claimed</option>
+                          </select>
+                        </div>
+                      </>
+                    )}
 
                     {/* Buttons inside the form */}
                     <div className="button-container1">
@@ -784,30 +830,43 @@ function Additem() {
                     <div className="camera-buttons">
                       <button type="button" onClick={captureImage}>Capture Image</button>
                     </div> */}
-                    {/* Show the saved image only when updating an existing item */}
-                    {/* {selectedItem && itemData.IMAGE_URL && !image && (
+                  {/* Show the saved image only when updating an existing item */}
+                  {/* {selectedItem && itemData.IMAGE_URL && !image && (
                       <img src={itemData.IMAGE_URL} alt="Saved" className="captured-image" />
                     )} */}
 
-                    {/* Show the captured image if available */}
-                    {/* {image && (
+                  {/* Show the captured image if available */}
+                  {/* {image && (
                       <img src={image} alt="Captured" className="captured-image" />
                     )}
                   </div> */}
-   <div className="camera-section">
+
+
+
+
+
+                  {/* Camera Section for both Item and Owner */}
+                  <div className="camera-section">
                     <video ref={videoRef} width="320" height="240" autoPlay />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
                     <div className="camera-buttons">
                       <button type="button" onClick={captureImage}>Capture Image</button>
                     </div>
-                    {/* Show the saved image only when updating an existing item */}
-                    {selectedItem && itemData.IMAGE_URL && !image && (
-                      <img src={itemData.IMAGE_URL} alt="Saved" className="captured-image" />
+                    {/* Show the existing image if in edit mode */}
+                    {activeTab === 'item' && itemData.IMAGE_URL && !image && (
+                      <img src={itemData.IMAGE_URL} alt="Existing Item" className="captured-image" />
+                    )}
+                    {activeTab === 'owner' && itemData.OWNER_IMAGE && !ownerImage && (
+                      <img src={itemData.OWNER_IMAGE} alt="Existing Owner" className="captured-image" />
                     )}
 
-                    {/* Show the captured image if available */}
-                    {image && (
-                      <img src={image} alt="Captured" className="captured-image" />
+
+                    {/* Show the captured image based on the active tab */}
+                    {activeTab === 'item' && image && (
+                      <img src={image} alt="Captured Item" className="captured-image" />
+                    )}
+                    {activeTab === 'owner' && ownerImage && (
+                      <img src={ownerImage} alt="Captured Owner" className="captured-image" />
                     )}
                   </div>
 
@@ -875,8 +934,11 @@ function Additem() {
                       <span>{itemData.OWNER_CONTACT}</span>
                     </div>
                     <div className="detail-item1">
-                      <strong>Owner Image:</strong>
-                      <span>{itemData.OWNER_IMAGE}</span>
+                      <strong>Owner image:</strong>
+                      {/* Show the saved image only when updating an existing item */}
+                      {
+                        <img src={itemData.OWNER_IMAGE} alt="Saved" className="captured-image" />
+                      }
                     </div>
                     <div className="detail-item1">
                       <strong>Date Claimed:</strong>
@@ -890,6 +952,10 @@ function Additem() {
                       <strong>Status:</strong>
                       <span>{itemData.STATUS}</span>
                     </div>
+                    <div className="detail-item1">
+                      <strong>Foundation:</strong>
+                      <span>{itemData.foundation_id}</span>
+                    </div>
                   </div>
                   <div className="button-container1">
                     <button className="edit-btn1" onClick={handleEdit}>Edit</button>
@@ -900,253 +966,269 @@ function Additem() {
             ) : (
               <div className="form-and-camera">
                 <form onSubmit={handleFormSubmit} className="form-fields">
-                  <div className="form-group1">
-                    <label htmlFor="finderName">Finder Name</label>
-                    <input
-                      type="text"
-                      id="finderName"
-                      name="FINDER"
-                      maxLength="100"
-                      placeholder="Finder Name"
-                      value={itemData.FINDER}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
+                  {activeTab === 'item' ? (
+                    <>
+                      <div className="form-group1">
+                        <label htmlFor="finderName">Finder Name</label>
+                        <input
+                          type="text"
+                          id="finderName"
+                          name="FINDER"
+                          maxLength="100"
+                          placeholder="Finder Name"
+                          value={itemData.FINDER}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        />
+                      </div>
 
 
-                  <div className="form-group1">
-                    <label htmlFor="finderType">Finder TYPE</label>  {/* ADD DROP DOWN */}
+                      <div className="form-group1">
+                        <label htmlFor="finderType">Finder TYPE</label>  {/* ADD DROP DOWN */}
 
-                    <select
-                      id="finderType"
-                      name="FINDER_TYPE"
+                        <select
+                          id="finderType"
+                          name="FINDER_TYPE"
 
-                      placeholder="Finder TYPE"
-                      value={itemData.FINDER_TYPE}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    >
-                      <option value="STUDENT">STUDENT</option>
-                      <option value="UTILITIES">UTILITIES</option>
-                      <option value="GUARD">GUARD</option>
-                      <option value="VISITORS">VISITORS</option>
-                    </select>
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="itemName">Item Name</label>
-                    <input
-                      type="text"
-                      id="itemName"
-                      name="ITEM"
-                      maxLength="100"
-                      placeholder="Item Name"
-                      value={itemData.ITEM}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="itemType">ITEM TYPE</label>  {/* ADD DROP DOWN */}
-                    <select
+                          placeholder="Finder TYPE"
+                          value={itemData.FINDER_TYPE}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        >
+                          <option value="STUDENT">STUDENT</option>
+                          <option value="UTILITIES">UTILITIES</option>
+                          <option value="GUARD">GUARD</option>
+                          <option value="VISITORS">VISITORS</option>
+                        </select>
+                      </div>
+                      <div className="form-group1">
+                        <label htmlFor="itemName">Item Name</label>
+                        <input
+                          type="text"
+                          id="itemName"
+                          name="ITEM"
+                          maxLength="100"
+                          placeholder="Item Name"
+                          value={itemData.ITEM}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        />
+                      </div>
+                      <div className="form-group1">
+                        <label htmlFor="itemType">ITEM TYPE</label>  {/* ADD DROP DOWN */}
+                        <select
 
-                      id="itemType"
-                      name="ITEM_TYPE"
-                      placeholder="Item TYPE"
-                      value={itemData.ITEM_TYPE}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    >
-                      <option value="Electronics">Electronics</option>
-                      <option value="Personal-Items">Personal Items</option>
-                      <option value="Clothing_Accessories">Clothing & Accessories</option>
-                      <option value="Bags_Stationery">Bags & stationary</option>
-                      <option value="Documents">Documents</option>
-                      <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
-                    </select>
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="description">Item Description</label>
-                    <textarea
-                      id="description"
-                      name="DESCRIPTION"
-                      maxLength="500"
-                      placeholder="Description"
-                      value={itemData.DESCRIPTION}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    ></textarea>
-                  </div>
+                          id="itemType"
+                          name="ITEM_TYPE"
+                          placeholder="Item TYPE"
+                          value={itemData.ITEM_TYPE}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        >
+                          <option value="Electronics">Electronics</option>
+                          <option value="Personal-Items">Personal Items</option>
+                          <option value="Clothing_Accessories">Clothing & Accessories</option>
+                          <option value="Bags_Stationery">Bags & stationary</option>
+                          <option value="Documents">Documents</option>
+                          <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                        </select>
+                      </div>
+                      <div className="form-group1">
+                        <label htmlFor="description">Item Description</label>
+                        <textarea
+                          id="description"
+                          name="DESCRIPTION"
+                          maxLength="500"
+                          placeholder="Description"
+                          value={itemData.DESCRIPTION}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        ></textarea>
+                      </div>
 
-                  <div className="form-group1">
-                    <label htmlFor="contact">Finder Contact</label>
-                    <input
-                      type="text"
-                      id="contact"
-                      name="CONTACT_OF_THE_FINDER"
-                      maxLength="50"
-                      placeholder="Contact Number"
-                      value={itemData.CONTACT_OF_THE_FINDER}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
+                      <div className="form-group1">
+                        <label htmlFor="contact">Finder Contact</label>
+                        <input
+                          type="text"
+                          id="contact"
+                          name="CONTACT_OF_THE_FINDER"
+                          maxLength="50"
+                          placeholder="Contact Number"
+                          value={itemData.CONTACT_OF_THE_FINDER}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        />
+                      </div>
 
-                  <div className="form-group1">
-                    <label htmlFor="dateFound">Date Found</label>
-                    <input
-                      type="date"
-                      id="dateFound"
-                      name="DATE_FOUND"
-                      value={itemData.DATE_FOUND}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="generalLocation">General Location</label>  {/* ADD DROP DOWN */}
+                      
+                      <div className="form-group1">
+                        <label htmlFor="generalLocation">General Location</label>  {/* ADD DROP DOWN */}
 
-                    <select
-                      id="generalLocation"
-                      name="GENERAL_LOCATION"
-                      placeholder="General Location"
-                      value={itemData.GENERAL_LOCATION}
-                      onChange={handleInputChange}
-                    >
-                      <option value="Gym">GYMNASIUM</option>
-                      <option value="adminBuilding">ADMIN BLG</option>
-                      <option value="mph">MPH</option>
-                      <option value="mainLibrary">MAIN LIBRARY</option>
-                      <option value="lawn">LAWN</option>
-                      <option value="ids">IDS</option>
-                      <option value="clinic">CLINIC</option>
-                      <option value="canteen">CANTEEN</option>
-                      <option value="ceba">CEBA</option>
-                      <option value="ccs">CCS</option>
-                      <option value="cass">CASS</option>
-                      <option value="csm">CSM</option>
-                      <option value="coe">COE</option>
-                      <option value="ced">CED</option>
-                      <option value="chs">CHS</option>
-                      <option value="outsideIit">OUTSIDE IIT</option>
-                    </select>
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="location">Specific Location</label>
-                    <input
-                      type="text"
-                      id="location"
-                      name="FOUND_LOCATION"
-                      maxLength="200"
-                      placeholder="Specific Location"
-                      value={itemData.FOUND_LOCATION}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
+                        <select
+                          id="generalLocation"
+                          name="GENERAL_LOCATION"
+                          placeholder="General Location"
+                          value={itemData.GENERAL_LOCATION}
+                          onChange={handleInputChange}
+                        >
+                          <option value="Gym">GYMNASIUM</option>
+                          <option value="adminBuilding">ADMIN BLG</option>
+                          <option value="mph">MPH</option>
+                          <option value="mainLibrary">MAIN LIBRARY</option>
+                          <option value="lawn">LAWN</option>
+                          <option value="ids">IDS</option>
+                          <option value="clinic">CLINIC</option>
+                          <option value="canteen">CANTEEN</option>
+                          <option value="ceba">CEBA</option>
+                          <option value="ccs">CCS</option>
+                          <option value="cass">CASS</option>
+                          <option value="csm">CSM</option>
+                          <option value="coe">COE</option>
+                          <option value="ced">CED</option>
+                          <option value="chs">CHS</option>
+                          <option value="outsideIit">OUTSIDE IIT</option>
+                        </select>
+                      </div>
+                      <div className="form-group1">
+                        <label htmlFor="location">Specific Location</label>
+                        <input
+                          type="text"
+                          id="location"
+                          name="FOUND_LOCATION"
+                          maxLength="200"
+                          placeholder="Specific Location"
+                          value={itemData.FOUND_LOCATION}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        />
+                      </div>
 
-                  <div className="form-group1">
-                    <label htmlFor="timeReceived">Time Received</label>
-                    <input
-                      type="time"
-                      id="timeReceived"
-                      name="TIME_RETURNED"
-                      value={itemData.TIME_RETURNED}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
+                      <div className="form-group1">
+                        <label htmlFor="dateFound">Date Found</label>
+                        <input
+                          type="date"
+                          id="dateFound"
+                          name="DATE_FOUND"
+                          value={itemData.DATE_FOUND}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        />
+                      </div>
 
-                  <div className="form-group1">
-                    <label htmlFor="owner">Owner Name</label>
-                    <input
-                      type="text"
-                      id="owner"
-                      name="OWNER"
-                      maxLength="50"
-                      placeholder="May skip if OWNER is not yet identified"
-                      value={itemData.OWNER}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="ownerCollege">Owner College</label>
-                    <select
-                      id="ownerCollege"
-                      name="OWNER_COLLEGE"
-                      value={itemData.OWNER_COLLEGE}
-                      onChange={handleInputChange}
-                    >
-                      <option value="coe">COE</option>
-                      <option value="ccs">CCS</option>
-                      <option value="cass">CASS</option>
-                      <option value="csm">CSM</option>
-                      <option value="ceba">CEBA</option>
-                      <option value="chs">CHS</option>
-                      <option value="ced">CED</option>
-                    </select>
-                  </div>
+                      <div className="form-group1">
+                        <label htmlFor="timeReceived">Time Received</label>
+                        <input
+                          type="time"
+                          id="timeReceived"
+                          name="TIME_RETURNED"
+                          value={itemData.TIME_RETURNED}
+                          onChange={handleInputChange}
+                          required={!selectedItem}
+                        />
+                      </div>
 
-                  <div className="form-group1">
-                    <label htmlFor="ownerContact">Owner Contact</label>
-                    <input
-                      type="text"
-                      id="ownerContact"
-                      name="OWNER_CONTACT"
-                      maxLength="50"
-                      placeholder="May skip if owner is not yet identified"
-                      value={itemData.OWNER_CONTACT}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="ownerImage">Owner Image</label>
-                    <input
-                      type="text"
-                      id="ownerImage"
-                      name="OWNER_IMAGE"
-                      maxLength="50"
-                      placeholder="May skip if owner is not yet identified"
-                      value={itemData.OWNER_IMAGE}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="dateClaimed">Date Claimed</label>
-                    <input
-                      type="date"
-                      id="dateClaimed"
-                      name="DATE_CLAIMED"
-                      maxLength="50"
-                      placeholder="May skip if owner is not yet identified"
-                      value={itemData.DATE_CLAIMED}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="ownerImage">Time Claimed</label>
-                    <input
-                      type="time"
-                      id="timeClaimed"
-                      name="TIME_CLAIMED"
-                      maxLength="50"
-                      placeholder="May skip if owner is not yet identified"
-                      value={itemData.TIME_CLAIMED}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="status">Status</label>
-                    <select
-                      id="status"
-                      name="STATUS"
-                      value={itemData.STATUS}
-                      onChange={handleInputChange}
-                    >
-                      <option value="unclaimed">Unclaimed</option>
-                      <option value="claimed">Claimed</option>
-                    </select>
-                  </div>
+
+
+
+                      <div className="form-group1">
+                        <label htmlFor="status">Status</label>
+                        <select
+                          id="status"
+                          name="STATUS"
+                          value={itemData.STATUS}
+                          onChange={handleInputChange}
+                        >
+                          <option value="unclaimed">Unclaimed</option>
+                          <option value="claimed">Claimed</option>
+                        </select>
+                      </div>
+
+                    </>
+                  ) : (
+                    <>
+                      {/* Owner Details Form Fields */}
+                      <div className="form-group1">
+                        <label htmlFor="owner">Owner Name</label>
+                        <input
+                          type="text"
+                          id="owner"
+                          name="OWNER"
+                          maxLength="50"
+                          placeholder="Owner Name"
+                          value={itemData.OWNER}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="form-group1">
+                        <label htmlFor="ownerCollege">Owner College</label>
+                        <select
+                          id="ownerCollege"
+                          name="OWNER_COLLEGE"
+                          value={itemData.OWNER_COLLEGE}
+                          onChange={handleInputChange}
+                        >
+                          <option value="coe">COE</option>
+                          <option value="ccs">CCS</option>
+                          <option value="cass">CASS</option>
+                          <option value="csm">CSM</option>
+                          <option value="ceba">CEBA</option>
+                          <option value="chs">CHS</option>
+                          <option value="ced">CED</option>
+                        </select>
+                      </div>
+                      {/* Additional owner fields can be added here */}
+                      <div className="form-group1">
+                        <label htmlFor="ownerContact">Owner Contact</label>
+                        <input
+                          type="text"
+                          id="ownerContact"
+                          name="OWNER_CONTACT"
+                          maxLength="50"
+                          placeholder="Owner Contact"
+                          value={itemData.OWNER_CONTACT}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="form-group1">
+                        <label htmlFor="dateClaimed">Date Claimed</label>
+                        <input
+                          type="date"
+                          id="dateClaimed"
+                          name="DATE_CLAIMED"
+                          maxLength="50"
+                          placeholder="May skip if owner is not yet identified"
+                          value={itemData.DATE_CLAIMED}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="form-group1">
+                        <label htmlFor="ownerImage">Time Claimed</label>
+                        <input
+                          type="time"
+                          id="timeClaimed"
+                          name="TIME_CLAIMED"
+                          maxLength="50"
+                          placeholder="May skip if owner is not yet identified"
+                          value={itemData.TIME_CLAIMED}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="form-group1">
+                        <label htmlFor="status">Status</label>
+                        <select
+                          id="status"
+                          name="STATUS"
+                          value={itemData.STATUS}
+                          onChange={handleInputChange}
+                        >
+                          <option value="unclaimed">Unclaimed</option>
+                          <option value="claimed">Claimed</option>
+                        </select>
+                      </div>
+
+                    </>
+
+                  )}
 
                   {/* Buttons inside the form */}
                   <div className="button-container1">
@@ -1158,21 +1240,18 @@ function Additem() {
                 </form>
 
 
-                {/* Camera Section on the Right */}
                 <div className="camera-section">
                   <video ref={videoRef} width="320" height="240" autoPlay />
                   <canvas ref={canvasRef} style={{ display: 'none' }} />
                   <div className="camera-buttons">
                     <button type="button" onClick={captureImage}>Capture Image</button>
                   </div>
-                  {/* Show the saved image only when updating an existing item */}
-                  {selectedItem && itemData.IMAGE_URL && !image && (
-                    <img src={itemData.IMAGE_URL} alt="Saved" className="captured-image" />
+                  {/* Show the captured image based on the active tab */}
+                  {activeTab === 'item' && image && (
+                    <img src={image} alt="Captured Item" className="captured-image" />
                   )}
-
-                  {/* Show the captured image if available */}
-                  {image && (
-                    <img src={image} alt="Captured" className="captured-image" />
+                  {activeTab === 'owner' && ownerImage && (
+                    <img src={ownerImage} alt="Captured Owner" className="captured-image" />
                   )}
                 </div>
 
