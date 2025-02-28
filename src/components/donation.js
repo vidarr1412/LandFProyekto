@@ -363,7 +363,7 @@ function Foundation() {
                     <tr key={foundation._id}>
                       <td>{foundation.foundation_name}</td>
                       <td>{foundation.foundation_type}</td>
-                      <td>{foundation.foundation_image}</td>
+                      <td> <img src={foundation.foundation_image} alt="Saved" className="captured-image" /></td>
                       <td>{foundation.foundation_contact}</td>
                       <td>{foundation.foundation_description}</td>
                       {/* <td>{foundation.foundation_link}</td> */}
@@ -409,7 +409,14 @@ function Foundation() {
                   /> */}
                   <p><span>Description: </span>{foundation.foundation_description}</p>
                   <p><span>Type: </span> {foundation.foundation_type}</p>
-                  <p><span>Image: </span> {foundation.foundation_image}</p>
+                  <p><span>Image: </span>
+                  <div className="detail-item1">
+                      <strong>Item image:</strong>
+                      {/* Show the saved image only when updating an existing item */}
+                      {
+                        <img src={foundation.foundation_image} alt="Saved" className="captured-image" />
+                      }
+                    </div></p>
                   <p><span>Link: </span> {foundation.foundation_link}</p>
                   <p><span>Contact: </span> {foundation.foundation_contact}</p>
              
@@ -706,7 +713,7 @@ function Foundation() {
                     />
                   </div>
                   <div className="form-group1">
-                    <label htmlFor="itemType">Foundation Link</label>  {/* ADD DROP DOWN */}
+                  / <label htmlFor="itemType">Foundation Link</label>  {/* ADD DROP DOWN */}
                  <input 
                       type="link"
                       id="foundation_link"
