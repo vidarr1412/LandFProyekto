@@ -237,7 +237,7 @@ function Profile() {
               />
             </div>
 
-            {/* <div className="form-group">
+             <div className="form-group">
               <label>QR Code</label>
               {userId && (
                 <div ref={qrCodeRef}>
@@ -245,7 +245,7 @@ function Profile() {
                 </div>
               )}
             </div>
-            <button type="button" onClick={downloadQRCode}>Download QR Code</button> */}
+            <button type="button" onClick={downloadQRCode}>Download QR Code</button> 
 
             <button type="submit" className="save-button">Save</button>
           </form>

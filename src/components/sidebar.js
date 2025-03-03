@@ -94,6 +94,9 @@ const Sidebar = () => {
               <NavLink to="/Complaints" activeClassName="active">
                 <FaBox className="nav-icon" /> Lost Complaint
               </NavLink>
+              <NavLink to="/ItemScan" activeClassName="active">
+              <FaFileAlt className="nav-icon" /> Scan Item
+            </NavLink>
               <NavLink to="/additem" activeClassName="active">
                 <FaQrcode className="nav-icon" /> Found Items
               </NavLink>

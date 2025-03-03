@@ -1023,6 +1023,23 @@ app.delete("/foundations/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete item" });
   }
 });
+app.put('/items/update-status/:foundation_id', async (req, res) => {
+  try {
+      const { foundation_id } = req.params;
+
+      // Update all items with the given foundation ID
+      await Item.updateMany(
+          { foundation_id: foundation_id },
+          { $set: { STATUS: "unclaimed" } }
+      );
+
+      res.json({ success: true, message: "Items updated to unclaimed." });
+  } catch (error) {
+      console.error("Error updating items:", error);
+      res.status(500).json({ success: false, message: "Error updating items." });
+  }
+});
+
 // app.delete("/delete", async (req, res) => {
 //   const { id } = req.params;
 

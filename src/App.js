@@ -14,6 +14,7 @@ import Additem from './components/additem';
 import UserComplaint from './components/userComplaint';
 import Bulletin from './components/bulletinboard';
 import Profile from './components/prof';
+import ItemScanner from './components/scanner';
 import RetrievalRequests from './components/retrievalrequest';
 // Helper function to check if the user is an admin
 const isAdmin = () => {
@@ -98,7 +99,14 @@ function App() {
               </AdminRoute>
             }
           />
-   
+      <Route
+            path="/ItemScan"
+            element={
+              <AdminRoute>
+                <ItemScanner />
+              </AdminRoute>
+            }
+          />
 
           <Route
             path="/database"
