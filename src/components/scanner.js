@@ -10,7 +10,15 @@ function ItemScanner() {
   const [qrData, setQrData] = useState(""); // State to hold the QR code data
   const [userDetails, setUserDetails] = useState({ email: '', firstName: '', lastName: '' }); // State to hold user details
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
-  const [message, setMessage] = useState("We found your item uwu"); // State to hold the custom message
+  const [message, setMessage] = useState(
+    `Dear ${userDetails.firstName || "Recipient"},\n\nWe found your item and would love to return it to you. Please let us know how we can arrange for you to get it back.\n\nBest regards,\nMindanao State University - Iligan Insitute of Technology - Security and Investigation Division`
+  );
+  useEffect(() => {
+    setMessage(
+      `Dear ${userDetails.firstName || "Recipient"},\n\nWe found your item and would love to return it to you. Please let us know how we can arrange for you to get it back.\n\nBest regards,\nMindanao State University - Iligan Insitute of Technology - Security and Investigation Division`
+    );
+  }, [userDetails]);
+  
 
   const fetchUserData = async (userId) => {
     try {
