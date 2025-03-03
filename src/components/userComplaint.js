@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./sidebar";
 import "../style/Lost.css";
 import Header from "./header"
-import { FaTable } from "react-icons/fa6";
+import { FaTable, FaUser, FaBox, FaPhone, FaCalendarAlt, FaMapMarkerAlt, FaClock, FaCheckCircle, FaSearch } from "react-icons/fa";
 import { IoGridOutline } from "react-icons/io5";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
@@ -501,16 +501,16 @@ const handleCancelUpload = () => {
                     src={item.item_image || "default-grid-url3"}
                     alt="Product"
                     className="default-grid-url13"
-                    onClick={() => handleImageClick(item.item_image || "default-grid-url3")} // Add click handler
+                    onClick={() => handleImageClick(item.item_image || "default-grid-url3")}
                   />
-                  <p><strong>Complainer:</strong><span>{item.complainer}</span></p>
-                  <p><strong>Item Type:</strong><span>{item.type} </span> </p>
-                  <p><strong>Contact of the Complainer:</strong><span>  {item.contact}</span></p>
-                  <p><strong>Date:</strong><span>{item.date} </span> </p>
-                  <p><strong>Location:</strong><span> {item.location}</span> </p>
-                  <p><strong>Time:</strong><span>{item.time} </span> </p>
-                  <p><strong>Status:</strong><span className={`status-btn2 ${item.status}`}>{item.status} </span> </p>
-                  <p><strong>Finder:</strong><span>{item.finder} </span> </p>
+                  <p><FaUser /> <strong>Complainer:</strong> <span>{item.complainer}</span></p>
+                  <p><FaBox /> <strong>Item Type:</strong> <span>{item.type}</span></p>
+                  <p><FaPhone /> <strong>Contact of the Complainer:</strong> <span>{item.contact}</span></p>
+                  <p><FaCalendarAlt /> <strong>Date:</strong> <span>{item.date}</span></p>
+                  <p><FaMapMarkerAlt /> <strong>Location:</strong> <span>{item.location}</span></p>
+                  <p><FaClock /> <strong>Time:</strong> <span>{item.time}</span></p>
+                  <p><FaCheckCircle /> <strong>Status:</strong> <span className={`status-btn2 ${item.status}`}>{item.status}</span></p>
+                  <p><FaSearch /> <strong>Finder:</strong> <span>{item.finder}</span></p>
 
                   <button className="view-btn2" onClick={() => handleViewMore(item)}>
                     <FaPlus /> View More
@@ -518,6 +518,7 @@ const handleCancelUpload = () => {
                 </div>
               ))}
             </div>
+
           )}
         </div>
 

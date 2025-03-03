@@ -101,3 +101,21 @@
     visibility: visible; /* Show tooltip */
     opacity: 1; /* Make tooltip visible */
 }
+
+@media (max-width: 768px)  {
+    .filter-inputs-container2 {
+        margin-top: -180px;
+        width: 150%;
+        min-width: 300px;
+        margin-left: -250px;
+        display: grid; /* Use Grid for columns */
+        grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
+        gap: 10px; /* Space between columns */
+        align-items: center; /* Align items vertically */
+        justify-content: center; /* Center the grid horizontally */
+    }
+    
+    .filter-inputs-container2 select {
+        width: 100%;
+    }
+}

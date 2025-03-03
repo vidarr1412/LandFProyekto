@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
 import Sidebar from "./sidebar";
+import Header from "./header"
 import { storage, db, uploadBytesResumable, getDownloadURL, ref, doc, updateDoc } from "../firebase";
 import { QRCodeCanvas } from "qrcode.react";
 import "../style/prof.css";
@@ -177,6 +178,7 @@ function Profile() {
   return (
     <div className="home-container1">
       <Sidebar />
+      <Header /> 
       <div className="profile-container">
         <div className="profile-sidebar">
           <div className="profile-avatar">

@@ -10,7 +10,7 @@
   }
   .manage-bulletin2 {
     margin: 30px;
-    display: flex;
+    /* display: flex; */
     align-items: flex-start; /* Align to the top */
     flex-grow: 1; /* Take up the remaining space */
     padding: 50px;
@@ -233,17 +233,14 @@
 
   .manage-bulletin2 {
     margin: 30px;
-    display: flex;
-    align-items: flex-start; /* Align to the top */
-    flex-grow: 1; /* Take up the remaining space */
-    padding: 50px;
-    flex-direction:column;
+
   }
 
   .search-bar2 {
     margin-left: -10px;
     margin-top: -70px;
-    
+    width: 140%;
+  
   }
   .search-bar2 input {
     height: 35px; /* Increased height for better visual balance with icons */
@@ -253,7 +250,7 @@
     border: 1px solid #6d6c6c;
     border-radius: 35px;
     margin-left: -50px;
-    width: 260px;
+    width: 100px;
   }
 
   .view-mode-toggle2 {
@@ -280,25 +277,17 @@
   }
 
   .grid-item2 {
-    background-color: #f0f0f0; /* Background color for items */
-    padding: 20px; /* Padding inside items */
-    border: 1px solid #ccc; /* Optional: Border for items */
-    border-radius: 4px; /* Rounded corners */
-    text-align: center; /* Center text */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
-    width: 250px; /* Ensure grid items take full width of their cell */
-    margin-left: -26px;
-  } 
+    margin-top: 50px;
+    margin-left: -75px;
+    min-width: 300px;
+    margin-bottom: -50px;
+ } 
+
+ 
 
   .grid-container2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
-    margin-top: 30px;
-
-    row-gap: 35px; /* Space between grid items */
-    column-gap:85px;
-    padding: 16px; /* Padding around the grid */
-    justify-items: left; /* Center items within their grid cells */
+    border-radius: 8px;
+    gap: 50px;
   }
   
   .top-right-buttons2 {
@@ -323,24 +312,20 @@
 
   .ppagination1 {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0px; /* Adjust margin to avoid covering the table */
+    flex-wrap: wrap; /* Allow items to wrap into multiple rows */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between items */
+    margin-top: 0px;
     margin-left: 10px;
-    margin-bottom: 50px; /* Add some space below the pagination */
-  }
+    margin-bottom: 50px;
+    max-width: 600px; /* Optional: Limit width for better wrapping */
+}
+
 
   .add-item-btn2, .register-qr-btn2 {
-    background-color: #800000; /* Dark red color for buttons */
-    color: white;
-    padding: 10px 20px; /* Adjusted padding for better button sizing */
-    font-size: 15px;
-    height: 60px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px; /* Space between buttons */
-    width: 150px;
+    margin-top: 200px;
+    width: 180px;
   }
 }
 
@@ -459,7 +444,7 @@
   display: flex; /* Enable flexbox for alignment */
   align-items: center; /* Vertically center items */
   margin-left: 0px;
-  margin-top: 20px;
+  margin-top: 0px;
   gap: 10px; /* Add spacing between the input and icons */
 
   }
@@ -493,13 +478,20 @@
   color: white;
   padding: 5px 12px;
   font-size: 15px;
-  margin: 15px 2px; /* Adds horizontal spacing between buttons */
   border: none;
-  width:115px;
+  width: 115px;
+  height: 30px;
   cursor: pointer;
-  border-radius: 3px;
-  margin-left: 0px;
   border-radius: 6px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 10px; /* Pushes button to the bottom */
+  align-self: center; /* Centers the button horizontally */
 }
 
 
@@ -544,19 +536,23 @@ transform: translateY(-1px);
 
 
 
-
 .grid-item2 {
-  overflow-y: auto;  /* Enable vertical scrolling */
   word-wrap: break-word;
-  background-color: #f0f0f0; /* Background color for items */
-  padding: 20px; /* Padding inside items */
-  border: 1px solid #ccc; /* Optional: Border for items */
-  border-radius: 4px; /* Rounded corners */
-  text-align: center; /* Center text */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
-  width: 105%; /* Ensure grid items take full width of their cell */
-  max-height: 550px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 120%;
+  max-width: 600px;
+  height: 580px; /* Fixed height to trigger scrolling if exceeded */
+  justify-content: space-between;
+  overflow-y: auto;
+
 }
+
+
 
 
 .grid-item2 h2 {
@@ -565,8 +561,6 @@ transform: translateY(-1px);
   text-align: center; /* Align text to the left */
   font-weight: bold; /* Make the text bold */
   margin-bottom:20px ; /* Remove default margin */
-
-  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
 }
 
 .grid-item2 p {
@@ -574,10 +568,17 @@ transform: translateY(-1px);
   text-align: left; /* Align text to the left */
   margin: 5px 0; /* Add some vertical spacing */
   font-weight: normal; /* Normal weight for paragraph text */
-  max-height: 100px; /* Set a maximum height for paragraphs */
-  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
-
+  max-height: 110px; /* Set a maximum height for paragraphs */
+  padding: 0px;
 }
+
+.grid-item2 p svg {
+  color: 	#777879; /* Icon color */
+  margin-right: 8px; /* Space between icon and text */
+  vertical-align: middle;
+  font-size: 16px; /* Icon size */
+}
+
 
 
 /* -------------------------------------------------------------------------------- */

@@ -85,91 +85,93 @@ function Auth() {
         </div>
       )}
       
-      <div className={`container ${!isLogin ? "active" : ""}`} id="container">
-      {/* Sign Up Form */}
-      <div className={`form-container sign-up`}>
-        <form onSubmit={handleSignUp}>
-          <h1>Create Account</h1>
-          <input type="text" name="firstName" placeholder="First Name" required />
-          <input type="text" name="lastName" placeholder="Last Name" required />
-          <select name="college" placeholder="college"  required >  
-                  <option value="ccs">CCS</option>
-                    <option value="coe">COE</option>
-                    <option value="cass">CASS</option>
-                    <option value="csm">CSM</option>
-                    </select> 
-          <select name="year_lvl" placeholder="year_lvl"  required >  
-                  <option value="First">1</option>
-                    <option value="Second">2</option>
-                    <option value="Third">3</option>
-                    <option value="Fourth">4</option>
-                    </select> 
-          <input type="text" name="contactNumber" placeholder="Contact Number" required />
-          <input type="email" name="email" placeholder="Email" required />
-          <input type="password" name="password" placeholder="Password" required />
-     
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
-        {/* Sign In Form */}
-        <div className={`form-container sign-in`}>
-          <form onSubmit={handleSignIn}>
-            <h1>Sign In</h1>
+        <div className={`container ${!isLogin ? "active" : ""}`} id="container">
+        {/* Sign Up Form */}
+        <div className={`form-container sign-up`}>
+          <form onSubmit={handleSignUp}>
+            <h1>Create Account</h1>
+            <input type="text" name="firstName" placeholder="First Name" required />
+            <input type="text" name="lastName" placeholder="Last Name" required />
+            <select name="college" placeholder="college"  required >  
+                    <option value="ccs">CCS</option>
+                      <option value="coe">COE</option>
+                      <option value="cass">CASS</option>
+                      <option value="csm">CSM</option>
+                      </select> 
+            <select name="year_lvl" placeholder="year_lvl"  required >  
+                    <option value="First">1</option>
+                      <option value="Second">2</option>
+                      <option value="Third">3</option>
+                      <option value="Fourth">4</option>
+                      </select> 
+            <input type="text" name="contactNumber" placeholder="Contact Number" required />
             <input type="email" name="email" placeholder="Email" required />
             <input type="password" name="password" placeholder="Password" required />
-            <button type="submit">Sign In</button>
+      
+            <button type="submit">Sign Up</button>
           </form>
         </div>
+          {/* Sign In Form */}
+          <div className={`form-container sign-in`}>
+            <form onSubmit={handleSignIn}>
+              <h1>Sign In</h1>
+              <input type="email" name="email" placeholder="Email" required />
+              <input type="password" name="password" placeholder="Password" required />
+              <button type="submit">Sign In</button>
 
-        {/* Toggle Container */}
-        <div className="toggle-container">
-          <div className="toggle">
-            <div className="toggle-panel toggle-left">
-            <img 
-                src="firigif.gif" 
-                alt="Welcome GIF" 
-                className="welcome-gifleft"
-              />
-            <img 
-                src="firi2.png" 
-                alt="Welcome GIF" 
-                className="welcome-gif1left"
-              />
-              <div className="churva"> 
-              <p>Join FIRI – Find It, Retrieve It!
-                <br></br>
-                <br></br>
-                Sign up to report, track, and reclaim lost items with ease! 🔍✨ </p>
+              
+            </form>
+          </div>
+
+          {/* Toggle Container */}
+          <div className="toggle-container">
+            <div className="toggle">
+              <div className="toggle-panel toggle-left">
+              <img 
+                  src="firigif.gif" 
+                  alt="Welcome GIF" 
+                  className="welcome-gifleft"
+                />
+              <img 
+                  src="firi2.png" 
+                  alt="Welcome GIF" 
+                  className="welcome-gif1left"
+                />
+                <div className="churva"> 
+                <p>Join FIRI – Find It, Retrieve It!
+                  <br></br>
+                  <br></br>
+                  Sign up to report, track, and reclaim lost items with ease! 🔍✨ </p>
+                </div>
+
+                <button className="hidden1" id="login" onClick={handleFormSwitch}>
+                  Back to Login
+                </button>
+              </div>
+              <div className="toggle-panel toggle-right">
+                <img 
+                  src="firigif.gif" 
+                  alt="Welcome GIF" 
+                  className="welcome-gif"
+                />
+              <img 
+                  src="firi.png" 
+                  alt="Welcome GIF" 
+                  className="welcome-gif1"
+                />
+                <p>Welcome to FIRI – Find It, Retrieve It!
+                  <br></br>
+                  <br></br>
+                  Easily report lost and found items. Let’s help reunite valuables with their owners! 🔍✨
+                  </p>
+                <button className="hidden" id="register" onClick={handleFormSwitch}>
+                 Register
+                </button>
               </div>
 
-              <button className="hidden1" id="login" onClick={handleFormSwitch}>
-                SignIn
-              </button>
             </div>
-            <div className="toggle-panel toggle-right">
-              <img 
-                src="firigif.gif" 
-                alt="Welcome GIF" 
-                className="welcome-gif"
-              />
-            <img 
-                src="firi.png" 
-                alt="Welcome GIF" 
-                className="welcome-gif1"
-              />
-              <p>Welcome to FIRI – Find It, Retrieve It!
-                <br></br>
-                <br></br>
-                Easily report lost and found items. Let’s help reunite valuables with their owners! 🔍✨
-                </p>
-              <button className="hidden" id="register" onClick={handleFormSwitch}>
-                SignUp
-              </button>
-            </div>
-
           </div>
         </div>
-      </div>
     </>
   );
 }
