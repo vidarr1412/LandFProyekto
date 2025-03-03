@@ -5,21 +5,21 @@ import { FaSearch, FaFilter } from 'react-icons/fa';
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import Sidebar from "./sidebar";
-import '../style/Found.css';
+import '../style/donation.css';
 import axios from 'axios';
 import { storage } from "../firebase"; // Import Firebase storage
 import Pagination from './pagination';
 import { ref, uploadBytesResumable, uploadString, getDownloadURL } from "firebase/storage";
 import Header from './header';
-import Filter from '../filterered/foundFilt'; // Adjust the import path as necessary
+import Filter from '../filterered/donationFilt'; // Adjust the import path as necessary
 import Modal from './image'; // Import the Modal component
 
-import  showAlert from '../utils/alert';
+import showAlert from '../utils/alert';
 
 function Foundation() {
   const [filterText, setFilterText] = useState('');
   const [requests, setRequests] = useState([]);
- const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -30,7 +30,7 @@ function Foundation() {
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
-  
+
 
   const [foundationData, setFoundationData] = useState({
     // ITEM: '',
@@ -44,14 +44,14 @@ function Foundation() {
     // DATE_CLAIMED: '',
     // STATUS: 'unclaimed',
     // IMAGE_URL: '',  // Store image URL
-    foundation_name:'',
-    foundation_image:'',
-    foundation_description :'',
-    foundation_type:'',
-    foundation_link:'',
-    foundation_contact:'',
-    foundation_start_date:'',
-    foundation_end_date:'',
+    foundation_name: '',
+    foundation_image: '',
+    foundation_description: '',
+    foundation_type: '',
+    foundation_link: '',
+    foundation_contact: '',
+    foundation_start_date: '',
+    foundation_end_date: '',
   });
 
   const [image, setImage] = useState(null); // State to hold the captured image
@@ -72,7 +72,7 @@ function Foundation() {
     if (!filterText) {
       return filteredRequests; // If no filter text, return all filtered requests
     }
-  
+
     return filteredRequests.filter(request => {
       // Check if request.ITEM is defined before calling toLowerCase
       const foundationName = request.foundation_name ? request.foundation_name.toLowerCase() : '';
@@ -109,7 +109,7 @@ function Foundation() {
     e.preventDefault();
 
     // Check if adding a new item and no image is captured
-//ep 1: Upload the image to Firebase Storage if available
+    //ep 1: Upload the image to Firebase Storage if available
 
 
     // Step 2: Update foundationData with the image URL
@@ -131,36 +131,36 @@ function Foundation() {
       alert('Error submitting form. Please try again.');
     }
   };
-    const handleImageUpload = (e) => {
-      const file = e.target.files[0]; // Get the selected file
-      if (!file) return;
-    
-      setUploading(true); // Show upload progress
-    
-      const storageRef = ref(storage, `FIRI/requests/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-    
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Optional: Track upload progress
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload Progress: ${progress}%`);
-        },
-        (error) => {
-          console.error("Upload failed", error);
-          setUploading(false);
-        },
-        async () => {
-          // Get the download URL after successful upload
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          showAlert('Upload Success', 'complaint_success');
-          setFoundationData((prev) => ({ ...prev, foundation_image: downloadURL }));
-          setImagePreview(downloadURL); // Set the image preview URL to the new image
-          setUploading(false);
-        }
-      );
-    };
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0]; // Get the selected file
+    if (!file) return;
+
+    setUploading(true); // Show upload progress
+
+    const storageRef = ref(storage, `FIRI/requests/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Optional: Track upload progress
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload Progress: ${progress}%`);
+      },
+      (error) => {
+        console.error("Upload failed", error);
+        setUploading(false);
+      },
+      async () => {
+        // Get the download URL after successful upload
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        showAlert('Upload Success', 'complaint_success');
+        setFoundationData((prev) => ({ ...prev, foundation_image: downloadURL }));
+        setImagePreview(downloadURL); // Set the image preview URL to the new image
+        setUploading(false);
+      }
+    );
+  };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
@@ -179,14 +179,14 @@ function Foundation() {
     setSelectedItem(foundation);
     setFoundationData(
       foundation || {
-        foundation_name:'',
-        foundation_image:'',
-        foundation_description :'',
-        foundation_type:'',
-        foundation_link:'',
-        foundation_contact:'',
-        foundation_start_date:'',
-        foundation_end_date:'',
+        foundation_name: '',
+        foundation_image: '',
+        foundation_description: '',
+        foundation_type: '',
+        foundation_link: '',
+        foundation_contact: '',
+        foundation_start_date: '',
+        foundation_end_date: '',
       }
     );
     setImage(null); // Reset the captured image when opening the modal
@@ -200,44 +200,44 @@ function Foundation() {
 
   const applyFilters = (filters) => {
     let filtered = [...requests]; // Use a copy of the original requests state
-  
+
     // Apply filters
-    if (filters.foundation_type) {
-      filtered = filtered.filter(foundation => foundation.foundation_type === filters.foundation_type);
-    }
-  
-    if (filters.foundation_name) {
-      filtered = filtered.filter(foundation => foundation.foundation_name === filters.foundation_name);
-    }
-  
-    // if (filters.dateFound) {
-    //   filtered = filtered.filter(foundation => foundation.DATE_FOUND === filters.dateFound);
+    // if (filters.foundation_type) {
+    //   filtered = filtered.filter(foundation => foundation.foundation_type === filters.foundation_type);
     // }
-  
+
+    // if (filters.foundation_name) {
+    //   filtered = filtered.filter(foundation => foundation.foundation_name === filters.foundation_name);
+    // }
+
+    if (filters.dateFound) {
+      filtered = filtered.filter(foundation => foundation.foundation_start_date === filters.dateFound);
+    }
+
     // if (filters.generalLocation) {
     //   filtered = filtered.filter(foundation => foundation.GENERAL_LOCATION.toLowerCase().includes(filters.generalLocation.toLowerCase()));
     // }
-  
+
     // if (filters.status) {
     //   filtered = filtered.filter(foundation => foundation.STATUS === filters.status);
     // }
-  
-    // Apply sorting
-    // if (filters.sortByDate === 'ascending') {
-    //   filtered.sort((a, b) => new Date(a.DATE_FOUND) - new Date(b.DATE_FOUND));
-    // } else if (filters.sortByDate === 'descending') {
-    //   filtered.sort((a, b) => new Date(b.DATE_FOUND) - new Date(a.DATE_FOUND));
-    // }
-  
+
+    //Apply sorting
+    if (filters.sortByDate === 'ascending') {
+      filtered.sort((a, b) => new Date(a.foundation_start_date) - new Date(b.foundation_start_date));
+    } else if (filters.sortByDate === 'descending') {
+      filtered.sort((a, b) => new Date(b.foundation_start_date) - new Date(a.foundation_start_date));
+    }
+
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {
       setFilteredRequests(filtered);
     }
-  
-    
+
+
   };
-  
-  
+
+
   //UPDATE PAGINATIOn
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
 
@@ -245,14 +245,14 @@ function Foundation() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  
+
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
-        setCurrentPage(pageNumber);
+      setCurrentPage(pageNumber);
     }
-};
+  };
 
- 
+
 
   const handleStatusChange = async (foundation) => {
     const newStatus = foundation.foundation_type === 'unclaimed' ? 'claimed' : 'unclaimed'; // Toggle status
@@ -263,7 +263,7 @@ function Foundation() {
           req._id === foundation._id ? { ...req, foundation_type: newStatus } : req
         )
       );
-  
+
       showAlert('Status Uodated', 'complaint_success');
     } catch (error) {
       console.error('Error updating status:', error);
@@ -271,7 +271,7 @@ function Foundation() {
     }
   };
 
-  const [viewMode, setViewMode] = useState('table'); // Default to 'table' mode
+  const [viewMode, setViewMode] = useState('grid'); // Default to 'table' mode
   const toggleViewMode = () => {
     setViewMode((prevMode) => (prevMode === 'table' ? 'grid' : 'table'));
   };
@@ -302,6 +302,13 @@ function Foundation() {
   };
 
 
+
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setImageModalOpen(true); // Open the image modal
+  };
+
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
     setSelectedImage('');
@@ -313,47 +320,47 @@ function Foundation() {
       <Header />
 
       <div className="content">
-        <div className="manage-bulletin1">
-          <div className="breadcrumb1">Manage Lost and Found {'>'} Manage Found Items</div>
+        <div className="manage-bulletin7">
+          <div className="breadcrumb7">Manage Lost and Found {'>'} Manage Found Items</div>
 
 
 
 
-          <div className="search-bar1">
+          <div className="search-bar7">
             <input
               type="text"
-              placeholder="Search Item Name"
+              placeholder="Search Foundation Name"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
-              className="search-input1"
+              className="search-input7"
             />
-            <button onClick={toggleViewMode} className="view-mode-toggle1">
+            <button onClick={toggleViewMode} className="view-mode-toggle7">
               {viewMode === 'table' ? <FaTable /> : <IoGridOutline />}
             </button>
 
-            
+
           </div>
 
-          <div className="top-right-buttons1">
-              <button className="add-item-btn1" onClick={() => openModal()}>+ Add Foundation</button>
-              {/* <button className="register-qr-btn1">Register QR Code</button> */}
-            </div>
-            
+          <div className="top-right-buttons7">
+            <button className="add-item-btn7" onClick={() => openModal()}>+ Add Foundation</button>
+            {/* <button className="register-qr-btn1">Register QR Code</button> */}
+          </div>
+
           <Filter onApplyFilters={applyFilters} />
 
           {viewMode === 'table' ? (
-            <div className="table-container1">
-              <table className="ffound-items-table1">
+            <div className="table-container7">
+              <table className="ffound-items-table7">
                 <thead>
                   <tr>
-                  <th>Foundation Name</th>
+                    <th>Foundation Name</th>
                     <th>Foundation Type</th>
                     <th>Foundation Image</th>{/* for visualization */}
                     <th>Foundation Contact</th>{/* for visualization */}
                     <th>Foundation Description</th>
                     {/* <th>Foundation Link</th>
                     <th>Date Donated</th> */}
-                  
+
                     <th>Status</th>{/* for visualization */}
                     <th>Actions</th>
                   </tr>
@@ -363,7 +370,7 @@ function Foundation() {
                     <tr key={foundation._id}>
                       <td>{foundation.foundation_name}</td>
                       <td>{foundation.foundation_type}</td>
-                      <td> <img src={foundation.foundation_image} alt="Saved" className="captured-image" /></td>
+                      <td> <img src={foundation.foundation_image} alt="Saved" className="captured-image7" /></td>
                       <td>{foundation.foundation_contact}</td>
                       <td>{foundation.foundation_description}</td>
                       {/* <td>{foundation.foundation_link}</td> */}
@@ -373,21 +380,21 @@ function Foundation() {
                           className="default-image-url11"
                           onClick={() => handleImageClick(item.IMAGE_URL || "default-image-url1")} // Add click handler
                         /></td> */}
-                    
-                    
+
+
                       {/* <td>{foundation.foundation_start_date}</td>
                       <td>{foundation.foundation_end_date}</td> */}
                       <td>
                         <button
-                          className={`status-btn1 ${foundation.foundation_type && typeof foundation.foundation_type === 'string' && foundation.foundation_type.toLowerCase() === 'Ended' ? 'Ongoing' : 'Ended'}`}
+                          className={`status-btn7 ${foundation.foundation_type && typeof foundation.foundation_type === 'string' && foundation.foundation_type.toLowerCase() === 'Ended' ? 'Ongoing' : 'Ended'}`}
                           onClick={() => handleStatusChange(foundation)}
                         >
                           {foundation.foundation_type || 'Ended'}
-                          <IoMdArrowDropdown className='arrow1' />
+                          <IoMdArrowDropdown className='arrow7' />
                         </button>
                       </td>
                       <td>
-                        <button className="view-btn1" onClick={() => handleViewMore(foundation)}>
+                        <button className="view-btn7" onClick={() => handleViewMore(foundation)}>
                           <FaPlus /> View More
                         </button>
                       </td>
@@ -397,42 +404,49 @@ function Foundation() {
               </table>
             </div>
           ) : (
-            <div className="grid-container1">
+            <div className="list-container7">
               {displayedRequests.map((foundation) => (
-                <div className="grid-item1" key={foundation._id}>
-                  <h2>{foundation.foundation_name}</h2>
-                  {/* <img
-                    src={item.IMAGE_URL || "default-image-url1"}
-                    alt="Product"
-                    className="default-image-url11"
-                    onClick={() => handleImageClick(item.IMAGE_URL || "default-image-url1")} // Add click handler
-                  /> */}
-                  <p><span>Description: </span>{foundation.foundation_description}</p>
-                  <p><span>Type: </span> {foundation.foundation_type}</p>
-                  <p><span>Image: </span>
-                  <div className="detail-item1">
-                      <strong>Item image:</strong>
-                      {/* Show the saved image only when updating an existing item */}
-                      {
-                        <img src={foundation.foundation_image} alt="Saved" className="captured-image" />
-                      }
-                    </div></p>
-                  <p><span>Link: </span> {foundation.foundation_link}</p>
-                  <p><span>Contact: </span> {foundation.foundation_contact}</p>
-             
-                  <p><span>Start DAte: </span> {foundation.foundation_start_date}</p>
-                  <p><span>End DAte: </span> {foundation.foundation_end_date}</p>
-             
-                  <button
-                    className={`status-btn1 ${foundation.foundation_type && typeof foundation.foundation_type === 'string' && foundation.foundation_type.toLowerCase() === 'Ended' ? 'Ongoing' : 'Ongoing'}`}
-                    onClick={() => handleStatusChange(foundation)}
-                  >
-                    {foundation.foundation_type|| 'Ongoing'}
-                    <IoMdArrowDropdown className='arrow1' />
-                  </button>
-                  <button className="view-btn1" onClick={() => handleViewMore(foundation)}>
-                    <FaPlus /> View More
-                  </button>
+                <div className="list-item7" key={foundation._id}>
+
+                  <img
+                    src={foundation.foundation_image || "default-image-url7"}
+                    alt="Foundation"
+                    className="default-image-url77"
+                    onClick={() => handleImageClick(foundation.foundation_image || "default-image-url7")}
+                  />
+                  <div className="header7">
+                    <h2>{foundation.foundation_name}</h2>
+                    <div className="info-wrapper7">
+                      <div className="info-container7">
+                        <p className="link7"> 
+                          <span>Link: </span>
+                          <a  href={foundation.foundation_link} target="_blank" rel="noopener noreferrer">
+                            {foundation.foundation_link}
+                          </a>
+                        </p>
+                        <p><span>Type: </span>{foundation.foundation_type}</p>
+                        <p className="description7"><span>Description: </span>  {foundation.foundation_description}</p>
+
+                      </div>
+                      <div className="right-info-container7">
+                        <p><span>Contact: </span>{foundation.foundation_contact}</p>
+                        <p><span>Start Date: </span>{foundation.foundation_start_date}</p>
+                        <p><span>End Date: </span>{foundation.foundation_end_date}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="button-contain7">
+                    <button
+                      className={`status-btn7 ${foundation.foundation_type && typeof foundation.foundation_type === 'string' && foundation.foundation_type.toLowerCase() === 'ended' ? 'ended' : 'ongoing'}`}
+                      onClick={() => handleStatusChange(foundation)}
+                    >
+                      {foundation.foundation_type || 'Ongoing'}
+                      <IoMdArrowDropdown className='arrow7' />
+                    </button>
+                    <button className="view-btn7" onClick={() => handleViewMore(foundation)}>
+                      <FaPlus /> View More
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -446,19 +460,19 @@ function Foundation() {
         />
       </div>
 
-      <Modal isOpen={imageModalOpen} onClose={handleCloseImageModal} foundation_image={selectedImage} />
+      <Modal isOpen={imageModalOpen} onClose={handleCloseImageModal} imageUrl={selectedImage} />
 
       {showModal && (
-        <div className="modal-overlay1">
-          <div className="modal1">
+        <div className="modal-overlay7">
+          <div className="modal7">
             <h2>{isViewMore ? (isEditing ? 'Edit Item' : 'View Found Item Details') : 'File a Found Item'}</h2>
 
             {/* Wrap form fields and camera in a flex container */}
             {isViewMore ? (
               isEditing ? (
-                <div className="form-and-camera">
-                  <form onSubmit={handleFormSubmit} className="form-fields">
-                    <div className="form-group1">
+                <div className="form-and-camera7">
+                  <form onSubmit={handleFormSubmit} className="form-fields7">
+                    <div className="form-group7">
                       <label htmlFor="foundation_name">Foundation Name</label>
                       <input
                         type="text"
@@ -473,7 +487,7 @@ function Foundation() {
                     </div>
 
 
-                    <div className="form-group1">
+                    <div className="form-group7">
                       <label htmlFor="foundation_type">Foundation Type</label>  {/* ADD DROP DOWN */}
 
                       <select
@@ -487,25 +501,25 @@ function Foundation() {
                       >
                         <option value="PubChar">Public Charities</option>
                         <option value="PubChar2">Public Charities2</option>
-                  
+
                       </select>
                     </div>
-                    <div className="form-group1">
+                    <div className="form-group7">
                       <label htmlFor="foundationDescription">Description</label>
                       <textarea
-                
+
                         id="foundation_description"
                         name="foundation_description"
-                        maxLength="100"
+                        maxLength="200"
                         placeholder="Foundation Description"
                         value={foundationData.foundation_description}
                         onChange={handleInputChange}
                         required={!selectedItem}
-                      />
+                      ></textarea>
                     </div>
-                    <div className="form-group1">
+                    <div className="form-group7">
                       <label htmlFor="foundation_link">Foundation Link</label>  {/* ADD DROP DOWN */}
-                  <input
+                      <input
                         type="text"
                         id="foundation_link"
                         name="foundation_link"
@@ -513,7 +527,7 @@ function Foundation() {
                         value={foundationData.foundation_link}
                         onChange={handleInputChange}
                         required={!selectedItem}
-                   />
+                      />
                     </div>
                     {/* <div className="form-group1">
                       <label htmlFor="foundation_description">Item Description</label>
@@ -528,7 +542,7 @@ function Foundation() {
                       ></textarea>
                     </div> */}
 
-                    <div className="form-group1">
+                    <div className="form-group7">
                       <label htmlFor="foundation_contact">Foundation Contact</label>
                       <input
                         type="text"
@@ -542,52 +556,51 @@ function Foundation() {
                       />
                     </div>
 
-                    <div className="form-group1">
-                  <label htmlFor="foundation_image">Foundation Image</label>
-                  <input
-                    type="file"
-                    id="foundation_image"
-                    name="foundation_image"
-                    accept="image/*"
-                    onChange={(e) => {
-                      handleImageUpload(e);
-                      setImagePreview(null); // Reset preview when a new file is selected
-                    }}
-/>
-                </div>
-                <div className="form-group1">
-                    <label htmlFor="description">Start Date</label>
-                    <input
-                    type="date"
-                      id="foundation_start_date"
-                      name="foundation_start_date"
-                      maxLength="500"
-                      placeholder="Foundation Start Date"
-                      value={foundationData.foundation_start_date}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
-                  <div className="form-group1">
-                    <label htmlFor="description">End Date</label>
-                    <input
-                    type="date"
-                      id="foundation_end_date"
-                      name="foundation_end_date"
-                      maxLength="500"
-                      placeholder="Foundation End Date"
-                      value={foundationData.foundation_end_date}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
+                    <div className="form-group7">
+                      <label htmlFor="foundation_image">Foundation Image</label>
+                      <input
+                        type="file"
+                        id="foundation_image"
+                        name="foundation_image"
+                        accept="image/*"
+                        onChange={(e) => {
+                          handleImageUpload(e);
+                          setImagePreview(null); // Reset preview when a new file is selected
+                        }}
+                      />
+                    </div>
+                    <div className="form-group7">
+                      <label htmlFor="startDate">Start Date</label>
+                      <input
+                        type="date"
+                        id="foundation_start_date"
+                        name="foundation_start_date"
+                        placeholder="Foundation Start Date"
+                        value={foundationData.foundation_start_date}
+                        onChange={handleInputChange}
+                        required={!selectedItem}
+                      />
+                    </div>
+                    <div className="form-group7">
+                      <label htmlFor="endDate">End Date</label>
+                      <input
+                        type="date"
+                        id="foundation_end_date"
+                        name="foundation_end_date"
+                        
+                        placeholder="Foundation End Date"
+                        value={foundationData.foundation_end_date}
+                        onChange={handleInputChange}
+                        required={!selectedItem}
+                      />
+                    </div>
 
                     {/* Buttons inside the form */}
-                    <div className="button-container1">
-                      <button type="submit" className="submit-btn1">Update</button>
+                    <div className="button-container7">
+                      <button type="submit" className="submit-btn7">Update</button>
                       {/* delete modal */}
-                      <button type="button" className="delete-btn1" onClick={() => { handleDelete(selectedItem._id); setShowModal(false); }}>Delete</button>
-                      <button type="button" className="cancel-btn1" onClick={() => { setIsEditing(false); setShowModal(false); }}> Cancel </button>
+                      <button type="button" className="delete-btn7" onClick={() => { handleDelete(selectedItem._id); setShowModal(false); }}>Delete</button>
+                      <button type="button" className="cancel-btn7" onClick={() => { setIsEditing(false); setShowModal(false); }}> Cancel </button>
                     </div>
                   </form>
 
@@ -599,17 +612,17 @@ function Foundation() {
                     <div className="camera-buttons">
                       <button type="button" onClick={captureImage}>Capture Image</button>
                     </div> */}
-                    {/* Show the saved image only when updating an existing item */}
-                    {/* {selectedItem && foundationData.IMAGE_URL && !image && (
+                  {/* Show the saved image only when updating an existing item */}
+                  {/* {selectedItem && foundationData.IMAGE_URL && !image && (
                       <img src={foundationData.IMAGE_URL} alt="Saved" className="captured-image" />
                     )} */}
 
-                    {/* Show the captured image if available */}
-                    {/* {image && (
+                  {/* Show the captured image if available */}
+                  {/* {image && (
                       <img src={image} alt="Captured" className="captured-image" />
                     )}
                   </div> */}
-              {/* <div className="camera-section">
+                  {/* <div className="camera-section">
                     <video ref={videoRef} width="320" height="240" autoPlay />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
                     <div className="camera-buttons">
@@ -627,25 +640,25 @@ function Foundation() {
 
                 </div>
               ) : (
-                <div className="found-details1">
-                  <div className="detail-grid1">
-                    <div className="detail-item1">
+                <div className="found-details7">
+                  <div className="detail-grid7">
+                    <div className="detail-item7">
                       <strong>Foundation Name:</strong>
                       <span> {foundationData.foundation_name}</span>
                     </div>
-                    <div className="detail-item1">
+                    <div className="detail-item7">
                       <strong>Foundation Type: </strong>
                       <span> {foundationData.foundation_type}</span>
                     </div>
-                    <div className="detail-item1">
+                    <div className="detail-item7">
                       <strong>Foundation Description:</strong>
                       <span>{foundationData.foundation_description}</span>
                     </div>
-                    <div className="detail-item1">
+                    <div className="detail-item7">
                       <strong>Foundation Link:</strong>
                       <span>{foundationData.foundation_link}</span>
                     </div>
-                    <div className="detail-item1">
+                    <div className="detail-item7">
                       <strong>Foundation Contact:</strong>
                       <span>{foundationData.foundation_contact}</span>
                     </div>
@@ -656,19 +669,19 @@ function Foundation() {
                         <img src={foundationData.foundation_image} alt="Saved" className="captured-image" />
                       }
                     </div> */}
-                  
+
                   </div>
-                  <div className="button-container1">
-                    <button className="edit-btn1" onClick={handleEdit}>Edit</button>
-                    <button className="edit-btn1" onClick={handleShow}>Show List</button>
-                    <button className="cancel-btn1" onClick={() => setShowModal(false)}>Cancel</button>
+                  <div className="button-container7">
+                    <button className="edit-btn7" onClick={handleEdit}>Edit</button>
+                    <button className="edit-btn7" onClick={handleShow}>Show List</button>
+                    <button className="cancel-btn7" onClick={() => setShowModal(false)}>Cancel</button>
                   </div>
                 </div>
               )
             ) : (
-              <div className="form-and-camera">
-                <form onSubmit={handleFormSubmit} className="form-fields">
-                  <div className="form-group1">
+              <div className="form-and-camera7">
+                <form onSubmit={handleFormSubmit} className="form-fields7">
+                  <div className="form-group7">
                     <label htmlFor="foundationName">Foundation Name</label>
                     <input
                       type="text"
@@ -683,8 +696,8 @@ function Foundation() {
                   </div>
 
 
-                  <div className="form-group1">
-                    <label htmlFor="finderTye">Foundation Type</label>  {/* ADD DROP DOWN */}
+                  <div className="form-group7">
+                    <label htmlFor="finderType">Foundation Type</label>  {/* ADD DROP DOWN */}
 
                     <select
                       id="foundation_type"
@@ -693,28 +706,28 @@ function Foundation() {
                       placeholder="foundation_type"
                       value={foundationData.foundation_type}
                       onChange={handleInputChange}
-                      
+
                       required={!selectedItem}
                     >    <option value="PubChar">Public Charities</option>
-                        <option value="PubChar2">Public Charities2</option>
+                      <option value="PubChar2">Public Charities2</option>
                     </select>
                   </div>
-                  <div className="form-group1">
+                  <div className="form-group7">
                     <label htmlFor="foundation_description">Foundation Description</label>
-                    <input
+                    <textarea
                       type="text"
                       id="foundation_description"
                       name="foundation_description"
-                      maxLength="100"
+                      maxLength="200"
                       placeholder="Foundation Description"
                       value={foundationData.foundation_description}
                       onChange={handleInputChange}
                       required={!selectedItem}
-                    />
+                    ></textarea>
                   </div>
-                  <div className="form-group1">
-                  / <label htmlFor="itemType">Foundation Link</label>  {/* ADD DROP DOWN */}
-                 <input 
+                  <div className="form-group7">
+                    <label htmlFor="itemType">Foundation Link</label>  {/* ADD DROP DOWN */}
+                    <input
                       type="link"
                       id="foundation_link"
                       name="foundation_link"
@@ -722,51 +735,51 @@ function Foundation() {
                       value={foundationData.foundation_link}
                       onChange={handleInputChange}
                       required={!selectedItem}
-                 />
+                    />
                   </div>
-                  <div className="form-group1">
+                  <div className="form-group7">
                     <label htmlFor="description">Foundation Contact</label>
                     <input
-                    type="contact"
+                      type="contact"
                       id="foundation_contact"
                       name="foundation_contact"
-                      maxLength="500"
+                      maxLength="100"
                       placeholder="Foundation Contact"
                       value={foundationData.foundation_contact}
                       onChange={handleInputChange}
                       required={!selectedItem}
                     />
                   </div>
-                  <div className="form-group2">
-                  <label htmlFor="foundation_image">Foundation Image</label>
-                  <input
-                    type="file"
-                    id="foundation_image"
-                    name="foundation_image"
-                    accept="image/*"
-                    onChange={(e) => {
-                      handleImageUpload(e);
-                      setImagePreview(null); // Reset preview when a new file is selected
-                    }}
-/>
-                </div>
-                <div className="form-group1">
-                    <label htmlFor="description">Start Date</label>
+                  <div className="form-group7">
+                    <label htmlFor="foundation_image">Foundation Image</label>
                     <input
-                    type="date"
+                      type="file"
+                      id="foundation_image"
+                      name="foundation_image"
+                      accept="image/*"
+                      onChange={(e) => {
+                        handleImageUpload(e);
+                        setImagePreview(null); // Reset preview when a new file is selected
+                      }}
+                      required={!selectedItem}
+                    />
+                  </div>
+                  <div className="form-group7">
+                    <label htmlFor="startDate">Start Date</label>
+                    <input
+                      type="date"
                       id="foundation_start_date"
                       name="foundation_start_date"
-                      maxLength="500"
                       placeholder="Foundation Start Date"
                       value={foundationData.foundation_start_date}
                       onChange={handleInputChange}
                       required={!selectedItem}
                     />
                   </div>
-                  <div className="form-group1">
-                    <label htmlFor="description">End Date</label>
+                  <div className="form-group7">
+                    <label htmlFor="endDate">End Date</label>
                     <input
-                    type="date"
+                      type="date"
                       id="foundation_end_date"
                       name="foundation_end_date"
                       maxLength="500"
@@ -778,13 +791,13 @@ function Foundation() {
                   </div>
 
                   {/* Buttons inside the form */}
-                  <div className="button-container1">
-                    <button type="submit" className="submit-btn1">Submit</button>
+                  <div className="button-container7">
+                    <button type="submit" className="submit-btn7">Submit</button>
                     {/* delete modal */}
 
-                    <button type="button" className="cancel-btn1" onClick={() => setShowModal(false)}> Cancel </button>
+                    <button type="button" className="cancel-btn7" onClick={() => setShowModal(false)}> Cancel </button>
                   </div>
-                  
+
                 </form>
 
 

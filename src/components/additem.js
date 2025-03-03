@@ -445,10 +445,10 @@ function Additem() {
                       <td>{item.ITEM_TYPE}</td>
                       <td>{item.DESCRIPTION}</td>
                       <td><img
-                        src={item.IMAGE_URL || "default-image-url1"}
+                        src={item.IMAGE_URL || "default-table-url1"}
                         alt="Product"
-                        className="default-image-url11"
-                        onClick={() => handleImageClick(item.IMAGE_URL || "default-image-url1")} // Add click handler
+                        className="default-table-url11"
+                        onClick={() => handleImageClick(item.IMAGE_URL || "default-table-url1")} // Add click handler
                       /></td>
                       <td>{item.CONTACT_OF_THE_FINDER}</td>
                       <td>{item.DATE_FOUND}</td>
@@ -476,7 +476,7 @@ function Additem() {
                           <IoMdArrowDropdown className='arrow1' />
                         </button>
                       </td>
-                      <td>{item.foundation_id}</td>
+                      <td>{item.foundation_id?.foundation_name}</td>
                       <td>
                         <button className="view-btn1" onClick={() => handleViewMore(item)}>
                           <FaPlus /> View More
@@ -493,10 +493,10 @@ function Additem() {
                 <div className="grid-item1" key={item._id}>
                   <h2>{item.ITEM}</h2>
                   <img
-                    src={item.IMAGE_URL || "default-image-url1"}
+                    src={item.IMAGE_URL || "default-grid-url1"}
                     alt="Product"
-                    className="default-image-url11"
-                    onClick={() => handleImageClick(item.IMAGE_URL || "default-image-url1")} // Add click handler
+                    className="default-grid-url11"
+                    onClick={() => handleImageClick(item.IMAGE_URL || "default-grid-url1")} // Add click handler
                   />
                   <p><span>Description: </span>{item.DESCRIPTION}</p>
                   <p><span>Finder: </span> {item.FINDER}</p>
@@ -506,7 +506,7 @@ function Additem() {
                   <p><span>Location: </span> {item.FOUND_LOCATION}</p>
                   <p><span>Time: </span> {item.TIME_RETURNED}</p>
                   <p><span>Owner: </span> {item.OWNER}</p>
-                  <p><span>Foundation: </span> {item.foundation_id}</p>
+                  <p><span>Foundation: </span> {item.foundation_id?.foundation_name}</p>
                   <button
                     className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' && item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' : 'claimed'}`}
                     onClick={() => handleStatusChange(item)}
@@ -541,7 +541,7 @@ function Additem() {
             {!isViewMore || isEditing ? (
               <div className="tabs1">
                 <button className={`tab-button1 ${activeTab === 'item' ? 'active' : ''}`} onClick={() => setActiveTab('item')}>Item Details</button>
-                <button className={`tab-button1 ${activeTab === 'owner' ? 'active' : ''}`} onClick={() => setActiveTab('owner')}>Owner Details (Optional)</button>
+                <button className={`tab-button1 ${activeTab === 'owner' ? 'active' : ''}`} onClick={() => setActiveTab('owner')}>Owner Details </button>
               </div>
             ) : null}
 
