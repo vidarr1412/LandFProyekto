@@ -41,24 +41,3 @@
     justify-content: space-between;
   }
   
-  button {
-    padding: 10px 15px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  button:nth-child(2) {
-    background-color: #dc3545;
-  }
-  
-  button:nth-child(2):hover {
-    background-color: #c82333;
-  }
-  
