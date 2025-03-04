@@ -125,7 +125,7 @@ gap: 10px; /* Add spacing between the input and icons */
   color: white;
   padding: 5px 12px;
   font-size: 15px;
-  margin: 0 10px; /* Adds horizontal spacing between buttons */
+  margin: 0 2px; /* Adds horizontal spacing between buttons */
   border: none;
   width:115px;
   cursor: pointer;

@@ -767,18 +767,52 @@ color: #a50303; /* Change color on hover */
 
 /* -------------------------------------------- */
 
-.default-image-url7 {
+.default-grid-url7 {
 width: 100%;
 height: auto;
 
 border-Radius: 5px; 
 }
 
+.default-grid-url77 {
+  width: auto; /* Fixed width for the image */
+  max-width: 13rem;
+  min-width: 10em;
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 2rem; /* Rounded corners for images */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-right: 20px; /* Space between image and text */
+}
 
-.default-image-url77:hover {
+
+.default-grid-url77:hover {
 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 transform: translateY(-1px);
 }
+
+
+.default-table-url7 {
+  width: 100%;
+  height: auto;
+  
+  border-Radius: 5px; 
+  }
+  
+  .default-table-url77 {
+    width: auto; /* Fixed width for the image */
+    max-width: 13rem;
+    min-width: 10em;
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 2rem; /* Rounded corners for images */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-right: 20px; /* Space between image and text */
+  }
+  
+  
+  .default-table-url77:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+  }
 
 /* --------------------------------------------------- */
 
@@ -854,15 +888,7 @@ text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3 ); /* Add text shadow */
 
 } */
 
-.default-image-url77 {
-  width: auto; /* Fixed width for the image */
-  max-width: 13rem;
-  min-width: 10em;
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 2rem; /* Rounded corners for images */
-  cursor: pointer; /* Pointer cursor on hover */
-  margin-right: 20px; /* Space between image and text */
-}
+
 
 
 

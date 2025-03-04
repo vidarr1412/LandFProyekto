@@ -121,12 +121,12 @@
     color: white;
     padding: 5px 12px;
     font-size: 15px;
-    margin: 15px 2px; /* Adds horizontal spacing between buttons */
+    margin: 0 2px; /* Adds horizontal spacing between buttons */
     border: none;
     width:115px;
     cursor: pointer;
     border-radius: 3px;
-    margin-left: 0px;
+    
     border-radius: 6px;
   }
 
@@ -201,7 +201,7 @@
   color: white;
   padding: 5px 12px;
   font-size: 12px;
-  margin: 10% 2px; /* Adds horizontal spacing between buttons */
+  margin: 0 2px; /* Adds horizontal spacing between buttons */
   border: none;
   cursor: pointer;
   font-size: 15px;
@@ -440,43 +440,67 @@ transform: translateY(-1px);
 }
 
 .modal3 {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: flex-start; /* Align items to the start */
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px; /* Adjusted for a single column layout */
+  width: 880px;         /* Extend the modal width */
+  margin: 50px auto;    /* Center modal on the screen */
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-height: 85vh; /* Limit height to enable scrolling */
   overflow-y: auto; /* Enable vertical scrolling */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  text-align: left;
 }
 
-.modal3 h3 {
+.modal3 h2 {
   margin-bottom: 20px;
   font-size: 1.8rem;
   color: #222222;
   text-align: center;
   font-weight: bold;
-  width: 100%;
 }
 
 .modal3 form {
-  display: flex;
-  flex-direction: column; /* Single column layout */
-  gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr, 1fr, 320px; /* Two columns for labels and inputs */
+  gap: 20px;
   width: 100%; /* Ensure the form takes full width */
 }
 
-.form-group3 {
+.form-and-camera3 {
   display: flex;
-  flex-direction: column; /* Stack label above input */
-  width: 100%; /* Ensure full width */
-}
+  gap: 20px;            /* Space between form and camera */
+  align-items: flex-start; /* Align items at the top; adjust if needed */
+  }
+  
+  .form-fields3 {
+  flex: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Two columns for fields */
+  gap: 15px;
+  }
+  
+  .form-group3 {
+  display: flex;
+  flex-direction: column;
+  }
+
+  /* If any input needs to span full width, you can use: */
+.form-group3.full-width {
+  grid-column: 1 / -1;
+  }
 
 .modal3 label {
+  font-weight: 500;
+  color: #444444;
+  margin-bottom: 5px;
+}
+
+.modal3 select {
+  font-weight: 500;
+  color: #444444;
+  margin-bottom: 5px;
+}
+
+.modal3 textarea {
   font-weight: 500;
   color: #444444;
   margin-bottom: 5px;
@@ -489,7 +513,7 @@ transform: translateY(-1px);
   font-size: 1rem;
   border: 1px solid #cccccc;
   border-radius: 6px;
-  width: 100%; /* Adjusted for full width in single column */
+  width: 90%; /* Adjusted for full width in single column */
 }
 
 .modal3 input:focus,

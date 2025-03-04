@@ -10,7 +10,7 @@ import Pagination from './pagination';
 import axios from 'axios';
 import Header from "./header";
 import Filter from '../filterered/complaintsFilt'; // Import the Filter component
-import  showAlert from '../utils/alert';
+import showAlert from '../utils/alert';
 function Manage() {
   const [filterText, setFilterText] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -239,36 +239,36 @@ function Manage() {
 
     // Apply filters
     if (filters.itemType) {
-        filtered = filtered.filter(item => item.type === filters.itemType);
+      filtered = filtered.filter(item => item.type === filters.itemType);
     }
 
     if (filters.dateLost) {
-        filtered = filtered.filter(item => item.date === filters.dateLost);
+      filtered = filtered.filter(item => item.date === filters.dateLost);
     }
 
     if (filters.generalLocation) {
-        filtered = filtered.filter(item => item.general_location.toLowerCase().includes(filters.generalLocation.toLowerCase()));
+      filtered = filtered.filter(item => item.general_location.toLowerCase().includes(filters.generalLocation.toLowerCase()));
     }
 
     if (filters.status) {
-        filtered = filtered.filter(item => item.status === filters.status);
+      filtered = filtered.filter(item => item.status === filters.status);
     }
 
     // Apply sorting
     if (filters.sortByDate === 'ascending') {
-        filtered.sort((a, b) => new Date(a.date_complained) - new Date(b.date_complained));
+      filtered.sort((a, b) => new Date(a.date_complained) - new Date(b.date_complained));
     } else if (filters.sortByDate === 'descending') {
-        filtered.sort((a, b) => new Date(b.date_complained) - new Date(a.date_complained));
+      filtered.sort((a, b) => new Date(b.date_complained) - new Date(a.date_complained));
     }
 
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {
       setFilteredRequests(filtered);
     }
-  
-    
-    
-   
+
+
+
+
   };
 
   //UPDATE PAGINATIOn
@@ -278,12 +278,12 @@ function Manage() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  
+
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
-        setCurrentPage(pageNumber);
+      setCurrentPage(pageNumber);
     }
-};
+  };
 
   const [viewMode, setViewMode] = useState('table'); // Default to 'table' mode
   const toggleViewMode = () => {
@@ -317,14 +317,14 @@ function Manage() {
     const newStatus = item.status === 'not-found' ? 'found' : 'not-found'; // Toggle status
     try {
       await axios.put(`http://10.10.83.224:5000/complaints/${item._id}`, { ...item, status: newStatus });
-      
+
       setRequests((prevRequests) =>
         prevRequests.map((req) =>
           req._id === item._id ? { ...req, status: newStatus } : req
         )
       );
-       // Alert the user of the status change
-       showAlert('Status Updated', 'complaint_success');
+      // Alert the user of the status change
+      showAlert('Status Updated', 'complaint_success');
     } catch (error) {
       console.error('Error updating status:', error);
     }
@@ -332,7 +332,7 @@ function Manage() {
 
 
 
-  
+
   return (
     <div className="home-container">
       <Sidebar />
@@ -363,10 +363,10 @@ function Manage() {
           </div>
 
           <div className="top-right-buttons3">
-              
-              <button className="add-item-btn3" onClick={handleAddComplaint}>+ File Complaint</button>
-              {/* <button className="register-qr-btn3">Register QR Code</button>*/}
-            </div>
+
+            <button className="add-item-btn3" onClick={handleAddComplaint}>+ File Complaint</button>
+            {/* <button className="register-qr-btn3">Register QR Code</button>*/}
+          </div>
 
           <Filter onApplyFilters={applyFilters} />
 
@@ -389,7 +389,7 @@ function Manage() {
                     <th>Date Complained</th>
                     <th>Time Complained</th>
                     <th>Status</th>
-                   
+
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -418,7 +418,7 @@ function Manage() {
                           <IoMdArrowDropdown className='arrow3' />
                         </button>
                       </td>
-                     
+
                       <td>
                         <button className="view-btn3" onClick={() => handleViewMore(item)}>
                           <FaPlus /> View More
@@ -441,8 +441,14 @@ function Manage() {
                   <p><span>Contact of the Complainer: </span> {item.contact}</p>
                   <p><span>Date: </span> {item.date}</p>
                   <p><span>Time: </span> {item.time}</p>
-                  <p><span>Status: </span> {item.status}</p>
-
+                 
+                  <button
+                    className={`status-btn3 ${item.status && typeof item.status === 'string' && item.status.toLowerCase() === 'not-found' ? 'not-found' : 'found'}`}
+                    onClick={() => handleStatusChange(item)}
+                  >
+                    {item.STATUS || 'unclaimed'}
+                    <IoMdArrowDropdown className='arrow1' />
+                  </button>
                   <button className="view-btn3" onClick={() => handleViewMore(item)}>
                     <FaPlus /> View More
                   </button>
@@ -466,7 +472,7 @@ function Manage() {
 
             {isViewMore ? (
               isEditing ? (
-                <form onSubmit={handleUpdate}>
+                <form onSubmit={handleUpdate} className="form-fields3">
                   {/* Form fields for editing */}
                   <div className="form-group3">
                     <label htmlFor="complainerName">Complainer Name</label>
@@ -663,17 +669,7 @@ function Manage() {
                       <option value="not-found">not-found</option>
                     </select>
                   </div>
-                  <div className="form-group3">
-                    <label htmlFor="finder">Finder</label>
-                    <input
-                      type="text"
-                      id="finder"
-                      name="finder"
-                      placeholder="Finder's Name"
-                      value={itemData.finder}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+
                   <div className="button-container3">
                     <button type="submit" className="submit-btn3">Update</button>
                     {/* delete modal */}
@@ -742,12 +738,12 @@ function Manage() {
                     </div>
                     <div className="detail-item3">
                       <strong>Image:</strong>
-                      <span> <img src={itemData.item_image||'sad.jpg'} className="avatar-image" style={{ 
-     width: '100px',  
-    height: '100px'
-   }}  /></span>
+                      <span> <img src={itemData.item_image || 'sad.jpg'} className="avatar-image" style={{
+                        width: '100px',
+                        height: '100px'
+                      }} /></span>
                     </div>
-                 
+
                   </div>
                   <div className="button-container3">
                     <button className="edit-btn3" onClick={() => setIsEditing(true)}>Edit</button>
@@ -756,7 +752,7 @@ function Manage() {
                 </div>
               )
             ) : (
-              <form onSubmit={handleComplaintSubmit}>
+              <form onSubmit={handleComplaintSubmit} className="form-fields3">
                 <div className="form-group3">
                   <label htmlFor="complainerName">Complainer Name</label>
                   <input
@@ -780,12 +776,12 @@ function Manage() {
                   >
                     option
                     <option value="coe">COE</option>
-                      <option value="ccs">CCS</option>
-                      <option value="cass">CASS</option>
-                      <option value="csm">CSM</option>
-                      <option value="ceba">CEBA</option>
-                      <option value="chs">CHS</option>
-                      <option value="ced">CED</option>
+                    <option value="ccs">CCS</option>
+                    <option value="cass">CASS</option>
+                    <option value="csm">CSM</option>
+                    <option value="ceba">CEBA</option>
+                    <option value="chs">CHS</option>
+                    <option value="ced">CED</option>
                   </select>
                 </div>
 
@@ -846,11 +842,11 @@ function Manage() {
                   >
                     option
                     <option value="Electronics">Electronics</option>
-                      <option value="Personal-Items">Personal Items</option>
-                      <option value="Clothing_Accessories">Clothing & Accessories</option>
-                      <option value="Bags_Stationery">Bags & stationary</option>
-                      <option value="Documents">Documents</option>
-                      <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                    <option value="Personal-Items">Personal Items</option>
+                    <option value="Clothing_Accessories">Clothing & Accessories</option>
+                    <option value="Bags_Stationery">Bags & stationary</option>
+                    <option value="Documents">Documents</option>
+                    <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
                   </select>
                 </div>
 
@@ -881,21 +877,21 @@ function Manage() {
                   >
                     option
                     <option value="Gym">GYMNASIUM</option>
-                      <option value="adminBuilding">ADMIN BLG</option>
-                      <option value="mph">MPH</option>
-                      <option value="mainLibrary">MAIN LIBRARY</option>
-                      <option value="lawn">LAWN</option>
-                      <option value="ids">IDS</option>
-                      <option value="clinic">CLINIC</option>
-                      <option value="canteen">CANTEEN</option>
-                      <option value="ceba">CEBA</option>
-                      <option value="ccs">CCS</option>
-                      <option value="cass">CASS</option>
-                      <option value="csm">CSM</option>
-                      <option value="coe">COE</option>
-                      <option value="ced">CED</option>
-                      <option value="chs">CHS</option>
-                      <option value="outsideIit">OUTSIDE IIT</option>
+                    <option value="adminBuilding">ADMIN BLG</option>
+                    <option value="mph">MPH</option>
+                    <option value="mainLibrary">MAIN LIBRARY</option>
+                    <option value="lawn">LAWN</option>
+                    <option value="ids">IDS</option>
+                    <option value="clinic">CLINIC</option>
+                    <option value="canteen">CANTEEN</option>
+                    <option value="ceba">CEBA</option>
+                    <option value="ccs">CCS</option>
+                    <option value="cass">CASS</option>
+                    <option value="csm">CSM</option>
+                    <option value="coe">COE</option>
+                    <option value="ced">CED</option>
+                    <option value="chs">CHS</option>
+                    <option value="outsideIit">OUTSIDE IIT</option>
                   </select>
                 </div>
                 <div className="form-group3">
@@ -970,7 +966,7 @@ function Manage() {
                   </select>
                 </div>
 
-                <div className="form-group3">
+                {/* <div className="form-group3">
                   <label htmlFor="finder">Finder</label>
                   <input
                     type="text"
@@ -981,7 +977,7 @@ function Manage() {
                     onChange={handleInputChange}
 
                   />
-                </div>
+                </div> */}
 
                 <div className="button-container3">
                   <button type="submit" className="submit-btn3">Submit</button>

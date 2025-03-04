@@ -27,7 +27,7 @@ function UserComplaint() {
   const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
   const [imagePreview, setImagePreview] = useState(null);
-
+  const [viewMode, setViewMode] = useState('grid'); // Default to 'table' mode
   const [itemData, setItemData] = useState({
     itemname: '',
     type: '',
@@ -56,12 +56,7 @@ function UserComplaint() {
 
     fetchRequests();
 
-    const handleResize = () => {
-      setViewMode(window.innerWidth <= 768 ? 'grid' : 'table');
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    
 
   }, []);
 
@@ -304,7 +299,6 @@ const handleCancelUpload = () => {
 
 
 
-  const [viewMode, setViewMode] = useState('grid'); // Default to 'table' mode
   const toggleViewMode = () => {
     setViewMode((prevMode) => (prevMode === 'grid' ? 'table' : 'grid'));
   };

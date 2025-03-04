@@ -285,7 +285,7 @@ function Additem() {
         )
       );
 
-      showAlert('Status Uodated', 'complaint_success');
+      showAlert('Status Updated', 'complaint_success');
     } catch (error) {
       console.error('Error updating status:', error);
       alert('Error updating status. Please try again.');
