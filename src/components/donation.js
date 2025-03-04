@@ -3,6 +3,7 @@ import { FaTable } from "react-icons/fa6";
 import { IoGridOutline } from "react-icons/io5";
 import { FaSearch, FaFilter } from 'react-icons/fa';
 import { IoMdArrowDropdown } from "react-icons/io";
+import { NavLink } from "react-router-dom"; // Use NavLink for active class
 import { FaPlus } from "react-icons/fa6";
 import Sidebar from "./sidebar";
 import '../style/donation.css';
@@ -13,7 +14,7 @@ import { ref, uploadBytesResumable, uploadString, getDownloadURL } from "firebas
 import Header from './header';
 import Filter from '../filterered/donationFilt'; // Adjust the import path as necessary
 import Modal from './image'; // Import the Modal component
-
+import { useParams } from "react-router-dom";
 import showAlert from '../utils/alert';
 
 function Foundation() {
@@ -30,7 +31,10 @@ function Foundation() {
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
-
+  const { foundationId } = useParams(); // ✅ Extract foundationId from URL
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const [foundationData, setFoundationData] = useState({
     // ITEM: '',
@@ -47,7 +51,7 @@ function Foundation() {
     foundation_name: '',
     foundation_image: '',
     foundation_description: '',
-    foundation_type: 'onGoing',
+    foundation_type: '',
     foundation_link: '',
     foundation_contact: '',
     foundation_start_date: '',
@@ -67,7 +71,25 @@ function Foundation() {
 
 
   //NEW FIXED
+  useEffect(() => {
+    if (foundationId) {
+      fetchItems();
+    }
+  }, [foundationId]);
 
+  const fetchItems2 = async () => {
+    try {
+      const response = await axios.get(
+        `http://10.10.83.224:5000/items/foundation/${foundationId}`
+      );
+      setItems(response.data);
+    } catch (error) {
+      console.error("❌ Error fetching foundation-specific items:", error);
+      setError("Failed to load items. Please try again.");
+    } finally {
+      setLoading(false); // ✅ Stop loading
+    }
+  };
   const filterRequests = () => {
     if (!filterText) {
       return filteredRequests; // If no filter text, return all filtered requests
@@ -175,6 +197,7 @@ function Foundation() {
     }
   };
 
+
   const openModal = (foundation = null) => {
     setSelectedItem(foundation);
     setFoundationData(
@@ -182,7 +205,7 @@ function Foundation() {
         foundation_name: '',
         foundation_image: '',
         foundation_description: '',
-        foundation_type: 'onGoing',
+        foundation_type: '',
         foundation_link: '',
         foundation_contact: '',
         foundation_start_date: '',
@@ -255,17 +278,16 @@ function Foundation() {
 
 
   const handleStatusChange = async (foundation) => {
-    const newStatus = foundation.foundation_type === 'ended' ? 'onGoing' : 'ended'; // Toggle status
+    const newStatus = foundation.foundation_type === 'unclaimed' ? 'claimed' : 'unclaimed'; // Toggle status
     try {
       await axios.put(`http://10.10.83.224:5000/foundation/${foundation._id}`, { ...foundation, foundation_type: newStatus });
-      
       setRequests((prevRequests) =>
         prevRequests.map((req) =>
           req._id === foundation._id ? { ...req, foundation_type: newStatus } : req
         )
       );
 
-      showAlert('Status Updated', 'donation_success');
+      showAlert('Status Uodated', 'complaint_success');
     } catch (error) {
       console.error('Error updating status:', error);
       alert('Error updating status. Please try again.');
@@ -371,26 +393,26 @@ function Foundation() {
                     <tr key={foundation._id}>
                       <td>{foundation.foundation_name}</td>
                       <td>{foundation.foundation_type}</td>
-                      <td><img
-                          src={foundation.foundation_image || "default-table-url7"}
-                          alt="Product"
-                          className="default-table-url77"
-                          onClick={() => handleImageClick(foundation.foundation_image || "default-table-url7")} // Add click handler
-                        /></td>
+                      <td> <img src={foundation.foundation_image} alt="Saved" className="captured-image7" /></td>
                       <td>{foundation.foundation_contact}</td>
                       <td>{foundation.foundation_description}</td>
                       {/* <td>{foundation.foundation_link}</td> */}
-                      
+                      {/* <td><img
+                          src={item.IMAGE_URL || "default-image-url1"}
+                          alt="Product"
+                          className="default-image-url11"
+                          onClick={() => handleImageClick(item.IMAGE_URL || "default-image-url1")} // Add click handler
+                        /></td> */}
 
 
                       {/* <td>{foundation.foundation_start_date}</td>
                       <td>{foundation.foundation_end_date}</td> */}
                       <td>
                         <button
-                          className={`status-btn7 ${foundation.foundation_type && typeof foundation.foundation_type === 'string' && foundation.foundation_type.toLowerCase() === 'ended' ? 'onGoing' : 'ended'}`}
+                          className={`status-btn7 ${foundation.foundation_type && typeof foundation.foundation_type === 'string' && foundation.foundation_type.toLowerCase() === 'Ended' ? 'Ongoing' : 'Ended'}`}
                           onClick={() => handleStatusChange(foundation)}
                         >
-                          {foundation.foundation_type || 'ended'}
+                          {foundation.foundation_type || 'Ended'}
                           <IoMdArrowDropdown className='arrow7' />
                         </button>
                       </td>
@@ -410,10 +432,10 @@ function Foundation() {
                 <div className="list-item7" key={foundation._id}>
 
                   <img
-                    src={foundation.foundation_image || "default-grid-url7"}
+                    src={foundation.foundation_image || "default-image-url7"}
                     alt="Foundation"
-                    className="default-grid-url77"
-                    onClick={() => handleImageClick(foundation.foundation_image || "default-grid-url7")}
+                    className="default-image-url77"
+                    onClick={() => handleImageClick(foundation.foundation_image || "default-image-url7")}
                   />
                   <div className="header7">
                     <h2>{foundation.foundation_name}</h2>
@@ -425,24 +447,23 @@ function Foundation() {
                             {foundation.foundation_link}
                           </a>
                         </p>
-                        <p><span>Contact: </span>{foundation.foundation_contact}</p>
-                        <p><span>Start Date: </span>{foundation.foundation_start_date}</p>
+                        <p><span>Type: </span>{foundation.foundation_type}</p>
+                        <p className="description7"><span>Description: </span>  {foundation.foundation_description}</p>
 
                       </div>
                       <div className="right-info-container7">
-                        
-                         <p><span>Type: </span>{foundation.foundation_type}</p>
-                        <p className="description7"><span>Description: </span>  {foundation.foundation_description}</p>
+                        <p><span>Contact: </span>{foundation.foundation_contact}</p>
+                        <p><span>Start Date: </span>{foundation.foundation_start_date}</p>
                         <p><span>End Date: </span>{foundation.foundation_end_date}</p>
                       </div>
                     </div>
                   </div>
                   <div className="button-contain7">
                     <button
-                      className={`status-btn7 ${foundation.foundation_type && typeof foundation.foundation_type === 'string' && foundation.foundation_type.toLowerCase() === 'ended' ? 'ended' : 'onGoing'}`}
+                      className={`status-btn7 ${foundation.foundation_type && typeof foundation.foundation_type === 'string' && foundation.foundation_type.toLowerCase() === 'ended' ? 'ended' : 'ongoing'}`}
                       onClick={() => handleStatusChange(foundation)}
                     >
-                      {foundation.foundation_type || 'onGoing'}
+                      {foundation.foundation_type || 'Ongoing'}
                       <IoMdArrowDropdown className='arrow7' />
                     </button>
                     <button className="view-btn7" onClick={() => handleViewMore(foundation)}>
@@ -675,7 +696,13 @@ function Foundation() {
                   </div>
                   <div className="button-container7">
                     <button className="edit-btn7" onClick={handleEdit}>Edit</button>
-                    <button className="edit-btn7" onClick={handleShow}>Show List</button>
+                    {foundationData && foundationData._id && (
+  <NavLink to={`/foundation/${foundationData._id}`}>
+    <button className="edit-btn7">Show Items</button>
+  </NavLink>
+)}
+
+
                     <button className="cancel-btn7" onClick={() => setShowModal(false)}>Cancel</button>
                   </div>
                 </div>

@@ -1023,6 +1023,54 @@ app.delete("/foundations/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete item" });
   }
 });
+app.put('/foundation/:id', async (req, res) => {
+  const { id } = req.params;
+  const { foundation_type } = req.body;
+
+  try {
+    const updatedFoundation = await FoundationSchema.findByIdAndUpdate(
+      id,
+      { foundation_type },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedFoundation) {
+      return res.status(404).json({ message: 'Foundation not found' });
+    }
+
+    res.json({ message: 'Foundation status updated', updatedFoundation });
+  } catch (error) {
+    console.error('Error updating foundation status:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.get("/items/foundation/:foundationId", async (req, res) => {
+  const { foundationId } = req.params;
+  console.log("✅ Foundation ID received:", foundationId); // Log incoming ID
+
+  if (!foundationId) {
+    console.log("❌ Missing Foundation ID");
+    return res.status(400).json({ error: "❌ Foundation ID is required!" });
+  }
+
+  try {
+    const items = await Item.find({ foundation_id: foundationId }).populate("foundation_id", "foundation_name foundation_contact"); 
+    console.log("✅ Items fetched:", items);
+
+    if (!items.length) {
+      console.log("❌ No items found!");
+      return res.status(404).json({ error: "❌ No items found for this foundation!" });
+    }
+
+    res.json(items);
+  } catch (error) {
+    console.error("❌ Error fetching items:", error);
+    res.status(500).json({ error: "❌ Internal Server Error" });
+  }
+});
+
+
 // app.delete("/delete", async (req, res) => {
 //   const { id } = req.params;
 

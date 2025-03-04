@@ -5,6 +5,7 @@ import { IoMdAnalytics } from "react-icons/io";
 import { TbMessageReportFilled } from "react-icons/tb";
 import { NavLink } from "react-router-dom"; // Use NavLink for active class
 import { jwtDecode } from 'jwt-decode';
+
 import { FaHome, FaBox, FaQrcode, FaFileAlt, FaUserCheck, FaUser, FaSignOutAlt, FaChartLine, FaBars } from "react-icons/fa";
 import "../style/sidebar.css"; // Optional: for styling the sidebar
 //import Image from 'next/image'
@@ -97,6 +98,10 @@ const Sidebar = () => {
               <NavLink to="/additem" activeClassName="active">
                 <FaQrcode className="nav-icon" /> Found Items
               </NavLink>
+              <NavLink to="/scan_item" activeClassName="active">
+                <FaQrcode className="nav-icon" /> Scan QR
+              </NavLink>
+              
               <NavLink to="/donation" activeClassName="active">
                 <FaQrcode className="nav-icon" /> Donation
               </NavLink>

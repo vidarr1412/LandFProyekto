@@ -2,7 +2,7 @@ import { jwtDecode } from 'jwt-decode';
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-
+import Scanner from './components/scanner';
 import Home from './components/home'; // Adjust the path if necessary
 import Manage from './components/Complaints';
 import ManageRequest from './components/manageRequest';
@@ -15,6 +15,7 @@ import UserComplaint from './components/userComplaint';
 import Bulletin from './components/bulletinboard';
 import Profile from './components/prof';
 import RetrievalRequests from './components/retrievalrequest';
+import DonatedItems from './components/donatedList';
 // Helper function to check if the user is an admin
 const isAdmin = () => {
   const token = localStorage.getItem('token'); // Assuming the JWT token is stored in localStorage
@@ -98,6 +99,14 @@ function App() {
               </AdminRoute>
             }
           />
+           <Route
+           path="/foundation/:foundationId"
+            element={
+              <AdminRoute>
+                <DonatedItems />
+              </AdminRoute>
+            }
+          />
    
 
           <Route
@@ -105,6 +114,15 @@ function App() {
             element={
               <AdminRoute>
                 <ReportItem />
+              </AdminRoute>
+            }
+          />
+
+<Route
+            path="/scan_item"
+            element={
+              <AdminRoute>
+                <Scanner />
               </AdminRoute>
             }
           />
@@ -154,8 +172,10 @@ function App() {
         
        
           <Route path="/login" element={<Auth />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
+
       </div>
     </Router>
   );
