@@ -40,8 +40,11 @@ const updateItemStatuses = async () => {
       for (const foundation of foundations) {
         const startDate = new Date(foundation.foundation_start_date);
         const endDate = new Date(foundation.foundation_end_date);
-
-        if (itemDate >= startDate && itemDate <= endDate) {
+// Validate that startDate does not exceed endDate if (startDate > endDate) { console.error(❌ Invalid foundation dates for foundation ${foundation._id}: start date ${foundation.foundation_start_date} exceeds end date ${foundation.foundation_end_date}); continue; // Skip this foundation }
+if(startDate>endDate) {
+  continue;
+}      
+if (itemDate >= startDate && itemDate <= endDate) {
           matchedFoundationId = foundation._id;
           console.log(`  ✅ Match found! Assigning foundation_id ${foundation._id} and updating STATUS to "donated"`);
           break; // Stop at the first matching foundation
