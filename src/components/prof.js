@@ -153,7 +153,7 @@ function Profile() {
     // Encrypt user ID using AES
     const encryptedId = CryptoJS.AES.encrypt(id, "mySuperSecretKey123!").toString();
     
-    return `<${encryptedId}>please return me to SID<${encryptedId}>`;
+    return `http://10.10.83.224:3000/<${encryptedId}>`;
 };
 
   const downloadQRCode = () => {
