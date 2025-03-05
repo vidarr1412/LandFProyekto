@@ -11,7 +11,7 @@ import { IoGridOutline } from "react-icons/io5";
 
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
-
+import CryptoJS from "crypto-js";
 import '../style/Found.css';
 
 import { storage } from "../firebase"; // Import Firebase storage
@@ -386,32 +386,6 @@ function ItemScanner() {
     );
   }, [userDetails, itemData]);
   
-  
-
-  const fetchUserData = async (userId) => {
-    try {
-      const response = await axios.get(`http://10.10.83.224:5000/profile/${userId}`);
-      const data = response.data;
-      setUserDetails({
-        email: data.email || '',
-        firstName: data.firstName || '',
-        lastName: data.lastName || ''
-      });
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  const handleScan = (data) => {
-    if (data) {
-      setQrData(data.text); // Get QR code data (user ID in this case)
-      fetchUserData(data.text); // Fetch user details using the user ID from QR code
-    }
-  };
-
-  const handleError = (err) => {
-    console.error("Error scanning QR code: ", err);
-  };
 
   // Handle sending email
   const sendEmail = (e) => {
@@ -433,7 +407,71 @@ function ItemScanner() {
       .catch((error) => {
         console.error('Failed to send email', error);
       });
+  };  
+
+  const fetchUserData = async (userId) => {
+    try {
+      const response = await axios.get(`http://10.10.83.224:5000/profile/${userId}`);
+      const data = response.data;
+      setUserDetails({
+        email: data.email || '',
+        firstName: data.firstName || '',
+        lastName: data.lastName || ''
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   };
+  const decryptQRValue = (encryptedId, isAuthorized) => {
+    if (!encryptedId) return "";
+
+    try {
+        // If authorized, decrypt
+        if (isAuthorized) {
+            const bytes = CryptoJS.AES.decrypt(encryptedId, "mySuperSecretKey123!");
+            return bytes.toString(CryptoJS.enc.Utf8) || "Invalid ID";
+        }
+        // If unauthorized, show asterisks
+        return "*".repeat(8);
+    } catch (error) {
+        return "Invalid ID";
+    }
+};
+
+const handleScan = (data) => {
+  if (data) {
+      console.log("Scanned QR Data:", data);
+      
+      // Extract the encrypted part from the QR string
+      const match = data.text.match(/<([^>]*)>/);
+      if (!match) {
+          console.error("Invalid QR Code format");
+          return;
+      }
+      
+      const encryptedId = match[1]; // Extracted encrypted ID
+      console.log("Extracted Encrypted ID:", encryptedId);
+
+      // Decrypt the value (pass true for authorized devices)
+      const decryptedValue = decryptQRValue(encryptedId, true);
+      console.log("Decrypted Value:", decryptedValue);
+
+      // Store the decrypted value
+      setQrData(decryptedValue);
+
+      // Fetch user details using the decrypted ID
+      if (decryptedValue !== "Invalid ID") {
+          fetchUserData(decryptedValue);
+      }
+  }
+};
+
+
+const handleError = (err) => {
+  console.error("QR Scan Error:", err);
+};
+
+
   
 
   return (

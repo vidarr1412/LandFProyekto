@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
 import Sidebar from "./sidebar";
+import Header from "./header";
 import { storage, db, uploadBytesResumable, getDownloadURL, ref, doc, updateDoc } from "../firebase";
 import { QRCodeCanvas } from "qrcode.react";
 import "../style/prof.css";
 import  showAlert from '../utils/alert';
+import CryptoJS from "crypto-js";
 function Profile() {
   const [user, setUser] = useState({
   
@@ -137,36 +139,51 @@ function Profile() {
       alert("An error occurred while updating profile.");
     }
   };
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      userId = decoded.id;
+    } catch (error) {
+      console.error("Invalid token:", error);
+    }
+  }
+  const generateQRValue = (id) => {
+    if (!id) return "";
+    
+    // Encrypt user ID using AES
+    const encryptedId = CryptoJS.AES.encrypt(id, "mySuperSecretKey123!").toString();
+    
+    return `<${encryptedId}>please return me to SID<${encryptedId}>`;
+};
 
   const downloadQRCode = () => {
-    const canvas = qrCodeRef.current; // Reference to the QRCodeCanvas component
+    const canvas = qrCodeRef.current;
     if (canvas && canvas.querySelector("canvas")) {
       const qrCanvas = canvas.querySelector("canvas");
-      
-      // Create a new canvas to apply the background and border
-      const newCanvas = document.createElement('canvas');
-      const context = newCanvas.getContext('2d');
-      
-      const padding = 20; // Padding value
-      const size = 150 + padding * 2; // Adjust size based on padding
-      newCanvas.width = size;
-      newCanvas.height = size;
+      const qrWidth = qrCanvas.width;
+      const qrHeight = qrCanvas.height;
   
-      // Set the background color and draw a border
-      context.fillStyle = 'white';
-      context.fillRect(0, 0, newCanvas.width, newCanvas.height); // White background
-      context.lineWidth = 2;
-      context.strokeStyle = 'black';
-      context.strokeRect(0, 0, newCanvas.width, newCanvas.height); // Black border
+      // Create an off-screen canvas
+      const newCanvas = document.createElement("canvas");
+      const ctx = newCanvas.getContext("2d");
   
-      // Draw the original QR code onto the new canvas with padding
-      context.drawImage(qrCanvas, padding, padding, 150, 150);
+      // Set new canvas size (adding white border)
+      const padding = 20; // Adjust for desired border thickness
+      newCanvas.width = qrWidth + padding * 2;
+      newCanvas.height = qrHeight + padding * 2;
   
-      // Convert the canvas to an image and trigger the download
+      // Fill the background with white
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+  
+      // Draw the original QR code onto the new canvas
+      ctx.drawImage(qrCanvas, padding, padding);
+  
+      // Convert to image and download
       const imageURL = newCanvas.toDataURL("image/png");
       const link = document.createElement("a");
       link.href = imageURL;
-      link.download = `${userId}-QRCode.png`; // Download the QR code with user ID
+      link.download = `${userId}-QRCode.png`;
       link.click();
     } else {
       alert("QR Code not available!");
@@ -177,6 +194,7 @@ function Profile() {
   return (
     <div className="home-container1">
       <Sidebar />
+      <Header />
       <div className="profile-container">
         <div className="profile-sidebar">
           <div className="profile-avatar">
@@ -237,15 +255,15 @@ function Profile() {
               />
             </div>
 
-            {/* <div className="form-group">
+           <div className="form-group">
               <label>QR Code</label>
               {userId && (
-                <div ref={qrCodeRef}>
-                  <QRCodeCanvas value={userId} size={150} />
-                </div>
-              )}
+        <div ref={qrCodeRef}>
+          <QRCodeCanvas value={generateQRValue(userId)} size={150} />
+        </div>
+      )}
             </div>
-            <button type="button" onClick={downloadQRCode}>Download QR Code</button> */}
+            <button type="button" onClick={downloadQRCode}>Download QR Code</button> 
 
             <button type="submit" className="save-button">Save</button>
           </form>

@@ -11,6 +11,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
     "emailjs-com": "^3.2.0",
     "firebase": "^11.2.0",
     "googleapis": "^144.0.0",
