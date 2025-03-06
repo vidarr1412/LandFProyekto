@@ -140,9 +140,9 @@ function ItemScanner() {
             OWNER_CONTACT: data.contactNumber || '',
             OWNER_IMAGE: data.image_Url || '',
             OWNER_COLLEGE: data.college || '',
-            DATE_CLAIMED: formattedDate,
-            TIME_CLAIMED: formattedTime,
-            STATUS: 'claimed' // Mark as claimed
+            DATE_CLAIMED: '',
+            TIME_CLAIMED: '',
+            STATUS: 'unclaimed' // Mark as claimed
         }));
      
     } catch (error) {
@@ -509,17 +509,18 @@ const sendEmail = (e) => {
             />
           </div>
           <div>
-            <p>Scanned QR Code Value: {qrData} </p>
-            {userDetails.email && (
-              <div>
-                <p><strong>Email:</strong> {userDetails.email}</p>
-                <p><strong>First Name:</strong> {userDetails.firstName}</p>
-                <p><strong>Last Name:</strong> {userDetails.lastName}</p>
-                <button>Send Message</button>
+            {/* <p>Scanned QR Code Value: {qrData} </p>
+            {userDetails.email && ( */}
+              {/* // <div>
+              //   <p><strong>Email:</strong> {userDetails.email}</p>
+              //   <p><strong>First Name:</strong> {userDetails.firstName}</p>
+              //   <p><strong>Last Name:</strong> {userDetails.lastName}</p>
+              //   <button>Send Message</button>
                 {/* Open modal when clicking Send Email */}
-                <button onClick={() => setShowModal(true)}>Send Email</button>
-              </div>
-            )}
+              {/* <button onClick={() => setShowModal(true)}>Send Email</button>
+              </div> */}
+            {/* )}
+          // </div> */} 
           </div>
         </div>
       </div>
@@ -534,8 +535,8 @@ const sendEmail = (e) => {
                   {!isViewMore || isEditing ? (
                     <div className="tabs1">
                       <button className={`tab-button1 ${activeTab === 'item' ? 'active' : ''}`} onClick={() => setActiveTab('item')}>Item Details</button>
-             
-                    </div>
+                      <button className={`tab-button1 ${activeTab === 'owner' ? 'active' : ''}`} onClick={() => setActiveTab('owner')}>Owner Details </button>
+                      </div>
                   ) : null}
       
                   {/* Wrap form fields and camera in a flex container */}
@@ -768,36 +769,93 @@ const sendEmail = (e) => {
                           <>
 
       
-                          </>
+                   <div className="form-group1">
+                                         <label htmlFor="owner">Owner Name</label>
+                                         <input
+                                           type="text"
+                                           id="owner"
+                                           name="OWNER"
+                                           maxLength="50"
+                                           placeholder="Owner Name"
+                                           value={itemData.OWNER}
+                                           onChange={handleInputChange}
+                                         />
+                                       </div>
+                                       <div className="form-group1">
+                                         <label htmlFor="ownerCollege">Owner College</label>
+                                         <select
+                                           id="ownerCollege"
+                                           name="OWNER_COLLEGE"
+                                           value={itemData.OWNER_COLLEGE}
+                                           onChange={handleInputChange}
+                                         >
+                                           <option value="coe">COE</option>
+                                           <option value="ccs">CCS</option>
+                                           <option value="cass">CASS</option>
+                                           <option value="csm">CSM</option>
+                                           <option value="ceba">CEBA</option>
+                                           <option value="chs">CHS</option>
+                                           <option value="ced">CED</option>
+                                         </select>
+                                       </div>
+                                       {/* Additional owner fields can be added here */}
+                                       <div className="form-group1">
+                                         <label htmlFor="ownerContact">Owner Contact</label>
+                                         <input
+                                           type="text"
+                                           id="ownerContact"
+                                           name="OWNER_CONTACT"
+                                           maxLength="50"
+                                           placeholder="Owner Contact"
+                                           value={itemData.OWNER_CONTACT}
+                                           onChange={handleInputChange}
+                                         />
+                                       </div>
+                                      
+                                       <div className="form-group1">
+                                         <label htmlFor="status">Status</label>
+                                         <select
+                                           id="status"
+                                           name="STATUS"
+                                           value={itemData.STATUS}
+                                           onChange={handleInputChange}
+                                         >
+                                           <option value="unclaimed">Unclaimed</option>
+                                           <option value="claimed">Claimed</option>
+                                         </select>
+                                       </div>
+                 
+                                     </>
+                 
+                                   )}
+                 
+                                   {/* Buttons inside the form */}
+                                   <div className="button-container1">
+                                     <button type="submit" className="submit-btn1">Submit</button>
+                                     {/* delete modal */}
+                 
+                                     <button type="button" className="cancel-btn1" onClick={() => setShowModal(false)}> Cancel </button>
+                                   </div>
+                                 </form>
+                 
+                 
+                                 <div className="camera-section">
+                                   <video ref={videoRef} width="320" height="240" autoPlay />
+                                   <canvas ref={canvasRef} style={{ display: 'none' }} />
+                                   <div className="camera-buttons">
+                                     <button type="button" onClick={captureImage}>Capture Image</button>
+                                   </div>
+                                   {/* Show the captured image based on the active tab */}
+                                   {activeTab === 'item' && image && (
+                                     <img src={image} alt="Captured Item" className="captured-image" />
+                                   )}
+                                   {activeTab === 'owner' && ownerImage && (
+                                     <img src={ownerImage} alt="Captured Owner" className="captured-image" />
+                                   )}
+                                 </div>
+                 
+                               </div>
       
-                        )}
-      
-                        {/* Buttons inside the form */}
-                        <div className="button-container1">
-                          <button type="submit" className="submit-btn1">Submit</button>
-                          {/* delete modal */}
-      
-                          <button type="button" className="cancel-btn1" onClick={() => setShowModal(false)}> Cancel </button>
-                        </div>
-                      </form>
-      
-      
-                      <div className="camera-section">
-                        <video ref={videoRef} width="320" height="240" autoPlay />
-                        <canvas ref={canvasRef} style={{ display: 'none' }} />
-                        <div className="camera-buttons">
-                          <button type="button" onClick={captureImage}>Capture Image</button>
-                        </div>
-                        {/* Show the captured image based on the active tab */}
-                        {activeTab === 'item' && image && (
-                          <img src={image} alt="Captured Item" className="captured-image" />
-                        )}
-                        {activeTab === 'owner' && ownerImage && (
-                          <img src={ownerImage} alt="Captured Owner" className="captured-image" />
-                        )}
-                      </div>
-      
-                    </div>
                   )}
                 </div>
       

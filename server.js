@@ -944,6 +944,7 @@ app.post("/foundations", async (req, res) => {
     foundation_description,
     foundation_link,
     foundation_contact,
+    foundation_status,
     foundation_image,
     foundation_end_date,
     foundation_start_date,
@@ -960,6 +961,7 @@ app.post("/foundations", async (req, res) => {
     foundation_image,
     foundation_start_date,
     foundation_end_date,
+    foundation_status,
     });
 
     await newFoundationSchema.save();
@@ -1028,12 +1030,12 @@ app.delete("/foundations/:id", async (req, res) => {
 });
 app.put('/foundation/:id', async (req, res) => {
   const { id } = req.params;
-  const { foundation_type } = req.body;
+  const { foundation_status } = req.body;
 
   try {
     const updatedFoundation = await FoundationSchema.findByIdAndUpdate(
       id,
-      { foundation_type },
+      { foundation_status },
       { new: true } // Return the updated document
     );
 

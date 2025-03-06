@@ -8,7 +8,7 @@ const foundationSchema = new mongoose.Schema({
   foundation_link:String,
    
   foundation_contact:String,
-
+foundation_status:String,
   foundation_image:String,
   foundation_start_date:String,
   foundation_end_date:String,

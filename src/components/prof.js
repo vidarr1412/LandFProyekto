@@ -7,6 +7,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import "../style/prof.css";
 import  showAlert from '../utils/alert';
 import CryptoJS from "crypto-js";
+import jsPDF from "jspdf";
 function Profile() {
   const [user, setUser] = useState({
   
@@ -56,7 +57,56 @@ function Profile() {
       setSelectedFile(file);
     }
   };
-
+  const generateQRCodePDF = () => {
+    const canvas = qrCodeRef.current?.querySelector("canvas");
+    if (!canvas) {
+      alert("QR Code not available!");
+      return;
+    }
+  
+    const imageData = canvas.toDataURL("image/png");
+    const doc = new jsPDF();
+  
+    // QR code sizes
+    const smallSize = 0.5 * 35.35; // 5 cm converted to PDF points
+    const largeSize = 0.5 * 72; // 0.75 inch converted to PDF points
+    const margin = 5; // Spacing between QR codes
+    const qrPerRow = 7; // 7 QR codes per row
+    const totalRows = 8; // 8 rows in total (4 small, 4 large)
+  
+    let x = margin;
+    let y = margin;
+    let count = 0;
+  
+    // First 4 rows: Small QR Codes (5x5 cm)
+    for (let i = 0; i < qrPerRow * 4; i++) {
+      doc.addImage(imageData, "PNG", x, y, smallSize, smallSize);
+      x += smallSize + margin;
+      count++;
+  
+      // Move to the next row after reaching 7 QR codes in a row
+      if (count % qrPerRow === 0) {
+        x = margin;
+        y += smallSize + margin;
+      }
+    }
+  
+    // Next 4 rows: Large QR Codes (0.75x0.75 inch)
+    for (let i = 0; i < qrPerRow * 4; i++) {
+      doc.addImage(imageData, "PNG", x, y, largeSize, largeSize);
+      x += largeSize + margin;
+      count++;
+  
+      // Move to the next row after reaching 7 QR codes in a row
+      if (count % qrPerRow === 0) {
+        x = margin;
+        y += largeSize + margin;
+      }
+    }
+  
+    doc.save("QRCode_Document.pdf");
+  };
+  
   const handleUpload = async () => {
     if (!selectedFile || !userId) {
       showAlert('Image Uploaded!', 'complaint_success');
@@ -264,6 +314,8 @@ function Profile() {
       )}
             </div>
             <button type="button" onClick={downloadQRCode}>Download QR Code</button> 
+            <button onClick={generateQRCodePDF}>Download QR Codes PDF</button>
+
 
             <button type="submit" className="save-button">Save</button>
           </form>
