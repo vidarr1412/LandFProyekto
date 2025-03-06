@@ -113,13 +113,7 @@ function Bulletin() {
       showAlert('Retrieve Request Sent!', 'complaint_success');
       // Reset itemData to clear the form fields
       setItemData({
-        // item_name: '',//11
-        // description: '',//22
-        // specific_Location:'',//33
-        // general_Location:'',//44
-        // date_Lost:'',//55
-        // time_Lost:'',//66
-        // id: '',
+        
 
         item_name: '',
         description: '',
@@ -134,8 +128,8 @@ function Bulletin() {
 
       setShowModal(false); // Close the modal after successful submission
     } catch (error) {
-      console.error('Error submitting the form:', error); // Log any errors
-      alert('Error submitting the form. Please try again.'); // Alert on error
+      console.error('Please Sign Up', error); // Log any errors
+      alert('Please Sign Up'); // Alert on error
     }
   };
 

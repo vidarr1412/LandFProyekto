@@ -16,6 +16,7 @@ import Bulletin from './components/bulletinboard';
 import Profile from './components/prof';
 import RetrievalRequests from './components/retrievalrequest';
 import DonatedItems from './components/donatedList';
+import Return from './components/return';
 // Helper function to check if the user is an admin
 const isAdmin = () => {
   const token = localStorage.getItem('token'); // Assuming the JWT token is stored in localStorage
@@ -143,14 +144,7 @@ function App() {
               </AdminRoute>
             }
           />
-           <Route
-            path="/bulletinboard" 
-            element={
-              <StudentRoute>
-                <Bulletin />
-              </StudentRoute>
-            }
-          />
+    
     
     
       <Route
@@ -172,6 +166,9 @@ function App() {
         
        
           <Route path="/login" element={<Auth />} />
+          <Route path="/bulletinboard" element={ <Bulletin/> }/>
+          <Route path="/return_me" element={<Return />} />
+          <Route path="/return_me*" element={<Navigate to="/return_me" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         

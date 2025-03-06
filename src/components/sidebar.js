@@ -5,8 +5,10 @@ import { IoMdAnalytics } from "react-icons/io";
 import { TbMessageReportFilled } from "react-icons/tb";
 import { NavLink } from "react-router-dom"; // Use NavLink for active class
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from "react-router-dom";
 
-import { FaHome, FaBox, FaQrcode, FaFileAlt, FaUserCheck, FaUser, FaSignOutAlt, FaChartLine, FaBars } from "react-icons/fa";
+
+import { FaHome, FaBox, FaQrcode, FaFileAlt, FaUserCheck, FaUser,FaUserPlus, FaSignOutAlt, FaChartLine, FaBars } from "react-icons/fa";
 import "../style/sidebar.css"; // Optional: for styling the sidebar
 //import Image from 'next/image'
 const Sidebar = () => {
@@ -31,13 +33,13 @@ const Sidebar = () => {
     }
     return null;
   };
-
+  const navigate = useNavigate();
   const userType = getUserType();
   const handleLogout = () => {
     console.log("Logging out...");
-    localStorage.clear(); // Remove the token from localStorage
-  };
-  
+    localStorage.removeItem("token"); // Clear only the token
+    navigate("/login"); // Redirect to login
+};
 
   useEffect(() => {
     const handlePageShow = (event) => {
@@ -66,7 +68,19 @@ const Sidebar = () => {
 
         <img src="log.png" alt="FIRI" className="logo" />
         <nav className="nav-menu">
-          {userType !== "admin@gmail.com" && (
+        {userType === null || userType === "" ? (
+            <>
+              <NavLink to="/" activeClassName="active">
+                <FaHome className="nav-icon" /> Home
+              </NavLink>
+              <NavLink to="/bulletinboard" activeClassName="active">
+                <FaChartLine className="nav-icon" /> Bulletin
+              </NavLink>
+              <NavLink to="/login" activeClassName="active">
+                <FaUserPlus className="nav-icon" /> Sign Up
+              </NavLink>
+            </>
+          ) : userType !== "admin@gmail.com" && (
             <>
               <NavLink to="/" activeClassName="active">
                 <FaHome className="nav-icon" /> Home
@@ -83,7 +97,12 @@ const Sidebar = () => {
               <NavLink to="/profile" activeClassName="active">
               <FaHome className="nav-icon" /> Profile
             </NavLink>
-
+            <div className="logout">
+            <NavLink to="/login" activeClassName="active">
+              <FaSignOutAlt className="nav-icon" /> Log Out
+              <button onClick={handleLogout}></button>
+            </NavLink>
+          </div>
 
             </>
           )}
@@ -112,14 +131,16 @@ const Sidebar = () => {
               <NavLink to="/profile" activeClassName="active">
               <FaHome className="nav-icon" /> Profile
             </NavLink>
-            </>
-          )}
-          <div className="logout">
+            <div className="logout">
             <NavLink to="/login" activeClassName="active">
               <FaSignOutAlt className="nav-icon" /> Log Out
               <button onClick={handleLogout}></button>
             </NavLink>
           </div>
+            </>
+            
+          )}
+      
         </nav>
       </div>
     </>
