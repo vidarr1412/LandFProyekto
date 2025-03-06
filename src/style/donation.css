@@ -31,7 +31,7 @@
 }
 
 .search-bar7 input:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: .1rem solid #518be2;
   
 }
 
@@ -404,7 +404,7 @@ max-width: 1600px; /* Set a max width for the container */
 margin: 30px auto 0; /* Center the container */
 overflow-x: auto; /* Enable horizontal scrolling */
 border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
-border-radius: 5px; /* Optional: Add rounded corners */
+border-radius: 1rem; /* Optional: Add rounded corners */
 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
 }
 
@@ -907,33 +907,9 @@ text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3 ); /* Add text shadow */
   font-weight: bold; /* Bold for labels */
 }
 
-.status-btn7 {
-  background-color: #007BFF; /* Button background color */
-  color: white; /* Button text color */
-  border: none; /* No border */
-  border-radius: 10px; /* Rounded corners */
-  padding: 10px 15px; /* Padding for button */
-  cursor: pointer; /* Pointer cursor on hover */
-  margin-top: 10px; /* Space above button */
-}
 
-.status-btn7:hover {
-  background-color: #0056b3; /* Darker shade on hover */
-}
 
-.view-btn7 {
-  background-color: #28a745; /* Button background color */
-  color: white; /* Button text color */
-  border: none; /* No border */
-  border-radius: 10px; /* Rounded corners */
-  padding: 10px 15px; /* Padding for button */
-  cursor: pointer; /* Pointer cursor on hover */
-  margin-top: 10px; /* Space above button */
-}
 
-.view-btn7:hover {
-  background-color: #218838; /* Darker shade on hover */
-}
 
 /* ------------------------------------------------------------ */
 
@@ -950,14 +926,15 @@ text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3 ); /* Add text shadow */
   
   align-items: flex-end; /* Align buttons to the right */
   gap: 0.5rem;
-  margin-left: 5rem;
+  margin-left: 4rem;
  
 }
 
 .info-wrapper7 {
   display: flex; /* Use flexbox for layout */
   justify-content: space-between; /* Space between the two containers */
-  width: 100%; /* Full width */
+  min-width: 50%; /* Full width */
+ max-width: 100%; /* Full width */
   margin-top: 0rem; /* Space above the info containers */
   gap: 2rem;
 
@@ -1029,7 +1006,221 @@ a:hover {
   }
 
   .description7 {
-max-height: 10rem;
+    max-height: 10rem;
     overflow: auto; /* Hide overflow */
     
     }
+
+    /*MAR-04-25 ---------------------------------------- */
+
+    .donation-overlay7 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      }
+      
+      .donation7 {
+        width: 100rem;         /* Extend the modal width */
+        margin: 50px auto;    /* Center modal on the screen */
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-height: 82vh; /* Limit height to enable scrolling */
+        display: flex;
+        flex-direction: column; /* Stack children vertically */
+        overflow-y: auto;
+        max-width: 100%;
+      }
+      
+      .donation7 h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: #222222;
+      text-align: center;
+      font-weight: bold;
+     word-wrap: break-word;
+      
+      }
+
+    .donation-container7 {
+      flex: 1; /* Allow this to grow and take available space */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 16px; /* Add some padding */
+    border-radius: 1rem; /* Rounded corners */
+    border: 1px solid #ccc; /* Optional: Border for items */
+    }
+
+   
+    
+    /* .donation-item7 {
+    margin-bottom: 16px; /* Space between items */
+    /* border: 1px solid #ccc; /* Optional: Add a border */
+    /* padding: 8px; /* Optional: Add padding */
+    /* border-radius: 4px; /* Optional: Add rounded corners */
+    /* } */ 
+
+    .donation-item7 {
+      display: flex; /* Use flexbox for layout */
+      align-items: flex-start; /* Align items to the top */
+      background-color: #f0f0f0; /* Background color for items */
+      padding: 20px; /* Padding inside items */
+      border: 1px solid #ccc; /* Optional: Border for items */
+      border-radius: 2rem; /* Rounded corners */
+      text-align: left; /* Align text to the left */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow for items */
+      margin-bottom: 20px; /* Space between list items */
+      transition: transform 0.2s; /* Smooth transition for hover effect */
+      
+    
+    }
+    
+    /* .list-item7:hover {
+      transform: scale(1.02); 
+    
+    } */
+    
+    
+    
+    
+    
+    .donation-item7 h2 {
+      color: #8B0000; /* Title color */
+      font-weight: bold; /* Make the text bold */
+      margin-bottom: 10px; /* Space below title */
+    }
+    
+    .donation-item7 p {
+      margin: 5px 0; /* Add some vertical spacing */
+      font-weight: normal; /* Normal weight for paragraph text */
+    }
+    
+    .donation-item7 span {
+      font-weight: bold; /* Bold for labels */
+    }
+    
+
+    .donation-wrapper7 {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space between middle and last containers */
+    width: 100%; /* Full width */
+    }
+    
+    .donation-info-container7 {
+      display: flex; /* Use flexbox for layout */
+      justify-content: space-between; /* Space between data sets */
+      margin-top: 10px; /* Space above the data sets */
+    }
+      
+    .data-set-container {
+      display: flex; /* Use flexbox for layout */
+      justify-content: space-between; /* Space between data sets */
+      width: 100%; /* Full width of the container */
+    }
+    
+    .data-set {
+      flex: 1; /* Allow each data set to grow equally */
+      margin-right: 10px; /* Space between data sets */
+      padding: 0px 10px 10px 10px; /* Padding for better spacing */
+      border-radius: 4px; /* Rounded corners */
+      
+    }
+    
+    /* Remove margin from the last data set */
+    .data-set:last-child {
+      margin-right: 0; /* No margin on the last item */
+    }
+    
+    
+    .donation-header7 {
+      display: flex; /* Use flexbox for layout */
+      flex-direction: column; /* Stack title and info vertically */
+      margin-left: 20px; /* Space between image and header */
+      flex: 1; /* Allow header to take remaining space */
+    }
+    
+    .donation-header7 h2 {
+      width: 100%; /* Make the header title take the full width */
+      text-align: left; /* Align text to the left */
+      margin: 0; /* Remove default margin */
+      padding: 0 0 0rem; /* Add padding for spacing */
+      background-color: #f0f0f0; /* Optional: Background color for visibility */
+      overflow-y: auto;  /* Enable vertical scrolling */
+      word-wrap: break-word;
+      
+    }
+    
+    .donation-button-container7{
+      margin-top: 5rem;
+      display: flex;
+      gap: 10px;
+      justify-content:center;
+    }
+
+    .list-status-btn7 {
+      color: white; /* Button text color */
+      border: none; /* No border */
+      border-radius: 10px; /* Rounded corners */
+      padding: 10px 15px; /* Padding for button */
+      cursor: pointer; /* Pointer cursor on hover */
+      font-size: 15px;
+      font-weight: bold;
+      margin: 0 10px; /* Adds horizontal spacing between buttons */
+      height: 3rem;
+      width: 7rem;
+    }
+    
+    
+
+    .list-status-btn7.onGoing {
+    background-color: #007BFF; /* Button background color */
+        
+    }
+
+    .list-status-btn7.onGoing:hover {
+      background-color: #2790ff; /* Button background color */
+          
+      }
+
+    .list-status-btn7.ended {
+      background-color: #646464; /* Button background color */
+          
+      }
+
+    .list-status-btn7.ended:hover{
+      background-color: #8c8c8c; /* Button background color */
+            
+    }
+
+    .list-status-btn7:hover{
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(-1px);
+      }
+
+      .list-view-btn7 {
+        background-color: #28a745; /* Button background color */
+        color: white; /* Button text color */
+        border: none; /* No border */
+        border-radius: 10px; /* Rounded corners */
+        padding: 10px 15px; /* Padding for button */
+        cursor: pointer; /* Pointer cursor on hover */
+        margin-top: 10px; /* Space above button */
+        height: 3rem;
+        width: 7rem;
+      }
+      
+      .list-view-btn7:hover {
+        background-color: #2ebf50; /* Darker shade on hover */
+      }
+
+      .list-view-btn7:hover{
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        transform: translateY(-1px);
+        }

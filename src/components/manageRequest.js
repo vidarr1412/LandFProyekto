@@ -271,16 +271,16 @@ function ManageRequest() {
               <div className="card5">
                 <h2>Request Details</h2>
                 <img
-                  src={selectedRequest.owner_image || "default-image-url2"}
+                  src={selectedRequest.owner_image || 'sad.jpg'}
                   alt="Product"
-                  className="default-image-url13"
-                  onClick={() => handleImageClick(selectedRequest.owner_image || "default-image-url2")} // Add click handler
+                  className={`default-image-url13 ${!selectedRequest.owner_image  ? '.default-image-url12' : ''}`} // Add fallback class conditionally
+                  onClick={() => handleImageClick(selectedRequest.owner_image || 'sad.jpg')} // Add click handler
                 />
                 <p><strong>Item Name:</strong> {selectedRequest.item_name || "N/A"}</p>
                 <p><strong>Description:</strong> {selectedRequest.description || "N/A"}</p>
                 <p><strong>General Location:</strong> {selectedRequest.general_location || "N/A"}</p>
                 <p><strong>Specific Location:</strong> {selectedRequest.specific_location || "N/A"}</p>
-                <p><strong>Status:</strong> {selectedRequest.status || "N/A"}</p>
+                {/* <p><strong>Status:</strong> {selectedRequest.status || "N/A"}</p> */}
 
 
 
@@ -289,17 +289,17 @@ function ManageRequest() {
                 <div className="card5">
                   <h2>Item Requested Details</h2>
                   <img
-                    src={itemDetails.IMAGE_URL || "default-image-url2"}
+                    src={itemDetails.IMAGE_URL || 'sad.jpg'}
                     alt="Product"
-                    className="default-image-url12"
-                    onClick={() => handleImageClick(itemDetails.IMAGE_URL || "default-image-url2")} // Add click handler
+                    className={`default-image-url12 ${!itemDetails.IMAGE_URL  ? '.default-image-url12' : ''}`} // Add fallback class conditionally
+                    onClick={() => handleImageClick(itemDetails.IMAGE_URL || 'sad.jpg')} // Add click handler
                   />
                   <p><strong>Item Type:</strong> {itemDetails.ITEM_TYPE || "N/A"}</p>
                   <p><strong>Item Description:</strong> {itemDetails.DESCRIPTION || "N/A"}</p>
                   <p><strong>Contact of the Finder:</strong> {itemDetails.CONTACT_OF_THE_FINDER || "N/A"}</p>
                   <p><strong>Date Found:</strong> {itemDetails.DATE_FOUND || "N/A"}</p>
                   <p><strong>General Location:</strong> {itemDetails.GENERAL_LOCATION || "N/A"}</p>
-                  <p><strong>Found Location:</strong> {itemDetails.FOUND_LOCATION || "N/A"}</p>
+                  <p><strong>Specific Location:</strong> {itemDetails.FOUND_LOCATION || "N/A"}</p>
 
 
                 </div>

@@ -191,14 +191,14 @@ function Additem() {
     setItemData(
       item || {
         FINDER: '',//based  on their csv
-        FINDER_TYPE: 'STUDENT',//for data visualization 
+        FINDER_TYPE: '',//for data visualization 
         ITEM: '',//item name ,based on their csv
-        ITEM_TYPE: 'Electronics',//for data visualization
+        ITEM_TYPE: '',//for data visualization
         DESCRIPTION: '',//item description ,base on their csv
         IMAGE_URL: '',//change to item image later
         CONTACT_OF_THE_FINDER: '',//based on their csv
         DATE_FOUND: '',//based on their csv
-        GENERAL_LOCATION: 'Gym',//for data visualization
+        GENERAL_LOCATION: '',//for data visualization
         FOUND_LOCATION: '',//based on their csv
         TIME_RETURNED: '',  //time received
         OWNER: '',
@@ -445,10 +445,10 @@ function Additem() {
                       <td>{item.ITEM_TYPE}</td>
                       <td>{item.DESCRIPTION}</td>
                       <td><img
-                        src={item.IMAGE_URL || "default-table-url1"}
+                        src={item.IMAGE_URL || 'sad.jpg'}
                         alt="Product"
-                        className="default-table-url11"
-                        onClick={() => handleImageClick(item.IMAGE_URL || "default-table-url1")} // Add click handler
+                        className={`default-table-url11 ${!item.IMAGE_URL ? '.default-table-url1' : ''}`} // Add fallback class conditionally
+                        onClick={() => handleImageClick(item.IMAGE_URL || 'sad.jpg')}
                       /></td>
                       <td>{item.CONTACT_OF_THE_FINDER}</td>
                       <td>{item.DATE_FOUND}</td>
@@ -460,17 +460,21 @@ function Additem() {
                       <td>{item.OWNER_COLLEGE}</td>
                       <td>{item.OWNER_CONTACT}</td>
                       <td><img
-                        src={item.OWNER_IMAGE || "default-image-url1"}
+                        src={item.OWNER_IMAGE || 'sad.jpg'}
                         alt="Product"
-                        className="default-image-url11"
-                        onClick={() => handleImageClick(item.OWNER_IMAGE || "default-image-url1")} // Add click handler
+                        className={`default-table-url11 ${!item.OWNER_IMAGE ? '.default-table-url1' : ''}`} // Add fallback class conditionally
+                        onClick={() => handleImageClick(item.OWNER_IMAGE || 'sad.jpg')} // Add click handler
                       /></td>
                       <td>{item.DATE_CLAIMED}</td>
                       <td>{item.TIME_CLAIMED}</td>
                       <td>
                         <button
-                          className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' && item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' : 'claimed'}`}
-                          onClick={() => handleStatusChange(item)}
+                          className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' ?
+                            (item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' :
+                              (item.STATUS.toLowerCase() === 'claimed' ? 'claimed' : 'donated')) : ''} 
+                               ${item.STATUS.toLowerCase() === 'donated' ? 'disabled' : ''}`} // Add 'disabled' class if status is 'donated'
+                          onClick={() => item.STATUS.toLowerCase() !== 'donated' && handleStatusChange(item)} // Prevent click if status is 'donated'
+                          disabled={item.STATUS.toLowerCase() === 'donated'} // Disable button if status is 'donated'
                         >
                           {item.STATUS || 'Unclaimed'}
                           <IoMdArrowDropdown className='arrow1' />
@@ -493,10 +497,10 @@ function Additem() {
                 <div className="grid-item1" key={item._id}>
                   <h2>{item.ITEM}</h2>
                   <img
-                    src={item.IMAGE_URL || "default-grid-url1"}
+                    src={item.IMAGE_URL || 'sad.jpg'}
                     alt="Product"
-                    className="default-grid-url11"
-                    onClick={() => handleImageClick(item.IMAGE_URL || "default-grid-url1")} // Add click handler
+                    className={`default-grid-url11 ${!item.IMAGE_URL ? '.default-grid-url1' : ''}`} // Add fallback class conditionally
+                    onClick={() => handleImageClick(item.IMAGE_URL || 'sad.jpg')} // Add click handler
                   />
                   <p><span>Description: </span>{item.DESCRIPTION}</p>
                   <p><span>Finder: </span> {item.FINDER}</p>
@@ -508,10 +512,14 @@ function Additem() {
                   <p><span>Owner: </span> {item.OWNER}</p>
                   <p><span>Foundation: </span> {item.foundation_id?.foundation_name}</p>
                   <button
-                    className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' && item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' : 'claimed'}`}
-                    onClick={() => handleStatusChange(item)}
+                    className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' ?
+                      (item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' :
+                        (item.STATUS.toLowerCase() === 'claimed' ? 'claimed' : 'donated')) : ''} 
+                               ${item.STATUS.toLowerCase() === 'donated' ? 'disabled' : ''}`} // Add 'disabled' class if status is 'donated'
+                    onClick={() => item.STATUS.toLowerCase() !== 'donated' && handleStatusChange(item)} // Prevent click if status is 'donated'
+                    disabled={item.STATUS.toLowerCase() === 'donated'} // Disable button if status is 'donated'
                   >
-                    {item.STATUS || 'unclaimed'}
+                    {item.STATUS || 'Unclaimed'}
                     <IoMdArrowDropdown className='arrow1' />
                   </button>
                   <button className="view-btn1" onClick={() => handleViewMore(item)}>
@@ -646,7 +654,7 @@ function Additem() {
                           />
                         </div>
 
-                       
+
                         <div className="form-group1">
                           <label htmlFor="generalLocation">General Location</label>  {/* ADD DROP DOWN */}
 
@@ -751,7 +759,8 @@ function Additem() {
                             name="OWNER_COLLEGE"
                             value={itemData.OWNER_COLLEGE}
                             onChange={handleInputChange}
-                          >
+                            >
+                         <option value="">Please select</option>
                             <option value="coe">COE</option>
                             <option value="ccs">CCS</option>
                             <option value="cass">CASS</option>
@@ -898,7 +907,7 @@ function Additem() {
                       <strong>Item image:</strong>
                       {/* Show the saved image only when updating an existing item */}
                       {
-                        <img src={itemData.IMAGE_URL} alt="Saved" className="captured-image" />
+                        <img src={itemData.IMAGE_URL || 'sad.jpg'} alt="Saved" className="captured-image" />
                       }
                     </div>
                     <div className="detail-item1">
@@ -937,7 +946,7 @@ function Additem() {
                       <strong>Owner image:</strong>
                       {/* Show the saved image only when updating an existing item */}
                       {
-                        <img src={itemData.OWNER_IMAGE} alt="Saved" className="captured-image" />
+                        <img src={itemData.OWNER_IMAGE || 'sad.jpg'} alt="Saved" className="captured-image" />
                       }
                     </div>
                     <div className="detail-item1">
@@ -954,7 +963,7 @@ function Additem() {
                     </div>
                     <div className="detail-item1">
                       <strong>Foundation:</strong>
-                      <span>{itemData.foundation_id}</span>
+                      <span>{itemData.foundation_id ? itemData.foundation_id.foundation_name : 'No Foundation'}</span>
                     </div>
                   </div>
                   <div className="button-container1">
@@ -969,7 +978,7 @@ function Additem() {
                   {activeTab === 'item' ? (
                     <>
                       <div className="form-group1">
-                        <label htmlFor="finderName">Finder Name</label>
+                        <label htmlFor="finderName">Finder Name<span className="asterisk3"> *</span></label>
                         <input
                           type="text"
                           id="finderName"
@@ -984,7 +993,7 @@ function Additem() {
 
 
                       <div className="form-group1">
-                        <label htmlFor="finderType">Finder TYPE</label>  {/* ADD DROP DOWN */}
+                        <label htmlFor="finderType">Finder TYPE<span className="asterisk3"> *</span></label>  {/* ADD DROP DOWN */}
 
                         <select
                           id="finderType"
@@ -994,7 +1003,8 @@ function Additem() {
                           value={itemData.FINDER_TYPE}
                           onChange={handleInputChange}
                           required={!selectedItem}
-                        >
+                          >
+                          <option value="">Please select</option>
                           <option value="STUDENT">STUDENT</option>
                           <option value="UTILITIES">UTILITIES</option>
                           <option value="GUARD">GUARD</option>
@@ -1002,7 +1012,7 @@ function Additem() {
                         </select>
                       </div>
                       <div className="form-group1">
-                        <label htmlFor="itemName">Item Name</label>
+                        <label htmlFor="itemName">Item Name<span className="asterisk3"> *</span></label>
                         <input
                           type="text"
                           id="itemName"
@@ -1015,7 +1025,7 @@ function Additem() {
                         />
                       </div>
                       <div className="form-group1">
-                        <label htmlFor="itemType">ITEM TYPE</label>  {/* ADD DROP DOWN */}
+                        <label htmlFor="itemType">ITEM TYPE<span className="asterisk3"> *</span></label>  {/* ADD DROP DOWN */}
                         <select
 
                           id="itemType"
@@ -1024,7 +1034,8 @@ function Additem() {
                           value={itemData.ITEM_TYPE}
                           onChange={handleInputChange}
                           required={!selectedItem}
-                        >
+                          >
+                         <option value="">Please select</option>
                           <option value="Electronics">Electronics</option>
                           <option value="Personal-Items">Personal Items</option>
                           <option value="Clothing_Accessories">Clothing & Accessories</option>
@@ -1034,7 +1045,7 @@ function Additem() {
                         </select>
                       </div>
                       <div className="form-group1">
-                        <label htmlFor="description">Item Description</label>
+                        <label htmlFor="description">Item Description<span className="asterisk3"> *</span></label>
                         <textarea
                           id="description"
                           name="DESCRIPTION"
@@ -1047,7 +1058,7 @@ function Additem() {
                       </div>
 
                       <div className="form-group1">
-                        <label htmlFor="contact">Finder Contact</label>
+                        <label htmlFor="contact">Finder Contact<span className="asterisk3"> *</span></label>
                         <input
                           type="text"
                           id="contact"
@@ -1060,9 +1071,9 @@ function Additem() {
                         />
                       </div>
 
-                      
+
                       <div className="form-group1">
-                        <label htmlFor="generalLocation">General Location</label>  {/* ADD DROP DOWN */}
+                        <label htmlFor="generalLocation">General Location<span className="asterisk3"> *</span></label>  {/* ADD DROP DOWN */}
 
                         <select
                           id="generalLocation"
@@ -1070,7 +1081,9 @@ function Additem() {
                           placeholder="General Location"
                           value={itemData.GENERAL_LOCATION}
                           onChange={handleInputChange}
-                        >
+                          required={!selectedItem}
+                          >
+                          <option value="">Please select</option>
                           <option value="Gym">GYMNASIUM</option>
                           <option value="adminBuilding">ADMIN BLG</option>
                           <option value="mph">MPH</option>
@@ -1090,7 +1103,7 @@ function Additem() {
                         </select>
                       </div>
                       <div className="form-group1">
-                        <label htmlFor="location">Specific Location</label>
+                        <label htmlFor="location">Specific Location<span className="asterisk3"> *</span></label>
                         <input
                           type="text"
                           id="location"
@@ -1104,7 +1117,7 @@ function Additem() {
                       </div>
 
                       <div className="form-group1">
-                        <label htmlFor="dateFound">Date Found</label>
+                        <label htmlFor="dateFound">Date Found<span className="asterisk3"> *</span></label>
                         <input
                           type="date"
                           id="dateFound"
@@ -1116,7 +1129,7 @@ function Additem() {
                       </div>
 
                       <div className="form-group1">
-                        <label htmlFor="timeReceived">Time Received</label>
+                        <label htmlFor="timeReceived">Time Received<span className="asterisk3"> *</span></label>
                         <input
                           type="time"
                           id="timeReceived"
@@ -1166,7 +1179,8 @@ function Additem() {
                           name="OWNER_COLLEGE"
                           value={itemData.OWNER_COLLEGE}
                           onChange={handleInputChange}
-                        >
+                          >
+                         <option value="">Please select</option>
                           <option value="coe">COE</option>
                           <option value="ccs">CCS</option>
                           <option value="cass">CASS</option>

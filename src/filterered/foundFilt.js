@@ -88,6 +88,7 @@ const Filter = ({ onApplyFilters }) => {
                     <option value="">Select Status</option>
                     <option value="unclaimed">Unclaimed</option>
                     <option value="claimed">Claimed</option>
+                    <option value="donated">Donated</option>
                 </select>
 
 

@@ -11,6 +11,8 @@ import axios from 'axios';
 import Header from "./header";
 import Filter from '../filterered/complaintsFilt'; // Import the Filter component
 import showAlert from '../utils/alert';
+import Modal from './image'; // Import the Modal component
+
 function Manage() {
   const [filterText, setFilterText] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +25,8 @@ function Manage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isViewMore, setIsViewMore] = useState(false); // New state to track if modal is for viewing more details
   const itemsPerPage = 10;
+  const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
+  const [selectedImage, setSelectedImage] = useState(''); // State for selected image
 
   const [itemData, setItemData] = useState({
     complainer: '',
@@ -330,8 +334,16 @@ function Manage() {
     }
   };
 
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setImageModalOpen(true); // Open the image modal
+  };
 
 
+  const handleCloseImageModal = () => {
+    setImageModalOpen(false);
+    setSelectedImage('');
+  };
 
   return (
     <div className="home-container">
@@ -446,8 +458,8 @@ function Manage() {
                     className={`status-btn3 ${item.status && typeof item.status === 'string' && item.status.toLowerCase() === 'not-found' ? 'not-found' : 'found'}`}
                     onClick={() => handleStatusChange(item)}
                   >
-                    {item.STATUS || 'unclaimed'}
-                    <IoMdArrowDropdown className='arrow1' />
+                    {item.status || 'not-found'}
+                    <IoMdArrowDropdown className='arrow3' />
                   </button>
                   <button className="view-btn3" onClick={() => handleViewMore(item)}>
                     <FaPlus /> View More
@@ -464,6 +476,8 @@ function Manage() {
           handlePageChange={handlePageChange}
         />
       </div>
+
+      <Modal isOpen={imageModalOpen} onClose={handleCloseImageModal} imageUrl={selectedImage} />
 
       {showModal && (
         <div className="modal-overlay3">
@@ -602,12 +616,12 @@ function Manage() {
                     </select>
                   </div>
                   <div className="form-group3">
-                    <label htmlFor="location">Location</label>
+                    <label htmlFor="location">Specific Location</label>
                     <textarea
-                      id="location"
+                      id="locationn"
                       name="location"
                       maxLength="200"
-                      placeholder="Location"
+                      placeholder="Specific location"
                       value={itemData.location}
                       onChange={handleInputChange}
                       required
@@ -738,10 +752,12 @@ function Manage() {
                     </div>
                     <div className="detail-item3">
                       <strong>Image:</strong>
-                      <span> <img src={itemData.item_image || 'sad.jpg'} className="avatar-image" style={{
-                        width: '100px',
-                        height: '100px'
-                      }} /></span>
+                      <span> <img
+                        src={itemData.item_image || 'sad.jpg'}
+                        alt="Product"
+                        className="default-table-url33"
+                        onClick={() => handleImageClick(itemData.item_image || 'sad.jpg')} // Add click handler
+                      /></span>
                     </div>
 
                   </div>
@@ -754,7 +770,7 @@ function Manage() {
             ) : (
               <form onSubmit={handleComplaintSubmit} className="form-fields3">
                 <div className="form-group3">
-                  <label htmlFor="complainerName">Complainer Name</label>
+                  <label htmlFor="complainerName">Complainer Name<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="complainerName"
@@ -767,14 +783,15 @@ function Manage() {
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="complainerCollege">College</label>
+                  <label htmlFor="complainerCollege">College<span className="asterisk3"> *</span></label>
                   <select
                     id="college"
                     name="college"
                     value={itemData.college}
                     onChange={handleInputChange}
+                    required={!selectedRequest}
                   >
-                    option
+                    <option value="">Please select</option>
                     <option value="coe">COE</option>
                     <option value="ccs">CCS</option>
                     <option value="cass">CASS</option>
@@ -783,10 +800,11 @@ function Manage() {
                     <option value="chs">CHS</option>
                     <option value="ced">CED</option>
                   </select>
+                  
                 </div>
 
                 <div className="form-group3">
-                  <label htmlFor="complainerLevel">Year Level</label>
+                  <label htmlFor="complainerLevel">Year Level<span className="asterisk3"> *</span></label>
 
                   <select
                     id="year_lvl"
@@ -795,16 +813,18 @@ function Manage() {
                     placeholder="Year Level"
                     value={itemData.year_lvl}
                     onChange={handleInputChange}
-                  >
-                    option
-                    <option value="First Year">1</option>
-                    <option value="Second Year">2</option>
-                    <option value="Third Year">3</option>
-                    <option value="Fourth Year">4</option>
+                    required={!selectedRequest}
+                    >
+                    <option value="">Please select</option>
+                    <option value="First Year">1st Year</option>
+                    <option value="Second Year">2nd Year</option>
+                    <option value="Third Year">3rd Year</option>
+                    <option value="Fourth Year">4th Year</option>
                   </select>
+
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="itemName">Item Name</label>
+                  <label htmlFor="itemName">Item Name<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="itemName"
@@ -818,7 +838,7 @@ function Manage() {
                 </div>
 
                 <div className="form-group3">
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description">Description<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="description"
@@ -832,15 +852,16 @@ function Manage() {
                 </div>
 
                 <div className="form-group3">
-                  <label htmlFor="itemType">Item Type</label>
+                  <label htmlFor="itemType">Item Type<span className="asterisk3"> *</span></label>
                   <select
                     id="itemType"
                     name="type"
                     placeholder="Item Type"
                     value={itemData.type}
                     onChange={handleInputChange}
-                  >
-                    option
+                    required={!selectedRequest}
+                    >
+                    <option value="">Please select</option>
                     <option value="Electronics">Electronics</option>
                     <option value="Personal-Items">Personal Items</option>
                     <option value="Clothing_Accessories">Clothing & Accessories</option>
@@ -852,7 +873,7 @@ function Manage() {
 
 
                 <div className="form-group3">
-                  <label htmlFor="contact">Contact of the Complainer</label>
+                  <label htmlFor="contact">Contact of the Complainer<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="contact"
@@ -867,15 +888,16 @@ function Manage() {
 
 
                 <div className="form-group3">
-                  <label htmlFor="general_location">General Location</label>
+                  <label htmlFor="general_location">General Location<span className="asterisk3"> *</span></label>
                   <select
                     id="general_location"
                     name="general_location"
                     placeholder="General Location"
                     value={itemData.general_location}
                     onChange={handleInputChange}
-                  >
-                    option
+                    required={!selectedRequest}
+                    >
+                    <option value="">Please select</option>
                     <option value="Gym">GYMNASIUM</option>
                     <option value="adminBuilding">ADMIN BLG</option>
                     <option value="mph">MPH</option>
@@ -895,20 +917,20 @@ function Manage() {
                   </select>
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="location">Location</label>
+                  <label htmlFor="location">Specific Location<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="location"
                     name="location"
                     maxlength="200"
-                    placeholder="Location"
+                    placeholder="Specific Location"
                     value={itemData.location}
                     onChange={handleInputChange}
                     required={!selectedRequest}
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="date">Date Lost</label>
+                  <label htmlFor="date">Date Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="date"
                     id="date"
@@ -919,7 +941,7 @@ function Manage() {
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="time">Time Lost</label>
+                  <label htmlFor="time">Time Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="time"
                     id="time"
@@ -930,7 +952,7 @@ function Manage() {
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="date_complained">Date Complained</label>
+                  <label htmlFor="date_complained">Date Complained<span className="asterisk3"> *</span></label>
                   <input
                     type="date"
                     id="date_complained"
@@ -941,7 +963,7 @@ function Manage() {
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="time_complained">Time Complained</label>
+                  <label htmlFor="time_complained">Time Complained<span className="asterisk3"> *</span></label>
                   <input
                     type="time"
                     id="time_complained"
