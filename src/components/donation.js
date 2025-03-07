@@ -308,9 +308,9 @@ function Foundation() {
     // }
 
     //Apply sorting
-    if (filters.sortByDate === 'ascending') {
+    if (filters.sortByDate === 'descending') {
       filtered.sort((a, b) => new Date(a.foundation_start_date) - new Date(b.foundation_start_date));
-    } else if (filters.sortByDate === 'descending') {
+    } else if (filters.sortByDate === 'ascending') {
       filtered.sort((a, b) => new Date(b.foundation_start_date) - new Date(a.foundation_start_date));
     }
 

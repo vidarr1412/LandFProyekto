@@ -244,9 +244,9 @@ function Additem() {
     }
 
     // Apply sorting
-    if (filters.sortByDate === 'ascending') {
+    if (filters.sortByDate === 'descending') {
       filtered.sort((a, b) => new Date(a.DATE_FOUND) - new Date(b.DATE_FOUND));
-    } else if (filters.sortByDate === 'descending') {
+    } else if (filters.sortByDate === 'ascending') {
       filtered.sort((a, b) => new Date(b.DATE_FOUND) - new Date(a.DATE_FOUND));
     }
 

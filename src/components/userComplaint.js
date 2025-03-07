@@ -349,9 +349,9 @@ const handleCancelUpload = () => {
     }
 
     // Apply sorting
-    if (filters.sortByDate === 'ascending') {
+    if (filters.sortByDate === 'descending') {
       filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-    } else if (filters.sortByDate === 'descending') {
+    } else if (filters.sortByDate === 'ascending') {
       filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
 

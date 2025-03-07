@@ -235,9 +235,9 @@ function Bulletin() {
 
 
     // Apply sorting
-    if (filters.sortByDate === 'ascending') {
+    if (filters.sortByDate === 'descending') {
       filtered.sort((a, b) => new Date(a.DATE_FOUND) - new Date(b.DATE_FOUND));
-    } else if (filters.sortByDate === 'descending') {
+    } else if (filters.sortByDate === 'ascending') {
       filtered.sort((a, b) => new Date(b.DATE_FOUND) - new Date(a.DATE_FOUND));
     }
 
@@ -304,9 +304,12 @@ function Bulletin() {
             {displayedRequests.map((item) => (
               <div className="grid-item4" key={item._id}>
                 <h2>{item.ITEM}</h2>
-                {item.IMAGE_URL && (
-                  <img src={item.IMAGE_URL || "default-image-url"} alt="Product" className="item-image4" />
-                )}
+               
+                  <img src={item.IMAGE_URL || 'sad.jpg'}
+                   alt="Product" 
+                   className={`item-image4 ${!item.IMAGE_URL ? 'item-image4' : ''}`} // Add fallback class conditionally
+                   />
+                
                 <p><span>Date Found: </span> {item.DATE_FOUND}</p>
                 <p><span>Location: </span> {item.GENERAL_LOCATION}</p>
 

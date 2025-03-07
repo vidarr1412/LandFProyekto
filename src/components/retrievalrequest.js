@@ -206,9 +206,9 @@ function UserRetrievalRequests() {
 
 
     // Apply sorting
-    if (filters.sortByDate === 'ascending') {
+    if (filters.sortByDate === 'descending') {
       filtered.sort((a, b) => new Date(a.date_Lost) - new Date(b.date_Lost));
-    } else if (filters.sortByDate === 'descending') {
+    } else if (filters.sortByDate === 'ascending') {
       filtered.sort((a, b) => new Date(b.date_Lost) - new Date(a.date_Lost));
     }
 

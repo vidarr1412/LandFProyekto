@@ -115,7 +115,7 @@ function ManageRequest() {
     }
 
     // Sort by date if specified
-    if (sortByDate === 'descending') {
+    if (sortByDate === 'ascending') {
       filtered = filtered.sort((a, b) => new Date(b.date_Lost) - new Date(a.date_Lost));
     } else {
       filtered = filtered.sort((a, b) => new Date(a.date_Lost) - new Date(b.date_Lost));
