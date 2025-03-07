@@ -40,8 +40,11 @@ const updateItemStatuses = async () => {
       for (const foundation of foundations) {
         const startDate = new Date(foundation.foundation_start_date);
         const endDate = new Date(foundation.foundation_end_date);
-
-        if (itemDate >= startDate && itemDate <= endDate) {
+// Validate that startDate does not exceed endDate if (startDate > endDate) { console.error(❌ Invalid foundation dates for foundation ${foundation._id}: start date ${foundation.foundation_start_date} exceeds end date ${foundation.foundation_end_date}); continue; // Skip this foundation }
+if(startDate>endDate) {
+  continue;
+}      
+if (itemDate >= startDate && itemDate <= endDate) {
           matchedFoundationId = foundation._id;
           console.log(`  ✅ Match found! Assigning foundation_id ${foundation._id} and updating STATUS to "donated"`);
           break; // Stop at the first matching foundation
@@ -941,6 +944,7 @@ app.post("/foundations", async (req, res) => {
     foundation_description,
     foundation_link,
     foundation_contact,
+    foundation_status,
     foundation_image,
     foundation_end_date,
     foundation_start_date,
@@ -957,6 +961,7 @@ app.post("/foundations", async (req, res) => {
     foundation_image,
     foundation_start_date,
     foundation_end_date,
+    foundation_status,
     });
 
     await newFoundationSchema.save();
@@ -1025,12 +1030,12 @@ app.delete("/foundations/:id", async (req, res) => {
 });
 app.put('/foundation/:id', async (req, res) => {
   const { id } = req.params;
-  const { foundation_type } = req.body;
+  const { foundation_status } = req.body;
 
   try {
     const updatedFoundation = await FoundationSchema.findByIdAndUpdate(
       id,
-      { foundation_type },
+      { foundation_status },
       { new: true } // Return the updated document
     );
 

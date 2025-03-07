@@ -129,8 +129,21 @@ function Foundation() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    // Ensure the selected date follows the validation rules
+    if (name === "foundation_start_date" && foundationData.foundation_end_date && value > foundationData.foundation_end_date) {
+        alert("Start Date cannot be after End Date!");
+        return;
+    }
+
+    if (name === "foundation_end_date" && foundationData.foundation_start_date && value < foundationData.foundation_start_date) {
+        alert("End Date cannot be before Start Date!");
+        return;
+    }
+
     setFoundationData({ ...foundationData, [name]: value });
-  };
+};
+
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -191,17 +204,60 @@ function Foundation() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
-      try {
-        await axios.delete(`http://10.10.83.224:5000/foundations/${id}`);
-        fetchItems();
-        showAlert('Item Deleted!', 'complaint_error');
-      } catch (error) {
-        console.error('Error deleting item:', error);
-        alert('Error deleting item. Please try again.'); // Alert on error
-      }
+        try {
+            // Step 1: Fetch all items associated with the foundation
+            const response = await axios.get(`http://10.10.83.224:5000/items/foundation/${id}`);
+            const foundationItems = response.data;
+
+            // Step 2: Update all associated items' status to "unclaimed"
+            await Promise.all(foundationItems.map(async (item) => {
+                await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
+                    ...item, 
+                    STATUS: 'unclaimed' 
+                });
+            }));
+
+            // Step 3: Delete the foundation after updating items
+            await axios.delete(`http://10.10.83.224:5000/foundations/${id}`);
+
+            // Refresh the items list
+            fetchItems();
+
+            showAlert('Item Deleted and associated items marked as unclaimed!', 'complaint_error');
+        } catch (error) {
+            console.error('Error deleting item or updating statuses:', error);
+            alert('Error deleting item or updating statuses. Please try again.');
+        }
+    }
+};
+
+
+  const fetchFoundationItems = async (foundationId) => {
+    try {
+      const response = await axios.get(`http://10.10.83.224:5000/items/foundation/${foundationId}`);
+      setFoundationItems(response.data);
+    } catch (error) {
+      console.error("Error fetching foundation items:", error);
+      showAlert("Failed to load items. Please try again.", "complaint_error");
     }
   };
 
+  const handleStatusChange = async (foundation) => {
+    const newStatus = foundation.foundation_status === 'ended' ? 'onGoing' : 'ended'; // Toggle status
+    try {
+      await axios.put(`http://10.10.83.224:5000/foundation/${foundation._id}`, { ...foundation, foundation_status: newStatus });
+      setRequests((prevRequests) =>
+        prevRequests.map((req) =>
+          req._id === foundation._id ? { ...req, foundation_status: newStatus } : req
+        )
+      );
+
+      showAlert('Status Uodated', 'complaint_success');
+    } catch (error) {
+      console.error('Error updating status:', error);
+      alert('Error updating status. Please try again.');
+    }
+  };
 
   const openModal = (foundation = null) => {
     setSelectedItem(foundation);
@@ -282,24 +338,6 @@ function Foundation() {
   };
 
 
-
-  const handleStatusChange = async (foundation) => {
-    const newStatus = foundation.foundation_status === 'ended' ? 'onGoing' : 'ended'; // Toggle status
-    try {
-      await axios.put(`http://10.10.83.224:5000/foundation/${foundation._id}`, { ...foundation, foundation_status: newStatus });
-      setRequests((prevRequests) =>
-        prevRequests.map((req) =>
-          req._id === foundation._id ? { ...req, foundation_status: newStatus } : req
-        )
-      );
-
-      showAlert('Status Uodated', 'complaint_success');
-    } catch (error) {
-      console.error('Error updating status:', error);
-      alert('Error updating status. Please try again.');
-    }
-  };
-
   const [viewMode, setViewMode] = useState('grid'); // Default to 'table' mode
   const toggleViewMode = () => {
     setViewMode((prevMode) => (prevMode === 'table' ? 'grid' : 'table'));
@@ -344,15 +382,7 @@ function Foundation() {
     setSelectedImage('');
   };
 
-  const fetchFoundationItems = async (foundationId) => {
-    try {
-      const response = await axios.get(`http://10.10.83.224:5000/items/foundation/${foundationId}`);
-      setFoundationItems(response.data);
-    } catch (error) {
-      console.error("Error fetching foundation items:", error);
-      showAlert("Failed to load items. Please try again.", "complaint_error");
-    }
-  };
+
 
 
 
@@ -818,30 +848,32 @@ function Foundation() {
                     />
                   </div>
                   <div className="form-group7">
-                    <label htmlFor="startDate">Start Date<span className="asterisk3"> *</span></label>
-                    <input
-                      type="date"
-                      id="foundation_start_date"
-                      name="foundation_start_date"
-                      placeholder="Foundation Start Date"
-                      value={foundationData.foundation_start_date}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
-                  <div className="form-group7">
-                    <label htmlFor="endDate">End Date<span className="asterisk3"> *</span></label>
-                    <input
-                      type="date"
-                      id="foundation_end_date"
-                      name="foundation_end_date"
-                      maxLength="500"
-                      placeholder="Foundation End Date"
-                      value={foundationData.foundation_end_date}
-                      onChange={handleInputChange}
-                      required={!selectedItem}
-                    />
-                  </div>
+  <label htmlFor="startDate">Start Date</label>
+  <input
+    type="date"
+    id="foundation_start_date"
+    name="foundation_start_date"
+    placeholder="Foundation Start Date"
+    value={foundationData.foundation_start_date}
+    onChange={handleInputChange}
+    max={foundationData.foundation_end_date}  // Prevents selecting a date after the End Date
+    required={!selectedItem}
+  />
+</div>
+
+<div className="form-group7">
+  <label htmlFor="endDate">End Date</label>
+  <input
+    type="date"
+    id="foundation_end_date"
+    name="foundation_end_date"
+    placeholder="Foundation End Date"
+    value={foundationData.foundation_end_date}
+    onChange={handleInputChange}
+    min={foundationData.foundation_start_date} // Prevents selecting a date before the Start Date
+    required={!selectedItem}
+  />
+</div>
 
                   {/* Buttons inside the form */}
                   <div className="button-container7">
