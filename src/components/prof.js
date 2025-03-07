@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
 import Sidebar from "./sidebar";
+import Header from "./header";
 import { storage, db, uploadBytesResumable, getDownloadURL, ref, doc, updateDoc } from "../firebase";
 import { QRCodeCanvas } from "qrcode.react";
 import "../style/prof.css";
 import  showAlert from '../utils/alert';
+import CryptoJS from "crypto-js";
+import jsPDF from "jspdf";
 function Profile() {
   const [user, setUser] = useState({
   
@@ -54,7 +57,56 @@ function Profile() {
       setSelectedFile(file);
     }
   };
-
+  const generateQRCodePDF = () => {
+    const canvas = qrCodeRef.current?.querySelector("canvas");
+    if (!canvas) {
+      alert("QR Code not available!");
+      return;
+    }
+  
+    const imageData = canvas.toDataURL("image/png");
+    const doc = new jsPDF();
+  
+    // QR code sizes
+    const smallSize = 0.5 * 35.35; // 5 cm converted to PDF points
+    const largeSize = 0.5 * 72; // 0.75 inch converted to PDF points
+    const margin = 5; // Spacing between QR codes
+    const qrPerRow = 7; // 7 QR codes per row
+    const totalRows = 8; // 8 rows in total (4 small, 4 large)
+  
+    let x = margin;
+    let y = margin;
+    let count = 0;
+  
+    // First 4 rows: Small QR Codes (5x5 cm)
+    for (let i = 0; i < qrPerRow * 4; i++) {
+      doc.addImage(imageData, "PNG", x, y, smallSize, smallSize);
+      x += smallSize + margin;
+      count++;
+  
+      // Move to the next row after reaching 7 QR codes in a row
+      if (count % qrPerRow === 0) {
+        x = margin;
+        y += smallSize + margin;
+      }
+    }
+  
+    // Next 4 rows: Large QR Codes (0.75x0.75 inch)
+    for (let i = 0; i < qrPerRow * 4; i++) {
+      doc.addImage(imageData, "PNG", x, y, largeSize, largeSize);
+      x += largeSize + margin;
+      count++;
+  
+      // Move to the next row after reaching 7 QR codes in a row
+      if (count % qrPerRow === 0) {
+        x = margin;
+        y += largeSize + margin;
+      }
+    }
+  
+    doc.save("QRCode_Document.pdf");
+  };
+  
   const handleUpload = async () => {
     if (!selectedFile || !userId) {
       showAlert('Image Uploaded!', 'complaint_success');
@@ -137,36 +189,51 @@ function Profile() {
       alert("An error occurred while updating profile.");
     }
   };
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      userId = decoded.id;
+    } catch (error) {
+      console.error("Invalid token:", error);
+    }
+  }
+  const generateQRValue = (id) => {
+    if (!id) return "";
+    
+    // Encrypt user ID using AES
+    const encryptedId = CryptoJS.AES.encrypt(id, "mySuperSecretKey123!").toString();
+    
+    return `http://10.10.83.224:3000/<${encryptedId}>`;
+};
 
   const downloadQRCode = () => {
-    const canvas = qrCodeRef.current; // Reference to the QRCodeCanvas component
+    const canvas = qrCodeRef.current;
     if (canvas && canvas.querySelector("canvas")) {
       const qrCanvas = canvas.querySelector("canvas");
-      
-      // Create a new canvas to apply the background and border
-      const newCanvas = document.createElement('canvas');
-      const context = newCanvas.getContext('2d');
-      
-      const padding = 20; // Padding value
-      const size = 150 + padding * 2; // Adjust size based on padding
-      newCanvas.width = size;
-      newCanvas.height = size;
+      const qrWidth = qrCanvas.width;
+      const qrHeight = qrCanvas.height;
   
-      // Set the background color and draw a border
-      context.fillStyle = 'white';
-      context.fillRect(0, 0, newCanvas.width, newCanvas.height); // White background
-      context.lineWidth = 2;
-      context.strokeStyle = 'black';
-      context.strokeRect(0, 0, newCanvas.width, newCanvas.height); // Black border
+      // Create an off-screen canvas
+      const newCanvas = document.createElement("canvas");
+      const ctx = newCanvas.getContext("2d");
   
-      // Draw the original QR code onto the new canvas with padding
-      context.drawImage(qrCanvas, padding, padding, 150, 150);
+      // Set new canvas size (adding white border)
+      const padding = 20; // Adjust for desired border thickness
+      newCanvas.width = qrWidth + padding * 2;
+      newCanvas.height = qrHeight + padding * 2;
   
-      // Convert the canvas to an image and trigger the download
+      // Fill the background with white
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+  
+      // Draw the original QR code onto the new canvas
+      ctx.drawImage(qrCanvas, padding, padding);
+  
+      // Convert to image and download
       const imageURL = newCanvas.toDataURL("image/png");
       const link = document.createElement("a");
       link.href = imageURL;
-      link.download = `${userId}-QRCode.png`; // Download the QR code with user ID
+      link.download = `${userId}-QRCode.png`;
       link.click();
     } else {
       alert("QR Code not available!");
@@ -177,6 +244,7 @@ function Profile() {
   return (
     <div className="home-container1">
       <Sidebar />
+      <Header />
       <div className="profile-container">
         <div className="profile-sidebar">
           <div className="profile-avatar">
@@ -237,15 +305,17 @@ function Profile() {
               />
             </div>
 
-            {/* <div className="form-group">
+           <div className="form-group">
               <label>QR Code</label>
               {userId && (
-                <div ref={qrCodeRef}>
-                  <QRCodeCanvas value={userId} size={150} />
-                </div>
-              )}
+        <div ref={qrCodeRef}>
+          <QRCodeCanvas value={generateQRValue(userId)} size={150} />
+        </div>
+      )}
             </div>
-            <button type="button" onClick={downloadQRCode}>Download QR Code</button> */}
+            <button type="button" onClick={downloadQRCode}>Download QR Code</button> 
+            <button onClick={generateQRCodePDF}>Download QR Codes PDF</button>
+
 
             <button type="submit" className="save-button">Save</button>
           </form>
