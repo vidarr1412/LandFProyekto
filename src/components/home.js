@@ -17,13 +17,11 @@ function Home() {
           <p>
             Step into a world where the art of Interior Design is meticulously crafted to bring together timeless elegance and cutting-edge modern innovation. Allowing you to transform your living spaces into the epitome of luxury and sophistication.
           </p>
-          <NavLink to="/mana">
+          <NavLink to="/userComplaints">
             <button className="get-qr-button">File Report Now</button>
           </NavLink>
           <div className='divider'></div>
-          <NavLink to="/mana">
-            <button className="get-qr-button">Add Item Now</button>
-          </NavLink>
+
         </div>
 
         {/* Statistics Section */}

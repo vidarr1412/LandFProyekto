@@ -287,6 +287,12 @@ function Profile() {
               <label>Year Level</label>
               <input type="text" value={user.year_lvl} onChange={(e) => setUser({ ...user, year_lvl: e.target.value })} />
             </div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <h3>Change Passworrd</h3>
+
             <div className="form-group">
               <label>Password (Leave blank to keep current password)</label>
               <input 
@@ -313,11 +319,12 @@ function Profile() {
         </div>
       )}
             </div>
-            <button type="button" onClick={downloadQRCode}>Download QR Code</button> 
-            <button onClick={generateQRCodePDF}>Download QR Codes PDF</button>
+            <div className="boton"> 
+              <button type="button"  onClick={downloadQRCode} className="save-button">Download QR Code</button> <br></br>
+              <button onClick={generateQRCodePDF} className="save-button">Download QR Codes PDF</button> <br></br>
+              <button type="submit" className="ssave-button">Update Profile</button>
+            </div>
 
-
-            <button type="submit" className="save-button">Save</button>
           </form>
         </div>
       </div>
