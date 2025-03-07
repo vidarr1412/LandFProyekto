@@ -132,10 +132,15 @@ const Sidebar = () => {
               <FaHome className="nav-icon" /> Profile
             </NavLink>
             <div className="logout">
-            <NavLink to="/login" activeClassName="active">
-              <FaSignOutAlt className="nav-icon" /> Log Out
-              <button onClick={handleLogout}></button>
+            <NavLink  activeClassName="active">
+           
+          
+           
+              <button onClick={handleLogout}>
+              <FaSignOutAlt  /> Log Out
+              </button>
             </NavLink>
+         
           </div>
             </>
             
