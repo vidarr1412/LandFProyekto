@@ -34,8 +34,7 @@
   }
 
   .search-bar6 input:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    
+    border: .1rem solid #1565dd;
   }
   
   .search-bar6 input {
@@ -384,7 +383,7 @@
   background-color: #f0f0f0; /* Background color for items */
   padding: 20px; /* Padding inside items */
   border: 1px solid #ccc; /* Optional: Border for items */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 1rem; /* Rounded corners */
   text-align: center; /* Center text */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
   width: 105%; /* Ensure grid items take full width of their cell */
@@ -717,14 +716,14 @@ font-weight: 500;
 }
 
 /* -------------------------------------------------- */
-.default-table-url4 {
+.default-table-url6 {
   width: 100%;
   height: auto;
   
   
 
 }
-.default-table-url14 {
+.default-table-url16 {
   width: 40%;
   height: auto;
   margin-bottom: 10px;
@@ -732,20 +731,20 @@ font-weight: 500;
    
 }
 
-.default-table-url14:hover {
+.default-table-url16:hover {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 transform: translateY(-1px);
 cursor: pointer;
 }
 
-.default-grid-url4 {
+.default-grid-url6 {
   width: 100%;
   height: auto;
   
   
   border-Radius: 5px; 
 }
-.default-grid-url14 {
+.default-grid-url16 {
   width: 100%;
   height: 35%;
   margin-bottom: 10px;
@@ -753,11 +752,21 @@ cursor: pointer;
    
 }
 
-.default-grid-url14:hover {
+.default-grid-url16:hover {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 transform: translateY(-1px);
 cursor: pointer;
 }
+
+.default-show-url16 {
+  width: 100%;
+  height: 35%;
+  margin-bottom: 10px;
+  border-Radius: 25px;
+   
+}
+
+
 
 /* ------------------------------------------- */
 

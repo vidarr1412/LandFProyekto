@@ -297,10 +297,10 @@ function UserRetrievalRequests() {
                       <td>{request.general_location || "N/A"}</td>
                       <td>{request.specific_location || "N/A"}</td>
                       <td> <img
-                        src={request.owner_image || "default-table-url4"}
+                        src={request.owner_image || 'sad.jpg'}
                         alt="Product"
-                        className="default-table-url14"
-                        onClick={() => handleImageClick(request.owner_image || "default-table-url4")} // Add click handler
+                        className={`default-table-url16 ${!request.owner_image ? '.default-table-url16' : ''}`} // Add fallback class conditionally
+                        onClick={() => handleImageClick(request.owner_image || 'sad.jpg')} // Add click handler
                       /></td>
                       <td>{request.date_Lost || "N/A"}</td>
                       <td>{request.time_Lost || "N/A"}</td>
@@ -321,10 +321,10 @@ function UserRetrievalRequests() {
                 <div className="grid-item6" key={request._id}>
                   <h2>{request.item_name}</h2>
                   <img
-                    src={request.owner_image || "default-grid-url4"}
+                    src={request.owner_image || 'sad.jpg'}
                     alt="Product"
-                    className="default-grid-url14"
-                    onClick={() => handleImageClick(request.owner_image || "default-image-url4")} // Add click handler
+                    className={`default-grid-url16 ${!request.owner_image ? '.default-grid-url16' : ''}`} // Add fallback class conditionally
+                    onClick={() => handleImageClick(request.owner_image || 'sad.jpg')} // Add click handler
                   />
                   <p><strong>Description: </strong><span>{request.description} </span></p>
                   <p><strong>General Location: </strong><span>{request.general_location} </span></p>
@@ -357,9 +357,9 @@ function UserRetrievalRequests() {
               <div className="card6">
                 <h2>Item Details</h2>
                 <img
-                  src={selectedRequest.owner_image || "default-image-url6"}
+                  src={selectedRequest.owner_image || 'sad.jpg'}
                   alt="Product"
-                  className="default-image-url16"
+                  className={`default-show-url16 ${!selectedRequest.owner_image ? '.default-show-url16' : ''}`} // Add fallback class conditionally
                 />
                 <p><strong>Item Name:</strong> {selectedRequest.item_name || "N/A"}</p>
                 <p><strong>Description:</strong> {selectedRequest.description || "N/A"}</p>

@@ -182,11 +182,10 @@
 .status-btn2{
   color: white;
   padding: 5px 12px;
-  font-size: 12px;
   margin: 0px 2px; /* Adds horizontal spacing between buttons */
   border: none;
   font-size: 15px;
-  border-radius: 20px;
+  border-radius: 1rem;
   margin-left: 0px;
   display: inline-block; /* Ensure it behaves like a button */
   max-height: none; /* Remove max-height */
@@ -354,7 +353,7 @@
   margin: 30px auto 0; /* Center the container */
   overflow-x: auto; /* Enable horizontal scrolling */
   border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
-  border-radius: 5px; /* Optional: Add rounded corners */
+  border-radius: 1rem; /* Optional: Add rounded corners */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
 }
 
@@ -375,7 +374,7 @@
   vertical-align: top; /* Align text to the top */
   
   word-wrap: break-word; /* Allow long words to break */
-  max-width: 200px; /* Set a max width for cells */
+  max-width: 2rem; /* Set a max width for cells */
 }
 
 .ffound-items-table2 th {
@@ -405,8 +404,7 @@
 }
 
 .search-bar2 input:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  
+  border: .1rem solid #1565dd;
 }
 
 .search-bar2 input {
@@ -551,11 +549,11 @@ transform: translateY(-1px);
   background-color: #f0f0f0; /* Background color for items */
   padding: 20px; /* Padding inside items */
   border: 1px solid #ccc; /* Optional: Border for items */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 1rem; /* Rounded corners */
   text-align: center; /* Center text */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
   width: 105%; /* Ensure grid items take full width of their cell */
-  max-height: 550px;
+  max-height: 35rem;
 }
 
 
@@ -613,7 +611,7 @@ cursor: pointer;
   width: 100%;
   height: 30%;
   margin-bottom: 10px;
-  border-Radius: 5px; 
+  border-Radius: 1rem; 
 }
 
 .default-grid-url13:hover {

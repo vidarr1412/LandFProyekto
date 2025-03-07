@@ -537,7 +537,7 @@ const handleCancelUpload = () => {
 
 
                 <div className="form-group2">
-                  <label htmlFor="itemName">Item Name</label>
+                  <label htmlFor="itemName">Item Name<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="itemName"
@@ -551,7 +551,7 @@ const handleCancelUpload = () => {
                 </div>
 
                 <div className="form-group2">
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description">Description<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="description"
@@ -565,7 +565,7 @@ const handleCancelUpload = () => {
                 </div>
 
                 <div className="form-group2">
-                  <label htmlFor="itemType">Item Type</label>
+                  <label htmlFor="itemType">Item Type<span className="asterisk3"> *</span></label>
                   <select
                     id="itemType"
                     name="type"
@@ -573,7 +573,9 @@ const handleCancelUpload = () => {
                     placeholder="Item Type"
                     value={itemData.type}
                     onChange={handleInputChange}
+                    required={!selectedRequest}
                   >
+                    <option value="">Please select</option>
                     <option value="Electronics">Electronics</option>
                     <option value="Personal-Items">Personal Items</option>
                     <option value="Clothing_Accessories">Clothing & Accessories</option>
@@ -587,7 +589,7 @@ const handleCancelUpload = () => {
 
 
                 <div className="form-group2">
-                  <label htmlFor="general_location">General Location</label>
+                  <label htmlFor="general_location">General Location<span className="asterisk3"> *</span></label>
                   <select
                     id="general_location"
                     name="general_location"
@@ -595,8 +597,9 @@ const handleCancelUpload = () => {
                     placeholder="General Location"
                     value={itemData.general_location}
                     onChange={handleInputChange}
+                    required={!selectedRequest}
                   >
-
+                    <option value="">Please select</option>
                     <option value="Gym">GYMNASIUM</option>
                     <option value="adminBuilding">ADMIN BLG</option>
                     <option value="mph">MPH</option>
@@ -616,7 +619,7 @@ const handleCancelUpload = () => {
                   </select>
                 </div>
                 <div className="form-group2">
-                  <label htmlFor="Slocation">Specific Location</label>
+                  <label htmlFor="Slocation">Specific Location<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="location"
@@ -629,7 +632,7 @@ const handleCancelUpload = () => {
                   />
                 </div>
                 <div className="form-group2">
-                  <label htmlFor="date">Date Lost</label>
+                  <label htmlFor="date">Date Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="date"
                     id="date"
@@ -640,7 +643,7 @@ const handleCancelUpload = () => {
                   />
                 </div>
                 <div className="form-group2">
-                  <label htmlFor="time">Time Lost</label>
+                  <label htmlFor="time">Time Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="time"
                     id="time"
@@ -653,16 +656,18 @@ const handleCancelUpload = () => {
 
 
                 <div className="form-group2">
-                  <label htmlFor="item_image">Item Image</label>
+                  <label htmlFor="item_image">Item Image<span className="asterisk3"> *</span></label>
                   <input
                     type="file"
                     id="item_image"
                     name="item_image"
                     accept="image/*"
+                    required={!selectedRequest}
                     onChange={(e) => {
                       handleImageUpload(e);
                       setImagePreview(null); // Reset preview when a new file is selected
                     }}
+                    
 />
                 </div>
 

@@ -338,7 +338,7 @@ function Bulletin() {
               <form onSubmit={handleModalSubmit} className="form-fields4">
                 {/* Form fields */}
                 <div className="form-group4">
-                  <label htmlFor="item_name">Item Name:</label>
+                  <label htmlFor="item_name">Item Name<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="item_name"
@@ -352,7 +352,7 @@ function Bulletin() {
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description">Description<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="description"
@@ -366,7 +366,7 @@ function Bulletin() {
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="general_location">General Location</label>
+                  <label htmlFor="general_location">General Location<span className="asterisk3"> *</span></label>
                   <select
                     id="general_location"
                     name="general_location"
@@ -377,14 +377,28 @@ function Bulletin() {
                     }
                     required
                   >
-                    <option value="" disabled>Select a location</option>
-                    <option value="Gym">GYM</option>
+                    <option value="">Select a location</option>
+                    <option value="Gym">GYMNASIUM</option>
+                    <option value="adminBuilding">ADMIN BLG</option>
+                    <option value="mph">MPH</option>
                     <option value="mainLibrary">MAIN LIBRARY</option>
+                    <option value="lawn">LAWN</option>
+                    <option value="ids">IDS</option>
+                    <option value="clinic">CLINIC</option>
+                    <option value="canteen">CANTEEN</option>
+                    <option value="ceba">CEBA</option>
+                    <option value="ccs">CCS</option>
+                    <option value="cass">CASS</option>
+                    <option value="csm">CSM</option>
+                    <option value="coe">COE</option>
+                    <option value="ced">CED</option>
+                    <option value="chs">CHS</option>
+                    <option value="outsideIit">OUTSIDE IIT</option>
                   </select>
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="specific_location">Specific Location</label>
+                  <label htmlFor="specific_location">Specific Location<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="specific_location"
@@ -398,7 +412,7 @@ function Bulletin() {
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="date_Lost">Date Lost</label>
+                  <label htmlFor="date_Lost">Date Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="date"
                     id="date_Lost"
@@ -412,7 +426,7 @@ function Bulletin() {
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="time_Lost">Time Lost</label>
+                  <label htmlFor="time_Lost">Time Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="time"
                     id="time_Lost"

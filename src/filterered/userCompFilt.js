@@ -90,7 +90,7 @@ const Filter = ({ onApplyFilters }) => {
                         value={dateLost}
                         onChange={(e) => setDateLost(e.target.value)}
                     />
-                    <span className="tooltip2">Select Date Lost</span>
+                    <span className="tooltip2">Select Report Date</span>
                 </div>
 
                 <div className="tooltip-container2">
@@ -98,7 +98,7 @@ const Filter = ({ onApplyFilters }) => {
                     <option value="ascending">Sort by Date (Ascending)</option>
                     <option value="descending">Sort by Date (Descending)</option>
                 </select>
-                <span className="tooltip2">Sort Date Lost</span>
+                <span className="tooltip2">Sort Report Date</span>
                 </div>
 
                 <button onClick={handleUndoAllChanges} disabled={JSON.stringify(initialFilters) === JSON.stringify({  itemType,  generalLocation, status, dateLost, sortByDate })}>
