@@ -451,12 +451,12 @@ const handleCloseImageModal = () => {
 
 useEffect(() => {
   setMessage(
-    `Dear ${userDetails.firstName || "Recipient"},<br/><br/>
+    `Dear ${userDetails.firstName || "Recipient"},
     We found your <strong>${itemData.ITEM || "item"}</strong> 
-    at <strong>${itemData.FOUND_LOCATION || "location"}</strong> 
-    and would love to return it to you.<br/><br/>
-    Please let us know how we can arrange for you to get it back.<br/><br/>
-    Best regards,<br/>
+    at ${itemData.FOUND_LOCATION || "location"}
+    and would love to return it to you.
+    Please let us know how we can arrange for you to get it back.
+    Best regards,
     Your Team`
   );
 }, [userDetails, itemData]);
