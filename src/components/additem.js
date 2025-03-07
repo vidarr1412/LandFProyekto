@@ -480,7 +480,7 @@ function Additem() {
                           <IoMdArrowDropdown className='arrow1' />
                         </button>
                       </td>
-                      <td>{item.foundation_id?.foundation_name}</td>
+                      <td>{item.foundation_id?.foundation_name||'N/A'}</td>
                       <td>
                         <button className="view-btn1" onClick={() => handleViewMore(item)}>
                           <FaPlus /> View More
