@@ -13,7 +13,7 @@ import { ref, uploadBytesResumable, uploadString, getDownloadURL } from "firebas
 import Header from './header';
 import Filter from '../filterered/foundFilt'; // Adjust the import path as necessary
 import Modal from './image'; // Import the Modal component
-
+import { FaFileExcel } from "react-icons/fa"; // Import the Excel icon
 import showAlert from '../utils/alert';
 
 function Additem() {
@@ -91,7 +91,31 @@ function Additem() {
     });
   };
 
+  async function blurImage(imageUrl) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous"; // Allow cross-origin image fetching
+        img.src = imageUrl;
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
 
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            // Draw the original image
+            ctx.drawImage(img, 0, 0);
+
+            // Apply blur effect
+            ctx.filter = "blur(10px)"; // Adjust blur intensity as needed
+            ctx.drawImage(img, 0, 0);
+
+            // Convert to base64
+            resolve(canvas.toDataURL("image/png"));
+        };
+        img.onerror = (err) => reject(err);
+    });
+}
   const fetchItems = async () => {
     try {
       const response = await axios.get('http://10.10.83.224:5000/items');
@@ -151,6 +175,7 @@ function Additem() {
         alert('Error uploading owner image. Please try again.'); // Alert on error
         return; // Exit the function
       }
+      
     }
 
     // Step 3: Update itemData with the image URLs
@@ -164,14 +189,66 @@ function Additem() {
         const response = await axios.post('http://10.10.83.224:5000/items', updatedData);
         setRequests([...requests, response.data]);
         showAlert('Item Added!', 'complaint_success');
-      }
+        
+        console.log("Form Submitted! Sending request to Facebook...");
+
+        // Construct the message
+        const message = `
+        ❗❗❗Lost & Found Item❗❗❗
+        
+        Item Found: ${itemData.ITEM}  
+        Location Found: ${itemData.GENERAL_LOCATION}  
+        Date Found: ${itemData.DATE_FOUND}  
+        Time Received: ${itemData.TIME_RETURNED}  
+
+        For inquiries : SECURITY AND INVESTIGATION DIVISION(SID) MSU-IIT
+        Located at Infront of Cafeteria and behind MPH(Multipurpose Hall/Basketball Court)
+        `;
+        
+        console.log("Message to be posted:", message);
+        
+        // Your Facebook Page Access Token
+        const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
+        const pageId = "260032237684833";
+        
+        let formData = new FormData();
+        formData.append("message", message);
+        formData.append("access_token", accessToken);
+        
+        if (imageUrl) {
+            formData.append("url", imageUrl); // Attach image
+        }
+        
+        try {
+            // **Single request to post with image & message**
+            const fbResponse = await fetch(`https://graph.facebook.com/v19.0/${pageId}/photos`, {
+                method: "POST",
+                body: formData,
+            });
+        
+            const fbResult = await fbResponse.json();
+            console.log("Facebook API Response:", fbResult);
+        
+            if (fbResult.id) {
+                alert("Successfully posted to Facebook with image!");
+            } else {
+                alert("Error posting to Facebook: " + JSON.stringify(fbResult));
+            }
+        
+            setShowModal(false);
+            fetchItems();
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            alert("Error submitting form. Please try again.");
+        }
+         }
       setShowModal(false);
       fetchItems();
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Error submitting form. Please try again.');
-    }
-  };
+    }  catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Error submitting form. Please try again.");
+  }
+};
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
@@ -185,7 +262,10 @@ function Additem() {
       }
     }
   };
-
+  const handleDownload = () => {
+    const downloadLink = "https://docs.google.com/spreadsheets/d/1gDsrxa4u3Pvd9fv6CcVbvva62oimz9O_l7CqbTD1oBc/export?format=xlsx";
+    window.open(downloadLink, "_blank");
+  };
   const openModal = (item = null) => {
     setSelectedItem(item);
     setItemData(
@@ -315,7 +395,7 @@ function Additem() {
                 });
             };
           } else {
-            console.error('Video reference is null');
+       
           }
         })
         .catch((err) => {
@@ -398,11 +478,19 @@ function Additem() {
               {viewMode === 'table' ? <FaTable /> : <IoGridOutline />}
             </button>
 
-
+            <button
+  className="view-excel-toggle1"
+  onClick={handleDownload}
+  
+>
+  <FaFileExcel size={20} />
+</button>
           </div>
 
           <div className="top-right-buttons1">
+            
             <button className="add-item-btn1" onClick={() => openModal()}>+ Add Found Item</button>
+         
             {/* <button className="register-qr-btn1">Register QR Code</button> */}
           </div>
 
@@ -472,9 +560,9 @@ function Additem() {
                           className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' ?
                             (item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' :
                               (item.STATUS.toLowerCase() === 'claimed' ? 'claimed' : 'donated')) : ''} 
-                               ${item.STATUS.toLowerCase() === 'donated' ? 'disabled' : ''}`} // Add 'disabled' class if status is 'donated'
-                          onClick={() => item.STATUS.toLowerCase() !== 'donated' && handleStatusChange(item)} // Prevent click if status is 'donated'
-                          disabled={item.STATUS.toLowerCase() === 'donated'} // Disable button if status is 'donated'
+      ${item.STATUS && item.STATUS.toLowerCase() === 'donated' ? 'disabled' : ''}`}
+                          onClick={() => item.STATUS && item.STATUS.toLowerCase() !== 'donated' && handleStatusChange(item)}
+                          disabled={item.STATUS && item.STATUS.toLowerCase() === 'donated'}
                         >
                           {item.STATUS || 'Unclaimed'}
                           <IoMdArrowDropdown className='arrow1' />
@@ -563,7 +651,7 @@ function Additem() {
                     {activeTab === 'item' ? (
                       <>
                         <div className="form-group1">
-                          <label htmlFor="finderName">Finder Name</label>
+                          <label htmlFor="finderName">Finder Nameedit</label>
                           <input
                             type="text"
                             id="finderName"
@@ -680,7 +768,7 @@ function Additem() {
                             <option value="coe">COE</option>
                             <option value="ced">CED</option>
                             <option value="chs">CHS</option>
-                            <option value="outsideIit">OUTSIDE IIT</option>
+                            <option value="outsideiit">OUTSIDE IIT</option>
                           </select>
                         </div>
                         <div className="form-group1">
@@ -970,6 +1058,7 @@ function Additem() {
                     <button className="edit-btn1" onClick={handleEdit}>Edit</button>
                     <button className="cancel-btn1" onClick={() => setShowModal(false)}>Cancel</button>
                   </div>
+                  
                 </div>
               )
             ) : (
@@ -993,7 +1082,7 @@ function Additem() {
 
 
                       <div className="form-group1">
-                        <label htmlFor="finderType">Finder TYPE<span className="asterisk3"> *</span></label>  {/* ADD DROP DOWN */}
+                        <label htmlFor="finderType">Finder TYPE submit ni<span className="asterisk3"> *</span></label>  {/* ADD DROP DOWN */}
 
                         <select
                           id="finderType"
@@ -1099,7 +1188,7 @@ function Additem() {
                           <option value="coe">COE</option>
                           <option value="ced">CED</option>
                           <option value="chs">CHS</option>
-                          <option value="outsideIit">OUTSIDE IIT</option>
+                          <option value="outsideiit">OUTSIDE IIT</option>
                         </select>
                       </div>
                       <div className="form-group1">
@@ -1258,7 +1347,7 @@ function Additem() {
                   <video ref={videoRef} width="320" height="240" autoPlay />
                   <canvas ref={canvasRef} style={{ display: 'none' }} />
                   <div className="camera-buttons">
-                    <button type="button" onClick={captureImage}>Capture Image</button>
+                    <button type="button" onClick={captureImage}>Capture Imagesubmit</button>
                   </div>
                   {/* Show the captured image based on the active tab */}
                   {activeTab === 'item' && image && (

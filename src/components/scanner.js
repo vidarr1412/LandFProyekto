@@ -283,13 +283,66 @@ const handleFormSubmit = async (e) => {
       const response = await axios.post('http://10.10.83.224:5000/items', updatedData);
       setRequests([...requests, response.data]);
       showAlert('Item Added!', 'complaint_success');
-    }
+      
+        
+      console.log("Form Submitted! Sending request to Facebook...");
+
+      // Construct the message
+      const message = `
+      📌 *❗❗❗Lost & Found Item❗❗❗*  
+      
+      Item Name: ${itemData.ITEM}  
+      General Location: ${itemData.GENERAL_LOCATION}  
+      Date Found: ${itemData.DATE_FOUND}  
+      Time Received: ${itemData.TIME_RETURNED}  
+
+      For inquiries : SECURITY AND INVESTIGATION DIVISION(SID) MSU-IIT
+      *Located at Infront of Cafeteria and behind MPH(Multipurpose Hall/Basketball Court)*
+      `;
+      
+      console.log("Message to be posted:", message);
+      
+      // Your Facebook Page Access Token
+      const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
+      const pageId = "260032237684833";
+      
+      let formData = new FormData();
+      formData.append("message", message);
+      formData.append("access_token", accessToken);
+      
+      if (imageUrl) {
+          formData.append("url", imageUrl); // Attach image
+      }
+      
+      try {
+          // **Single request to post with image & message**
+          const fbResponse = await fetch(`https://graph.facebook.com/v19.0/${pageId}/photos`, {
+              method: "POST",
+              body: formData,
+          });
+      
+          const fbResult = await fbResponse.json();
+          console.log("Facebook API Response:", fbResult);
+      
+          if (fbResult.id) {
+              alert("Successfully posted to Facebook with image!");
+          } else {
+              alert("Error posting to Facebook: " + JSON.stringify(fbResult));
+          }
+      
+          setShowModal(false);
+          fetchItems();
+      } catch (error) {
+          console.error("Error submitting form:", error);
+          alert("Error submitting form. Please try again.");
+      }
+       }
     setShowModal(false);
     fetchItems();
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    alert('Error submitting form. Please try again.');
-  }
+  }  catch (error) {
+    console.error("Error submitting form:", error);
+    alert("Error submitting form. Please try again.");
+}
   e.preventDefault();
 
   // Prepare email content
@@ -452,12 +505,12 @@ const handleCloseImageModal = () => {
 useEffect(() => {
   setMessage(
     `Dear ${userDetails.firstName || "Recipient"},
-    We found your <strong>${itemData.ITEM || "item"}</strong> 
+    We found your ${itemData.ITEM || "item"}
     at ${itemData.FOUND_LOCATION || "location"}
     and would love to return it to you.
     Please let us know how we can arrange for you to get it back.
     Best regards,
-    Your Team`
+    SID - MSUIIT`
   );
 }, [userDetails, itemData]);
 
