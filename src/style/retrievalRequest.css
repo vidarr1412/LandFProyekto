@@ -703,7 +703,7 @@ font-weight: 500;
   .form-and-camera6 {
     flex-direction: column;
   }
-
+/* modal */
   .modal66 {
     display: flex;
     flex-direction: column; /* Stack items vertically */
@@ -735,7 +735,28 @@ font-weight: 500;
     border-radius: 6px; /* Optional: Adds rounded corners */
     font-size: larger;
   }
+
+  .modal-details6 {
+    width: 110%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between columns */
+    margin-top: 20px; /* Space above the details */
+    margin-left: -30px;
+    padding-right: 10px; /* Prevents content from being cut off due to scrollbar */
+  }
   
+  
+.modal6 {
+  width: 700px;         /* Extend the modal width */
+  margin: 50px auto;    /* Center modal on the screen */
+  padding: 20px;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 8px;
+  background-color: transparent;
+  max-height: 700px; /* Adjust based on the desired maximum height */
+  overflow-y: auto; /* Enables vertical scrolling */
+}
 }
 
 /* ------------------------------------------ */
