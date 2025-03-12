@@ -277,6 +277,16 @@ li {
 }
 
 
+.social-icons a {
+  margin: 0 10px;
+  font-size: 20px;
+  color: #333;
+  text-decoration: none;
+}
+
+.social-icons a:hover {
+  color: #0077b5; /* Add your preferred hover color */
+}
 
  /* --------------------------------------------------------------------------------------------------- */
  @media (max-width: 768px) {
