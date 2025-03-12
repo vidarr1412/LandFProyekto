@@ -21,5 +21,11 @@
     height: 700px;
   }
 
+@media (max-width: 768px) {
+  .enlarged-image {
+    width: 370px;
+    height: 500px;
+  }
+}
  
   

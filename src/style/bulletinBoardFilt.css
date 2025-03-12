@@ -101,3 +101,57 @@
     visibility: visible; /* Show tooltip */
     opacity: 1; /* Make tooltip visible */
 }
+
+
+
+@media (max-width: 768px) {
+
+    .filter-container3 {
+        display: flex;
+        flex-direction: column; /* Stack the filter inputs vertically */
+        gap: 10px;
+        margin-left:-30px;
+        margin-top: 70px;
+        margin-bottom: -75px;
+        width:auto;
+
+    }
+
+    .filter-inputs-container3{
+
+        flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        gap: 10px;
+        padding: 10px; /* Add padding to the container */
+        border: 1px solid #ccc; /* Border for the container */
+        border-radius: 30px; /* Rounded corners */
+        transition: background-color 0.3s; 
+        width: 130%;
+        margin-left: -30px;
+    }
+
+    .filter-inputs-container3 select {
+        
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        transition: border-color 0.3s, background-color 0.3s;
+        flex: 1; /* Allow inputs to grow and fill space */
+        width: 100%; /* Set a minimum width for inputs */
+    }
+
+    .tooltip-container3 {
+        position: relative;
+        display: inline-block; 
+        width: 50%;
+    }
+
+    .filter-inputs-container3 button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+}

@@ -81,24 +81,31 @@ const Filter = ({ onApplyFilters }) => {
                     <option value="not-found">Not Found</option>
                 </select>
 
-
                 <div className="tooltip-container2">
-                    <input
+                    <div className="column">
+                        <input
+                        placeholder="Select Date"
                         type="date"
                         id="dateLost"
                         className={dateLost ? 'active-filter2' : ''}
                         value={dateLost}
                         onChange={(e) => setDateLost(e.target.value)}
-                    />
-                    <span className="tooltip2">Select Report Date</span>
-                </div>
+                        />
+                        <span className="tooltip2">Select Report Date</span>
+                    </div>
+
+                    <div className="column">
+                        <select value={sortByDate} onChange={(e) => setSortByDate(e.target.value)}>
+                        <option value="ascending">Sort by Date (Ascending)</option>
+                        <option value="descending">Sort by Date (Descending)</option>
+                        </select>
+                        <span className="tooltip2">Sort Report Date</span>
+                    </div>
+                    </div>
+
 
                 <div className="tooltip-container2">
-                <select value={sortByDate} onChange={(e) => setSortByDate(e.target.value)}>
-                    <option value="ascending">Sort by Date (Ascending)</option>
-                    <option value="descending">Sort by Date (Descending)</option>
-                </select>
-                <span className="tooltip2">Sort Report Date</span>
+
                 </div>
 
                 <button onClick={handleUndoAllChanges} disabled={JSON.stringify(initialFilters) === JSON.stringify({  itemType,  generalLocation, status, dateLost, sortByDate })}>

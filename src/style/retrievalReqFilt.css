@@ -101,3 +101,44 @@
     visibility: visible; /* Show tooltip */
     opacity: 1; /* Make tooltip visible */
 }
+
+@media (max-width: 768px) {
+    .filter-container4 {
+        display: flex;
+        flex-direction: column; /* Stack the filter inputs vertically */
+        gap: 10px;
+        margin-left:-20px;
+        margin-top: 70px;
+        margin-bottom: -10px;
+        width:auto;
+    }
+
+    .filter-inputs-container4 {
+        display:grid;
+        flex-direction: column;
+        flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        gap: 10px;
+        padding: 10px; /* Add padding to the container */
+        border: 1px solid #ccc; /* Border for the container */
+        border-radius: 30px; /* Rounded corners */
+        transition: background-color 0.3s; /* Smooth transition for background color */
+        width: 140%;
+        margin-left: -10px;
+    }
+
+    .tooltip-container4{
+        width: 10%;
+        position: relative; /* Position relative for absolute positioning of tooltip */
+        display: inline-block; /* Allow tooltip to be positioned relative to the input */
+    }
+
+    .filter-inputs-container4 select {
+
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        transition: border-color 0.3s, background-color 0.3s;
+        flex: 1; /* Allow inputs to grow and fill space */
+        min-width: 0px; /* Set a minimum width for inputs */
+        }
+}

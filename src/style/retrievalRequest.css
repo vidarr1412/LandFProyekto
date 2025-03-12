@@ -460,7 +460,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1100;
 }
 
 .modal6 {
@@ -655,12 +655,12 @@ font-weight: 500;
   
   }
   .grid-item6 {
-
-    width: 110%; /* Ensure grid items take full width of their cell */
+    margin-left: -10px;
+    width: 120%; /* Ensure grid items take full width of their cell */
   }
     
   .search-bar6 input {
-    width: 300px;
+    width: 250px;
     height: 35px; /* Increased height for better visual balance with icons */
     padding: 10px;
     border-radius: 5px;
@@ -668,6 +668,74 @@ font-weight: 500;
     border: 1px solid #6d6c6c;
     border-radius: 35px;
   }
+
+  .button-container6 {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+    
+  }
+  /* MODAL */
+  .card6 {
+    background: #f9f9f9; /* Light background for the card */
+    border-radius: 25px; /* Rounded corners */
+    padding: 20px; /* Padding inside the card */
+    margin-bottom: 20px; /* Space between cards */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-height: 600px;
+    overflow-y: auto;
+    max-width:  100%;
+    width: 300px;
+    margin-left: 20px;
+
+  }
+
+  .form-fields6 {
+    flex: 2;
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for fields */
+    gap: 15px;
+  }
+  
+  .form-and-camera6 {
+    flex-direction: column;
+  }
+
+  .modal66 {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start */
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 850px; /* Adjusted for a single column layout */
+    max-height: 85vh; /* Limit height to enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+
+  .modal66 h2 {
+    margin-bottom: 20px;
+    margin-top: 0px;
+    font-size: 1.8rem;
+    color: #fefefe;
+    text-align: center;
+    font-weight: bold;
+    background-color: #850F13;
+    padding: 10px;
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers text vertically */
+    justify-content: center; /* Centers text horizontally */
+    width: 90%; /* Ensures full width */
+    border-radius: 6px; /* Optional: Adds rounded corners */
+    font-size: larger;
+  }
+  
 }
 
 /* ------------------------------------------ */

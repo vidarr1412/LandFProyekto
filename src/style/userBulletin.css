@@ -470,9 +470,7 @@ transform: translateY(-1px);
       align-items: flex-start; /* Align to the top */
       flex-grow: 1; /* Take up the remaining space */
       padding: 50px;
-      margin-left: 0px; /* Space to avoid8lap with the sidebar */
       flex-direction:column;
-
     }
 
     .search-bar4 input {
@@ -483,26 +481,29 @@ transform: translateY(-1px);
       font-size: 15px;
       border: 1px solid #6d6c6c;
       border-radius: 35px;
+      margin-left: -30px;
 
     }
 
     .grid-container4 {
-
-      width: 110%; /* Ensure the grid takes full width */
+      margin-left: -60px;
+      width: 120%; /* Ensure the grid takes full width */
 
     }
     
 
     .ppagination1 {
       display: flex;
+      flex-wrap: wrap; /* Allows wrapping into multiple rows */
       justify-content: center;
       align-items: center;
-      margin-top: 0px; /* Adjust margin to avoid covering the table */
-      margin-left: 8px;
-      margin-bottom: 50px; 
-      min-width: 10px;
+      gap: 5px; /* Adjust space between items */
+      margin-top: 0px;
+      margin-left: 60px;
+      margin-bottom: 20px; 
+      min-width: 0px;
       font-size: small;
-
+      max-width: 260px; /* Controls the number of items per row */
     }
     
     .page-nav1 {
@@ -510,8 +511,15 @@ transform: translateY(-1px);
       width: 80px;
       font-size: small;
       margin-left: -2px;
-
+      text-align: center;
     }
+
+    .form-and-camera4 {
+      flex-direction: column; /* Stack items vertically */
+      gap: 10px; /* Reduce gap for better spacing on mobile */
+    }
+    
+    
 
   /* MODAL */
 
@@ -532,24 +540,23 @@ transform: translateY(-1px);
   }
 
   .modal4 {
-      display: flex;
-      flex-direction: column; /* Stack items vertically */
-      align-items: flex-start; /* Align items to the start */
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      width: 80%;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      text-align: left;
-      z-index: 5;
+    width: 85%;
   }
 
-  .modal4 h3 {
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-      color: #222222;
-      text-align: center;
-      font-weight: bold;
+  .modal4 h2 {
+    margin-bottom: 20px;
+    margin-top: 0px;
+    font-size: 1.8rem;
+    color: #fefefe;
+    text-align: center;
+    font-weight: bold;
+    background-color: #850F13;
+    padding: 10px;
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers text vertically */
+    justify-content: center; /* Centers text horizontally */
+    width: 90%; /* Ensures full width */
+    border-radius: 6px; /* Optional: Adds rounded corners */
   }
 
   .modal4 form {
@@ -616,11 +623,12 @@ transform: translateY(-1px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1100;
 }
 
 .modal4 {
-  width: 880px;         /* Extend the modal width */
+
+  max-width:  800px;         /* Extend the modal width */
   margin: 50px auto;    /* Center modal on the screen */
   padding: 20px;
   background: #fff;

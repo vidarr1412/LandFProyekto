@@ -317,7 +317,7 @@ function Bulletin() {
                   setSelectedItem(item);
                   setShowModal(true);
                 }}>
-                  <FaPlus /> View More
+                  <FaPlus /> Request
                 </button>
               </div>
             ))}

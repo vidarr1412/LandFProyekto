@@ -76,12 +76,38 @@ box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 transform: translateY(-2px);
 }
 
+
+
 /* Active link styling */
 .nav-menu a.active {
 background-color: #FA0000; /* Active link background color */
 color: #ffffff; /* Active link text color */
 border-right: 4px solid #ffd324;  /* Right side border to indicate active page */
 }
+
+
+
+
+.logout button {
+  margin-top: 50px;
+  background-color: #850F13;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 15px 20px;
+  border: transparent;
+  
+}
+
+.logout button:hover {
+  background-color: #FA0000;
+  cursor: pointer;
+  width: 100%;
+}
+
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
