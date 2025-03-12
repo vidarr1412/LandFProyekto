@@ -38,7 +38,8 @@ const Sidebar = () => {
   const handleLogout = () => {
     console.log("Logging out...");
     localStorage.removeItem("token"); // Clear only the token
-    navigate("/login"); // Redirect to login
+    window.location.href = "/";
+
 };
 
   useEffect(() => {
@@ -104,6 +105,7 @@ const Sidebar = () => {
            
               <button onClick={handleLogout}>
               <FaSignOutAlt  /> Log Out
+              
               </button>
             </NavLink>
          

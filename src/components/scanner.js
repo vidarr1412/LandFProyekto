@@ -65,7 +65,7 @@ function ItemScanner() {
     TIME_CLAIMED: '',
     STATUS: 'unclaimed',
   });
-
+  const [lastScanned, setLastScanned] = useState(null); // Track last scanned value
   const [image, setImage] = useState(null); // State to hold the captured image
   const [ownerImage, setOwnerImage] = useState(null); // State to hold the captured owner image
   const videoRef = useRef(null);
@@ -156,9 +156,10 @@ function ItemScanner() {
     try {
         // If authorized, decrypt
         if (isAuthorized) {
-            const bytes = CryptoJS.AES.decrypt(encryptedId, "mySuperSecretKey123!");
+            const bytes = CryptoJS.AES.decrypt(encryptedId, "1412");
             return bytes.toString(CryptoJS.enc.Utf8) || "Invalid ID";
         }
+        
         // If unauthorized, show asterisks
         return "*".repeat(8);
     } catch (error) {
@@ -167,16 +168,19 @@ function ItemScanner() {
 };
 
 const handleScan = (data) => {
-  if (data) {
-      console.log("Scanned QR Data:", data);
-      
-      // Extract the encrypted user ID from QR code
-      const match = data.text.match(/<([^>]*)>/);
-      if (!match) {
-          console.error("Invalid QR Code format");
-          return;
-      }
-      
+  if (!data) return;
+
+  if (data === lastScanned) {
+    return; // Prevent reprocessing the same QR code rapidly
+  }
+  console.log("Scanned QR Data:", data);
+  setLastScanned(data); // Update last scanned data
+
+  const match = data.text.match(/<([^>]*)>/);
+  if (!match) {
+    console.error("Invalid QR Code format");
+    return;
+  }
       const encryptedId = match[1]; // Extracted encrypted ID
       console.log("Extracted Encrypted ID:", encryptedId);
 
@@ -189,7 +193,12 @@ const handleScan = (data) => {
           fetchUserData(decryptedUserId);  // Auto-fill OWNER details
           setShowModal(true);  // Open the modal
       }
-  }
+      if (decryptedUserId === "Invalid ID") {
+        window.alert("Invalid QR Code. Please try again.");
+        return;
+    }
+    
+  
 };
 
 

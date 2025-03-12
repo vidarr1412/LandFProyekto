@@ -136,7 +136,9 @@ function Additem() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setItemData({ ...itemData, [name]: value });
+    const formattedValue = name === "DATE_FOUND" ? new Date(value).toISOString().split("T")[0] : value;
+
+    setItemData({ ...itemData, [name]:  formattedValue,});
   };
 
   const handleFormSubmit = async (e) => {
