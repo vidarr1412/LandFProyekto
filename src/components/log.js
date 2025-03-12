@@ -99,10 +99,10 @@ function Auth() {
                     <option value="csm">CSM</option>
                     </select> 
           <select name="year_lvl" placeholder="year_lvl"  required >  
-                  <option value="First">1</option>
-                    <option value="Second">2</option>
-                    <option value="Third">3</option>
-                    <option value="Fourth">4</option>
+                  <option value="First Year">1</option>
+                    <option value="Second Year">2</option>
+                    <option value="Third Year">3</option>
+                    <option value="Fourth Year">4</option>
                     </select> 
           <input type="text" name="contactNumber" placeholder="Contact Number" required />
           <input type="email" name="email" placeholder="Email" required />

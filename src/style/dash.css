@@ -1,98 +1,159 @@
 /* General Layout */
-.dashboard-container {
-    display: flex;
-    flex-direction: column;
-    background-color: #f4f4f4;  /* Background color */
-    height: 100vh;  /* Full viewport height */
-    min-height: 100vh;  /* Ensure it always takes full height */
-    width: 100%;
-  }
-  .dah h2 {
-    margin-top: 90px;  /* Adjust the space from the top */
-    margin-left: 250px;
-    font-size: 2.5rem;  /* Adjust the font size if needed */
-    color: #333;  /* Adjust the font color */
-    background-color: rgb(239, 239, 239);
-    width: 82%;
-    margin-bottom: 10px;
-  }
-  
-  .dashboard-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-    background-color: #ffffff;
-    margin-left: 240px;
-    width: 80%;
-    border-radius: 10px;
-  }
-  
-  /* Card Styling */
-  .dashboard-card {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 250px;
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid #d5d2d2;
-    display: block;
-  }
-  
-  /* Add a colored line below each card */
-  .dashboard-card::after {
-    content: "";
+.dashboard-container1 {
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f4;  /* Background color */
+  height: 100vh;  /* Full viewport height */
+  min-height: 100vh;  /* Ensure it always takes full height */
+  width: 100%;
+}
 
-    bottom: 5px;  /* Position the line at the bottom */
-    left: 30px;
-    width: 80%;
-    height: 8px;  /* Adjust height as needed */
-    background-color: #F3D558;  /* Color of the line (red) */
-  }
+.dah1 h2 {
+  margin-top: 90px;  /* Adjust the space from the top */
+  margin-left: 250px;
+  font-size: 2.5rem;  /* Adjust the font size if needed */
   
-  /* Hover Effect */
-  .dashboard-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Icon Styling */
-  .card-icon {
-    font-size: 2.5rem;
-    color: #850F13;
-    margin-bottom: 10px;
-  }
-  
-  /* Card Text Styling */
-  .card-details h2 {
-    font-size: 2rem;
-    margin: 0;
-    color: #333;
-  }
-  
-  .card-details p {
-    font-size: 1rem;
-    color: #666;
-    margin: 5px 0 0 0;
-  }
-  
+ 
+  width: 82%;
+  margin-bottom: 10px;
+}
 
+.dashboard-cards1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  background-color: #ffffff;
+  margin-left: 240px;
+  width: 80%;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+/* Card Styling */
+.dashboard-card1 {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #d5d2d2;
+  display: block;
+}
+
+/* Add a colored line below each card */
+.dashboard-card1::after {
+  content: "";
+  bottom: 5px;  /* Position the line at the bottom */
+  left: 30px;
+  width: 80%;
+  height: 8px;  /* Adjust height as needed */
+  background-color: #F3D558;  /* Color of the line (yellow) */
+}
+
+/* Hover Effect */
+.dashboard-card1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon Styling */
+.card-icon1 {
+  font-size: 2.5rem;
+  color: #850F13;
+  margin-bottom: 10px;
+}
+
+/* Card Text Styling */
+.card-details1 h2 {
+  font-size: 2rem;
+  margin: 0;
+  color: #333;
+}
+
+.card-details1 p {
+  font-size: 1rem;
+  color: #666;
+  margin: 5px 0 0 0;
+}
+
+
+/* Responsive Design */
 @media (max-width: 768px) {
-
-  .dashboard-cards {
-    margin-left: 10px;
-
+  .dashboard-cards1 {
+      margin-left: 10px;
   }
 
-  .dah h2 {
-    margin-top: 90px;  /* Adjust the space from the top */
-    margin-left: 80px;
-
+  .dah1 h2 {
+      margin-top: 90px;  /* Adjust the space from the top */
+      margin-left: 80px;
   }
 
+  .charts-container {
+      margin-left: 10px; /* Adjust for smaller screens */
+      width: 90%; /* Full width on smaller screens */
+  }
 
+  .chart-card {
+      min-width: 100%; /* Full width for chart cards on small screens */
+  }
+}
+
+
+/* Charts Container */
+.charts-container {
+  display: flex;
+  flex-direction: column; /* Stack the charts vertically */
+  align-items: center; /* Center align the charts */
+  margin-left: 240px; /* Align with the cards */
+  width: 80%; /* Allow the width to adjust based on content */
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Chart Card Styling */
+.chart-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px 0; /* Add vertical margin for spacing */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  width: 100%; /* Full width for each chart card */
+  max-width: 70%; /* Optional: Set a max width for larger screens */
+}
+
+
+/* Time Interval Selector Styling */
+.time-interval-container {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center align items vertically */
+  margin: 20px 0; /* Add some margin for spacing */
+}
+
+.time-interval-container label {
+  font-size: 1.2rem; /* Font size for the label */
+  color: #333; /* Color for the label text */
+  margin-right: 10px; /* Space between label and select */
+}
+
+.time-interval-container select {
+  padding: 10px; /* Padding inside the select box */
+  font-size: 1rem; /* Font size for the select text */
+  border: 1px solid #ddd; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #ffffff; /* Background color */
+  transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+/* Change border color on focus */
+.time-interval-container select:focus {
+  border-color: #850F13; /* Change border color on focus */
+  outline: none; /* Remove default outline */
 }

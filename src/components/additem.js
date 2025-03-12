@@ -84,24 +84,26 @@ function Additem() {
       return filteredRequests; // If no filter text, return all filtered requests
     }
 
-    return filteredRequests.filter(request => {
-      // Check if request.ITEM is defined before calling toLowerCase
-      const itemName = request.ITEM ? request.ITEM.toLowerCase() : '';
-      return itemName.includes(filterText.toLowerCase());
-    });
+    return filteredRequests.filter(request =>
+      request.ITEM.toLowerCase().includes(filterText.toLowerCase())
+    );
   };
 
 
   const fetchItems = async () => {
     try {
       const response = await axios.get('http://10.10.83.224:5000/items');
+
       //10.10.83.224 SID
       //10.10.83.224 BH
-      const sortedRequests = response.data.sort((a, b) => {
-        // Combine DATE_FOUND and TIME_RETURNED into a single Date object
+      const sortedRequests = response.data.map(item => ({
+        ...item,
+        STATUS: item.STATUS || 'unclaimed', // Default to 'unclaimed' if STATUS is undefined
+        ITEM: item.ITEM || '', // Default to empty string if ITEM is undefined
+      })).sort((a, b) => {
         const dateA = new Date(`${a.DATE_FOUND}T${a.TIME_RETURNED}`);
         const dateB = new Date(`${b.DATE_FOUND}T${b.TIME_RETURNED}`);
-        return dateB - dateA; // Sort in descending order
+        return dateB - dateA;
       });
       setCurrentPage(1); // Set current page to 1 when data is fetched
       setRequests(sortedRequests);
@@ -219,6 +221,8 @@ function Additem() {
     startCamera();
   };
 
+  
+
   const applyFilters = (filters) => {
     let filtered = [...requests]; // Use a copy of the original requests state
 
@@ -243,6 +247,9 @@ function Additem() {
       filtered = filtered.filter(item => item.STATUS === filters.status);
     }
 
+
+    
+
     // Apply sorting
     if (filters.sortByDate === 'descending') {
       filtered.sort((a, b) => new Date(a.DATE_FOUND) - new Date(b.DATE_FOUND));
@@ -257,6 +264,8 @@ function Additem() {
 
 
   };
+
+  
 
 
   //UPDATE PAGINATIOn
@@ -472,9 +481,9 @@ function Additem() {
                           className={`status-btn1 ${item.STATUS && typeof item.STATUS === 'string' ?
                             (item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' :
                               (item.STATUS.toLowerCase() === 'claimed' ? 'claimed' : 'donated')) : ''} 
-                               ${item.STATUS.toLowerCase() === 'donated' ? 'disabled' : ''}`} // Add 'disabled' class if status is 'donated'
-                          onClick={() => item.STATUS.toLowerCase() !== 'donated' && handleStatusChange(item)} // Prevent click if status is 'donated'
-                          disabled={item.STATUS.toLowerCase() === 'donated'} // Disable button if status is 'donated'
+                              ${item.STATUS && item.STATUS.toLowerCase() === 'donated' ? 'disabled' : ''}`}
+                          onClick={() => item.STATUS && item.STATUS.toLowerCase() !== 'donated' && handleStatusChange(item)}
+                          disabled={item.STATUS && item.STATUS.toLowerCase() === 'donated'}
                         >
                           {item.STATUS || 'Unclaimed'}
                           <IoMdArrowDropdown className='arrow1' />
@@ -519,7 +528,7 @@ function Additem() {
                     onClick={() => item.STATUS.toLowerCase() !== 'donated' && handleStatusChange(item)} // Prevent click if status is 'donated'
                     disabled={item.STATUS.toLowerCase() === 'donated'} // Disable button if status is 'donated'
                   >
-                    {item.STATUS || 'Unclaimed'}
+                    {item.STATUS || 'unclaimed'}
                     <IoMdArrowDropdown className='arrow1' />
                   </button>
                   <button className="view-btn1" onClick={() => handleViewMore(item)}>
@@ -759,8 +768,8 @@ function Additem() {
                             name="OWNER_COLLEGE"
                             value={itemData.OWNER_COLLEGE}
                             onChange={handleInputChange}
-                            >
-                         <option value="">Please select</option>
+                          >
+                            <option value="">Please select</option>
                             <option value="coe">COE</option>
                             <option value="ccs">CCS</option>
                             <option value="cass">CASS</option>
@@ -1003,7 +1012,7 @@ function Additem() {
                           value={itemData.FINDER_TYPE}
                           onChange={handleInputChange}
                           required={!selectedItem}
-                          >
+                        >
                           <option value="">Please select</option>
                           <option value="STUDENT">STUDENT</option>
                           <option value="UTILITIES">UTILITIES</option>
@@ -1034,8 +1043,8 @@ function Additem() {
                           value={itemData.ITEM_TYPE}
                           onChange={handleInputChange}
                           required={!selectedItem}
-                          >
-                         <option value="">Please select</option>
+                        >
+                          <option value="">Please select</option>
                           <option value="Electronics">Electronics</option>
                           <option value="Personal-Items">Personal Items</option>
                           <option value="Clothing_Accessories">Clothing & Accessories</option>
@@ -1082,7 +1091,7 @@ function Additem() {
                           value={itemData.GENERAL_LOCATION}
                           onChange={handleInputChange}
                           required={!selectedItem}
-                          >
+                        >
                           <option value="">Please select</option>
                           <option value="Gym">GYMNASIUM</option>
                           <option value="adminBuilding">ADMIN BLG</option>
@@ -1179,8 +1188,8 @@ function Additem() {
                           name="OWNER_COLLEGE"
                           value={itemData.OWNER_COLLEGE}
                           onChange={handleInputChange}
-                          >
-                         <option value="">Please select</option>
+                        >
+                          <option value="">Please select</option>
                           <option value="coe">COE</option>
                           <option value="ccs">CCS</option>
                           <option value="cass">CASS</option>
