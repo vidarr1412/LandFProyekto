@@ -67,10 +67,12 @@ function Dashboard() {
 
   const [timeInterval, setTimeInterval] = useState('monthly'); // Default to monthly
   const [timelineInterval, setTimelineInterval] = useState('monthly'); // Default to monthly
+  const [claimingTimelineInterval, setClaimingTimelineInterval] = useState('daily');
 
   const handleIntervalChange = (event) => {
     setTimeInterval(event.target.value);
     setTimelineInterval(event.target.value);
+    setClaimingTimelineInterval(event.target.value);
   };
 
   return (
@@ -133,12 +135,15 @@ function Dashboard() {
           complaintsData={complaintsData}
           timeInterval={timeInterval}
           timelineInterval={timelineInterval}
+          
           handleIntervalChange={handleIntervalChange}
         />
       <Charts2
           foundItemsData={foundItemsData}
           timeInterval={timeInterval}
+          complaintsData={complaintsData}
           timelineInterval={timelineInterval}
+          claimingTimelineInterval={claimingTimelineInterval}
           handleIntervalChange={handleIntervalChange}
         />
       </div>

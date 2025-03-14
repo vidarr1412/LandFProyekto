@@ -157,3 +157,47 @@
   border-color: #850F13; /* Change border color on focus */
   outline: none; /* Remove default outline */
 }
+
+.table-container1 {
+  width: 100%; /* Full width of the parent */
+  max-width: 1600px; /* Set a max width for the container */
+  margin: 30px auto 0; /* Center the container */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+  border-radius: 1rem; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+  }
+  
+
+  .ffound-items-table1 {
+    width: 100%; /* Full width of the table */
+    border-collapse: collapse; /* Collapse borders */
+    font-size: 14px; /* Font size */
+    table-layout: auto; /* Use auto layout to allow for dynamic widths */
+    }
+    
+    .ffound-items-table1 th, .ffound-items-table1 td {
+    padding: 10px;
+    border: 1px solid #d5d2d2;
+    text-align: center;
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: normal; /* Allow text to wrap */
+    vertical-align: top; /* Align text to the top */
+    
+    word-wrap: break-word; /* Allow long words to break */
+    max-width: 200px; /* Set a max width for cells */
+    }
+    
+    .ffound-items-table1 th {
+    background-color: #ddd;
+    }
+    
+    .ffound-items-table1 tr {
+    height: auto; /* Allow rows to stretch based on content */
+    }
+    
+    .ffound-items-table1 th.action, .ffound-items-table1 td.action {
+    width: 50px; /* Adjust width as needed */
+    text-align: center; /* Center-align the buttons */
+    }

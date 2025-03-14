@@ -1,6 +1,6 @@
 // Charts.js
 import React, { useEffect, useState } from "react";
-import { Bar, Pie, Line } from 'react-chartjs-2';
+import { Bar, Pie, Line, Scatter } from 'react-chartjs-2';
 
 const Charts = ({
   complaintsData,
@@ -19,6 +19,7 @@ const Charts = ({
   const complaintsByYearLevel = {};
   const statusDistribution = { found: 0, notFound: 0 };
   const complaintsTimeline = {};
+  
 
   complaintsData.forEach(complaint => {
     // Complaints by College
@@ -103,16 +104,16 @@ const Charts = ({
     "4-7 Days": 0,
     "More than a Week": 0,
   };
-  
+
   complaintsData.forEach(complaint => {
     if (complaint.date && complaint.date_complained) {
       // Combine date and time into a full timestamp
       const lostDateTime = new Date(`${complaint.date}T${complaint.time}`);
       const complainedDateTime = new Date(`${complaint.date_complained}T${complaint.time_complained}`);
-  
+
       // Compute time difference in hours
       const diffHours = Math.abs((complainedDateTime - lostDateTime) / (1000 * 60 * 60)); // Convert ms to hours
-  
+
       if (diffHours <= 6) {
         resolutionTimeRanges["Same Day (0-6 hours)"] += 1;
       } else if (diffHours <= 72) { // 72 hours = 3 days
@@ -136,7 +137,22 @@ const Charts = ({
 
   const totalResolved = Object.values(resolutionTimeRanges).reduce((acc, val) => acc + val, 0);
 
-const avgReportTime = totalResolved ? (totalHours / totalResolved).toFixed(1) : "N/A";
+  const avgReportTime = totalResolved ? (totalHours / totalResolved).toFixed(1) : "N/A";
+
+  // **********************************************************************************
+
+  // const scatterData = complaintsData
+  // .filter(complaint => complaint.date && complaint.date_complained) // Ensure both dates exist
+  // .map(complaint => {
+  //   const lostDate = new Date(complaint.date);
+  //   const complainedDate = new Date(complaint.date_complained);
+  //   const delayDays = Math.ceil((complainedDate - lostDate) / (1000 * 60 * 60 * 24)); // Convert ms to days
+
+  //   return {
+  //     x: lostDate,   // X-axis → Date the item was lost
+  //     y: delayDays,  // Y-axis → Days before the complaint was filed
+  //   };
+  // });
 
   // ---------------------------------------------------------------  
   // Chart Data for Complaints by College
@@ -262,6 +278,18 @@ const avgReportTime = totalResolved ? (totalHours / totalResolved).toFixed(1) : 
     ],
   };
 
+
+  // const scatterChartData = {
+  //   datasets: [{
+  //     label: 'Days Taken to Report Lost Items',
+  //     data: scatterData, // X → Date Lost, Y → Delay in Days
+  //     backgroundColor: 'rgba(255, 99, 132, 0.6)',
+  //     borderColor: 'rgba(255, 99, 132, 1)',
+  //     pointRadius: 5,
+  //   }],
+  // };
+
+  
 
   //---------------------------------------------------------------
   // Prepare data for the stacked bar chart
@@ -471,6 +499,26 @@ const avgReportTime = totalResolved ? (totalHours / totalResolved).toFixed(1) : 
   };
 
 
+  // const scatterOptions = {
+  //   ...commonOptions,
+  //   scales: {
+  //     x: {
+  //       title: {
+  //         type: 'time',
+  //         display: true,
+  //         text: 'Date Lost',
+  //       },
+  //     },
+  //     y: {
+  //       title: {
+  //         display: true,
+  //         text: 'Days Before Complaint Was Filed',
+  //       },
+  //     },
+  //   },
+  // };
+
+
   return (
     <div className="charts-container">
       <h2 onClick={() => setChartsContainerVisible(!isChartsContainerVisible)} style={{ cursor: 'pointer' }}>
@@ -544,6 +592,13 @@ const avgReportTime = totalResolved ? (totalHours / totalResolved).toFixed(1) : 
             </div>
             <Line data={timelineChartData} options={lineOptions} />
           </div>
+
+          {/* <div className="chart-card">
+            <h3>Lost Complaint Reporting Delays (Scatter Plot)</h3>
+            <Scatter data={scatterChartData} options={scatterOptions} />
+          </div> */}
+
+
         </>
       )}
     </div>

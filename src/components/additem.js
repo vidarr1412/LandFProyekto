@@ -429,7 +429,7 @@ function Additem() {
                     <th>Item Description</th>
                     <th>Item Image</th>
                     <th>Finder Contact</th>
-                    <th>Date Found</th>
+                    <th>Date Recieved</th>
                     <th>General Location</th>{/* for visualization */}
                     <th>Specific Location</th>
 
@@ -514,7 +514,7 @@ function Additem() {
                   <p><span>Description: </span>{item.DESCRIPTION}</p>
                   <p><span>Finder: </span> {item.FINDER}</p>
                   <p><span>Contact: </span> {item.CONTACT_OF_THE_FINDER}</p>
-                  <p><span>Date Found: </span> {item.DATE_FOUND}</p>
+                  <p><span>Date Recieved: </span> {item.DATE_FOUND}</p>
                   <p><span>General Location: </span> {item.GENERAL_LOCATION}</p>
                   <p><span>Location: </span> {item.FOUND_LOCATION}</p>
                   <p><span>Time: </span> {item.TIME_RETURNED}</p>
@@ -707,7 +707,7 @@ function Additem() {
                         </div>
 
                         <div className="form-group1">
-                          <label htmlFor="dateFound">Date Found</label>
+                          <label htmlFor="dateFound">Date Recieved</label>
                           <input
                             type="date"
                             id="dateFound"
@@ -924,7 +924,7 @@ function Additem() {
                       <span>{itemData.CONTACT_OF_THE_FINDER}</span>
                     </div>
                     <div className="detail-item1">
-                      <strong>Date Found:</strong>
+                      <strong>Date Recieved:</strong>
                       <span>{itemData.DATE_FOUND}</span>
                     </div>
                     <div className="detail-item1">
@@ -1126,7 +1126,7 @@ function Additem() {
                       </div>
 
                       <div className="form-group1">
-                        <label htmlFor="dateFound">Date Found<span className="asterisk3"> *</span></label>
+                        <label htmlFor="dateFound">Date Recieved<span className="asterisk3"> *</span></label>
                         <input
                           type="date"
                           id="dateFound"
