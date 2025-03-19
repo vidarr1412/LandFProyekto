@@ -281,11 +281,33 @@ function Profile() {
             </div>
             <div className="form-group">
               <label>College</label>
-              <input type="text" value={user.college} onChange={(e) => setUser({ ...user, college: e.target.value })} />
+       
+              <select name="college" placeholder="college"  value={user.college} onChange={(e) => setUser({ ...user, college: e.target.value })}   >  
+                     <option value="">Please Select</option>
+                      <option value="coe">COE</option>
+                      <option value="ccs">CCS</option>
+                      <option value="cass">CASS</option>
+                      <option value="csm">CSM</option>
+                      <option value="ceba">CEBA</option>
+                      <option value="chs">CHS</option>
+                      <option value="ced">CED</option>
+                    </select> 
             </div>
             <div className="form-group">
               <label>Year Level</label>
-              <input type="text" value={user.year_lvl} onChange={(e) => setUser({ ...user, year_lvl: e.target.value })} />
+              <select
+  name="year_lvl"
+  value={user.year_lvl || ""}
+  onChange={(e) => setUser({ ...user, year_lvl: e.target.value })}
+>
+  <option value="">Please Select</option>
+  <option value="First Year">First Year</option>
+  <option value="Second Year">Second Year</option>
+  <option value="Third Year">Third Year</option>
+  <option value="Fourth Year">Fourth Year</option>
+</select>
+
+  
             </div>
             <br></br>
             <br></br>
