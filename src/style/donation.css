@@ -244,49 +244,6 @@ height: 14px; /* Maintain square aspect ratio */
 
 /* ------------------------------------------------------ */
 
-@media (max-width: 768px) {
-.manage-bulletin1 {
-  margin-left: 0;
-}
-
-.breadcrumb1 {
-  margin: 10px 0px -10px 0px;
-  width: 105%;
-  color: #800000;
-}
-
-.search-bar1 {
-  margin-left: -30px;
-}
-
-.search-bar1 input {
-  width: 260px;
-  margin-top: 50px
-}
-
-
-/* Top-Right Buttons Container */
-.top-right-buttons1 {
-  margin-left: -330px;
-  gap: 5px;
-}
-
-.add-item-btn1, .register-qr-btn1 {
-  width: 100%;
-  min-width: 150px;
-  font-size: 15px;
-}
-
-.status-btn1 {
-  border-radius: 5px;
-}
-.grid-container1 {
-  margin-top: 50px;
-}
-.grid-item1 {
-  width: 110%; /* Ensure grid items take full width of their cell */
-}
-
 
 /* modal---- */
 .modal-overlay1 {
@@ -394,7 +351,6 @@ height: 14px; /* Maintain square aspect ratio */
 }
 .camera-section {
   order: 1; /* Move the camera section below */
-}
 }
 /* FEB-11-2025------------------------------------------------------------------------------ */
 
@@ -533,7 +489,7 @@ background: rgba(0, 0, 0, 0.5);
 display: flex;
 justify-content: center;
 align-items: center;
-z-index: 1000;
+z-index: 1100;
 }
 
 .modal7 {
@@ -786,6 +742,22 @@ border-Radius: 5px;
 
 
 .default-grid-url77:hover {
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+}
+
+.default-grid-url770 {
+  width: auto; /* Fixed width for the image */
+  max-width: 13rem;
+  min-width: 10em;
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 2rem; /* Rounded corners for images */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-right: 20px; /* Space between image and text */
+}
+
+
+.default-grid-url770:hover {
 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 transform: translateY(-1px);
 }
@@ -1078,7 +1050,6 @@ a:hover {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow for items */
       margin-bottom: 20px; /* Space between list items */
       transition: transform 0.2s; /* Smooth transition for hover effect */
-      
     
     }
     
@@ -1224,3 +1195,336 @@ a:hover {
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         transform: translateY(-1px);
         }
+
+          
+          
+@media (max-width: 768px) {
+
+  .manage-bulletin1 {
+    margin-left: 0;
+  }
+  
+  .breadcrumb1 {
+    margin: 10px 0px -10px 0px;
+    width: 105%;
+    color: #800000;
+  }
+  
+  .search-bar1 {
+    margin-left: -30px;
+  }
+  
+  .search-bar1 input {
+    width: 260px;
+    margin-top: 50px
+  }
+  
+  
+  /* Top-Right Buttons Container */
+  .top-right-buttons1 {
+    margin-left: -330px;
+    gap: 5px;
+  }
+  
+  .add-item-btn1, .register-qr-btn1 {
+    width: 100%;
+    min-width: 150px;
+    font-size: 15px;
+  }
+  
+  .status-btn1 {
+    border-radius: 5px;
+  }
+  .grid-container1 {
+    margin-top: 50px;
+  }
+  .grid-item1 {
+    width: 110%; /* Ensure grid items take full width of their cell */
+  }
+
+  .manage-bulletin7 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+    margin-left: 0px; /* Space to avoid8lap with the sidebar */
+    flex-direction:column;
+  }
+  .search-bar7 input {
+    width: 255px;
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+    margin-top: 50px;
+    margin-left: -30px;
+  }
+
+  .top-right-buttons7 {
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Vertically center items */
+    margin-left: 20px;
+    margin-top: 20px;
+    gap: 10px; /* Add spacing between the input and icons */
+    }
+
+
+    .table-container7 {
+      width: 140%; /* Full width of the parent */
+      max-width: 1600px; /* Set a max width for the container */
+      margin: 30px auto 0 -30px; /* Center the container */
+      overflow-x: auto; /* Enable horizontal scrolling */
+      border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+      border-radius: 1rem; /* Optional: Add rounded corners */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+      }
+
+
+  .list-container7 {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    margin-top: 30px; /* Add space above the container */
+    padding: 16px; /* Padding around the list */
+    width: 95%; /* Ensure the list takes up 95% of the container's width */
+  }
+  
+  .list-item7 {
+    width: 130%;
+    display: grid; /* Use flexbox for layout within each item */
+    align-items: center; /* Center items vertically */
+    background-color: #f0f0f0; /* Background color for items */
+    padding: 20px; /* Padding inside items */
+    border: 1px solid #ccc; /* Optional: Border for items */
+    border-radius: 2rem; /* Rounded corners */
+    text-align: left; /* Align text to the left */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow for items */
+    margin-left: -50px;
+    margin-bottom: 20px; /* Space between list items */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+  }
+
+  .info-wrapper7 {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column;
+    justify-content: space-between; /* Space between the two containers */
+    width: 500px; /* Full width */
+    max-width: 100%; /* Full width */
+    margin-top: 0rem; /* Space above the info containers */
+    gap: 0;
+  }
+
+    
+  .list-item7 p {
+    width: 100%;
+    padding: 5px 10px;
+    margin: 5px 0; /* Add some vertical spacing */
+    font-weight: normal; /* Normal weight for paragraph text */
+  }
+
+  .info-container7 {
+    flex: 1; /* Take up remaining space */
+    max-width: 100%; /* Limit the maximum width */
+    text-align: left; /* Align text to the left */
+    display: flex; /* Use flexbox for inner content */
+    flex-direction: column; /* Stack items vertically */
+    word-wrap: break-word;
+    position: relative; /* Use relative positioning instead of 'hidden' */
+    overflow: hidden; /* Hide any overflow (in case content exceeds width) */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+  }
+  
+  .right-info-container7 {
+    position: relative; /* Use relative positioning instead of 'hidden' */
+    text-align: left; /* Align text to the left */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    max-width: 100%; /* Limit the maximum width */
+    overflow: hidden; /* Prevent overflow */
+    box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+  }
+  
+  .header7 {
+    width: 50%; /* Ensure the header takes the full width of the container */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack title and info wrapper vertically */
+    align-items: flex-start; /* Align items to the start */
+    margin-left: 0; /* Removed negative margin to avoid overflow */
+    box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+  }
+  
+  .header7 h2 {
+    width: 100%; /* Make the header title take the full width */
+    text-align: center; /* Align text to the left */
+    margin: 10px; /* Remove default margin */
+    padding: 0 0 1rem; /* Add padding for spacing */
+    background-color: #f0f0f0; /* Optional: Background color for visibility */
+    word-wrap: break-word;
+  }
+
+  .default-grid-url77 {
+    align-items: center;
+    justify-content: center;
+    width: auto; /* Fixed width for the image */
+    max-width: 18rem;
+    min-width: 10em;
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 2rem; /* Rounded corners for images */
+    cursor: pointer; /* Pointer cursor on hover */
+  }
+
+  
+  .default-grid-url770 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    width: auto; /* Fixed width for the image */
+    width: 100%;
+    min-width: 235px;
+    border-radius: 2rem; /* Rounded corners for images */
+  }
+
+      
+  .donation-header7 {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack title and info vertically */
+    margin-left: 0px; /* Space between image and header */
+    flex: 1; /* Allow header to take remaining space */
+  }
+
+  .donation-header7 h1 {
+    color: #800000;
+    text-align: center;
+  }
+  
+  .button-contain7 {
+    display: flex; /* Use flexbox for buttons */
+    align-items: start; /* Align buttons to the right */
+    gap: 0.5rem;
+    margin-left: 0rem;
+    width:50%;
+  
+  }
+
+  .list-status-btn7.onGoing {
+    background-color: #007BFF; /* Button background color */
+    margin-top: 10px;  
+    }
+
+    
+    .list-status-btn7.ended {
+      background-color: #646464; /* Button background color */
+      margin-top: 10px;  
+      }
+
+  .detail-grid7 {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 10px; /* Space between grid items */
+    width: auto;
+    }
+
+    .donation7 {
+      width: 100rem;         /* Extend the modal width */
+      margin: 50px auto;    /* Center modal on the screen */
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-height: 85vh; /* Limit height to enable scrolling */
+      display: flex;
+      flex-direction: column; /* Stack children vertically */
+      overflow-y: auto;
+      max-width: 100%;
+    } 
+
+    .donation-container7 {
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 16px; /* Add some padding */
+    border-radius: 1rem; /* Rounded corners */
+    border: 1px solid #ffffff; /* Optional: Border for items */
+    height: 450px;
+    }
+
+    .donation-button-container7{
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content:center;
+    }
+
+    .donation-item7 {
+      display: flex; /* Use flexbox for layout */
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the top */
+      background-color: #f0f0f0; /* Background color for items */
+      padding: 20px; /* Padding inside items */
+      border: 1px solid #ccc; /* Optional: Border for items */
+      border-radius: 2rem; /* Rounded corners */
+      text-align: left; /* Align text to the left */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow for items */
+      margin-bottom: 20px; /* Space between list items */
+      transition: transform 0.2s; /* Smooth transition for hover effect */
+    
+    }
+
+    .data-set-container {
+      display: flex; /* Use flexbox for layout */
+      flex-direction: column;
+      justify-content: space-between; /* Space between data sets */
+      width: 100%; /* Full width of the container */
+    }
+    /* modal */
+    .modal7 {
+      width: 85%;         /* Extend the modal width */
+      margin: 50px auto;    /* Center modal on the screen */
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-height: 85vh; /* Limit height to enable scrolling */
+      overflow-y: auto; /* Enable vertical scrolling */
+      }
+      
+    .modal7 form {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: 1fr, 1fr, 320px; /* Two columns for labels and inputs */
+      gap: 20px;
+      width: 100%; /* Ensure the form takes full width */
+      }
+
+      .modal7 h2 {
+        background-color: #660000;
+        margin-bottom: 20px;
+        font-size: larger;
+        color: #ffffff;
+        text-align: center;
+        font-weight: bold;
+        padding: 10px;
+        }
+
+        
+    .button-container7 {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .submit-btn7,
+    .cancel-btn7,.delete-btn7, .edit-btn7 {
+    padding: 10px;
+    font-size: small;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 48%; /* Adjusted for button alignment */
+
+    }
+  }

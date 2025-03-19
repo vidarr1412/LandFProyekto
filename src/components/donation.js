@@ -908,11 +908,11 @@ function Foundation() {
                           <img
                             src={item.IMAGE_URL || "default-grid-url7"}
                             alt="Product"
-                            className="default-grid-url77"
+                            className="default-grid-url770"
                             onClick={() => handleImageClick(item.IMAGE_URL || "default-grid-url7")} // Add click handler
                           />
                           <div className="donation-header7">
-                            <h2>{item.ITEM}</h2>
+                            <h1>{item.ITEM}</h1>
                            
                               <div className="donation-info-container7">
                               <div className="data-set-container">

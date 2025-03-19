@@ -257,158 +257,7 @@ height: 14px; /* Maintain square aspect ratio */
 
 /* ------------------------------------------------------ */
 
-@media (max-width: 768px) {
-.manage-bulletin1 {
-  margin-left: 0;
-}
 
-.breadcrumb1 {
-  margin: 10px 0px -10px 0px;
-  width: 105%;
-  color: #800000;
-}
-
-.search-bar1 {
-  margin-left: -30px;
-}
-
-.search-bar1 input {
-  width: 260px;
-  margin-top: 50px
-}
-
-
-/* Top-Right Buttons Container */
-.top-right-buttons1 {
-  margin-left: -330px;
-  gap: 5px;
-}
-
-.add-item-btn1, .register-qr-btn1 {
-  width: 100%;
-  min-width: 150px;
-  font-size: 15px;
-}
-
-.status-btn1 {
-  border-radius: 5px;
-}
-.grid-container1 {
-  margin-top: 50px;
-}
-.grid-item1 {
-  width: 110%; /* Ensure grid items take full width of their cell */
-}
-
-
-/* modal---- */
-.modal-overlay1 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal1 {
-  width: 85%;         /* Adjust width for responsiveness */
-  max-width: 600px;   /* Limit maximum width */
-  margin: 50px auto;  /* Center modal on the screen */
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-height: 80vh;   /* Limit height to enable scrolling */
-  overflow-y: auto;   /* Enable vertical scrolling */
-}
-
-.modal1 h2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #222222;
-  text-align: center;
-  font-weight: bold;
-}
-
-.modal1 form {
-  display: flex;
-  flex-direction: column; /* Single column layout */
-  gap: 15px;
-  width: 90%; /* Ensure the form takes full width */
-}
-
-.form-group1 {
-  display: flex;
-  flex-direction: column; /* Stack label above input */
-  width: 100%; /* Ensure full width */
-}
-
-.modal1 label {
-  font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-}
-
-.modal1 select,
-.modal1 textarea,
-.modal1 input {
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  width: 100%; /* Adjusted for full width in single column */
-}
-
-.modal1 input:focus,
-.modal1 select:focus,
-.modal1 textarea:focus {
-  border-color: #3c6abe;
-  outline: none;
-  box-shadow: 0 0 5px rgb(60, 106, 190);
-}
-
-/* Camera section moved after STATUS and set to full width */
-.status-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.camera-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%; /* Full width for single column layout */
-  padding-top: 10px;
-}
-
-.camera-section video,
-.captured-image {
-  width: 100%; /* Ensure full width */
-  max-width: 100%;
-  height: auto;
-}
-
-.camera-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.form-and-camera {
-  flex-direction: column;
-}
-.camera-section {
-  order: 1; /* Move the camera section below */
-}
-}
 /* FEB-11-2025------------------------------------------------------------------------------ */
 
 .table-container9 {
@@ -546,7 +395,7 @@ background: rgba(0, 0, 0, 0.5);
 display: flex;
 justify-content: center;
 align-items: center;
-z-index: 1000;
+z-index: 2000;
 }
 
 .modal9 {
@@ -659,6 +508,17 @@ padding-top: 10px;
 margin-top: 10px;
 }
 
+.camera-buttons9 button {
+  background-color: #ffffff; /* Default background color */
+  border: 1px solid #ccc; /* Border around the button */
+  padding: 12px 25px; /* Padding inside the button */
+  margin: 5px; /* Spacing between buttons */
+  cursor: pointer; /* Pointer cursor on hover */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for background and scale */
+}
 
 
 /* -------------------------------------------------- */
@@ -840,10 +700,7 @@ font-size: 17px;
 }
 
 
-.tab-button9.active {
-background-color: #a51d21;
-color: white;
-}
+
 
 .tab-button9.active:hover {
 color: #a51d21;
@@ -868,5 +725,234 @@ text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3 ); /* Add text shadow */
   border-radius: 1rem;
   }
 
+  .skan h2 {
+    display: flex;
+    color: #800000;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    text-align: center;       /* Optional: Center the text inside the element */
+  }
 
-  
+  @media (max-width: 768px) {
+    .manage-bulletin9 {
+      margin-left: 0;
+    }
+    
+    .breadcrumb1 {
+      margin: 10px 0px -10px 0px;
+      width: 105%;
+      color: #800000;
+    }
+    
+    .search-bar1 {
+      margin-left: -30px;
+    }
+    
+    .search-bar1 input {
+      width: 260px;
+      margin-top: 50px
+    }
+    
+    
+    /* Top-Right Buttons Container */
+    .top-right-buttons1 {
+      margin-left: -330px;
+      gap: 5px;
+    }
+    
+    .add-item-btn1, .register-qr-btn1 {
+      width: 100%;
+      min-width: 150px;
+      font-size: 15px;
+    }
+    
+    .status-btn1 {
+      border-radius: 5px;
+    }
+    .grid-container1 {
+      margin-top: 50px;
+    }
+    .grid-item1 {
+      width: 110%; /* Ensure grid items take full width of their cell */
+    }
+    
+    .camera-sectionsms {
+      background-color: #f7f8f8;
+      padding: 10px 10px;
+      width: 130%;
+      margin-top: 20px;
+      margin-left: -30px;
+      border-radius: 10px;
+
+    }
+
+    .skan h2 {
+      display: flex;
+      justify-content: center;  /* Center horizontally */
+      align-items: center;      /* Center vertically */
+      text-align: center;       /* Optional: Center the text inside the element */
+    }
+
+    .tabs9 {
+      display: flex; /* Use flexbox */
+      justify-content: center; /* Center items horizontally */
+      margin: 0 4rem 2rem; /* Keep your existing margins */
+      padding: 5px 5px;
+      border-radius: 0px;
+      margin-top: 20px;
+      border-bottom: 2px solid #a51d21; /* Permanent line below the tabs */
+      }
+
+      .tab-button9{
+        background-color: #ffffff;
+        border: 0px solid #ccc;
+        padding: 15px 50px;
+        margin-right: 5px;
+        cursor: pointer;
+        border-radius: 15px;
+        transition: background-color 0.3s;
+        margin-right:10px;
+        font-weight: bold; /* Make text bold */
+        font-size: 15px;
+        }
+    
+      
+      .tab-button9.active {
+        background-color: #a51d21;
+        color: white;
+        }
+        
+        .tab-button9:hover {
+          background-color: #e0e0e0; /* Light grey background on hover */
+        }
+    /* modal---- */
+    .modal-overlay1 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .modal9 {
+      display: flex;
+      width: 80%;         /* Adjust width for responsiveness */
+      max-width: 600px;   /* Limit maximum width */
+      margin: 50px auto;  /* Center modal on the screen */
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-height: 80vh;   /* Limit height to enable scrolling */
+      overflow-y: auto;   /* Enable vertical scrolling */
+      flex-direction: column;
+      margin-left: 10px;
+    }
+    
+    .modal9 h2 {
+      margin-bottom: 20px;
+      margin-top: -10px;
+      font-size: 1.8rem;
+      color: #fefefe;
+      text-align: center;
+      font-weight: bold;
+      background-color: #850F13;
+      padding: 10px;
+      display: flex; /* Enables flexbox */
+      align-items: center; /* Centers text vertically */
+      justify-content: center; /* Centers text horizontally */
+      width: 90%; /* Ensures full width */
+      border-radius: 6px; /* Optional: Adds rounded corners */
+    }
+    
+    .modal9 form {
+      display: flex;
+      flex-direction: column; /* Single column layout */
+      gap: 15px;
+      width: 100%; /* Ensure the form takes full width */
+    }
+
+    .modal9 form select{
+      display: flex;
+      flex-direction: column; /* Single column layout */
+      gap: 15px;
+      width: 100%; /* Ensure the form takes full width */
+    }
+    
+    .form-group1 {
+      display: flex;
+      flex-direction: column; /* Stack label above input */
+      width: 100%; /* Ensure full width */
+    }
+    
+    .modal1 label {
+      font-weight: 500;
+      color: #444444;
+      margin-bottom: 5px;
+    }
+    
+    .modal1 select,
+    .modal1 textarea,
+    .modal1 input {
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #cccccc;
+      border-radius: 6px;
+      width: 100%; /* Adjusted for full width in single column */
+    }
+    
+    .modal1 input:focus,
+    .modal1 select:focus,
+    .modal1 textarea:focus {
+      border-color: #3c6abe;
+      outline: none;
+      box-shadow: 0 0 5px rgb(60, 106, 190);
+    }
+    
+    /* Camera section moved after STATUS and set to full width */
+    .status-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .camera-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%; /* Full width for single column layout */
+      padding-top: 10px;
+    }
+    
+    .camera-section video,
+    .captured-image {
+      width: 100%; /* Ensure full width */
+      max-width: 100%;
+      height: auto;
+    }
+    .camera-buttons9 button {
+      background-color: #ffffff; /* Default background color */
+      border: 1px solid #ccc; /* Border around the button */
+      padding: 12px 25px; /* Padding inside the button */
+      margin: 5px; /* Spacing between buttons */
+      cursor: pointer; /* Pointer cursor on hover */
+      border-radius: 8px; /* Rounded corners */
+      font-size: 16px; /* Font size */
+      font-weight: bold; /* Bold text */
+      transition: background-color 0.3s, transform 0.3s; /* Smooth transition for background and scale */
+    }
+    
+    .form-and-camera9 {
+      display: flex;
+      flex-direction: column;
+    }
+    .camera-section {
+      order: 1; /* Move the camera section below */
+    }
+    }

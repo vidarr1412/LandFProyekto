@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import Sidebar from "./sidebar";
 import Header from "./header";
 import '../style/home.css'; 
+import { FaFacebook, FaGithub, FaEnvelope } from 'react-icons/fa';
+
 
 function Home() {
   return (
@@ -66,26 +68,66 @@ function Home() {
         </div>
       </div>
     {/* Developer Team Section */}
-    <div className="developer-team-section">
-          <h2>Meet Our Developer Team</h2>
-          <div className="developer-grid">
-            <div className="developer-card">
-              <img src="1.png" alt="John Doe" className="developer-img" />
-              <h3>John Doe</h3>
-              <p>Front-End Devel oper</p>
-            </div>
-            <div className="developer-card">
-              <img src="2.png" alt="Jane Smith" className="developer-img" />
-              <h3>Jane Smith</h3>
-              <p>Front-End Developer</p>
-            </div>
-            <div className="developer-card">
-              <img src="2.png " alt="Mark Johnson" className="developer-img" />
-              <h3>Mark Johnson</h3>
-              <p>Back-End Developer</p>
+
+
+      <div className="developer-team-section">
+        <h2>Meet Our Developer Team</h2>
+        <div className="developer-grid">
+          <div className="developer-card">
+            <img src="1.png" alt="Paul Gary L. Oca" className="developer-img" />
+            <h3>Paul Gary L. Oca</h3>
+            <p>Back-End Developer</p>
+            <div className="social-icons">
+              <a href="mailto:paul@example.com">
+                <FaEnvelope size={20} />
+              </a>
+              <a href="https://facebook.com/paul">
+                <FaFacebook size={20} />
+              </a>
+              <a href="https://github.com/paul">
+                <FaGithub size={20} />
+              </a>
             </div>
           </div>
+
+          <div className="developer-card">
+            <img src="1.png" alt="Paul Gary L. Oca" className="developer-img" />
+            <h3>Christian Albert B. Muaña</h3>
+            <p>Front-End Developer</p>
+            <div className="social-icons">
+              <a href="mailto:paul@example.com">
+                <FaEnvelope size={20} />
+              </a>
+              <a href="https://facebook.com/paul">
+                <FaFacebook size={20} />
+              </a>
+              <a href="https://github.com/paul">
+                <FaGithub size={20} />
+              </a>
+            </div>
+          </div>
+
+          <div className="developer-card">
+            <img src="1.png" alt="Paul Gary L. Oca" className="developer-img" />
+            <h3>Jean Dhea Mae Ampong</h3>
+            <p>Front-End Developer</p>
+            <div className="social-icons">
+              <a href="mailto:paul@example.com">
+                <FaEnvelope size={20} />
+              </a>
+              <a href="https://facebook.com/paul">
+                <FaFacebook size={20} />
+              </a>
+              <a href="https://github.com/paul">
+                <FaGithub size={20} />
+              </a>
+            </div>
+          </div>
+          {/* Repeat for other team members */}
         </div>
+      </div>
+
+
       </div>
   );
 }

@@ -40,7 +40,7 @@ const FoundationItems = () => {
         
       <h2>Lost and Found Items for Foundation ID: {foundationId}</h2>
       <Header />
-<Sidebar />
+      <Sidebar />
 <div className="search-bar7">
             <input
               type="text"

@@ -1,456 +1,193 @@
 /* General layout */
   
-  .breadcrumb6 {
-    margin: 10px 8px 0 -20px;
-    font-size: 20px;
-    color: #000000;
-    font-weight: bold;
-  }
-  .manage-bulletin6 {
-    margin: 30px;
-    display: flex;
-    align-items: flex-start; /* Align to the top */
-    flex-grow: 1; /* Take up the remaining space */
-    padding: 50px;
-    margin-left: 240px; /* Space to avoid8lap with the sidebar */
-    flex-direction:column;
-  }
+.breadcrumb6 {
+  margin: 10px 8px 0 -20px;
+  font-size: 20px;
+  color: #000000;
+  font-weight: bold;
+}
+.manage-bulletin6 {
+  margin: 30px;
+  display: flex;
+  align-items: flex-start; /* Align to the top */
+  flex-grow: 1; /* Take up the remaining space */
+  padding: 50px;
+  margin-left: 240px; /* Space to avoid8lap with the sidebar */
+  flex-direction:column;
+}
 
+
+/* ----------------------------------------------------------------------------- */
+
+
+
+.search-bar6 {
+  display: flex; /* Enable flexbox for alignment */
+  align-items: center; /* Vertically center items */
+  left: -20px;
+  top: 50px;
   
-  /* ----------------------------------------------------------------------------- */
+   /*height: 300px; Full viewport height to center vertically */
+  /* gap: 10px; Add spacing between the input and icons */
+  position: relative;
   
-  
-  
-  .search-bar6 {
-    display: flex; /* Enable flexbox for alignment */
-    align-items: center; /* Vertically center items */
-    left: -20px;
-    top: 50px;
-    
-     /*height: 300px; Full viewport height to center vertically */
-    /* gap: 10px; Add spacing between the input and icons */
-    position: relative;
-    
-  }
+}
 
-  .search-bar6 input:hover {
-    border: .1rem solid #1565dd;
-  }
-  
-  .search-bar6 input {
-    width: 435px;
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-  }
+.search-bar6 input:hover {
+  border: .1rem solid #1565dd;
+}
 
-  .search-bar6 select:focus, .search-bar6 input:focus {
-    border-color: #3c6abe;
-    outline: none;
-    box-shadow: 0 0 5px rgb(60, 106, 190);
+.search-bar6 input {
+  width: 435px;
+  height: 35px; /* Increased height for better visual balance with icons */
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  border: 1px solid #6d6c6c;
+  border-radius: 35px;
+}
 
-  }
+.search-bar6 select:focus, .search-bar6 input:focus {
+  border-color: #3c6abe;
+  outline: none;
+  box-shadow: 0 0 5px rgb(60, 106, 190);
 
-  .search-bar6 input::placeholder {
-    font-weight: bold;
-    font-size:17px;
-    color: #888;
+}
 
-  }
-  
-  .search-icon6, .filter-icon6 {
-    color: #a92525;
-    cursor: pointer;
-    width: 30px; /* Adjust icon size for better proportion with the input */
-    height: 30px; /* Maintain square aspect ratio */
-  }
+.search-bar6 input::placeholder {
+  font-weight: bold;
+  font-size:17px;
+  color: #888;
 
-  .search-icon6:hover, .filter-icon6:hover{
-    transform: translateY(-3px);
-  }
+}
 
-  .search-input6 {
-    padding: 10px 40px 10px 40px; /* Add padding to the input */
-    width: 100%; /* Full width */
-    border: 1px solid #ccc; /* Border style */
-    border-radius: 4px; /* Rounded corners */
-    background: url('search.1024x1024.png') no-repeat 400px center; /* Background image */
-    background-size: 30px; /* Size of the icon */
-  }
-  
+.search-icon6, .filter-icon6 {
+  color: #a92525;
+  cursor: pointer;
+  width: 30px; /* Adjust icon size for better proportion with the input */
+  height: 30px; /* Maintain square aspect ratio */
+}
+
+.search-icon6:hover, .filter-icon6:hover{
+  transform: translateY(-3px);
+}
+
+.search-input6 {
+  padding: 10px 40px 10px 40px; /* Add padding to the input */
+  width: 100%; /* Full width */
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 4px; /* Rounded corners */
+  background: url('search.1024x1024.png') no-repeat 400px center; /* Background image */
+  background-size: 30px; /* Size of the icon */
+}
+
 
 /* Top-Right Buttons Container */
 .top-right-buttons6 {
-  display: flex; /* Enable flexbox for alignment */
-  align-items: center; /* Vertically center items */
-  left: -480px;
-  top: 100px;
-  gap: 10px; /* Add spacing between the input and icons */
-  position: relative;
-  }
-  
-  /* Button Styling */
-  .add-item-btn6, .register-qr-btn6 {
-    background-color: #800000; /* Dark red color for buttons */
-    color: white;
-    padding: 10px 10px; /* Adjusted padding for better button sizing */
-    font-size: 20px;
-    height: 60px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px; /* Space between buttons */
-  }
-  
-  .add-item-btn6:hover, .register-qr-btn6:hover {
-    background-color: #660000; /* Darker red on hover */
-    color: #ffd324;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
-  
+display: flex; /* Enable flexbox for alignment */
+align-items: center; /* Vertically center items */
+left: -480px;
+top: 100px;
+gap: 10px; /* Add spacing between the input and icons */
+position: relative;
+}
 
-  
- 
-  
+/* Button Styling */
+.add-item-btn6, .register-qr-btn6 {
+  background-color: #800000; /* Dark red color for buttons */
+  color: white;
+  padding: 10px 10px; /* Adjusted padding for better button sizing */
+  font-size: 20px;
+  height: 60px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px; /* Space between buttons */
+}
 
-  
-  .view-btn6 {
-    background-color: #4c75af;
-    color: white;
-    padding: 5px 12px;
-    font-size: 15px;
-    margin: 5px 2px; /* Adds horizontal spacing between buttons */
-    border: none;
-    width:115px;
-    cursor: pointer;
-    border-radius: 3px;
-    margin-left: 0px;
-    border-radius: 6px;
-  }
-
-
-  .view-btn6:hover{
-    background-color: #6ba2f0;
+.add-item-btn6:hover, .register-qr-btn6:hover {
+  background-color: #660000; /* Darker red on hover */
+  color: #ffd324;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   transform: translateY(-1px);
-  }
+}
+
+
+
+
+
+
+
+.view-btn6 {
+  background-color: #4c75af;
+  color: white;
+  padding: 5px 12px;
+  font-size: 15px;
+  margin: 5px 2px; /* Adds horizontal spacing between buttons */
+  border: none;
+  width:115px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-left: 0px;
+  border-radius: 6px;
+}
+
+
+.view-btn6:hover{
+  background-color: #6ba2f0;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+}
+
+.ppagination6 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0px; /* Adjust margin to avoid covering the table */
+  margin-left: 200px;
+  margin-bottom: 50px; /* Add some space below the pagination */
   
-  .ppagination6 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0px; /* Adjust margin to avoid covering the table */
-    margin-left: 200px;
-    margin-bottom: 50px; /* Add some space below the pagination */
-    
 }
 
 .page-nav6 {
-    padding: 8px 12px;
-    margin: 0 10px; /* Adjust margin for better spacing */
-    height: 50px;
-    font-weight: bold;
-    font-size: 17px;
-    border: 1px solid #8B0000;
-    background-color: #fff;
-    cursor: pointer;
-    color: #8B0000;
-    width: 120px;
-    border-radius:  10px;
+  padding: 8px 12px;
+  margin: 0 10px; /* Adjust margin for better spacing */
+  height: 50px;
+  font-weight: bold;
+  font-size: 17px;
+  border: 1px solid #8B0000;
+  background-color: #fff;
+  cursor: pointer;
+  color: #8B0000;
+  width: 120px;
+  border-radius:  10px;
 }
 
 .page-nav6.active {
-    background-color: #8B0000; /* Highlight the active page */
-    color: white; /* Change text color for active page */
+  background-color: #8B0000; /* Highlight the active page */
+  color: white; /* Change text color for active page */
 }
 
 .page-nav6:disabled {
-    background-color: #f0f0f0;
-    color: #ccc;
-    cursor: not-allowed;
-}
-.page-nav6:disabled:hover {
-  background-color: #dbd9d9;
+  background-color: #f0f0f0;
   color: #ccc;
   cursor: not-allowed;
 }
+.page-nav6:disabled:hover {
+background-color: #dbd9d9;
+color: #ccc;
+cursor: not-allowed;
+}
 
 .page-nav6:hover {
-  background-color: #f7d953;
-  color: #8B0000;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-  transform: translateY(-1px);
-}
-  
-  /* modal
-  .modal-overlay1 {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal1 {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  
-  .modal1 form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .modal1 .submit-btn1,
-  .modal1 .cancel-btn1 {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .modal1 .submit-btn1 {
-    background: #4caf50;
-    color: white;
-  }
-  
-  .modal1 .cancel-btn1 {
-    background: #f44336;
-    color: white;
-  } */
-  
-  
-
-.item-pic-input6 {
-    border: 2px dashed #aaaaaa;
-    padding: 20px;
-    text-align: center;
-    border-radius: 6px;
-    background: #f9f9f9;
-    font-size: 1rem;
-    color: #777777;
-    cursor: pointer;
-    width: 100%; /* Ensures the input takes full width */
+background-color: #f7d953;
+color: #8B0000;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+transform: translateY(-1px);
 }
 
-.item-pic6 input:hover {
-    background: #f1f1f1;
-}
-
-.submit-btn6,
-.cancel-btn6,.delete-btn6, .close-btn-manager6 ,.update-btn6 {
-    padding: 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 48%; /* Adjusted for button alignment */
-
-}
-
-.submit-btn6 {
-    background-color: #45a049;
-    color: white;
-}
-
-.update-btn6 {
-  background-color: #45a049;
-  color: white;
-}
-
-.cancel-btn6 {
-    background-color: #FF0000;
-    color: white;
-}
-
-.delete-btn6 {
-  background-color: #8B0000;
-  color: white;
-}
-
-.close-btn-manager6{
-  background-color: #FF0000;
-  color: white;
-}
-
-.submit-btn6:hover {
-    background-color: #61ce67;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-}
-
-.update-btn6:hover {
-  background-color: #61ce67;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  transform: translateY(-1px);
-}
-
-.cancel-btn6:hover {
-    background-color: #dd1f1f;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
-
-  .delete-btn6:hover {
-    background-color: #c01515;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
-
-  .close-btn-manager6:hover {
-    background-color: #dd1f1f;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
-
-  
-  .button-container6 {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    
-  }
-
-  .status-btn6{
-    color: white;
-    padding: 5px 12px;
-    font-size: 12px;
-    margin: 0px 2px; /* Adds horizontal spacing between buttons */
-    border: none;
-    font-size: 15px;
-    border-radius: 20px;
-    margin-left: 0px;
-    display: inline-block; /* Ensure it behaves like a button */
-    max-height: none; /* Remove max-height */
-    overflow: visible; /* Ensure overflow is visible */
-    
-  }
-
-
-.status-btn6.declined {
-  background-color: red; /* Red for unclaimed */ 
- }
-
-.status-btn6.approved {
-  background-color: #4CAF50; /* Green for claimed */
-  }
-
-.status-btn6.pending { 
- background-color: #FFC107 ; /* Green for claimed */ 
-}
-
-.arrow6 {
-  width: 14px; /* Adjust icon size for better proportion with the input */
-  height: 14px; /* Maintain square aspect ratio */
-}
-
-
-
-
-
-
-.grid-container6 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
-  margin-top: 30px;
-  margin-left: -37px;
-  row-gap: 35px; /* Space between grid items */
-  column-gap:85px;
-  padding: 16px; /* Padding around the grid */
-  width: 100%; /* Ensure the grid takes full width */
-  justify-items: left; /* Center items within their grid cells */
-}
-
-.grid-item6 {
-  overflow-y: auto;  /* Enable vertical scrolling */
-  max-height: 650px;
-  word-wrap: break-word;
-  background-color: #f0f0f0; /* Background color for items */
-  padding: 20px; /* Padding inside items */
-  border: 1px solid #ccc; /* Optional: Border for items */
-  border-radius: 1rem; /* Rounded corners */
-  text-align: center; /* Center text */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
-  width: 105%; /* Ensure grid items take full width of their cell */
-}
-
-
-.grid-item6 h2 {
-  overflow: hidden; /* Hide overflowing content */
-  color: #8B0000;
-  text-align: center; /* Align text to the left */
-  font-weight: bold; /* Make the text bold */
-  margin-bottom:20px ; /* Remove default margin */
-
-  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
-}
-
-.grid-item6 p {
-  margin-top: 20px;
-  text-align: left; /* Align text to the left */
-  margin: 10px 0; /* Add some vertical spacing */
-  font-weight: normal; /* Normal weight for paragraph text */
-  max-height: 100px; /* Set a maximum height for paragraphs */
-  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
-  
-}
-
-
-
-.view-mode-toggle6 {
-  background: none; /* No background */
-  border: none; /* No border */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-size: 38px; /* Adjust size of the icon */
-  color: #8B0000; /* Change color as needed */
-  padding: 5px; /* Add some padding */
-  
-  margin-top: 5px;
-  
-}
-
-
-.view-mode-toggle6:hover {
-  
-  transform: translateY(-2px);
-  color: #a50303; /* Change color on hover */
-}
-
-/* -------------------------------------------- */
-
-.default-image-url6 {
-  width: 100%;
-  height: auto;
-  
-  border-Radius: 5px; 
-}
-.default-image-url16 {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-  border-Radius: 5px; 
-}
-
-
-
-
-/* ----------------------------------------------------- */
-.modal-overlay6 {
+/* modal
+.modal-overlay1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -460,193 +197,602 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+}
+
+.modal1 {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal1 form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal1 .submit-btn1,
+.modal1 .cancel-btn1 {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal1 .submit-btn1 {
+  background: #4caf50;
+  color: white;
+}
+
+.modal1 .cancel-btn1 {
+  background: #f44336;
+  color: white;
+} */
+
+
+
+.item-pic-input6 {
+  border: 2px dashed #aaaaaa;
+  padding: 20px;
+  text-align: center;
+  border-radius: 6px;
+  background: #f9f9f9;
+  font-size: 1rem;
+  color: #777777;
+  cursor: pointer;
+  width: 100%; /* Ensures the input takes full width */
+}
+
+.item-pic6 input:hover {
+  background: #f1f1f1;
+}
+
+.submit-btn6,
+.cancel-btn6,.delete-btn6, .close-btn-manager6 ,.update-btn6 {
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 48%; /* Adjusted for button alignment */
+
+}
+
+.submit-btn6 {
+  background-color: #45a049;
+  color: white;
+}
+
+.update-btn6 {
+background-color: #45a049;
+color: white;
+}
+
+.cancel-btn6 {
+  background-color: #FF0000;
+  color: white;
+}
+
+.delete-btn6 {
+background-color: #8B0000;
+color: white;
+}
+
+.close-btn-manager6{
+background-color: #FF0000;
+color: white;
+}
+
+.submit-btn6:hover {
+  background-color: #61ce67;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.update-btn6:hover {
+background-color: #61ce67;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+}
+
+.cancel-btn6:hover {
+  background-color: #dd1f1f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.delete-btn6:hover {
+  background-color: #c01515;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.close-btn-manager6:hover {
+  background-color: #dd1f1f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+
+.button-container6 {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  
+}
+
+.status-btn6{
+  color: white;
+  padding: 5px 12px;
+  font-size: 12px;
+  margin: 0px 2px; /* Adds horizontal spacing between buttons */
+  border: none;
+  font-size: 15px;
+  border-radius: 20px;
+  margin-left: 0px;
+  display: inline-block; /* Ensure it behaves like a button */
+  max-height: none; /* Remove max-height */
+  overflow: visible; /* Ensure overflow is visible */
+  
+}
+
+
+.status-btn6.declined {
+background-color: red; /* Red for unclaimed */ 
+}
+
+.status-btn6.approved {
+background-color: #4CAF50; /* Green for claimed */
+}
+
+.status-btn6.pending { 
+background-color: #FFC107 ; /* Green for claimed */ 
+}
+
+.arrow6 {
+width: 14px; /* Adjust icon size for better proportion with the input */
+height: 14px; /* Maintain square aspect ratio */
+}
+
+
+
+
+
+
+.grid-container6 {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+margin-top: 30px;
+margin-left: -37px;
+row-gap: 35px; /* Space between grid items */
+column-gap:85px;
+padding: 16px; /* Padding around the grid */
+width: 100%; /* Ensure the grid takes full width */
+justify-items: left; /* Center items within their grid cells */
+}
+
+.grid-item6 {
+overflow-y: auto;  /* Enable vertical scrolling */
+max-height: 650px;
+word-wrap: break-word;
+background-color: #f0f0f0; /* Background color for items */
+padding: 20px; /* Padding inside items */
+border: 1px solid #ccc; /* Optional: Border for items */
+border-radius: 1rem; /* Rounded corners */
+text-align: center; /* Center text */
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+width: 105%; /* Ensure grid items take full width of their cell */
+}
+
+
+.grid-item6 h2 {
+overflow: hidden; /* Hide overflowing content */
+color: #8B0000;
+text-align: center; /* Align text to the left */
+font-weight: bold; /* Make the text bold */
+margin-bottom:20px ; /* Remove default margin */
+
+overflow-y: auto; /* Enable vertical scrolling for paragraphs */
+}
+
+.grid-item6 p {
+margin-top: 20px;
+text-align: left; /* Align text to the left */
+margin: 10px 0; /* Add some vertical spacing */
+font-weight: normal; /* Normal weight for paragraph text */
+max-height: 100px; /* Set a maximum height for paragraphs */
+overflow-y: auto; /* Enable vertical scrolling for paragraphs */
+
+}
+
+
+
+.view-mode-toggle6 {
+background: none; /* No background */
+border: none; /* No border */
+cursor: pointer; /* Pointer cursor on hover */
+font-size: 38px; /* Adjust size of the icon */
+color: #8B0000; /* Change color as needed */
+padding: 5px; /* Add some padding */
+
+margin-top: 5px;
+
+}
+
+
+.view-mode-toggle6:hover {
+
+transform: translateY(-2px);
+color: #a50303; /* Change color on hover */
+}
+
+/* -------------------------------------------- */
+
+.default-image-url6 {
+width: 100%;
+height: auto;
+
+border-Radius: 5px; 
+}
+.default-image-url16 {
+width: 100%;
+height: auto;
+margin-bottom: 10px;
+border-Radius: 5px; 
+}
+
+
+
+
+/* ----------------------------------------------------- */
+.modal-overlay6 {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1100;
 }
 
 .modal6 {
-  width: 700px;         /* Extend the modal width */
-  margin: 50px auto;    /* Center modal on the screen */
-  padding: 20px;
-  background: rgba(0, 0, 0, 0);
-  border-radius: 8px;
+width: 700px;         /* Extend the modal width */
+margin: 50px auto;    /* Center modal on the screen */
+padding: 20px;
+background: rgba(0, 0, 0, 0);
+border-radius: 8px;
 }
 .modal66 {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: flex-start; /* Align items to the start */
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 850px; /* Adjusted for a single column layout */
-  max-height: 85vh; /* Limit height to enable scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  text-align: left;
+display: flex;
+flex-direction: column; /* Stack items vertically */
+align-items: flex-start; /* Align items to the start */
+background: #ffffff;
+padding: 30px;
+border-radius: 12px;
+width: 90%;
+max-width: 850px; /* Adjusted for a single column layout */
+max-height: 85vh; /* Limit height to enable scrolling */
+overflow-y: auto; /* Enable vertical scrolling */
+box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+text-align: left;
 }
 
 .modal6 h2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #222222;
-  text-align: center;
-  font-weight: bold;
+margin-bottom: 20px;
+font-size: 1.8rem;
+color: #222222;
+text-align: center;
+font-weight: bold;
 }
 
 .card6 {
-  background: #f9f9f9; /* Light background for the card */
-  border-radius: 25px; /* Rounded corners */
-  padding: 20px; /* Padding inside the card */
-  margin-bottom: 20px; /* Space between cards */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  max-height: 600px;
-  overflow-y: auto;
+background: #f9f9f9; /* Light background for the card */
+border-radius: 25px; /* Rounded corners */
+padding: 20px; /* Padding inside the card */
+margin-bottom: 20px; /* Space between cards */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+max-height: 600px;
+overflow-y: auto;
 }
 
 
 
 
 .card6 h2 {
-  margin-bottom: 15px; /* Space below the heading */
-  font-size: 1.5rem; /* Font size for the heading */
-  color: #333; /* Darker color for the heading */
-  text-align: center; /* Center the heading */
+margin-bottom: 15px; /* Space below the heading */
+font-size: 1.5rem; /* Font size for the heading */
+color: #333; /* Darker color for the heading */
+text-align: center; /* Center the heading */
 }
 
 .modal6 form {
-  display: grid;
-  grid-template-columns: 1fr, 1fr, 320px; /* Two columns for labels and inputs */
-  gap: 20px;
-  width: 100%; /* Ensure the form takes full width */
+display: grid;
+grid-template-columns: 1fr, 1fr, 320px; /* Two columns for labels and inputs */
+gap: 20px;
+width: 100%; /* Ensure the form takes full width */
 }
 
 .form-group6 {
-  display: flex;
-  flex-direction: column; /* Stack label above input */
-  width: 100%; /* Ensure full width */
+display: flex;
+flex-direction: column; /* Stack label above input */
+width: 100%; /* Ensure full width */
 }
 
 
 
 .modal6 label {
-  font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
+font-weight: 500;
+color: #444444;
+margin-bottom: 5px;
 }
 
 .modal6 select{
-  font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  width: 90%;
+font-weight: 500;
+color: #444444;
+margin-bottom: 5px;
+padding: 12px;
+font-size: 1rem;
+border: 1px solid #cccccc;
+border-radius: 6px;
+width: 90%;
 }
 
 .modal6 textarea{
 font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-  height: 50px;
+color: #444444;
+margin-bottom: 5px;
+height: 50px;
 }
 
 .modal6 input,
 .modal6 textarea {
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  width: 90%;
+padding: 12px;
+font-size: 1rem;
+border: 1px solid #cccccc;
+border-radius: 6px;
+width: 90%;
 }
 
 .modal6 input:focus,
 .modal6 select:focus,
 .modal6 textarea:focus {
-  border-color: #3c6abe;
-  outline: none;
-  box-shadow: 0 0 5px rgb(60, 106, 190);
+border-color: #3c6abe;
+outline: none;
+box-shadow: 0 0 5px rgb(60, 106, 190);
 }
 
 .modal-details6 {
-  display: grid; /* Use grid layout */
-  grid-template-columns: 1fr 1fr; /* Two equal columns */
-  gap: 20px; /* Space between columns */
-  margin-top: 20px; /* Space above the details */
+display: grid; /* Use grid layout */
+grid-template-columns: 1fr 1fr; /* Two equal columns */
+gap: 20px; /* Space between columns */
+margin-top: 20px; /* Space above the details */
 }
 
 .modal-detail6 {
-  padding: 10px; /* Add padding for better spacing */
+padding: 10px; /* Add padding for better spacing */
 }
 
 .modal-detail6  h2{
-  text-align: left;
-  margin-bottom: 20px;
+text-align: left;
+margin-bottom: 20px;
 }
 
 .modal-detail6:not(:last-child) {
-  border-right: 1px solid #ccc; /* Add a vertical line between the two columns */
+border-right: 1px solid #ccc; /* Add a vertical line between the two columns */
 }
 
 .form-and-camera6 {
-  display: flex;
-  gap: 20px;            /* Space between form and camera */
-  align-items: flex-start; /* Align items at the top; adjust if needed */
+display: flex;
+gap: 20px;            /* Space between form and camera */
+align-items: flex-start; /* Align items at the top; adjust if needed */
 }
 
 .form-fields6 {
-  flex: 2;
-  display: grid;
-  grid-template-columns: 1fr 1fr;  /* Two columns for fields */
-  gap: 15px;
+flex: 2;
+display: grid;
+grid-template-columns: 1fr 1fr;  /* Two columns for fields */
+gap: 15px;
 }
 
 .form-group6 {
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
 }
 
 /* If any input needs to span full width, you can use: */
 .form-group6.full-width {
-  grid-column: 1 / -1;
+grid-column: 1 / -1;
 }
 
 .camera-section6 {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  /* Fix the height to roughly match the form fields height */
-  height: 100%;
-  padding-top: 10px;
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+/* Fix the height to roughly match the form fields height */
+height: 100%;
+padding-top: 10px;
 }
 
 .camera-buttons6 {
-  margin-top: 10px;
+margin-top: 10px;
 }
 
 .captured-image6 {
-  margin-top: 10px;
-  width: 320px; /* or any desired width */
-  height: auto;
+margin-top: 10px;
+width: 320px; /* or any desired width */
+height: auto;
 }
 
 /* Image preview in the third column */
 .image-preview6{
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center align the image */
+display: flex;
+flex-direction: column; /* Stack items vertically */
+align-items: center; /* Center align the image */
 }
-  
+
 .uploaded-image6 {
-  max-width: 100%;
-  height: auto;
-  border: 1px solid #ccc;
-  border-radius: 15px;
-  margin-top: 10px; /* Add some space above the image */
+max-width: 100%;
+height: auto;
+border: 1px solid #ccc;
+border-radius: 15px;
+margin-top: 10px; /* Add some space above the image */
 }
+
+
+
+/* ------------------------------------------ */
+
+.table-container6 {
+width: 100%; /* Full width of the parent */
+max-width: 1600px; /* Set a max width for the container */
+margin: 30px auto 0; /* Center the container */
+overflow-x: auto; /* Enable horizontal scrolling */
+border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+border-radius: 5px; /* Optional: Add rounded corners */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+}
+
+.ffound-items-table6 {
+width: 100%; /* Full width of the table */
+border-collapse: collapse; /* Collapse borders */
+font-size: 14px; /* Font size */
+table-layout: auto; /* Use auto layout to allow for dynamic widths */
+}
+
+.ffound-items-table6 th, .ffound-items-table6 td {
+padding: 10px;
+border: 1px solid #d5d2d2;
+text-align: center;
+overflow: hidden; /* Prevent overflow */
+text-overflow: ellipsis; /* Add ellipsis for overflow text */
+white-space: normal; /* Allow text to wrap */
+vertical-align: top; /* Align text to the top */
+
+word-wrap: break-word; /* Allow long words to break */
+max-width: 200px; /* Set a max width for cells */
+}
+
+.ffound-items-table6 th {
+background-color: #ddd;
+}
+
+.ffound-items-table6 tr {
+height: auto; /* Allow rows to stretch based on content */
+}
+
+.ffound-items-table6 th.action, .ffound-items-table6 td.action {
+width: 50px; /* Adjust width as needed */
+text-align: center; /* Center-align the buttons */
+}
+
+/* -------------------------------------------------- */
+.default-table-url6 {
+width: 100%;
+height: auto;
+
+
+
+}
+.default-table-url16 {
+width: 40%;
+height: auto;
+margin-bottom: 10px;
+border-Radius: 5px;
+ 
+}
+
+.default-table-url16:hover {
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+cursor: pointer;
+}
+
+.default-grid-url6 {
+width: 100%;
+height: auto;
+
+
+border-Radius: 5px; 
+}
+.default-grid-url16 {
+width: 100%;
+height: 35%;
+margin-bottom: 10px;
+border-Radius: 25px;
+ 
+}
+
+.default-grid-url16:hover {
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
+cursor: pointer;
+}
+
+.default-show-url16 {
+width: 100%;
+height: 35%;
+margin-bottom: 10px;
+border-Radius: 25px;
+ 
+}
+
+
+
+/* ------------------------------------------- */
+
+.modal66 label {
+font-weight: 500;
+color: #444444;
+margin-bottom: 5px;
+}
+
+.modal66 select{
+font-weight: 500;
+color: #444444;
+margin-bottom: 5px;
+padding: 12px;
+font-size: 1rem;
+border: 1px solid #cccccc;
+border-radius: 6px;
+width: 90%;
+}
+
+.modal66 textarea{
+font-weight: 500;
+color: #444444;
+margin-bottom: 5px;
+height: 50px;
+}
+
+.modal66 input,
+.modal66 textarea {
+padding: 12px;
+font-size: 1rem;
+border: 1px solid #cccccc;
+border-radius: 6px;
+width: 90%;
+}
+
+.modal66 input:focus,
+.modal66 select:focus,
+.modal66 textarea:focus {
+border-color: #3c6abe;
+outline: none;
+box-shadow: 0 0 5px rgb(60, 106, 190);
+}
+
+/* --------------------------------------------------- */
+
 
 @media (max-width: 768px) {
   .manage-bulletin6 {
@@ -655,12 +801,12 @@ font-weight: 500;
   
   }
   .grid-item6 {
-
-    width: 110%; /* Ensure grid items take full width of their cell */
+    margin-left: -10px;
+    width: 120%; /* Ensure grid items take full width of their cell */
   }
     
   .search-bar6 input {
-    width: 300px;
+    width: 250px;
     height: 35px; /* Increased height for better visual balance with icons */
     padding: 10px;
     border-radius: 5px;
@@ -668,152 +814,107 @@ font-weight: 500;
     border: 1px solid #6d6c6c;
     border-radius: 35px;
   }
-}
-
-/* ------------------------------------------ */
-
-.table-container6 {
-  width: 100%; /* Full width of the parent */
-  max-width: 1600px; /* Set a max width for the container */
-  margin: 30px auto 0; /* Center the container */
-  overflow-x: auto; /* Enable horizontal scrolling */
-  border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
-  border-radius: 5px; /* Optional: Add rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
-}
-
-.ffound-items-table6 {
-  width: 100%; /* Full width of the table */
-  border-collapse: collapse; /* Collapse borders */
-  font-size: 14px; /* Font size */
-  table-layout: auto; /* Use auto layout to allow for dynamic widths */
-}
-
-.ffound-items-table6 th, .ffound-items-table6 td {
-  padding: 10px;
-  border: 1px solid #d5d2d2;
-  text-align: center;
-  overflow: hidden; /* Prevent overflow */
-  text-overflow: ellipsis; /* Add ellipsis for overflow text */
-  white-space: normal; /* Allow text to wrap */
-  vertical-align: top; /* Align text to the top */
   
-  word-wrap: break-word; /* Allow long words to break */
-  max-width: 200px; /* Set a max width for cells */
-}
+  .button-container6 {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+    
+  }
 
-.ffound-items-table6 th {
-  background-color: #ddd;
-}
+  /* table */
 
-.ffound-items-table6 tr {
-  height: auto; /* Allow rows to stretch based on content */
-}
+  .table-container6 {
+    width: 100%; /* Full width of the parent */
+    min-width: 320px;
+    margin: 30px auto 0 -30px; /* Center the container */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+    }
 
-.ffound-items-table6 th.action, .ffound-items-table6 td.action {
-  width: 50px; /* Adjust width as needed */
-  text-align: center; /* Center-align the buttons */
-}
-
-/* -------------------------------------------------- */
-.default-table-url6 {
-  width: 100%;
-  height: auto;
+  /* MODAL */
+  .card6 {
+    background: #f9f9f9; /* Light background for the card */
+    border-radius: 25px; /* Rounded corners */
+    padding: 20px; /* Padding inside the card */
+    margin-bottom: 20px; /* Space between cards */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-height: 600px;
+    overflow-y: auto;
+    max-width:  100%;
+    width: 300px;
+    margin-left: 20px;
+  
+  }
+  
+  .form-fields6 {
+    flex: 2;
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for fields */
+    gap: 15px;
+  }
+  
+  .form-and-camera6 {
+    flex-direction: column;
+  }
+  /* modal */
+  .modal66 {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start */
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 850px; /* Adjusted for a single column layout */
+    max-height: 85vh; /* Limit height to enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+  
+  .modal66 h2 {
+    margin-bottom: 20px;
+    margin-top: 0px;
+    font-size: 1.8rem;
+    color: #fefefe;
+    text-align: center;
+    font-weight: bold;
+    background-color: #850F13;
+    padding: 10px;
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers text vertically */
+    justify-content: center; /* Centers text horizontally */
+    width: 90%; /* Ensures full width */
+    border-radius: 6px; /* Optional: Adds rounded corners */
+    font-size: larger;
+  }
+  
+  .modal-details6 {
+    width: 110%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between columns */
+    margin-top: 20px; /* Space above the details */
+    margin-left: -30px;
+    padding-right: 10px; /* Prevents content from being cut off due to scrollbar */
+  }
   
   
-
-}
-.default-table-url16 {
-  width: 40%;
-  height: auto;
-  margin-bottom: 10px;
-  border-Radius: 5px;
-   
-}
-
-.default-table-url16:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-transform: translateY(-1px);
-cursor: pointer;
-}
-
-.default-grid-url6 {
-  width: 100%;
-  height: auto;
-  
-  
-  border-Radius: 5px; 
-}
-.default-grid-url16 {
-  width: 100%;
-  height: 35%;
-  margin-bottom: 10px;
-  border-Radius: 25px;
-   
-}
-
-.default-grid-url16:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-transform: translateY(-1px);
-cursor: pointer;
-}
-
-.default-show-url16 {
-  width: 100%;
-  height: 35%;
-  margin-bottom: 10px;
-  border-Radius: 25px;
-   
-}
-
-
-
-/* ------------------------------------------- */
-
-.modal66 label {
-  font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-}
-
-.modal66 select{
-  font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  width: 90%;
-}
-
-.modal66 textarea{
-font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-  height: 50px;
-}
-
-.modal66 input,
-.modal66 textarea {
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  width: 90%;
-}
-
-.modal66 input:focus,
-.modal66 select:focus,
-.modal66 textarea:focus {
-  border-color: #3c6abe;
-  outline: none;
-  box-shadow: 0 0 5px rgb(60, 106, 190);
-}
-
-/* --------------------------------------------------- */
-
-
-
-
+  .modal6 {
+  width: 700px;         /* Extend the modal width */
+  margin: 50px auto;    /* Center modal on the screen */
+  padding: 20px;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 8px;
+  background-color: transparent;
+  max-height: 700px; /* Adjust based on the desired maximum height */
+  overflow-y: auto; /* Enables vertical scrolling */
+  }
+  }
 

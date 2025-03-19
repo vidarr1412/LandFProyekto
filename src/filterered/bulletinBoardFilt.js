@@ -60,16 +60,18 @@ const Filter = ({ onApplyFilters }) => {
 
                 
 
-                <div className="tooltip-container3">
-                    <input
-                        type="date"
-                        id="dateFound"
-                        className={dateFound ? 'active-filter3' : ''}
-                        value={dateFound}
-                        onChange={(e) => setDateFound(e.target.value)}
-                    />
-                    <span className="tooltip3">Select Unclaimed Date</span>
-                </div>
+            <div className="tooltip-container3">
+                <input
+                    placeholderText="Select Date"
+                    type="date"
+                    id="dateFound"
+                    className={dateFound ? 'active-filter3' : ''}
+                    value={dateFound}
+                    onChange={(e) => setDateFound(e.target.value)}
+                />
+                <span className="tooltip3">Select Unclaimed Date</span>
+            </div>
+
 
                 <div className="tooltip-container3">
                 <select value={sortByDate} onChange={(e) => setSortByDate(e.target.value)}>

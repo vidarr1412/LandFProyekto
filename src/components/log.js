@@ -93,12 +93,17 @@ function Auth() {
           <input type="text" name="firstName" placeholder="First Name" required />
           <input type="text" name="lastName" placeholder="Last Name" required />
           <select name="college" placeholder="college"  required >  
-                  <option value="ccs">CCS</option>
-                    <option value="coe">COE</option>
-                    <option value="cass">CASS</option>
-                    <option value="csm">CSM</option>
+                     <option value="">Please Select</option>
+                      <option value="coe">COE</option>
+                      <option value="ccs">CCS</option>
+                      <option value="cass">CASS</option>
+                      <option value="csm">CSM</option>
+                      <option value="ceba">CEBA</option>
+                      <option value="chs">CHS</option>
+                      <option value="ced">CED</option>
                     </select> 
           <select name="year_lvl" placeholder="year_lvl"  required >  
+                  <option value="">Please Select</option>
                   <option value="First Year">1</option>
                     <option value="Second Year">2</option>
                     <option value="Third Year">3</option>

@@ -256,7 +256,8 @@ function Profile() {
               Choose Avatar
             </button>
             <p>{selectedFile ? selectedFile.name : "No file chosen"}</p>
-            <button onClick={handleUpload}>Upload Avatar</button>
+            <button className="upload-button" onClick={handleUpload}>Upload Photo</button>
+
           </div>
         </div>
 
@@ -305,20 +306,28 @@ function Profile() {
               />
             </div>
 
-           <div className="form-group">
+            <div className="form-group">
               <label>QR Code</label>
-              {userId && (
-        <div ref={qrCodeRef}>
-          <QRCodeCanvas value={generateQRValue(userId)} size={150} />
-        </div>
-      )}
+              <div className="qr-container">
+                {userId && (
+                  <div ref={qrCodeRef}>
+                    <QRCodeCanvas value={generateQRValue(userId)} size={150} />
+                  </div>
+                )}
+                <div className="button-group">
+                  <button type="button" className="save-button" onClick={downloadQRCode}>
+                    Download QR Code
+                  </button>
+                  <button className="save-button" onClick={generateQRCodePDF}>
+                    Download QR Codes PDF
+                  </button>
+                </div>
+              </div>
             </div>
-            <button type="button" onClick={downloadQRCode}>Download QR Code</button> 
-            <button onClick={generateQRCodePDF}>Download QR Codes PDF</button>
 
-
-            <button type="submit" className="save-button">Save</button>
           </form>
+
+          <button type="submit" className="save-button2">Save Update</button>
         </div>
       </div>
     </div>

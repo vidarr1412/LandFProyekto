@@ -34,20 +34,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 2000;
 }
 
 .modal2 {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: flex-start; /* Align items to the start */
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 800px; /* Adjusted for more space */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  max-height: 90vh; /* Set max height to 90% of the viewport */
+  overflow-y: auto; /* Enable vertical scrolling */ 
 }
 
 .modal2 h2 {
@@ -219,129 +221,6 @@
   height: 14px; /* Maintain square aspect ratio */
 }
 
-
-
-
-
-
-@media (max-width: 768px) {
-  /* Fixed Header */
-  .content {
-    width: 100%;
-  }
-
-  .manage-bulletin2 {
-    margin: 30px;
-    display: flex;
-    align-items: flex-start; /* Align to the top */
-    flex-grow: 1; /* Take up the remaining space */
-    padding: 50px;
-    flex-direction:column;
-  }
-
-  .search-bar2 {
-    margin-left: -10px;
-    margin-top: -70px;
-    
-  }
-  .search-bar2 input {
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-    margin-left: -50px;
-    width: 260px;
-  }
-
-  .view-mode-toggle2 {
-
-    margin-left: 05px;
-    
-  }
-
-  .breadcrumb2 {
-    margin-top: 0px;
-    margin-left: -60px;
-    font-size: 25px;
-    color:#800000;
-    font-weight: bold;
-    width: 160%;
-  }
-
-
-  .sidhead {
-    width: 85%;
-    height: 120%;
-    margin-left: 240px;
-    margin-top: -3px;
-  }
-
-  .grid-item2 {
-    background-color: #f0f0f0; /* Background color for items */
-    padding: 20px; /* Padding inside items */
-    border: 1px solid #ccc; /* Optional: Border for items */
-    border-radius: 4px; /* Rounded corners */
-    text-align: center; /* Center text */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
-    width: 250px; /* Ensure grid items take full width of their cell */
-    margin-left: -26px;
-  } 
-
-  .grid-container2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
-    margin-top: 30px;
-
-    row-gap: 35px; /* Space between grid items */
-    column-gap:85px;
-    padding: 16px; /* Padding around the grid */
-    justify-items: left; /* Center items within their grid cells */
-  }
-  
-  .top-right-buttons2 {
-    display: flex; /* Enable flexbox for alignment */
-    align-items: center; /* Vertically center items */
-    margin-left: -345px;
-    gap: 10px; /* Add spacing between the input and icons */
-    
-    }
-
-    .page-nav2 {
-      height: 40px;
-      font-weight: bold;
-      font-size: 12px;
-      border: 1px solid #8B0000;
-      background-color: #fff;
-      cursor: pointer;
-      color: #8B0000;
-      border-radius:  10px;
-      margin-left: 0;
-  }
-
-  .ppagination1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0px; /* Adjust margin to avoid covering the table */
-    margin-left: 10px;
-    margin-bottom: 50px; /* Add some space below the pagination */
-  }
-
-  .add-item-btn2, .register-qr-btn2 {
-    background-color: #800000; /* Dark red color for buttons */
-    color: white;
-    padding: 10px 20px; /* Adjusted padding for better button sizing */
-    font-size: 15px;
-    height: 60px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px; /* Space between buttons */
-    width: 150px;
-  }
-}
 
 
 /*FEB-19-25 ------------------------------------------------------ */
@@ -667,4 +546,187 @@ transform: translateY(-1px);
   border: 1px solid #ccc;
   border-radius: 15px;
   margin-top: 10px; /* Add some space above the image */
+}
+
+
+@media (max-width: 768px) {
+  /* Fixed Header */
+
+
+  .manage-bulletin2 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+    flex-direction:column;
+  }
+
+  .search-bar2 {
+    margin-left: -10px;
+    margin-top: -70px;
+    width: 100%;
+    min-width: 280px;
+    
+  }
+  .search-bar2 input {
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+    margin-left: -50px;
+    width: 500px;
+    margin-top: 100px;
+
+  }
+
+  .view-mode-toggle2 {
+    margin-top: 115px;
+    margin-left: 5px;
+    
+  }
+
+  .breadcrumb2 {
+    margin-top: 0px;
+    margin-left: -60px;
+    font-size: 25px;
+    color:#800000;
+    font-weight: bold;
+    width: 160%;
+  }
+
+
+  .sidhead {
+    width: 85%;
+    height: 120%;
+    margin-left: 240px;
+    margin-top: -3px;
+  }
+
+  .grid-item2 {
+    background-color: #f0f0f0; /* Background color for items */
+    padding: 20px; /* Padding inside items */
+    border: 1px solid #ccc; /* Optional: Border for items */
+    border-radius: 4px; /* Rounded corners */
+    text-align: center; /* Center text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+    width: 280px; /* Ensure grid items take full width of their cell */
+    margin-left: -26px;
+    min-width: 200px;
+    width: 100%;
+  } 
+
+  .grid-container2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+    margin-top: 30px;
+    row-gap: 35px; /* Space between grid items */
+    column-gap:85px;
+    padding: 16px; /* Padding around the grid */
+    justify-items: left; /* Center items within their grid cells */
+    min-width: 130%;
+    margin-left: -45px;
+  }
+  
+  .top-right-buttons2 {
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Vertically center items */
+    margin-right: -300px;
+    gap: 10px; /* Add spacing between the input and icons */
+
+    
+    }
+
+    .page-nav2 {
+      height: 40px;
+      font-weight: bold;
+      font-size: 12px;
+      border: 1px solid #8B0000;
+      background-color: #fff;
+      cursor: pointer;
+      color: #8B0000;
+      border-radius:  10px;
+      margin-left: 0;
+  }
+
+  .ppagination1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px; /* Adjust margin to avoid covering the table */
+    margin-left: 10px;
+    margin-bottom: 50px; /* Add some space below the pagination */
+  }
+
+  .add-item-btn2 {
+    background-color: #800000; /* Dark red color for buttons */
+    color: white;
+    padding: 10px 20px; /* Adjusted padding for better button sizing */
+    font-size: 15px;
+    height: 60px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 200px;
+  }
+
+  .modal2 {
+    max-height: 80vh; /* Adjust max height for smaller screens */
+    width: 80%;
+}
+
+
+.modal2 h2 {
+  margin-bottom: 20px;
+  margin-top: -10px;
+  font-size: 1.8rem;
+  color: #fefefe;
+  text-align: center;
+  font-weight: bold;
+  background-color: #850F13;
+  padding: 10px;
+  display: flex; /* Enables flexbox */
+  align-items: center; /* Centers text vertically */
+  justify-content: center; /* Centers text horizontally */
+  width: 90%; /* Ensures full width */
+  border-radius: 6px; /* Optional: Adds rounded corners */
+}
+
+
+.modal2 form {
+    grid-template-columns: 1fr; /* Single column layout */
+}
+
+
+.modal2 select{
+    width: 100%; /* Full width */
+}
+
+.modal2 input,
+.modal2 textarea {
+    width: 90%; /* Full width */
+}
+
+
+.button-container2 {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.submit-btn2,
+.cancel-btn2,
+.delete-btn2 {
+    width: 100%; /* Full-width buttons */
+}
+
+
+
+  .form-and-camera2 {
+      flex-direction: column; /* Stack items vertically */
+      gap: 10px; /* Reduce gap for better spacing on mobile */
+  }
+
+
 }
