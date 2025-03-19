@@ -168,6 +168,8 @@ function Foundation() {
       } else {
         const response = await axios.post('http://10.10.83.224:5000/foundations', updatedData);
         setRequests([...requests, response.data]);
+        fetchItems();
+        setShowModal(false);
         showAlert('Item Added!', 'complaint_success');
         await Promise.all(foundationItems.map(async (item) => {
           await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
@@ -175,9 +177,8 @@ function Foundation() {
               STATUS: 'donated' 
           });
       }));
-      }
-      setShowModal(false);
-      fetchItems();
+      } 
+    
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Error submitting form. Please try again.');

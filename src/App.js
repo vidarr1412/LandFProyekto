@@ -1,9 +1,8 @@
 import { jwtDecode } from 'jwt-decode';
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Scanner from './components/scanner';
-import Home from './components/home'; // Adjust the path if necessary
+import Home from './components/home';
 import Manage from './components/Complaints';
 import ManageRequest from './components/manageRequest';
 import ReportItem from './components/report';
@@ -17,175 +16,95 @@ import Profile from './components/prof';
 import RetrievalRequests from './components/retrievalrequest';
 import DonatedItems from './components/donatedList';
 import Return from './components/return';
-import { unstable_batchedUpdates } from "react-dom";
+
 const originalWarn = console.warn;
 console.warn = (message, ...args) => {
   if (!message.includes("Reader: Support for defaultProps")) {
     originalWarn(message, ...args);
   }
 };
+
 // Helper function to check if the user is an admin
 const isAdmin = () => {
-  const token = localStorage.getItem('token'); // Assuming the JWT token is stored in localStorage
+  const token = localStorage.getItem('token');
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
-      return decodedToken.email === 'admin@gmail.com'; // Check if the usertype is 'admin'
+      return decodedToken.email === 'admin@gmail.com';
     } catch (err) {
       console.error('Invalid token:', err);
       return false;
     }
   }
   return false;
-};
-const loggedin = () => {
-  const token = localStorage.getItem('token'); // Check if the token exists in localStorage
-  return token ? true : false; // Return true if logged in, false otherwise
-};
-const isStudent=()=>{
-  const token = localStorage.getItem('token'); // Assuming the JWT token is stored in localStorage
-  if (token) {
-    try {
-      const decodedToken = jwtDecode(token);
-      return decodedToken.email !== 'admin@gmail.com'; // Check if the usertype is 'admin'
-    } catch (err) {
-      console.error('Invalid token:', err);
-      return false;
-    }
-  }
-  return false;
-}
-// AdminRoute component for protected routes
-const AdminRoute = ({ children }) => {
-  return isAdmin() ? children : <Navigate to="/login" />;
-};
-const StudentRoute = ({ children }) => {
-  return isStudent() ? children : <Navigate to="/login" />;
-};
-const NotLoggedIn = ({ children }) => {
-  return loggedin() ? children : <Navigate to="/login" />;
 };
 
+const loggedin = () => {
+  const token = localStorage.getItem('token');
+  return !!token;
+};
+
+const isStudent = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.email !== 'admin@gmail.com';
+    } catch (err) {
+      console.error('Invalid token:', err);
+      return false;
+    }
+  }
+  return false;
+};
+
+// AdminRoute component for protected routes
+const AdminRoute = ({ children }) => (isAdmin() ? children : <Navigate to="/login" />);
+const StudentRoute = ({ children }) => (isStudent() ? children : <Navigate to="/login" />);
+const NotLoggedIn = ({ children }) => (loggedin() ? children : <Navigate to="/login" />);
 
 function App() {
+  const [cache, setCache] = useState(() => {
+    const storedCache = localStorage.getItem('routeCache');
+    return storedCache ? JSON.parse(storedCache) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem('routeCache', JSON.stringify(cache));
+  }, [cache]);
+
+  const cacheData = (route, data) => {
+    setCache((prevCache) => ({
+      ...prevCache,
+      [route]: data,
+    }));
+  };
+
   return (
     <Router>
       <div className="App">
         <Routes>
-        {/* <Route path="/prof" element={<Profile />} /> */}
           <Route path="/" element={<Home />} />
-          <Route
-            path="/complaints"
-            element={
-              <AdminRoute>
-                <Manage />
-              </AdminRoute>
-            }
-          />
-                 <Route
-            path="/donation"
-            element={
-              <AdminRoute>
-                <Foundation />
-              </AdminRoute>
-            }
-          />
-  
-        <Route
-            path="/profile"
-            element={
-              <NotLoggedIn>
-                <Profile />
-              </NotLoggedIn>
-            }
-          />
-          <Route
-            path="/manaRequests"
-            element={
-              <AdminRoute>
-                <ManageRequest />
-              </AdminRoute>
-            }
-          />
-           <Route
-           path="/foundation/:foundationId"
-            element={
-              <AdminRoute>
-                <DonatedItems />
-              </AdminRoute>
-            }
-          />
-   
-
-          <Route
-            path="/database"
-            element={
-              <AdminRoute>
-                <ReportItem />
-              </AdminRoute>
-            }
-          />
-
-<Route
-            path="/scan_item"
-            element={
-              <AdminRoute>
-                <Scanner />
-              </AdminRoute>
-            }
-          />
-
-<Route
-            path="/dashboard"
-            element={
-              <AdminRoute>
-                <Dashboard />
-              </AdminRoute>
-            }
-          />
-    <Route
-            path="/additem"
-            element={
-              <AdminRoute>
-                <Additem />
-              </AdminRoute>
-            }
-          />
-    
-    
-    
-      <Route
-           path="/userComplaints"
-            element={
-              <StudentRoute>
-                <UserComplaint />
-              </StudentRoute>
-            }
-          />
-            <Route
-           path="/retrievalRequests"
-            element={
-              <StudentRoute>
-                <RetrievalRequests />
-              </StudentRoute>
-            }
-          />
-        
-       
+          <Route path="/complaints" element={<AdminRoute><Manage cacheData={cacheData} cache={cache} /></AdminRoute>} />
+          <Route path="/donation" element={<AdminRoute><Foundation cacheData={cacheData} cache={cache} /></AdminRoute>} />
+          <Route path="/profile" element={<NotLoggedIn><Profile cacheData={cacheData} cache={cache} /></NotLoggedIn>} />
+          <Route path="/manaRequests" element={<AdminRoute><ManageRequest cacheData={cacheData} cache={cache} /></AdminRoute>} />
+          <Route path="/foundation/:foundationId" element={<AdminRoute><DonatedItems cacheData={cacheData} cache={cache} /></AdminRoute>} />
+          <Route path="/database" element={<AdminRoute><ReportItem cacheData={cacheData} cache={cache} /></AdminRoute>} />
+          <Route path="/scan_item" element={<AdminRoute><Scanner cacheData={cacheData} cache={cache} /></AdminRoute>} />
+          <Route path="/dashboard" element={<AdminRoute><Dashboard cacheData={cacheData} cache={cache} /></AdminRoute>} />
+          <Route path="/additem" element={<AdminRoute><Additem cacheData={cacheData} cache={cache} /></AdminRoute>} />
+          <Route path="/userComplaints" element={<StudentRoute><UserComplaint cacheData={cacheData} cache={cache} /></StudentRoute>} />
+          <Route path="/retrievalRequests" element={<StudentRoute><RetrievalRequests cacheData={cacheData} cache={cache} /></StudentRoute>} />
           <Route path="/login" element={<Auth />} />
-          <Route path="/bulletinboard" element={ <Bulletin/> }/>
+          <Route path="/bulletinboard" element={<Bulletin />} />
           <Route path="/return_me" element={<Return />} />
           <Route path="/return_me*" element={<Navigate to="/return_me" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-        
-
       </div>
     </Router>
-    
   );
-  console.warn = () => {};
-
 }
 
 export default App;

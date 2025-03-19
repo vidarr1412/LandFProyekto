@@ -17,6 +17,7 @@ import { FaFileExcel } from "react-icons/fa"; // Import the Excel icon
 import showAlert from '../utils/alert';
 
 function Additem() {
+    const [loading, setLoading] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [requests, setRequests] = useState([]);
 
@@ -72,6 +73,7 @@ function Additem() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    
     fetchItems();
     if (showModal) {
       startCamera(); // Start camera when modal is shown
@@ -118,23 +120,50 @@ function Additem() {
         img.onerror = (err) => reject(err);
     });
 }
-  const fetchItems = async () => {
+const CACHE_KEY = 'cachedItems';
+const CACHE_EXPIRATION_MS = 5 * 60 * 1000; // Cache expiration: 5 minutes
+
+const fetchItems = async () => {
+    setLoading(true);
+
     try {
-      const response = await axios.get('http://10.10.83.224:5000/items');
-      //10.10.83.224 SID
-      //10.10.83.224 BH
-      const sortedRequests = response.data.sort((a, b) => {
-        // Combine DATE_FOUND and TIME_RETURNED into a single Date object
-        const dateA = new Date(`${a.DATE_FOUND}T${a.TIME_RETURNED}`);
-        const dateB = new Date(`${b.DATE_FOUND}T${b.TIME_RETURNED}`);
-        return dateB - dateA; // Sort in descending order
-      });
-      setCurrentPage(1); // Set current page to 1 when data is fetched
-      setRequests(sortedRequests);
+        // Check if cached data exists
+        const cachedData = sessionStorage.getItem(CACHE_KEY);
+        if (cachedData) {
+            const { data, timestamp } = JSON.parse(cachedData);
+            const now = new Date().getTime();
+
+            // Use cached data if it's still valid
+            if (now - timestamp < CACHE_EXPIRATION_MS) {
+                setRequests(data);
+                setLoading(false);
+                return;
+            }
+        }
+
+        // Fetch new data if cache is expired or missing
+        const response = await axios.get('http://10.10.83.224:5000/items');
+
+        // Sort fetched data
+        const sortedRequests = response.data.sort((a, b) => {
+            const dateA = new Date(`${a.DATE_FOUND}T${a.TIME_RETURNED}`);
+            const dateB = new Date(`${b.DATE_FOUND}T${b.TIME_RETURNED}`);
+            return dateB - dateA; // Descending order
+        });
+
+        // Save sorted data in cache
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data: sortedRequests, timestamp: new Date().getTime() }));
+
+        setCurrentPage(1); // Reset to first page
+        setRequests(sortedRequests);
+
     } catch (error) {
-      console.error('Error fetching items:', error);
+        console.error('Error fetching items:', error);
+    } finally {
+        setLoading(false);
     }
-  };
+};
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -144,6 +173,7 @@ function Additem() {
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let imageUrl = itemData.IMAGE_URL || "";
     let ownerImageUrl = itemData.OWNER_IMAGE || "";
     let postId = selectedItem?.POST_ID || itemData.POST_ID; // ✅ Use POST_ID from database
@@ -183,7 +213,10 @@ function Additem() {
 
           await axios.put(`http://10.10.83.224:5000/items/${selectedItem._id}`, updatedData);
           console.log("✅ Database updated successfully!");
+          sessionStorage.removeItem('cachedItems');
 
+          // 🚀 Fetch updated data and store in cache again
+          await fetchItems();
           showAlert('Item Updated!', 'complaint_success');
 
           if (postId) { // ✅ Ensure we have a valid POST_ID before updating Facebook
@@ -214,11 +247,13 @@ function Additem() {
 
                   const fbUpdateResult = await fbUpdateResponse.json();
                   console.log("📡 Facebook API Response:", fbUpdateResult);
-
+                  
                   if (fbUpdateResult.success) {
                       alert("✅ Successfully updated the Facebook post!");
                       console.log("🎉 Facebook post updated successfully!");
+                      setLoading(false);
                       setShowModal(false);
+               
                   } else {
                       alert("❌ Error updating Facebook post: " + JSON.stringify(fbUpdateResult));
                       console.error("❌ Facebook update error:", fbUpdateResult);
@@ -229,7 +264,7 @@ function Additem() {
           } else {
               console.log("⚠️ No POST_ID found, skipping Facebook update.");
           }
-
+       
       } else {
             console.log("Form Submitted! Sending request to Facebook...");
 
@@ -295,12 +330,17 @@ function Additem() {
             showAlert('Item Added!', 'complaint_success');
 
             setShowModal(false);
-            fetchItems();
+            sessionStorage.removeItem('cachedItems');
+
+            // 🚀 Fetch updated data and store in cache again
+            await fetchItems();
+            setLoading(false);
         }
     } catch (error) {
         console.error("Error submitting form:", error);
         alert("Error submitting form. Please try again.");
     }
+    setShowModal(false);
 };
 
 const handleDelete = async (id) => {
@@ -308,7 +348,7 @@ const handleDelete = async (id) => {
       console.log("⚠️ No ID provided. Skipping deletion.");
       return;
   }
-
+setLoading(true);
   const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
   
   try {
@@ -339,6 +379,7 @@ const handleDelete = async (id) => {
       await axios.delete(`http://10.10.83.224:5000/items/${id}`);
       console.log(`✅ Item with ID ${id} deleted from database.`);
       fetchItems();
+      setLoading(false);
   } catch (error) {
       console.log("❌ Error deleting item:", error);
   }
@@ -541,6 +582,12 @@ const handleDelete = async (id) => {
   };
 
   return (
+    <>
+    {loading && (
+      <div className="loading-overlay">
+        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -582,7 +629,9 @@ const handleDelete = async (id) => {
 
           <Filter onApplyFilters={applyFilters} />
 
-          {viewMode === 'table' ? (
+          {displayedRequests.length === 0 ? (
+  <div className="no-data-found">No data found</div>
+) :(viewMode === 'table' ? (
             <div className="table-container1">
               <table className="ffound-items-table1">
                 <thead>
@@ -703,7 +752,7 @@ const handleDelete = async (id) => {
                 </div>
               ))}
             </div>
-          )}
+          ))}
         </div>
 
         <Pagination
@@ -794,12 +843,12 @@ const handleDelete = async (id) => {
                             onChange={handleInputChange}
                             required={!selectedItem}
                           >
-                            <option value="Electronics">Electronics</option>
-                            <option value="Personal-Items">Personal Items</option>
-                            <option value="Clothing_Accessories">Clothing & Accessories</option>
-                            <option value="Bags_Stationery">Bags & stationary</option>
-                            <option value="Documents">Documents</option>
-                            <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                               <option value="">Please select</option>
+                               <option value="Electronics">Electronics</option>
+                            <option value="Personal Items">Personal Items</option>
+                            <option value="Clothing Accessories">Clothing & Accessories</option>
+                            <option value="Bags and Stationery">Bags & stationary</option>
+                            <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                           </select>
                         </div>
                         <div className="form-group1">
@@ -850,7 +899,7 @@ const handleDelete = async (id) => {
                                 <option value="IDS Area">IDS Area</option>
                                 <option value="Food Court Area">Food Court Area</option>
                                 <option value="Research Facility">Research Facility</option>
-                                <option value="CCS Area">CSS Area</option>
+                                <option value="CCS Area">CCS Area</option>
                                 <option value="CASS Area">CASS Area</option>
                                 <option value="ATM & Banking Area">ATM & Banking Area</option>
                                 <option value="Institute Park & Lawn">Institute Park & Lawn</option>
@@ -1216,12 +1265,11 @@ const handleDelete = async (id) => {
                           required={!selectedItem}
                           >
                          <option value="">Please select</option>
-                          <option value="Electronics">Electronics</option>
-                          <option value="Personal-Items">Personal Items</option>
-                          <option value="Clothing_Accessories">Clothing & Accessories</option>
-                          <option value="Bags_Stationery">Bags & stationary</option>
-                          <option value="Documents">Documents</option>
-                          <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                         <option value="Electronics">Electronics</option>
+                            <option value="Personal Items">Personal Items</option>
+                            <option value="Clothing Accessories">Clothing & Accessories</option>
+                            <option value="Bags and Stationery">Bags & stationary</option>
+                            <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                         </select>
                       </div>
                       <div className="form-group1">
@@ -1264,7 +1312,7 @@ const handleDelete = async (id) => {
                           required={!selectedItem}
                           >
                         <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
-                                <option value="INSIDE IIT">INSIDE IIT</option>
+                        <option value="INSIDE IIT">INSIDE IIT</option>
                                 <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
                                 <option value="COET Area">COET Area</option>
                                 <option value="Admission & Admin Offices">Admission & Admin Offices</option>
@@ -1273,7 +1321,7 @@ const handleDelete = async (id) => {
                                 <option value="IDS Area">IDS Area</option>
                                 <option value="Food Court Area">Food Court Area</option>
                                 <option value="Research Facility">Research Facility</option>
-                                <option value="CCS Area">CSS Area</option>
+                                <option value="CCS Area">CCS Area</option>
                                 <option value="CASS Area">CASS Area</option>
                                 <option value="ATM & Banking Area">ATM & Banking Area</option>
                                 <option value="Institute Park & Lawn">Institute Park & Lawn</option>
@@ -1461,7 +1509,9 @@ const handleDelete = async (id) => {
         </div>
       )}
     </div>
+    </>
   );
+  
 }
 
 export default Additem;

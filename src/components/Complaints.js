@@ -14,6 +14,7 @@ import showAlert from '../utils/alert';
 import Modal from './image'; // Import the Modal component
 
 function Manage() {
+    const [loading, setLoading] = useState(false);
   const [filterText, setFilterText] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showViewMoreModal, setShowViewMoreModal] = useState(false);
@@ -49,12 +50,14 @@ function Manage() {
   // Fetch all data from the database when the component mounts
   useEffect(() => {
     const fetchRequests = async () => {
+      setLoading(true);
       try {
         const response = await fetch("http://10.10.83.224:5000/complaints");
         const data = await response.json();
         setRequests(data);
         setFilteredRequests(data);
         setCurrentPage(1); // Set current page to 1 when data is fetched 
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching requests:", error);
       }
@@ -99,7 +102,7 @@ function Manage() {
       date_complained: formData.get("date_complained"),
       time_complained: formData.get("time_complained"),
     };
-
+setLoading(true);
     try {
       const response = await fetch("http://10.10.83.224:5000/complaints", {
         method: "POST",
@@ -109,6 +112,7 @@ function Manage() {
 
       if (response.ok) {
         const result = await response.json();
+        setLoading(false);
         showAlert('Complaint Submitted', 'complaint_success');
         setRequests([...requests, { ...newComplaint, status: "not-found", finder: "N/A" }]);
         setShowModal(false);
@@ -134,7 +138,7 @@ function Manage() {
       // Optimistically remove the complaint from the state
       const updatedRequests = requests.filter((req) => req._id !== selectedRequest._id);
       setRequests(updatedRequests);
-
+setLoading(true);
       try {
         const response = await fetch(
           `http://10.10.83.224:5000/complaints/${selectedRequest._id}`,
@@ -143,6 +147,7 @@ function Manage() {
 
         if (response.ok) {
           const result = await response.json();
+          setLoading(false);
           showAlert('Complaint Deleted', 'complaint_error');
           setShowViewMoreModal(false); // Close modal after successful deletion
         } else {
@@ -166,6 +171,7 @@ function Manage() {
   // };
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const updatedRequest = {
       ...selectedRequest,
       ...itemData,
@@ -180,6 +186,7 @@ function Manage() {
 
       if (response.ok) {
         const result = await response.json();
+        setLoading(false);
         showAlert('Complaint Updated', 'complaint_success');
 
         setRequests(
@@ -259,11 +266,12 @@ function Manage() {
     }
 
     // Apply sorting
-    if (filters.sortByDate === 'ascending') {
-      filtered.sort((a, b) => new Date(a.date_complained) - new Date(b.date_complained));
-    } else if (filters.sortByDate === 'descending') {
-      filtered.sort((a, b) => new Date(b.date_complained) - new Date(a.date_complained));
+       if (filters.sortByDate === 'descending') {
+      filtered.sort((a, b) => (a.date_complained || "").localeCompare(b.date_complained || ""));
+    } else if (filters.sortByDate === 'ascending') {
+      filtered.sort((a, b) => (b.date_complained || "").localeCompare(a.date_complained || ""));
     }
+    
 
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {
@@ -346,6 +354,12 @@ function Manage() {
   };
 
   return (
+    <>
+        {loading && (
+          <div className="loading-overlay">
+            <img src="/load.gif" alt="Loading..." className="loading-gif" />
+          </div>
+        )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -565,12 +579,12 @@ function Manage() {
                       value={itemData.type}
                       onChange={handleInputChange}
                     >
-                      <option value="Electronics">Electronics</option>
-                      <option value="Personal-Items">Personal Items</option>
-                      <option value="Clothing_Accessories">Clothing & Accessories</option>
-                      <option value="Bags_Stationery">Bags & stationary</option>
-                      <option value="Documents">Documents</option>
-                      <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                            <option value="">Please select</option>
+                               <option value="Electronics">Electronics</option>
+                            <option value="Personal Items">Personal Items</option>
+                            <option value="Clothing Accessories">Clothing & Accessories</option>
+                            <option value="Bags and Stationery">Bags & stationary</option>
+                            <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                     </select>
                   </div>
                   <div className="form-group3">
@@ -595,7 +609,7 @@ function Manage() {
                       value={itemData.general_location}
                       onChange={handleInputChange}
                     >
-            <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                        <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
                                 <option value="INSIDE IIT">INSIDE IIT</option>
                                 <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
                                 <option value="COET Area">COET Area</option>
@@ -605,7 +619,7 @@ function Manage() {
                                 <option value="IDS Area">IDS Area</option>
                                 <option value="Food Court Area">Food Court Area</option>
                                 <option value="Research Facility">Research Facility</option>
-                                <option value="CCS Area">CSS Area</option>
+                                <option value="CCS Area">CCS Area</option>
                                 <option value="CASS Area">CASS Area</option>
                                 <option value="ATM & Banking Area">ATM & Banking Area</option>
                                 <option value="Institute Park & Lawn">Institute Park & Lawn</option>
@@ -613,7 +627,6 @@ function Manage() {
                                 <option value="CEBA Area">CEBA Area</option>
                                 <option value="CED Area">CED Area</option>
                                 <option value="OUTSIDE IIT">OUTSIDE IIT</option>
-                             
 
                     </select>
                   </div>
@@ -863,13 +876,12 @@ function Manage() {
                     onChange={handleInputChange}
                     required={!selectedRequest}
                     >
-                    <option value="">Please select</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Personal-Items">Personal Items</option>
-                    <option value="Clothing_Accessories">Clothing & Accessories</option>
-                    <option value="Bags_Stationery">Bags & stationary</option>
-                    <option value="Documents">Documents</option>
-                    <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                      <option value="">Please select</option>
+                               <option value="Electronics">Electronics</option>
+                            <option value="Personal Items">Personal Items</option>
+                            <option value="Clothing Accessories">Clothing & Accessories</option>
+                            <option value="Bags and Stationery">Bags & stationary</option>
+                            <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                   </select>
                 </div>
 
@@ -899,7 +911,7 @@ function Manage() {
                     onChange={handleInputChange}
                     required={!selectedRequest}
                     >
-                  <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                         <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
                                 <option value="INSIDE IIT">INSIDE IIT</option>
                                 <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
                                 <option value="COET Area">COET Area</option>
@@ -909,7 +921,7 @@ function Manage() {
                                 <option value="IDS Area">IDS Area</option>
                                 <option value="Food Court Area">Food Court Area</option>
                                 <option value="Research Facility">Research Facility</option>
-                                <option value="CCS Area">CSS Area</option>
+                                <option value="CCS Area">CCS Area</option>
                                 <option value="CASS Area">CASS Area</option>
                                 <option value="ATM & Banking Area">ATM & Banking Area</option>
                                 <option value="Institute Park & Lawn">Institute Park & Lawn</option>
@@ -917,7 +929,6 @@ function Manage() {
                                 <option value="CEBA Area">CEBA Area</option>
                                 <option value="CED Area">CED Area</option>
                                 <option value="OUTSIDE IIT">OUTSIDE IIT</option>
-                             
                   </select>
                 </div>
                 <div className="form-group3">
@@ -1015,6 +1026,7 @@ function Manage() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

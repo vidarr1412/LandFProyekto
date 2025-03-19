@@ -15,6 +15,7 @@ import Filter from '../filterered/userCompFilt'; // Adjust the import path as ne
 import Modal from './image'; // Import the Modal component
 import  showAlert from '../utils/alert';
 function UserComplaint() {
+      const [loading, setLoading] = useState(false);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -90,7 +91,7 @@ const handleCancelUpload = () => {
   const handleComplaintSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-
+    setLoading(true);
     // Decode the JWT token to extract the userId
     const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
     const decodedToken = jwtDecode(token);
@@ -143,6 +144,7 @@ const handleCancelUpload = () => {
         setRequests([...requests, { ...newComplaint, status: "not-found", finder: "N/A" }]);
         setShowModal(false);
         setImagePreview(null); // Reset image preview
+        setLoading(false);
       } else {
         alert("Error filing complaint. Please try again.");
       }
@@ -196,7 +198,7 @@ const handleCancelUpload = () => {
       // Optimistically remove the complaint from the state
       const updatedRequests = requests.filter((req) => req._id !== selectedRequest._id);
       setRequests(updatedRequests);
-
+setLoading(true);
       try {
         const response = await fetch(
           `http://10.10.83.224:5000/usercomplaints/${selectedRequest._id}`,
@@ -207,6 +209,7 @@ const handleCancelUpload = () => {
           const result = await response.json();
           showAlert('Complaint Deleted', 'complaint_error');
           setShowViewMoreModal(false); // Close modal after successful deletion
+          setLoading(false);
         } else {
           // Roll back the change in case of failure
           setRequests([...updatedRequests, selectedRequest]);
@@ -230,6 +233,7 @@ const handleCancelUpload = () => {
       ...itemData,
     };
   
+    setLoading(true);
     try {
       const response = await fetch(`http://10.10.83.224:5000/usercomplaints/${selectedRequest._id}`, {
         method: "PUT",
@@ -261,6 +265,7 @@ const handleCancelUpload = () => {
           status: 'not-found',
           item_image: '',
         });
+        setLoading(false);
       } else {
         alert("Error updating complaint. Please try again.");
       }
@@ -276,10 +281,11 @@ const handleCancelUpload = () => {
       const token = localStorage.getItem('token');
       const decodedToken = jwtDecode(token); // Decode the token
       const userId = decodedToken.id; // Extract userId
-
+      setLoading(true);
       // Fetch user-specific complaints using userId
       const response = await fetch(`http://10.10.83.224:5000/usercomplaints/${userId}`);
       const data = await response.json();
+      setLoading(false);
       setRequests(data); // Set the fetched data to the state
     } catch (error) {
       console.error("Error fetching requests:", error);
@@ -389,6 +395,12 @@ const handleCancelUpload = () => {
   };
 
   return (
+    <>
+    {loading && (
+      <div className="loading-overlay">
+        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -724,6 +736,7 @@ const handleCancelUpload = () => {
 
       )}
     </div>
+    </>
   );
 };
 

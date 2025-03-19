@@ -25,6 +25,7 @@ import showAlert from '../utils/alert';
 
 
 function ItemScanner() {
+     const [loading, setLoading] = useState(false);
   const [qrData, setQrData] = useState(""); // State to hold the QR code data
   const [userDetails, setUserDetails] = useState({ email: '', firstName: '', lastName: '' }); // State to hold user details
   const [filterText, setFilterText] = useState('');
@@ -91,12 +92,12 @@ function ItemScanner() {
         FINDER: '',//based  on their csv
         FINDER_TYPE: 'STUDENT',//for data visualization 
         ITEM: '',//item name ,based on their csv
-        ITEM_TYPE: 'Electronics',//for data visualization
+        ITEM_TYPE: '',//for data visualization
         DESCRIPTION: '',//item description ,base on their csv
         IMAGE_URL: '',//change to item image later
         CONTACT_OF_THE_FINDER: '',//based on their csv
         DATE_FOUND: '',//based on their csv
-        GENERAL_LOCATION: 'Gym',//for data visualization
+        GENERAL_LOCATION: '',//for data visualization
         FOUND_LOCATION: '',//based on their csv
         TIME_RETURNED: '',  //time received
         OWNER: '',
@@ -180,6 +181,7 @@ function ItemScanner() {
 const handleScan = (data) => {
   if (!data || !scanning) return;
 
+  setLoading(true);
   console.log("Scanned QR Data:", data);
   setScanning(false);
   setTimeout(() => setScanning(true), 5000);
@@ -205,6 +207,7 @@ const handleScan = (data) => {
   if (decryptedUserId !== "Invalid ID") {
     setQrData(decryptedUserId);
     fetchUserData(decryptedUserId); // Auto-fill OWNER details
+    setLoading(false);
     setShowModal(true); // Open the modal
 
     // Restart scanning after a delay
@@ -274,6 +277,7 @@ const handleInputChange = (e) => {
 
 const handleFormSubmit = async (e) => {
   e.preventDefault();
+  setLoading(true);
   let imageUrl = itemData.IMAGE_URL; // Default to existing URL if any
   let ownerImageUrl = itemData.OWNER_IMAGE; // Default to existing owner image URL if any
 
@@ -339,7 +343,7 @@ const handleFormSubmit = async (e) => {
       `;
       
       console.log("Message to be posted:", message);
-      
+      showAlert('Posted to facebook', 'complaint_success');
       // Your Facebook Page Access Token
       const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
       const pageId = "260032237684833";
@@ -363,12 +367,14 @@ const handleFormSubmit = async (e) => {
           console.log("Facebook API Response:", fbResult);
       
           if (fbResult.id) {
-              alert("Successfully posted to Facebook with image!");
+         
           } else {
               alert("Error posting to Facebook: " + JSON.stringify(fbResult));
           }
       
           setShowModal(false);
+          showAlert('Email Sent', 'complaint_success');
+          setLoading(false);
           fetchItems();
       } catch (error) {
           console.error("Error submitting form:", error);
@@ -579,6 +585,12 @@ const sendEmail = (e) => {
   
 
   return (
+    <>
+        {loading && (
+      <div className="loading-overlay">
+        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    )}
     <div className="home-container">
       <Sidebar />
       <header className="header">
@@ -715,10 +727,10 @@ const sendEmail = (e) => {
                                 onChange={handleInputChange}
                                 required={!selectedItem}
                               >
-                                <option value="STUDENT">STUDENT</option>
-                                <option value="UTILITIES">UTILITIES</option>
-                                <option value="GUARD">GUARD</option>
-                                <option value="VISITORS">VISITORS</option>
+                                 <option value="STUDENT">STUDENT</option>
+                            <option value="UTILITIES">UTILITIES</option>
+                            <option value="GUARD">GUARD</option>
+                            <option value="VISITORS">VISITORS</option>
                               </select>
                             </div>
                             <div className="form-group1">
@@ -745,12 +757,12 @@ const sendEmail = (e) => {
                                 onChange={handleInputChange}
                                 required={!selectedItem}
                               >
-                                <option value="Electronics">Electronics</option>
-                                <option value="Personal-Items">Personal Items</option>
-                                <option value="Clothing_Accessories">Clothing & Accessories</option>
-                                <option value="Bags_Stationery">Bags & stationary</option>
-                                <option value="Documents">Documents</option>
-                                <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                               <option value="">Please select</option>
+                               <option value="Electronics">Electronics</option>
+                            <option value="Personal Items">Personal Items</option>
+                            <option value="Clothing Accessories">Clothing & Accessories</option>
+                            <option value="Bags and Stationery">Bags & stationary</option>
+                            <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                               </select>
                             </div>
                             <div className="form-group1">
@@ -791,7 +803,7 @@ const sendEmail = (e) => {
                                 value={itemData.GENERAL_LOCATION}
                                 onChange={handleInputChange}
                               >
-                                <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                            <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
                                 <option value="INSIDE IIT">INSIDE IIT</option>
                                 <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
                                 <option value="COET Area">COET Area</option>
@@ -801,15 +813,14 @@ const sendEmail = (e) => {
                                 <option value="IDS Area">IDS Area</option>
                                 <option value="Food Court Area">Food Court Area</option>
                                 <option value="Research Facility">Research Facility</option>
-                                <option value="CCS Area">CSS Area</option>
+                                <option value="CCS Area">CCS Area</option>
                                 <option value="CASS Area">CASS Area</option>
                                 <option value="ATM & Banking Area">ATM & Banking Area</option>
                                 <option value="Institute Park & Lawn">Institute Park & Lawn</option>
-                                <option value="Restrooms(CRs)">Restrooms(CRs)</option>
+                                <option value="Restrooms (CRs)">Restrooms(CRs)</option>
                                 <option value="CEBA Area">CEBA Area</option>
                                 <option value="CED Area">CED Area</option>
                                 <option value="OUTSIDE IIT">OUTSIDE IIT</option>
-                             
                               </select>
                             </div>
                             <div className="form-group1">
@@ -967,6 +978,7 @@ const sendEmail = (e) => {
               </div>
       )}
     </div>
+    </>
   );
 }
 

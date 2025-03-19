@@ -13,9 +13,10 @@ import Filter from '../filterered/retrievalReqFilt'; // Adjust the import path a
 import Modal from './image'; // Import the Modal component
 import  showAlert from '../utils/alert';
 function UserRetrievalRequests() {
+  
   const [filterText, setFilterText] = useState('');
   const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -70,19 +71,21 @@ function UserRetrievalRequests() {
 
       const response = await axios.get(`http://10.10.83.224:5000/user-retrieval-requests?userId=${userId}`);
       setRequests(Array.isArray(response.data) ? response.data : []);
-      setLoading(false);
+    
     } catch (error) {
       console.error('Error fetching retrieval requests:', error);
-      setLoading(false);
+ 
     }
   };
 
 
 
   const fetchItemDetails = async (itemId) => {
+    setLoading(true);
     try {
       const response = await axios.get(`http://10.10.83.224:5000/items/${itemId}`);
       setItemDetails(response.data);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching item details:', error);
     }
@@ -106,10 +109,12 @@ function UserRetrievalRequests() {
 
   const handleDeleteRequest = async () => {
     if (!selectedRequest) return;
+    setLoading(true);
     try {
       await axios.delete(`http://10.10.83.224:5000/retrieval-requests/${selectedRequest._id}`);
       fetchRequests();
       showAlert('Complaint Deleted!', 'complaint_error');
+      setLoading(false);
       closeModal();
     } catch (error) {
       console.error('Error deleting request:', error);
@@ -252,6 +257,12 @@ function UserRetrievalRequests() {
 
 
   return (
+    <>
+    {loading && (
+   <div className="loading-overlay">
+     <img src="/load.gif" alt="Loading..." className="loading-gif" />
+   </div>
+ )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -463,6 +474,7 @@ function UserRetrievalRequests() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

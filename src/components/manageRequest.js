@@ -11,6 +11,7 @@ import Modal from './image'; // Import the Modal component
 import { FaPlus } from "react-icons/fa6";
 
 function ManageRequest() {
+  
   const [filterText, setFilterText] = useState('');
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,7 @@ function ManageRequest() {
   }, []);
 
   const fetchRequests = async () => {
+    setLoading(true);
     try {
       const response = await axios.get('http://10.10.83.224:5000/retrieval-requests');
       console.log("API Response Data:", response.data);
@@ -115,7 +117,7 @@ function ManageRequest() {
     }
 
     // Sort by date if specified
-    if (sortByDate === 'descending') {
+    if (sortByDate === 'ascending') {
       filtered = filtered.sort((a, b) => new Date(b.date_Lost) - new Date(a.date_Lost));
     } else {
       filtered = filtered.sort((a, b) => new Date(a.date_Lost) - new Date(b.date_Lost));
@@ -153,6 +155,13 @@ function ManageRequest() {
   };
 
   return (
+    <>
+    {loading && (
+      <div className="loading-overlay">
+        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    )}
+
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -325,6 +334,7 @@ function ManageRequest() {
         </div>
       )}
     </div>
+    </>
   );
 }
 
