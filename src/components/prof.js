@@ -302,7 +302,7 @@ function Profile() {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group  ">
               <label>Confirm Password</label>
               <input 
                 type="password" 

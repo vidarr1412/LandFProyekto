@@ -71,35 +71,35 @@ const Sidebar = () => {
         <nav className="nav-menu">
         {userType === null || userType === "" ? (
             <>
-              <NavLink to="/" activeClassName="active">
+              <NavLink to="/" >
                 <FaHome className="nav-icon" /> Home
               </NavLink>
-              <NavLink to="/bulletinboard" activeClassName="active">
+              <NavLink to="/bulletinboard" >
                 <FaChartLine className="nav-icon" /> Bulletin
               </NavLink>
-              <NavLink to="/login" activeClassName="active">
+              <NavLink to="/login" >
                 <FaUserPlus className="nav-icon" /> Sign Up
               </NavLink>
             </>
           ) : userType !== "admin@gmail.com" && (
             <>
-              <NavLink to="/" activeClassName="active">
+              <NavLink to="/" >
                 <FaHome className="nav-icon" /> Home
               </NavLink>
-              <NavLink to="/userComplaints" activeClassName="active">
+              <NavLink to="/userComplaints" >
                 <FaBox className="nav-icon" /> File Report
               </NavLink>
-              <NavLink to="/bulletinboard" activeClassName="active">
+              <NavLink to="/bulletinboard" >
                 <FaChartLine className="nav-icon" /> Bulletin
               </NavLink>
-              <NavLink to="/retrievalRequests" activeClassName="active">
+              <NavLink to="/retrievalRequests" >
                 <IoMdAnalytics   className="nav-icon" /> Retrieval Status
               </NavLink>
-              <NavLink to="/profile" activeClassName="active">
+              <NavLink to="/profile" >
               <FaHome className="nav-icon" /> Profile
             </NavLink>
             <div className="logout">
-            <NavLink  activeClassName="active">
+            <NavLink  >
            
           
            
@@ -115,31 +115,31 @@ const Sidebar = () => {
           )}
           {userType === "admin@gmail.com" && (
             <>
-              <NavLink to="/dashboard" activeClassName="active">
+              <NavLink to="/dashboard" >
                 <FaChartLine className="nav-icon" /> Dashboard
               </NavLink>
-              <NavLink to="/Complaints" activeClassName="active">
+              <NavLink to="/Complaints" >
                 <FaBox className="nav-icon" /> Lost Complaint
               </NavLink>
-              <NavLink to="/additem" activeClassName="active">
+              <NavLink to="/additem" >
                 <FaQrcode className="nav-icon" /> Found Items
               </NavLink>
-              <NavLink to="/scan_item" activeClassName="active">
+              <NavLink to="/scan_item" >
                 <FaQrcode className="nav-icon" /> Scan QR
               </NavLink>
               
-              <NavLink to="/donation" activeClassName="active">
+              <NavLink to="/donation" >
                 <FaQrcode className="nav-icon" /> Donation
               </NavLink>
             
-              <NavLink to="/manaRequests" activeClassName="active">
+              <NavLink to="/manaRequests" >
                 <FaUserCheck className="nav-icon" /> Manage Request
               </NavLink>
-              <NavLink to="/profile" activeClassName="active">
+              <NavLink to="/profile" >
               <FaHome className="nav-icon" /> Profile
             </NavLink>
             <div className="logout">
-            <NavLink  activeClassName="active">
+            <NavLink  >
            
           
            

@@ -15,7 +15,11 @@
     margin-left: 240px; /* Space to avoid8lap with the sidebar */
     flex-direction:column;
   }
-
+  .submit-btn4:disabled {
+    background-color: #b0c4de; /* Light blue when disabled */
+    color: #ccc;
+    cursor: not-allowed;
+  }
   
   /* ----------------------------------------------------------------------------- */
   

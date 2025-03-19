@@ -61,6 +61,8 @@ function Additem() {
     OWNER_IMAGE: '',
     DATE_CLAIMED: '',
     TIME_CLAIMED: '',
+    POST_ID:'',
+    foundation_id:'',
     STATUS: 'unclaimed',
   });
 
@@ -140,130 +142,209 @@ function Additem() {
 
     setItemData({ ...itemData, [name]:  formattedValue,});
   };
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    let imageUrl = itemData.IMAGE_URL; // Default to existing URL if any
-    let ownerImageUrl = itemData.OWNER_IMAGE; // Default to existing owner image URL if any
+    let imageUrl = itemData.IMAGE_URL || "";
+    let ownerImageUrl = itemData.OWNER_IMAGE || "";
+    let postId = selectedItem?.POST_ID || itemData.POST_ID; // ✅ Use POST_ID from database
 
-    // Check if adding a new item and no image is captured
+
     if (!selectedItem && !image && !ownerImage) {
-      alert('Please capture an image before submitting the form.'); // Alert if no image is captured
-      return; // Exit the function
+        alert('Please capture an image before submitting the form.');
+        return;
     }
-    // Step 1: Upload the image to Firebase Storage if available
-    if (image) {
-      const imageRef = ref(storage, `FIRI/${Date.now()}.png`);
-      try {
-        await uploadString(imageRef, image, 'data_url');
-        const downloadURL = await getDownloadURL(imageRef);
-
-        imageUrl = downloadURL; // Update the URL
-
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
-    }
-
-    // Step 2: Upload the owner image to Firebase Storage if available
-    if (ownerImage) {
-      const ownerImageRef = ref(storage, `FIRI/owner_${Date.now()}.png`);
-      try {
-        await uploadString(ownerImageRef, ownerImage, 'data_url');
-        const downloadURL = await getDownloadURL(ownerImageRef);
-        ownerImageUrl = downloadURL; // Update the URL for the owner image
-      } catch (error) {
-        console.error('Error uploading owner image:', error);
-        alert('Error uploading owner image. Please try again.'); // Alert on error
-        return; // Exit the function
-      }
-      
-    }
-
-    // Step 3: Update itemData with the image URLs
-    const updatedData = { ...itemData, IMAGE_URL: imageUrl, OWNER_IMAGE: ownerImageUrl };
 
     try {
-      if (selectedItem) {
-        await axios.put(`http://10.10.83.224:5000/items/${selectedItem._id}`, updatedData);
-        showAlert('Item Updated!', 'complaint_success');
-      } else {
-        const response = await axios.post('http://10.10.83.224:5000/items', updatedData);
-        setRequests([...requests, response.data]);
-        showAlert('Item Added!', 'complaint_success');
-        
-        console.log("Form Submitted! Sending request to Facebook...");
-
-        // Construct the message
-        const message = `
-        ❗❗❗Lost & Found Item❗❗❗
-        
-        Item Found: ${itemData.ITEM}  
-        Location Found: ${itemData.GENERAL_LOCATION}  
-        Date Found: ${itemData.DATE_FOUND}  
-        Time Received: ${itemData.TIME_RETURNED}  
-
-        For inquiries : SECURITY AND INVESTIGATION DIVISION(SID) MSU-IIT
-        Located at Infront of Cafeteria and behind MPH(Multipurpose Hall/Basketball Court)
-        `;
-        
-        console.log("Message to be posted:", message);
-        
-        // Your Facebook Page Access Token
-        const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
-        const pageId = "260032237684833";
-        
-        let formData = new FormData();
-        formData.append("message", message);
-        formData.append("access_token", accessToken);
-        
-        if (imageUrl) {
-            formData.append("url", imageUrl); // Attach image
+        // Upload images to Firebase
+        if (image) {
+            const imageRef = ref(storage, `FIRI/${Date.now()}.png`);
+            await uploadString(imageRef, image, 'data_url');
+            imageUrl = await getDownloadURL(imageRef);
         }
-        
-        try {
-            // **Single request to post with image & message**
-            const fbResponse = await fetch(`https://graph.facebook.com/v19.0/${pageId}/photos`, {
-                method: "POST",
-                body: formData,
-            });
-        
-            const fbResult = await fbResponse.json();
-            console.log("Facebook API Response:", fbResult);
-        
-            if (fbResult.id) {
-                alert("Successfully posted to Facebook with image!");
-            } else {
-                alert("Error posting to Facebook: " + JSON.stringify(fbResult));
+
+        if (ownerImage) {
+            const ownerImageRef = ref(storage, `FIRI/owner_${Date.now()}.png`);
+            await uploadString(ownerImageRef, ownerImage, 'data_url');
+            ownerImageUrl = await getDownloadURL(ownerImageRef);
+        }
+
+        // Prepare item data
+        const updatedData = { 
+            ...itemData, 
+            IMAGE_URL: imageUrl, 
+            OWNER_IMAGE: ownerImageUrl 
+        };
+
+        // If updating an existing item
+        if (selectedItem) {
+          const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
+           
+          console.log("🔄 Updating database for item ID:", selectedItem._id);
+
+          await axios.put(`http://10.10.83.224:5000/items/${selectedItem._id}`, updatedData);
+          console.log("✅ Database updated successfully!");
+
+          showAlert('Item Updated!', 'complaint_success');
+
+          if (postId) { // ✅ Ensure we have a valid POST_ID before updating Facebook
+              console.log("🔄 Attempting to update Facebook post...");
+              console.log("📌 Using existing POST_ID:", postId);
+
+              const message = `
+              ❗❗❗Updated Lost & Found Item❗❗❗
+              
+              Item Found: ${itemData.ITEM}  
+              Location Found: ${itemData.GENERAL_LOCATION}  
+              Date Found: ${itemData.DATE_FOUND}  
+              Time Received: ${itemData.TIME_RETURNED}  
+
+              For inquiries: SECURITY AND INVESTIGATION DIVISION(SID) MSU-IIT
+              Located at Infront of Cafeteria and behind MPH (Multipurpose Hall/Basketball Court)
+              `;
+
+              let fbUpdateData = new FormData();
+              fbUpdateData.append("message", message);
+              fbUpdateData.append("access_token", accessToken);
+
+              try {
+                  const fbUpdateResponse = await fetch(`https://graph.facebook.com/v19.0/${postId}`, {
+                      method: "POST",
+                      body: fbUpdateData,
+                  });
+
+                  const fbUpdateResult = await fbUpdateResponse.json();
+                  console.log("📡 Facebook API Response:", fbUpdateResult);
+
+                  if (fbUpdateResult.success) {
+                      alert("✅ Successfully updated the Facebook post!");
+                      console.log("🎉 Facebook post updated successfully!");
+                      setShowModal(false);
+                  } else {
+                      alert("❌ Error updating Facebook post: " + JSON.stringify(fbUpdateResult));
+                      console.error("❌ Facebook update error:", fbUpdateResult);
+                  }
+              } catch (fbError) {
+                  console.error("❌ Facebook update request failed:", fbError);
+              }
+          } else {
+              console.log("⚠️ No POST_ID found, skipping Facebook update.");
+          }
+
+      } else {
+            console.log("Form Submitted! Sending request to Facebook...");
+
+            // Construct message
+            const message = `
+            ❗❗❗Lost & Found Item❗❗❗
+            
+            Item Found: ${itemData.ITEM}  
+            Location Found: ${itemData.GENERAL_LOCATION}  
+            Date Found: ${itemData.DATE_FOUND}  
+            Time Received: ${itemData.TIME_RETURNED}  
+
+            For inquiries: SECURITY AND INVESTIGATION DIVISION(SID) MSU-IIT
+            Located at Infront of Cafeteria and behind MPH (Multipurpose Hall/Basketball Court)
+            `;
+
+            // Facebook API setup
+            const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
+            const pageId = "260032237684833";
+
+            let formData = new FormData();
+            formData.append("message", message);
+            formData.append("access_token", accessToken);
+
+            if (imageUrl) {
+                formData.append("url", imageUrl);
             }
-        
+
+            try {
+                // **Post to Facebook**
+                const fbResponse = await fetch(`https://graph.facebook.com/v19.0/${pageId}/photos`, {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const fbResult = await fbResponse.json();
+                console.log("Facebook API Response:", fbResult);
+
+                if (fbResult.post_id) {
+                  postId = fbResult.post_id; // ✅ Store the actual post ID for deletion
+              } else {
+                  console.warn("Warning: No post_id received from Facebook API.");
+              }
+              
+              
+            } catch (error) {
+                console.error("Error posting to Facebook:", error);
+            }
+
+            // **Include Facebook Post ID in Database (Single Request)**
+            const finalData = { 
+                ...updatedData, 
+                POST_ID: postId || null // Store POST_ID even if Facebook fails
+            };
+
+            console.log("Final Data to be stored in DB:", finalData);
+
+            // Save to Database (Only ONE Post Request)
+            const dbResponse = await axios.post('http://10.10.83.224:5000/items', finalData);
+            console.log("Database Response:", dbResponse.data);
+
+            setRequests([...requests, dbResponse.data]);
+            showAlert('Item Added!', 'complaint_success');
+
             setShowModal(false);
             fetchItems();
-        } catch (error) {
-            console.error("Error submitting form:", error);
-            alert("Error submitting form. Please try again.");
         }
-         }
-      setShowModal(false);
+    } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("Error submitting form. Please try again.");
+    }
+};
+
+const handleDelete = async (id) => {
+  if (!id) {
+      console.log("⚠️ No ID provided. Skipping deletion.");
+      return;
+  }
+
+  const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
+  
+  try {
+      const res = await axios.get(`http://10.10.83.224:5000/items/${id}`);
+      const item = res.data;
+      console.log("Fetched item before delete:", item);
+
+      if (!item.POST_ID) {
+          console.log("⚠️ No POST_ID found. Skipping Facebook deletion.");
+      } else {
+          console.log("🗑️ Deleting Facebook post with POST_ID:", item.POST_ID);
+          try {
+              const response = await fetch(`https://graph.facebook.com/v19.0/${item.POST_ID}?access_token=${accessToken}`, {
+                  method: "DELETE",
+              });
+
+              if (!response.ok) {
+                  throw new Error(`Facebook API error: ${response.status}`);
+              }
+
+              console.log(`✅ Successfully deleted Facebook post ${item.POST_ID}`);
+          } catch (fbError) {
+              console.log("⚠️ Skipping Facebook deletion due to error.");
+          }
+      }
+
+      console.log("🗑️ Deleting item from database with ID:", id);
+      await axios.delete(`http://10.10.83.224:5000/items/${id}`);
+      console.log(`✅ Item with ID ${id} deleted from database.`);
       fetchItems();
-    }  catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Error submitting form. Please try again.");
+  } catch (error) {
+      console.log("❌ Error deleting item:", error);
   }
 };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      try {
-        await axios.delete(`http://10.10.83.224:5000/items/${id}`);
-        fetchItems();
-        showAlert('Item Deleted!', 'complaint_error');
-      } catch (error) {
-        console.error('Error deleting item:', error);
-        alert('Error deleting item. Please try again.'); // Alert on error
-      }
-    }
-  };
+
   const handleDownload = () => {
     const downloadLink = "https://docs.google.com/spreadsheets/d/1gDsrxa4u3Pvd9fv6CcVbvva62oimz9O_l7CqbTD1oBc/export?format=xlsx";
     window.open(downloadLink, "_blank");
@@ -288,7 +369,9 @@ function Additem() {
         OWNER_CONTACT: '',
         OWNER_IMAGE: '',
         DATE_CLAIMED: '',
+        POST_ID:'',
         TIME_CLAIMED: '',
+        foundation_id:'',
         STATUS: 'unclaimed',
       }
     );
@@ -327,10 +410,11 @@ function Additem() {
 
     // Apply sorting
     if (filters.sortByDate === 'ascending') {
-      filtered.sort((a, b) => new Date(a.DATE_FOUND) - new Date(b.DATE_FOUND));
+      filtered.sort((a, b) => (a.DATE_FOUND || "").localeCompare(b.DATE_FOUND || ""));
     } else if (filters.sortByDate === 'descending') {
-      filtered.sort((a, b) => new Date(b.DATE_FOUND) - new Date(a.DATE_FOUND));
+      filtered.sort((a, b) => (b.DATE_FOUND || "").localeCompare(a.DATE_FOUND || ""));
     }
+    
 
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {
@@ -563,7 +647,8 @@ function Additem() {
                             (item.STATUS.toLowerCase() === 'unclaimed' ? 'unclaimed' :
                               (item.STATUS.toLowerCase() === 'claimed' ? 'claimed' : 'donated')) : ''} 
       ${item.STATUS && item.STATUS.toLowerCase() === 'donated' ? 'disabled' : ''}`}
-                          onClick={() => item.STATUS && item.STATUS.toLowerCase() !== 'donated' && handleStatusChange(item)}
+      onClick={() => item.STATUS && item.STATUS.toLowerCase() !== 'donated'}
+
                           disabled={item.STATUS && item.STATUS.toLowerCase() === 'donated'}
                         >
                           {item.STATUS || 'Unclaimed'}
@@ -660,7 +745,7 @@ function Additem() {
                             name="FINDER"
                             maxLength="100"
                             placeholder="Finder Name"
-                            value={itemData.FINDER}
+                            value={itemData.FINDER||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           />
@@ -675,7 +760,7 @@ function Additem() {
                             name="FINDER_TYPE"
 
                             placeholder="Finder TYPE"
-                            value={itemData.FINDER_TYPE}
+                            value={itemData.FINDER_TYPE||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           >
@@ -693,7 +778,7 @@ function Additem() {
                             name="ITEM"
                             maxLength="100"
                             placeholder="Item Name"
-                            value={itemData.ITEM}
+                            value={itemData.ITEM||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           />
@@ -705,7 +790,7 @@ function Additem() {
                             id="item_Type"
                             name="ITEM_TYPE"
                             placeholder="Item TYPE"
-                            value={itemData.ITEM_TYPE}
+                            value={itemData.ITEM_TYPE||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           >
@@ -724,7 +809,7 @@ function Additem() {
                             name="DESCRIPTION"
                             maxLength="500"
                             placeholder="Description"
-                            value={itemData.DESCRIPTION}
+                            value={itemData.DESCRIPTION||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           ></textarea>
@@ -738,7 +823,7 @@ function Additem() {
                             name="CONTACT_OF_THE_FINDER"
                             maxLength="50"
                             placeholder="Contact Number"
-                            value={itemData.CONTACT_OF_THE_FINDER}
+                            value={itemData.CONTACT_OF_THE_FINDER||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           />
@@ -752,25 +837,28 @@ function Additem() {
                             id="generalLocation"
                             name="GENERAL_LOCATION"
                             placeholder="General Location"
-                            value={itemData.GENERAL_LOCATION}
+                            value={itemData.GENERAL_LOCATION||''}
                             onChange={handleInputChange}
                           >
-                            <option value="Gym">GYMNASIUM</option>
-                            <option value="adminBuilding">ADMIN BLG</option>
-                            <option value="mph">MPH</option>
-                            <option value="mainLibrary">MAIN LIBRARY</option>
-                            <option value="lawn">LAWN</option>
-                            <option value="ids">IDS</option>
-                            <option value="clinic">CLINIC</option>
-                            <option value="canteen">CANTEEN</option>
-                            <option value="ceba">CEBA</option>
-                            <option value="ccs">CCS</option>
-                            <option value="cass">CASS</option>
-                            <option value="csm">CSM</option>
-                            <option value="coe">COE</option>
-                            <option value="ced">CED</option>
-                            <option value="chs">CHS</option>
-                            <option value="outsideiit">OUTSIDE IIT</option>
+                      <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="COET Area">COET Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                                <option value="CHS Area">CHS Area</option>
+                                <option value="CSM Area">CSM Area</option>
+                                <option value="IDS Area">IDS Area</option>
+                                <option value="Food Court Area">Food Court Area</option>
+                                <option value="Research Facility">Research Facility</option>
+                                <option value="CCS Area">CSS Area</option>
+                                <option value="CASS Area">CASS Area</option>
+                                <option value="ATM & Banking Area">ATM & Banking Area</option>
+                                <option value="Institute Park & Lawn">Institute Park & Lawn</option>
+                                <option value="Restrooms (CRs)">Restrooms(CRs)</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                             
                           </select>
                         </div>
                         <div className="form-group1">
@@ -781,7 +869,7 @@ function Additem() {
                             name="FOUND_LOCATION"
                             maxLength="200"
                             placeholder="Specific Location"
-                            value={itemData.FOUND_LOCATION}
+                            value={itemData.FOUND_LOCATION||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           />
@@ -793,7 +881,7 @@ function Additem() {
                             type="date"
                             id="dateFound"
                             name="DATE_FOUND"
-                            value={itemData.DATE_FOUND}
+                            value={itemData.DATE_FOUND||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           />
@@ -805,7 +893,7 @@ function Additem() {
                             type="time"
                             id="timeReceived"
                             name="TIME_RETURNED"
-                            value={itemData.TIME_RETURNED}
+                            value={itemData.TIME_RETURNED||''}
                             onChange={handleInputChange}
                             required={!selectedItem}
                           />
@@ -817,7 +905,7 @@ function Additem() {
                           <select
                             id="status"
                             name="STATUS"
-                            value={itemData.STATUS}
+                            value={itemData.STATUS||''}
                             onChange={handleInputChange}
                           >
                             <option value="unclaimed">Unclaimed</option>
@@ -838,7 +926,7 @@ function Additem() {
                             name="OWNER"
                             maxLength="50"
                             placeholder="Owner Name"
-                            value={itemData.OWNER}
+                            value={itemData.OWNER||''}
                             onChange={handleInputChange}
                           />
                         </div>
@@ -847,7 +935,7 @@ function Additem() {
                           <select
                             id="ownerCollege"
                             name="OWNER_COLLEGE"
-                            value={itemData.OWNER_COLLEGE}
+                            value={itemData.OWNER_COLLEGE||''}
                             onChange={handleInputChange}
                             >
                          <option value="">Please select</option>
@@ -869,7 +957,7 @@ function Additem() {
                             name="OWNER_CONTACT"
                             maxLength="50"
                             placeholder="Owner Contact"
-                            value={itemData.OWNER_CONTACT}
+                            value={itemData.OWNER_CONTACT||''}
                             onChange={handleInputChange}
                           />
                         </div>
@@ -881,7 +969,7 @@ function Additem() {
                             name="DATE_CLAIMED"
                             maxLength="50"
                             placeholder="May skip if owner is not yet identified"
-                            value={itemData.DATE_CLAIMED}
+                            value={itemData.DATE_CLAIMED||''}
                             onChange={handleInputChange}
                           />
                         </div>
@@ -893,7 +981,7 @@ function Additem() {
                             name="TIME_CLAIMED"
                             maxLength="50"
                             placeholder="May skip if owner is not yet identified"
-                            value={itemData.TIME_CLAIMED}
+                            value={itemData.TIME_CLAIMED||''}
                             onChange={handleInputChange}
                           />
                         </div>
@@ -902,7 +990,7 @@ function Additem() {
                           <select
                             id="status"
                             name="STATUS"
-                            value={itemData.STATUS}
+                            value={itemData.STATUS||'' }
                             onChange={handleInputChange}
                           >
                             <option value="unclaimed">Unclaimed</option>
@@ -1058,6 +1146,7 @@ function Additem() {
                   </div>
                   <div className="button-container1">
                     <button className="edit-btn1" onClick={handleEdit}>Edit</button>
+                    <button type="button" className="delete-btn1" onClick={() => { handleDelete(selectedItem._id); setShowModal(false); }}>Delete</button>
                     <button className="cancel-btn1" onClick={() => setShowModal(false)}>Cancel</button>
                   </div>
                   
@@ -1174,23 +1263,25 @@ function Additem() {
                           onChange={handleInputChange}
                           required={!selectedItem}
                           >
-                          <option value="">Please select</option>
-                          <option value="Gym">GYMNASIUM</option>
-                          <option value="adminBuilding">ADMIN BLG</option>
-                          <option value="mph">MPH</option>
-                          <option value="mainLibrary">MAIN LIBRARY</option>
-                          <option value="lawn">LAWN</option>
-                          <option value="ids">IDS</option>
-                          <option value="clinic">CLINIC</option>
-                          <option value="canteen">CANTEEN</option>
-                          <option value="ceba">CEBA</option>
-                          <option value="ccs">CCS</option>
-                          <option value="cass">CASS</option>
-                          <option value="csm">CSM</option>
-                          <option value="coe">COE</option>
-                          <option value="ced">CED</option>
-                          <option value="chs">CHS</option>
-                          <option value="outsideiit">OUTSIDE IIT</option>
+                        <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="COET Area">COET Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                                <option value="CHS Area">CHS Area</option>
+                                <option value="CSM Area">CSM Area</option>
+                                <option value="IDS Area">IDS Area</option>
+                                <option value="Food Court Area">Food Court Area</option>
+                                <option value="Research Facility">Research Facility</option>
+                                <option value="CCS Area">CSS Area</option>
+                                <option value="CASS Area">CASS Area</option>
+                                <option value="ATM & Banking Area">ATM & Banking Area</option>
+                                <option value="Institute Park & Lawn">Institute Park & Lawn</option>
+                                <option value="Restrooms (CRs)">Restrooms(CRs)</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                             
                         </select>
                       </div>
                       <div className="form-group1">
@@ -1337,7 +1428,10 @@ function Additem() {
 
                   {/* Buttons inside the form */}
                   <div className="button-container1">
-                    <button type="submit" className="submit-btn1">Submit</button>
+                    <button type="submit" className="submit-btn1" disabled={!image && !ownerImage} // Disable if no image is captured
+    >
+      Submit
+    </button>
                     {/* delete modal */}
 
                     <button type="button" className="cancel-btn1" onClick={() => setShowModal(false)}> Cancel </button>

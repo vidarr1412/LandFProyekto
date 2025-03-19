@@ -36,6 +36,8 @@ function ItemScanner() {
   const [isEditing, setIsEditing] = useState(false);
   const [isViewMore, setIsViewMore] = useState(false); // New state to track if modal is for viewing more details
   const itemsPerPage = 10;
+  const [scanning, setScanning] = useState(true); // State to control scanner reset
+
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
@@ -65,7 +67,7 @@ function ItemScanner() {
     TIME_CLAIMED: '',
     STATUS: 'unclaimed',
   });
-  const [lastScanned, setLastScanned] = useState(null); // Track last scanned value
+
   const [image, setImage] = useState(null); // State to hold the captured image
   const [ownerImage, setOwnerImage] = useState(null); // State to hold the captured owner image
   const videoRef = useRef(null);
@@ -75,6 +77,8 @@ function ItemScanner() {
     fetchItems();
     if (showModal) {
       startCamera(); // Start camera when modal is shown
+      setScanning(false);
+      setTimeout(() => setScanning(true), 5000);
     }
   }, [showModal]);
 
@@ -152,58 +156,83 @@ function ItemScanner() {
 
   const decryptQRValue = (encryptedId, isAuthorized) => {
     if (!encryptedId) return "";
-
+    setScanning(false);
+    setTimeout(() => setScanning(true), 5000);
     try {
         // If authorized, decrypt
         if (isAuthorized) {
             const bytes = CryptoJS.AES.decrypt(encryptedId, "1412");
             return bytes.toString(CryptoJS.enc.Utf8) || "Invalid ID";
         }
-        
         // If unauthorized, show asterisks
         return "*".repeat(8);
+        setScanning(false);
+        setTimeout(() => setScanning(true), 5);
     } catch (error) {
         return "Invalid ID";
+        setScanning(false);
+        setTimeout(() => setScanning(true), 5);
     }
+    setScanning(false);
+    setTimeout(() => setScanning(true), 5);
 };
 
 const handleScan = (data) => {
-  if (!data) return;
+  if (!data || !scanning) return;
 
-  if (data === lastScanned) {
-    return; // Prevent reprocessing the same QR code rapidly
-  }
   console.log("Scanned QR Data:", data);
-  setLastScanned(data); // Update last scanned data
-
+  setScanning(false);
+  setTimeout(() => setScanning(true), 5000);
+  // Extract the encrypted user ID from QR code
   const match = data.text.match(/<([^>]*)>/);
   if (!match) {
+
     console.error("Invalid QR Code format");
+    setScanning(false);
+    setTimeout(() => setScanning(true), 5000);
+    
     return;
   }
-      const encryptedId = match[1]; // Extracted encrypted ID
-      console.log("Extracted Encrypted ID:", encryptedId);
 
-      // Decrypt the value (pass true for authorized devices)
-      const decryptedUserId = decryptQRValue(encryptedId, true);
-      console.log("Decrypted User ID:", decryptedUserId);
+  const encryptedId = match[1]; // Extracted encrypted ID
+  console.log("Extracted Encrypted ID:", encryptedId);
 
-      if (decryptedUserId !== "Invalid ID") {
-          setQrData(decryptedUserId);
-          fetchUserData(decryptedUserId);  // Auto-fill OWNER details
-          setShowModal(true);  // Open the modal
-      }
-      if (decryptedUserId === "Invalid ID") {
-        window.alert("Invalid QR Code. Please try again.");
-        return;
-    }
-    
-  
+  // Decrypt the value (pass true for authorized devices)
+  const decryptedUserId = decryptQRValue(encryptedId, true);
+  console.log("Decrypted User ID:", decryptedUserId);
+  setScanning(false);
+  setTimeout(() => setScanning(true), 50000);
+  if (decryptedUserId !== "Invalid ID") {
+    setQrData(decryptedUserId);
+    fetchUserData(decryptedUserId); // Auto-fill OWNER details
+    setShowModal(true); // Open the modal
+
+    // Restart scanning after a delay
+    setTimeout(() => setScanning(true), 5000); // Re-enable scanning after 2s
+  } else {
+
+    window.alert("Invalid QR Code. Please try again.");
+    setScanning(false);
+    setTimeout(() => setScanning(true), 5000);
+  }
+
+  setScanning(false);
+  setTimeout(() => setScanning(true), 5000);
+};
+const restartScanning = () => {
+  setQrData(null); // Clear scanned data
+  setShowModal(false); // Close modal
+  setIsEditing(false); // Reset editing mode
+  setScanning(true); // Restart scanner
 };
 
 
+
 const handleError = (err) => {
+  
   console.error("QR Scan Error:", err);
+  setScanning(false);
+  setTimeout(() => setScanning(true), 5000);
 };
 
 
@@ -438,6 +467,7 @@ const handlePageChange = (pageNumber) => {
 
 
 const startCamera = () => {
+  
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: true })
       .then((stream) => {
@@ -563,12 +593,16 @@ const sendEmail = (e) => {
           </div>
           <div className="camera-sectionsms">
             {/* Use ReactQrScanner to handle QR code scanning */}
-            <ReactQrScanner
-              delay={300} // Set delay to 300ms to give time for the camera to load
-              style={{ width: "100%" }} // Adjust the scanner view size
-              onScan={handleScan} // Handle scan result
-              onError={handleError} // Handle scan error
-            />
+            {scanning && (
+  <ReactQrScanner
+    key={scanning} // Changing key forces reinitialization
+    delay={5000} // Scan delay
+    style={{ width: "100%" }} // Adjust scanner view
+    onScan={handleScan} // Handle scan
+    onError={handleError} // Handle error
+   
+  />
+)}
           </div>
           <div>
             {/* <p>Scanned QR Code Value: {qrData} </p>
@@ -628,7 +662,10 @@ const sendEmail = (e) => {
                             <button type="submit" className="submit-btn1">Update</button>
                             {/* delete modal */}
                           
-                            <button type="button" className="cancel-btn1" onClick={() => { setIsEditing(false); setShowModal(false); }}> Cancel </button>
+                            <button type="button" className="cancel-btn1" onClick={restartScanning}>
+  Cancel
+</button>
+
                           </div>
                         </form>
       
@@ -754,22 +791,25 @@ const sendEmail = (e) => {
                                 value={itemData.GENERAL_LOCATION}
                                 onChange={handleInputChange}
                               >
-                                <option value="Gym">GYMNASIUM</option>
-                                <option value="adminBuilding">ADMIN BLG</option>
-                                <option value="mph">MPH</option>
-                                <option value="mainLibrary">MAIN LIBRARY</option>
-                                <option value="lawn">LAWN</option>
-                                <option value="ids">IDS</option>
-                                <option value="clinic">CLINIC</option>
-                                <option value="canteen">CANTEEN</option>
-                                <option value="ceba">CEBA</option>
-                                <option value="ccs">CCS</option>
-                                <option value="cass">CASS</option>
-                                <option value="csm">CSM</option>
-                                <option value="coe">COE</option>
-                                <option value="ced">CED</option>
-                                <option value="chs">CHS</option>
-                                <option value="outsideIit">OUTSIDE IIT</option>
+                                <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="COET Area">COET Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                                <option value="CHS Area">CHS Area</option>
+                                <option value="CSM Area">CSM Area</option>
+                                <option value="IDS Area">IDS Area</option>
+                                <option value="Food Court Area">Food Court Area</option>
+                                <option value="Research Facility">Research Facility</option>
+                                <option value="CCS Area">CSS Area</option>
+                                <option value="CASS Area">CASS Area</option>
+                                <option value="ATM & Banking Area">ATM & Banking Area</option>
+                                <option value="Institute Park & Lawn">Institute Park & Lawn</option>
+                                <option value="Restrooms(CRs)">Restrooms(CRs)</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                             
                               </select>
                             </div>
                             <div className="form-group1">
@@ -896,7 +936,10 @@ const sendEmail = (e) => {
                                      <button type="submit" className="submit-btn1">Submit</button>
                                      {/* delete modal */}
                  
-                                     <button type="button" className="cancel-btn1" onClick={() => setShowModal(false)}> Cancel </button>
+                                     <button type="button" className="cancel-btn1" onClick={restartScanning}>
+  Cancel
+</button>
+
                                    </div>
                                  </form>
                  

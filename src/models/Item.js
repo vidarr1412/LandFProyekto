@@ -19,12 +19,12 @@ const itemSchema = new mongoose.Schema({
   DATE_CLAIMED: String,
   TIME_CLAIMED:String,
   STATUS: String,
-  
+  POST_ID: String,
   foundation_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Foundation',
     default: null // Allows items to exist without a foundation
-  }
+  } 
 });
 
 const Item = mongoose.model('Item', itemSchema);

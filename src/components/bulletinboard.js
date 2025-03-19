@@ -236,11 +236,10 @@ function Bulletin() {
 
     // Apply sorting
     if (filters.sortByDate === 'ascending') {
-      filtered.sort((a, b) => new Date(a.DATE_FOUND) - new Date(b.DATE_FOUND));
+      filtered.sort((a, b) => (a.DATE_FOUND || "").localeCompare(b.DATE_FOUND || ""));
     } else if (filters.sortByDate === 'descending') {
-      filtered.sort((a, b) => new Date(b.DATE_FOUND) - new Date(a.DATE_FOUND));
+      filtered.sort((a, b) => (b.DATE_FOUND || "").localeCompare(a.DATE_FOUND || ""));
     }
-
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {
       setFilteredRequests(filtered);
@@ -437,9 +436,14 @@ function Bulletin() {
                 </div>
 
                 <div className="button-container4">
-                  <button type="submit" className="submit-btn4">
-                    Submit
-                  </button>
+                <button 
+  type="submit" 
+  className="submit-btn4"
+  disabled={!localStorage.getItem("token")} // Disable if token is missing
+>
+  Submit
+</button>
+
                   < button
                     type="button"
                     className="cancel-btn4"

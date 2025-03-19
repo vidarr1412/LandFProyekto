@@ -159,10 +159,22 @@ function Foundation() {
       if (selectedItem) {
         await axios.put(`http://10.10.83.224:5000/foundations/${selectedItem._id}`, updatedData);
         showAlert('Item Updated!', 'complaint_success');
+        await Promise.all(foundationItems.map(async (item) => {
+          await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
+              ...item, 
+              STATUS: 'donated' 
+          });
+      }));
       } else {
         const response = await axios.post('http://10.10.83.224:5000/foundations', updatedData);
         setRequests([...requests, response.data]);
         showAlert('Item Added!', 'complaint_success');
+        await Promise.all(foundationItems.map(async (item) => {
+          await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
+              ...item, 
+              STATUS: 'donated' 
+          });
+      }));
       }
       setShowModal(false);
       fetchItems();

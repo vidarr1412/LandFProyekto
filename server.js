@@ -351,6 +351,7 @@ app.post("/items", async (req, res) => {
     TIME_CLAIMED,
     STATUS,
     foundation_id,
+    POST_ID,
   } = req.body;
 
   // Ensure foundation_id is null if empty
@@ -380,6 +381,7 @@ app.post("/items", async (req, res) => {
       TIME_CLAIMED,
       STATUS,
       foundation_id,
+      POST_ID,
     });
 
     await newItem.save();
@@ -388,7 +390,7 @@ app.post("/items", async (req, res) => {
     // Step 2: Fetch foundation_name if foundation_id exists
     let foundationName = "";
     if (foundation_id) {
-      const foundation = await Foundation.findById(foundation_id);
+      const foundation = await FoundationSchema.findById(foundation_id);
       if (foundation) {
         foundationName = foundation.foundation_name;
       }
@@ -415,6 +417,7 @@ app.post("/items", async (req, res) => {
         DATE_CLAIMED,
         TIME_CLAIMED,
         STATUS,
+        POST_ID: `www.facebook.com/${POST_ID}`, // Modify POST_ID here
         foundation_id: foundationName, // Only foundation_name, not the _id
       },
     ]);
@@ -477,7 +480,7 @@ app.post('/useritems', async (req, res) => {
         OWNER_IMAGE,
         DATE_CLAIMED,
         TIME_CLAIMED,
-        STATUS
+        STATUS,foundation_id
     });
 
     // Save the new item to the database

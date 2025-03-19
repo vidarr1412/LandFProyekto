@@ -17,6 +17,13 @@ import Profile from './components/prof';
 import RetrievalRequests from './components/retrievalrequest';
 import DonatedItems from './components/donatedList';
 import Return from './components/return';
+import { unstable_batchedUpdates } from "react-dom";
+const originalWarn = console.warn;
+console.warn = (message, ...args) => {
+  if (!message.includes("Reader: Support for defaultProps")) {
+    originalWarn(message, ...args);
+  }
+};
 // Helper function to check if the user is an admin
 const isAdmin = () => {
   const token = localStorage.getItem('token'); // Assuming the JWT token is stored in localStorage
@@ -175,7 +182,10 @@ function App() {
 
       </div>
     </Router>
+    
   );
+  console.warn = () => {};
+
 }
 
 export default App;

@@ -490,7 +490,11 @@ width: 48%; /* Adjusted for button alignment */
 background-color: #45a049;
 color: white;
 }
-
+.submit-btn1:disabled {
+  background-color: #a5d6a7; /* Lighter green for disabled state */
+  color: #ccc; /* Light gray text */
+  cursor: not-allowed;
+}
 .cancel-btn1 {
 background-color: #FF0000;
 color: white;
