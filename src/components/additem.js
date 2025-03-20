@@ -31,6 +31,12 @@ function Additem() {
   const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
   const [activeTab, setActiveTab] = useState('item'); // State for selected image
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const pageId = process.env.REACT_APP_pageId ;
+  const API_URL = process.env.REACT_APP_API_URL;
+
+  const [time, setTime] = useState(0);
+  const [timerId, setTimerId] = useState(null);
 
 
   const [itemData, setItemData] = useState({
@@ -73,14 +79,27 @@ function Additem() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    
-    fetchItems();
+    fetchItems()
     if (showModal) {
-      startCamera(); // Start camera when modal is shown
+      setTime(0); // Reset timer when modal opens
+      const id = setInterval(() => {
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
+      setTimerId(id);
+    } else {
+      if (timerId) {
+        clearInterval(timerId);
+        setTimerId(null);
+      }
     }
+    
+    return () => {
+      if (timerId) {
+        clearInterval(timerId);
+      }
+    };
   }, [showModal]);
-
-
+  
   //NEW FIXED
 
   const filterRequests = () => {
@@ -142,7 +161,9 @@ const fetchItems = async () => {
         }
 
         // Fetch new data if cache is expired or missing
-        const response = await axios.get('http://10.10.83.224:5000/items');
+        const response = await axios.get(`${API_URL}/items`); // ✅ Correct
+        
+        console.log(process.env);
 
         // Sort fetched data
         const sortedRequests = response.data.sort((a, b) => {
@@ -173,6 +194,13 @@ const fetchItems = async () => {
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if (timerId) {
+      clearInterval(timerId); // Stop the timer
+      setTimerId(null);
+    }
+  
+    console.log("Final Duration:", time); // Debugging to see if time is correct
+  
     setLoading(true);
     let imageUrl = itemData.IMAGE_URL || "";
     let ownerImageUrl = itemData.OWNER_IMAGE || "";
@@ -202,16 +230,17 @@ const fetchItems = async () => {
         const updatedData = { 
             ...itemData, 
             IMAGE_URL: imageUrl, 
-            OWNER_IMAGE: ownerImageUrl 
+            OWNER_IMAGE: ownerImageUrl ,
+            DURATION: time // Include duration
         };
 
         // If updating an existing item
         if (selectedItem) {
-          const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
-           
+
+          
           console.log("🔄 Updating database for item ID:", selectedItem._id);
 
-          await axios.put(`http://10.10.83.224:5000/items/${selectedItem._id}`, updatedData);
+      await axios.put(`${API_URL}/items/${selectedItem._id}`, updatedData); // ✅ Correct
           console.log("✅ Database updated successfully!");
           sessionStorage.removeItem('cachedItems');
 
@@ -282,8 +311,8 @@ const fetchItems = async () => {
             `;
 
             // Facebook API setup
-            const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
-            const pageId = "260032237684833";
+    
+              
 
             let formData = new FormData();
             formData.append("message", message);
@@ -323,7 +352,8 @@ const fetchItems = async () => {
             console.log("Final Data to be stored in DB:", finalData);
 
             // Save to Database (Only ONE Post Request)
-            const dbResponse = await axios.post('http://10.10.83.224:5000/items', finalData);
+            const dbResponse = await axios.post(`${API_URL}/items`, finalData);
+            // const response = await axios.post(`${API_URL}/items`, updatedData); // ✅ Correct
             console.log("Database Response:", dbResponse.data);
 
             setRequests([...requests, dbResponse.data]);
@@ -340,19 +370,22 @@ const fetchItems = async () => {
         console.error("Error submitting form:", error);
         alert("Error submitting form. Please try again.");
     }
+    setLoading(false);
     setShowModal(false);
+
 };
 
 const handleDelete = async (id) => {
+  sessionStorage.removeItem('cachedItems');
+
   if (!id) {
       console.log("⚠️ No ID provided. Skipping deletion.");
       return;
   }
 setLoading(true);
-  const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
-  
+
   try {
-      const res = await axios.get(`http://10.10.83.224:5000/items/${id}`);
+    const res = await axios.get(`${API_URL}/items`); // ✅ Correct
       const item = res.data;
       console.log("Fetched item before delete:", item);
 
@@ -376,7 +409,7 @@ setLoading(true);
       }
 
       console.log("🗑️ Deleting item from database with ID:", id);
-      await axios.delete(`http://10.10.83.224:5000/items/${id}`);
+      await axios.delete(`${API_URL}/items/${id}`);
       console.log(`✅ Item with ID ${id} deleted from database.`);
       fetchItems();
       setLoading(false);
@@ -387,8 +420,9 @@ setLoading(true);
 
 
   const handleDownload = () => {
-    const downloadLink = "https://docs.google.com/spreadsheets/d/1gDsrxa4u3Pvd9fv6CcVbvva62oimz9O_l7CqbTD1oBc/export?format=xlsx";
-    window.open(downloadLink, "_blank");
+    const DOWNLOAD_LINK = process.env.REACT_APP_DOWNLOAD_LINK;
+
+    window.open(DOWNLOAD_LINK, "_blank");
   };
   const openModal = (item = null) => {
     setSelectedItem(item);
@@ -485,7 +519,7 @@ setLoading(true);
   const handleStatusChange = async (item) => {
     const newStatus = item.STATUS === 'unclaimed' ? 'claimed' : 'unclaimed'; // Toggle status
     try {
-      await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { ...item, STATUS: newStatus });
+      await axios.put(`${API_URL}/items/${item._id}`, { ...item, STATUS: newStatus });
       setRequests((prevRequests) =>
         prevRequests.map((req) =>
           req._id === item._id ? { ...req, STATUS: newStatus } : req
@@ -1083,7 +1117,7 @@ setLoading(true);
 
                   {/* Camera Section for both Item and Owner */}
                   <div className="camera-section">
-                    <video ref={videoRef} width="320" height="240" autoPlay />
+                    <video ref={videoRef} width="320" height="240" autoPlay   style={{ transform: 'scaleX(-1)' }} />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
                     <div className="camera-buttons">
                       <button type="button" onClick={captureImage}>Capture Image</button>
@@ -1488,7 +1522,7 @@ setLoading(true);
 
 
                 <div className="camera-section">
-                  <video ref={videoRef} width="320" height="240" autoPlay />
+                  <video ref={videoRef} width="320" height="240" autoPlay   style={{ transform: 'scaleX(-1)' }} />
                   <canvas ref={canvasRef} style={{ display: 'none' }} />
                   <div className="camera-buttons">
                     <button type="button" onClick={captureImage}>Capture Imagesubmit</button>

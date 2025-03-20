@@ -98,9 +98,7 @@ function App() {
           <Route path="/retrievalRequests" element={<StudentRoute><RetrievalRequests cacheData={cacheData} cache={cache} /></StudentRoute>} />
           <Route path="/login" element={<Auth />} />
           <Route path="/bulletinboard" element={<Bulletin />} />
-          <Route path="/return_me" element={<Return />} />
-          <Route path="/return_me*" element={<Navigate to="/return_me" replace />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+       
         </Routes>
       </div>
     </Router>

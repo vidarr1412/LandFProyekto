@@ -1,5 +1,6 @@
+require("dotenv").config(); // Load environment variables
 const express = require("express");
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); 
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const User = require("./src/models/User");
@@ -8,16 +9,18 @@ const jwt = require('jsonwebtoken');
 const Complaint = require('./src/models/Complaint'); // Import the Complaint model
 const RetrievalRequestSchema =require('./src/models/RetrievalRequest');
 const axios = require("axios"); // Ensure axios is installed
-const SHEETBEST_URL="https://api.sheetbest.com/sheets/bfc22e8d-557c-41f0-878c-d15a7161217e";
 const app = express();
-const PORT = 5000;
+const PORT =  5000;
+const MONGO_URI = process.env.MONGO_URI;
+const SECRET_KEY = process.env.SECRET_KEY;
+const SHEETBEST_URL = process.env.SHEETBEST_URL;
 const FoundationSchema = require('./src/models/Foundation');
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 mongoose
-.connect('mongodb+srv://quasi452:1412@cluster0.tv4qs.mongodb.net/firi?retryWrites=true&w=majority&appName=Cluster0')
+.connect(MONGO_URI)
 .then(() => {
   console.log('Connected to MongoDB!');
 })
@@ -25,7 +28,7 @@ mongoose
   .catch((error) => console.error("MongoDB connection error:", error));
 // Routes
 
-const SECRET_KEY = "polgary";
+
 const updateItemStatuses = async () => {
   try {
     const items = await Item.find({ STATUS: "unclaimed" }); // Get only unclaimed items
@@ -162,22 +165,6 @@ app.post("/login", async (req, res) => {
   res.json({ token });
 });
 
-
-//idk what is this ahahahah-------------------------------------------
-app.post("/register", async (req, res) => {
-  const { firstName,lastName,contactNumber, email, contact, college, id } = req.body;
-
-  try {
-    const newItem = new Item({ name, email, contact, college, id });
-    await newItem.save();
-    res.status(201).json({ message: "Item saved successfully" });
-  } catch (error) {
-    console.error("Error saving item to MongoDB:", error);
-    res.status(500).json({ message: "Error saving item" });
-  }
-});
-
-
 //-----------------------------------creating complaints------------------------------------------
 app.post("/complaints", async (req, res) => {
   const { complainer ,
@@ -193,22 +180,13 @@ time ,
 date,
 date_complained, 
 time_complained,
-
+status,
+duration,
  } = req.body;
 
   try {   
     const newComplaint = new Complaint({
-      // complainer,
-      // itemname,
-      // type,
-      // contact,
-      // date,
-      // location,
-      // time,
-      // status: "Not Found",
-      // finder: "N/A",
-      // description,
-      complainer ,
+complainer ,
 college ,
 year_lvl,
 itemname ,
@@ -221,8 +199,9 @@ time ,
 date,
 date_complained, 
 time_complained, 
-status: "not-found",
+status,
 finder: "N/A",
+duration,
     });
 
     await newComplaint.save();
@@ -269,18 +248,6 @@ app.put("/complaints/:id", async (req, res) => {
     if (!complaint) {
       return res.status(404).json({ message: "Complaint not found" });
     }
-
-    // Update the complaint's fields with the new data if provided
-    // complaint.complainer = complainer || complaint.complainer;
-    // complaint.itemname = itemname || complaint.itemname;
-    // complaint.type = type || complaint.type;
-    // complaint.contact = contact || complaint.contact;
-    // complaint.date = date || complaint.date;
-    // complaint.location = location || complaint.location;
-    // complaint.time = time || complaint.time;
-    // complaint.status = status || complaint.status;
-    // complaint.finder = finder || complaint.finder;
-    // complaint.description=description||complaint.description;
     complaint.complainer = complainer || complaint.complainer;
     complaint.college=college||complaint.college ;
     complaint.year_lvl=year_lvl||complaint.year_lvl;
@@ -297,7 +264,7 @@ app.put("/complaints/:id", async (req, res) => {
     complaint.status = status||complaint.status ;
     complaint.finder = finder ||complaint.finder ;
     complaint.item_image = item_image||complaint.item_image;
-    // Save the updated complaint
+    //  para masave ang updated complaint
     await complaint.save();
 
     // Return a response with the updated complaint
@@ -329,7 +296,6 @@ app.delete("/complaints/:id", async (req, res) => {
 });
 
 
-
 app.post("/items", async (req, res) => {
   let {
     FINDER,
@@ -352,6 +318,7 @@ app.post("/items", async (req, res) => {
     STATUS,
     foundation_id,
     POST_ID,
+    DURATION,  // ⬅️ New field to store duration
   } = req.body;
 
   // Ensure foundation_id is null if empty
@@ -360,7 +327,7 @@ app.post("/items", async (req, res) => {
   }
 
   try {
-    // Step 1: Save to MongoDB
+    // Step 1: Save to MongoDB with DURATION
     const newItem = new Item({
       FINDER,
       FINDER_TYPE,
@@ -382,6 +349,7 @@ app.post("/items", async (req, res) => {
       STATUS,
       foundation_id,
       POST_ID,
+      DURATION,  // ⬅️ Saving duration here
     });
 
     await newItem.save();
@@ -419,6 +387,7 @@ app.post("/items", async (req, res) => {
         STATUS,
         POST_ID: `www.facebook.com/${POST_ID}`, // Modify POST_ID here
         foundation_id: foundationName, // Only foundation_name, not the _id
+        DURATION,  // ⬅️ Saving duration in Google Sheets
       },
     ]);
 
@@ -433,8 +402,6 @@ app.post("/items", async (req, res) => {
     res.status(500).json({ message: "Error adding item", error });
   }
 });
-
-
 
 //---------------------------------------adding found items for user database to be able to display--------------------
 app.post('/useritems', async (req, res) => {
@@ -631,21 +598,10 @@ app.post("/usercomplaints", async (req, res) => {
     date_complained, 
     time_complained, 
      userId,
-    item_image } = req.body;
+    item_image,status } = req.body;
 
   try {
     const newComplaint = new Complaint({
-      // complainer,
-      // itemname,
-      // type,
-      // contact,
-      // date,
-      // location,
-      // time,
-      // status: "Not Found",
-      // finder: "N/A",
-      // description,
-      // userId, // Add userId here
       complainer ,
       college ,
       year_lvl,
@@ -659,7 +615,7 @@ app.post("/usercomplaints", async (req, res) => {
       time ,
       date_complained, 
       time_complained, 
-      status: "not-found",
+      status,
       finder: "N/A",
       userId, // Add userId here
       item_image,
@@ -707,20 +663,13 @@ app.put("/usercomplaints/:id", async (req, res) => {
     time ,
     date,
     date_complained, 
-    time_complained, userId,item_image } = req.body;
+    time_complained, userId,item_image ,status} = req.body;
 
   try {
     const updatedComplaint = await Complaint.findByIdAndUpdate(
       complaintId, 
       {
-        // complainer,
-        // itemname,
-        // type,
-        // contact,
-        // date,
-        // location,
-        // time,
-        // description,
+       
         complainer ,
         college ,
         year_lvl,
@@ -735,7 +684,7 @@ app.put("/usercomplaints/:id", async (req, res) => {
         date_complained, 
         time_complained, 
         userId, // userId is updated as well
-        status: "not-found",  // Default status can be kept or updated based on your logic
+        status,
         finder: "N/A", // Default finder value, this can also be updated
         item_image,
       },
@@ -1079,23 +1028,7 @@ app.get("/items/foundation/:foundationId", async (req, res) => {
 });
 
 
-// app.delete("/delete", async (req, res) => {
-//   const { id } = req.params;
 
-//   try {
-//     // Find and delete the complaint by its ID
-//     const deletedComplaint = await Complaint.findByIdAndDelete(id);
-
-//     if (!deletedComplaint) {
-//       return res.status(404).json({ message: "Complaint not found" });
-//     }
-
-//     res.status(200).json({ message: "Complaint deleted successfully", deletedComplaint });
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to delete complaint" });
-//   }
-// });
-// Start server
 app.listen(PORT, () => {
   console.log(`deyamemyidol`);
 });

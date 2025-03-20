@@ -43,7 +43,7 @@ function Manage() {
     time: '',
     date_complained: '',
     time_complained: '',
-    status: 'not-found',
+    status: '',
     finder: '',
   });
 
@@ -83,9 +83,16 @@ function Manage() {
   };
 
 
-
   const handleComplaintSubmit = async (e) => {
     e.preventDefault();
+
+    if (timerId) {
+      clearInterval(timerId); // Stop the timer
+      setTimerId(null);
+    }
+
+    console.log(`⏳ Complaint duration: ${time} seconds`); // ✅ Console log the duration
+
     const formData = new FormData(e.target);
     const newComplaint = {
       complainer: formData.get("complainer"),
@@ -101,8 +108,11 @@ function Manage() {
       time: formData.get("time"),
       date_complained: formData.get("date_complained"),
       time_complained: formData.get("time_complained"),
+      status: formData.get("status"),
+      duration: time, // Include duration
     };
-setLoading(true);
+
+    setLoading(true);
     try {
       const response = await fetch("http://10.10.83.224:5000/complaints", {
         method: "POST",
@@ -113,9 +123,10 @@ setLoading(true);
       if (response.ok) {
         const result = await response.json();
         setLoading(false);
-        showAlert('Complaint Submitted', 'complaint_success');
-        setRequests([...requests, { ...newComplaint, status: "not-found", finder: "N/A" }]);
+        showAlert("Complaint Submitted", "complaint_success");
+        setRequests([...requests, { ...newComplaint, finder: "N/A" }]);
         setShowModal(false);
+        fetchRequests()
       } else {
         alert("Error filing complaint. Please try again.");
       }
@@ -124,7 +135,6 @@ setLoading(true);
       alert("Error filing complaint. Please try again.");
     }
   };
-
   const handleViewMore = (request) => {
     setSelectedRequest(request);
     setItemData(request);
@@ -220,7 +230,7 @@ setLoading(true);
           date: '',
           date_complained: '',
           time_complained: '',
-          status: 'not-found',
+          status: '',
           finder: '',
         });
 
@@ -302,8 +312,11 @@ setLoading(true);
     setViewMode((prevMode) => (prevMode === 'table' ? 'grid' : 'table'));
   };
 
+  const [time, setTime] = useState(0);
+  const [timerId, setTimerId] = useState(null);
+
+  // Reset and start the timer when the modal opens
   const handleAddComplaint = () => {
-    setSelectedRequest(null); // Clear selected request for new complaint
     setItemData({
       complainer: '',
       college: '',
@@ -318,11 +331,20 @@ setLoading(true);
       date: '',
       date_complained: '',
       time_complained: '',
-      status: 'not-found',
-
+      status: '',
     });
-    setIsViewMore(false); // Set to file a complaint mode
-    setShowModal(true); // Open modal for adding a complaint
+
+    setTime(0); // Reset timer
+    setShowModal(true); // Open modal
+
+    // Start the timer
+    if (timerId) {
+      clearInterval(timerId);
+    }
+    const id = setInterval(() => {
+      setTime((prevTime) => prevTime + 1);
+    }, 1000);
+    setTimerId(id);
   };
 
   const handleStatusChange = async (item) => {

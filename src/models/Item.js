@@ -1,33 +1,32 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-  FINDER: String,//based  on their csv
-  FINDER_TYPE:String,//for data visualization 
-  ITEM: String,//item name ,based on their csv
-  ITEM_TYPE:String,//for data visualization
-  DESCRIPTION: String,//item description ,base on their csv
-  IMAGE_URL:String,//change to item image later
-  CONTACT_OF_THE_FINDER: String,//based on their csv
-  DATE_FOUND: String,//based on their csv
-  GENERAL_LOCATION:String,//for data visualization
-  FOUND_LOCATION: String,//based on their csv
-  TIME_RETURNED: String,  //time received
+  FINDER: String, 
+  FINDER_TYPE: String, 
+  ITEM: String, 
+  ITEM_TYPE: String,
+  DESCRIPTION: String,
+  IMAGE_URL: String,
+  CONTACT_OF_THE_FINDER: String,
+  DATE_FOUND: String,
+  GENERAL_LOCATION: String,
+  FOUND_LOCATION: String,
+  TIME_RETURNED: String,
   OWNER: String,
   OWNER_COLLEGE: String,
-  OWNER_CONTACT:String,
+  OWNER_CONTACT: String,
   OWNER_IMAGE: String,
   DATE_CLAIMED: String,
-  TIME_CLAIMED:String,
+  TIME_CLAIMED: String,
   STATUS: String,
   POST_ID: String,
+  DURATION: Number, // ⬅️ NEW FIELD FOR TIME TAKEN
   foundation_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Foundation',
-    default: null // Allows items to exist without a foundation
-  } 
+    default: null
+  }
 });
 
 const Item = mongoose.model('Item', itemSchema);
-
-
 module.exports = Item;

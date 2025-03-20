@@ -38,6 +38,14 @@ function ItemScanner() {
   const [isViewMore, setIsViewMore] = useState(false); // New state to track if modal is for viewing more details
   const itemsPerPage = 10;
   const [scanning, setScanning] = useState(true); // State to control scanner reset
+  const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const pageId = process.env.REACT_APP_pageId ;
+ 
+  const API_URL = process.env.REACT_APP_API_URL;
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+  const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+  const CRYPTO_SECRET = process.env.REACT_APP_CRYPTO_SECRET;
 
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
@@ -121,7 +129,7 @@ function ItemScanner() {
 
   const fetchUserData = async (userId) => {
     try {
-        const response = await axios.get(`http://10.10.83.224:5000/profile/${userId}`);
+        const response = await axios.get(`${API_URL}/profile/${userId}`);
         const data = response.data;
 
         if (!data) {
@@ -162,7 +170,7 @@ function ItemScanner() {
     try {
         // If authorized, decrypt
         if (isAuthorized) {
-            const bytes = CryptoJS.AES.decrypt(encryptedId, "1412");
+            const bytes = CryptoJS.AES.decrypt(encryptedId, CRYPTO_SECRET);
             return bytes.toString(CryptoJS.enc.Utf8) || "Invalid ID";
         }
         // If unauthorized, show asterisks
@@ -254,7 +262,8 @@ const filterRequests = () => {
 
 const fetchItems = async () => {
   try {
-    const response = await axios.get('http://10.10.83.224:5000/items');
+    const response = await axios.get(`${API_URL}/items`); // ✅ Correct
+
     //10.10.83.224 SID
     //10.10.83.224 BH
     const sortedRequests = response.data.sort((a, b) => {
@@ -319,10 +328,12 @@ const handleFormSubmit = async (e) => {
 
   try {
     if (selectedItem) {
-      await axios.put(`http://10.10.83.224:5000/items/${selectedItem._id}`, updatedData);
+      const response = await axios.put(`${API_URL}/items/${selectedItem._id}`, updatedData); // ✅ Correct
+
       showAlert('Item Updated!', 'complaint_success');
     } else {
-      const response = await axios.post('http://10.10.83.224:5000/items', updatedData);
+      const response = await axios.post(`${API_URL}/items`, updatedData); // ✅ Correct
+
       setRequests([...requests, response.data]);
       showAlert('Item Added!', 'complaint_success');
       
@@ -345,8 +356,7 @@ const handleFormSubmit = async (e) => {
       console.log("Message to be posted:", message);
       showAlert('Posted to facebook', 'complaint_success');
       // Your Facebook Page Access Token
-      const accessToken = "EAATMryhqfxMBO293vbOSyeyaBFzZC49pkg99879uXitTA1z2haaSqHg4gL5RdYh0HgCY3apRpPyuYVjoYypaFlcklT56ZCJXejKQ9ZA2aT1w5zZCyciESnZAtSDcmYZBgBWLIqbGsUrooN6plqG1xW6ZC6UTeOPZBWWu3fyyA8GEIcZAOzSmqwSeGsB27L6awTVYZD";
-      const pageId = "260032237684833";
+    
       
       let formData = new FormData();
       formData.append("message", message);
@@ -397,7 +407,7 @@ const handleFormSubmit = async (e) => {
   };
 
   // Use EmailJS to send the email
-  emailjs.send('service_8p4ma2j', 'template_2jox1ye', emailContent, '2NJW8I3MXFf2Xs7EJ')
+emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailContent, EMAILJS_PUBLIC_KEY)
     .then((response) => {
       console.log('Email sent successfully!', response);
       setShowModal(false); // Close the modal on successful email
@@ -572,7 +582,7 @@ const sendEmail = (e) => {
     message: message  };
 
   // Use EmailJS to send the email
-  emailjs.send('service_8p4ma2j', 'template_2jox1ye', emailContent, '2NJW8I3MXFf2Xs7EJ')
+emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailContent, EMAILJS_PUBLIC_KEY)
     .then((response) => {
       console.log('Email sent successfully!', response);
       setShowModal(false); // Close the modal on successful email
@@ -593,9 +603,8 @@ const sendEmail = (e) => {
     )}
     <div className="home-container">
       <Sidebar />
-      <header className="header">
-        <h2>FIRI LOGO</h2>
-      </header>
+      <Header/>
+ 
       <div className="contentsms">
         <div className="manage-bulletin">
           <div className="breadcrumb">Manage Lost and Found {'>'} Manage Found Items</div>
@@ -609,7 +618,7 @@ const sendEmail = (e) => {
   <ReactQrScanner
     key={scanning} // Changing key forces reinitialization
     delay={5000} // Scan delay
-    style={{ width: "100%" }} // Adjust scanner view
+    style={{ width: "100%" ,transform: 'scaleX(-1)'  }} // Adjust scanner view
     onScan={handleScan} // Handle scan
     onError={handleError} // Handle error
    
@@ -956,7 +965,7 @@ const sendEmail = (e) => {
                  
                  
                                  <div className="camera-section">
-                                   <video ref={videoRef} width="320" height="240" autoPlay />
+                                   <video ref={videoRef} width="320" height="240" autoPlay   style={{ transform: 'scaleX(-1)' }} />
                                    <canvas ref={canvasRef} style={{ display: 'none' }} />
                                    <div className="camera-buttons">
                                      <button type="button" onClick={captureImage}>Capture Image</button>
