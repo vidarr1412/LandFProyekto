@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import showAlert from '../utils/alert';
 
 function Foundation() {
+  
   const [filterText, setFilterText] = useState('');
   const [requests, setRequests] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
@@ -169,7 +170,7 @@ function Foundation() {
         const response = await axios.post('http://10.10.83.224:5000/foundations', updatedData);
         setRequests([...requests, response.data]);
         fetchItems();
-        setShowModal(false);
+       
         showAlert('Item Added!', 'complaint_success');
         await Promise.all(foundationItems.map(async (item) => {
           await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
@@ -183,6 +184,7 @@ function Foundation() {
       console.error('Error submitting form:', error);
       alert('Error submitting form. Please try again.');
     }
+    setShowModal(false);
   };
   const handleImageUpload = (e) => {
     const file = e.target.files[0]; // Get the selected file
@@ -216,44 +218,61 @@ function Foundation() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
+
+    try {
+        // Step 1: Try to fetch associated items, but allow deletion even if there are none
+        let foundationItems = [];
         try {
-            // Step 1: Fetch all items associated with the foundation
             const response = await axios.get(`http://10.10.83.224:5000/items/foundation/${id}`);
-            const foundationItems = response.data;
+            foundationItems = response.data;
 
-            // Step 2: Update all associated items' status to "unclaimed"
-            await Promise.all(foundationItems.map(async (item) => {
-                await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
-                    ...item, 
-                    STATUS: 'unclaimed' 
-                });
-            }));
+        } catch (fetchError) {
+            
 
-            // Step 3: Delete the foundation after updating items
-            await axios.delete(`http://10.10.83.224:5000/foundations/${id}`);
-
-            // Refresh the items list
-            fetchItems();
-
-            showAlert('Item Deleted and associated items marked as unclaimed!', 'complaint_error');
-        } catch (error) {
-            console.error('Error deleting item or updating statuses:', error);
-            alert('Error deleting item or updating statuses. Please try again.');
         }
+
+        // Step 2: Update associated items (if any) to "unclaimed"
+        if (foundationItems.length > 0) {
+            try {
+                await Promise.all(foundationItems.map(async (item) => {
+                    await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { STATUS: 'unclaimed' });
+                }));
+            } catch (updateError) {
+            
+            }
+        }
+
+        // Step 3: Delete the foundation regardless of associated items
+        try {
+            await axios.delete(`http://10.10.83.224:5000/foundations/${id}`);
+            fetchItems();
+            showAlert('Foundation deleted successfully!', 'complaint_success');
+           
+        } catch (deleteError) {
+           
+            setShowModal(false);
+        }
+    } catch (error) {
+        console.error('Unexpected error:', error);
+        alert('An unexpected error occurred. Please try again.');
+        fetchItems();
+        setShowModal(false);
+        
     }
 };
 
-
-  const fetchFoundationItems = async (foundationId) => {
+const fetchFoundationItems = async (foundationId) => {
     try {
-      const response = await axios.get(`http://10.10.83.224:5000/items/foundation/${foundationId}`);
-      setFoundationItems(response.data);
+        const response = await axios.get(`http://10.10.83.224:5000/items/foundation/${foundationId}`);
+        setFoundationItems(response.data);
     } catch (error) {
-      console.error("Error fetching foundation items:", error);
-      showAlert("Failed to load items. Please try again.", "complaint_error");
+        console.warn('No items found or error fetching items:', error);
+    
+        setFoundationItems([]); // Set empty array to avoid UI issues
     }
-  };
+};
+
 
   const handleStatusChange = async (foundation) => {
     const newStatus = foundation.foundation_status === 'ended' ? 'onGoing' : 'ended'; // Toggle status
@@ -684,7 +703,7 @@ function Foundation() {
                     <div className="button-container7">
                       <button type="submit" className="submit-btn7">Update</button>
                       {/* delete modal */}
-                      <button type="button" className="delete-btn7" onClick={() => { handleDelete(selectedItem._id); setShowModal(false); }}>Delete</button>
+                      <button type="button" className="delete-btn7" onClick={() => { handleDelete(selectedItem._id);  }}>Delete</button>
                       <button type="button" className="cancel-btn7" onClick={() => { setIsEditing(false); setShowModal(false); }}> Cancel </button>
                     </div>
                   </form>

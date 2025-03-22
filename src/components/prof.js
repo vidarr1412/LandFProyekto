@@ -5,12 +5,12 @@ import Header from "./header";
 import { storage, db, uploadBytesResumable, getDownloadURL, ref, doc, updateDoc } from "../firebase";
 import { QRCodeCanvas } from "qrcode.react";
 import "../style/prof.css";
-import  showAlert from '../utils/alert';
+import showAlert from '../utils/alert';
 import CryptoJS from "crypto-js";
 import jsPDF from "jspdf";
 function Profile() {
   const [user, setUser] = useState({
-  
+
 
   });
   const qrCodeRef = useRef(null); // Reference for QRCodeCanvas
@@ -40,9 +40,9 @@ function Profile() {
           lastName: data.lastName || "",
           email: data.email || "",
           image_Url: data.image_Url || "prof.jpg",
-          contactNumber:data.contactNumber||"",
-          college:data.college||"",
-          year_lvl:data.year_lvl||"",
+          contactNumber: data.contactNumber || "",
+          college: data.college || "",
+          year_lvl: data.year_lvl || "",
         });
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -63,50 +63,50 @@ function Profile() {
       alert("QR Code not available!");
       return;
     }
-  
+
     const imageData = canvas.toDataURL("image/png");
     const doc = new jsPDF();
-  
+
     // QR code sizes
     const smallSize = 0.5 * 35.35; // 5 cm converted to PDF points
     const largeSize = 0.5 * 72; // 0.75 inch converted to PDF points
     const margin = 5; // Spacing between QR codes
     const qrPerRow = 7; // 7 QR codes per row
     const totalRows = 8; // 8 rows in total (4 small, 4 large)
-  
+
     let x = margin;
     let y = margin;
     let count = 0;
-  
+
     // First 4 rows: Small QR Codes (5x5 cm)
     for (let i = 0; i < qrPerRow * 4; i++) {
       doc.addImage(imageData, "PNG", x, y, smallSize, smallSize);
       x += smallSize + margin;
       count++;
-  
+
       // Move to the next row after reaching 7 QR codes in a row
       if (count % qrPerRow === 0) {
         x = margin;
         y += smallSize + margin;
       }
     }
-  
+
     // Next 4 rows: Large QR Codes (0.75x0.75 inch)
     for (let i = 0; i < qrPerRow * 4; i++) {
       doc.addImage(imageData, "PNG", x, y, largeSize, largeSize);
       x += largeSize + margin;
       count++;
-  
+
       // Move to the next row after reaching 7 QR codes in a row
       if (count % qrPerRow === 0) {
         x = margin;
         y += largeSize + margin;
       }
     }
-  
+
     doc.save("QRCode_Document.pdf");
   };
-  
+
   const handleUpload = async () => {
     if (!selectedFile || !userId) {
       showAlert('Image Uploaded!', 'complaint_success');
@@ -171,10 +171,10 @@ function Profile() {
           lastName: user.lastName,
           email: user.email,
           password: user.password,
-          contactNumber:user.contactNumber,
+          contactNumber: user.contactNumber,
           image_Url: user.image_Url,
-          college:user.college,
-          year_lvl:user.year_lvl,
+          college: user.college,
+          year_lvl: user.year_lvl,
         }),
       });
 
@@ -199,12 +199,12 @@ function Profile() {
   }
   const generateQRValue = (id) => {
     if (!id) return "";
-    
+
     // Encrypt user ID using AES
     const encryptedId = CryptoJS.AES.encrypt(id, "1412").toString();
-    
+
     return `<${encryptedId}>`;
-};
+  };
 
   const downloadQRCode = () => {
     const canvas = qrCodeRef.current;
@@ -212,23 +212,23 @@ function Profile() {
       const qrCanvas = canvas.querySelector("canvas");
       const qrWidth = qrCanvas.width;
       const qrHeight = qrCanvas.height;
-  
+
       // Create an off-screen canvas
       const newCanvas = document.createElement("canvas");
       const ctx = newCanvas.getContext("2d");
-  
+
       // Set new canvas size (adding white border)
       const padding = 20; // Adjust for desired border thickness
       newCanvas.width = qrWidth + padding * 2;
       newCanvas.height = qrHeight + padding * 2;
-  
+
       // Fill the background with white
       ctx.fillStyle = "#FFFFFF";
       ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
-  
+
       // Draw the original QR code onto the new canvas
       ctx.drawImage(qrCanvas, padding, padding);
-  
+
       // Convert to image and download
       const imageURL = newCanvas.toDataURL("image/png");
       const link = document.createElement("a");
@@ -239,7 +239,7 @@ function Profile() {
       alert("QR Code not available!");
     }
   };
-  
+
 
   return (
     <div className="home-container1">
@@ -261,71 +261,102 @@ function Profile() {
         </div>
 
         <div className="profile-form">
-          <h3>Profile Update</h3>
-          <form onSubmit={handleUpdate}>
-            <div className="form-group">
-              <label>First Name</label>
-              <input type="text" value={user.firstName} onChange={(e) => setUser({ ...user, firstName: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>Last Name</label>
-              <input type="text" value={user.lastName} onChange={(e) => setUser({ ...user, lastName: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>Email Address</label>
-              <input type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>Contact Number</label>
-              <input type="text" value={user.contactNumber} onChange={(e) => setUser({ ...user, contactNumber: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>College</label>
-              <input type="text" value={user.college} onChange={(e) => setUser({ ...user, college: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>Year Level</label>
-              <input type="text" value={user.year_lvl} onChange={(e) => setUser({ ...user, year_lvl: e.target.value })} />
-            </div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <h3>Change Passworrd</h3>
+          <div className="form-fields">
+            <h3>Profile Update</h3>
+            <form onSubmit={handleUpdate}>
 
-            <div className="form-group">
-              <label>Password (Leave blank to keep current password)</label>
-              <input 
-                type="password" 
-                value={user.password} 
-                onChange={(e) => setUser({ ...user, password: e.target.value })}  
-              />
-            </div>
+              <div className="form-group">
+                <label>First Name</label>
+                <input type="text" value={user.firstName} onChange={(e) => setUser({ ...user, firstName: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Last Name</label>
+                <input type="text" value={user.lastName} onChange={(e) => setUser({ ...user, lastName: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Contact Number</label>
+                <input type="text" value={user.contactNumber} onChange={(e) => setUser({ ...user, contactNumber: e.target.value })} />
+              </div>
 
-            <div className="form-group  ">
-              <label>Confirm Password</label>
-              <input 
-                type="password" 
-                value={user.confirmPassword} 
-                onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}  
-              />
-            </div>
+              <div className="form-group">
+                <label>College</label>
+                <select name="college"
+                  placeholder="college"
+                  value={user.college}
+                  onChange={(e) => setUser({ ...user, college: e.target.value })}   >
+                  <option value="">Please Select</option>
+                  <option value="coe">COE</option>
+                  <option value="ccs">CCS</option>
+                  <option value="cass">CASS</option>
+                  <option value="csm">CSM</option>
+                  <option value="ceba">CEBA</option>
+                  <option value="chs">CHS</option>
+                  <option value="ced">CED</option>
+                </select>
+              </div>
 
-           <div className="form-group">
-              <label>QR Code</label>
-              {userId && (
-        <div ref={qrCodeRef}>
-          <QRCodeCanvas value={generateQRValue(userId)} size={150} />
-        </div>
-      )}
-            </div>
-            <div className="boton"> 
-              <button type="button"  onClick={downloadQRCode} className="save-button">Download QR Code</button> <br></br>
-              <button onClick={generateQRCodePDF} className="save-button">Download QR Codes PDF</button> <br></br>
-              <button type="submit" className="ssave-button">Update Profile</button>
-            </div>
+              <div className="form-group">
+                <label>Year Level</label>
+                <select
+                  name="year_lvl"
+                  value={user.year_lvl || ""}
+                  onChange={(e) => setUser({ ...user, year_lvl: e.target.value })}
+                >
+                  <option value="">Please Select</option>
+                  <option value="First Year">First Year</option>
+                  <option value="Second Year">Second Year</option>
+                  <option value="Third Year">Third Year</option>
+                  <option value="Fourth Year">Fourth Year</option>
+                </select>
 
-          </form>
+
+              </div>
+
+              <h3>Change Password</h3>
+
+              <div className="form-group">
+                <label>Password (Leave blank to keep current password)</label>
+                <input
+                  type="password"
+                  value={user.password}
+                  onChange={(e) => setUser({ ...user, password: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  value={user.confirmPassword}
+                  onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}
+                />
+              </div>
+
+
+              <div className="boton">
+                <div className="qr-container">
+                  <h3>QR Code</h3>
+                  {userId && (
+                    <div ref={qrCodeRef}>
+                      <QRCodeCanvas value={generateQRValue(userId)} size={150} />
+                    </div>
+                  )}
+                </div>
+                <div className="button-container">
+                  <button type="button" onClick={downloadQRCode} className="save-button">Download QR Code</button>
+                  <br />
+                  <button onClick={generateQRCodePDF} className="save-button">Download QR Codes PDF</button>
+                  <br />
+                  <button type="submit" className="ssave-button">Update Profile</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
         </div>
       </div>
     </div>

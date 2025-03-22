@@ -193,6 +193,7 @@ time ,
 date,
 date_complained, 
 time_complained,
+status,
 
  } = req.body;
 
@@ -221,7 +222,7 @@ time ,
 date,
 date_complained, 
 time_complained, 
-status: "not-found",
+status ,
 finder: "N/A",
     });
 
@@ -659,7 +660,7 @@ app.post("/usercomplaints", async (req, res) => {
       time ,
       date_complained, 
       time_complained, 
-      status: "not-found",
+      status: "",
       finder: "N/A",
       userId, // Add userId here
       item_image,
@@ -735,7 +736,7 @@ app.put("/usercomplaints/:id", async (req, res) => {
         date_complained, 
         time_complained, 
         userId, // userId is updated as well
-        status: "not-found",  // Default status can be kept or updated based on your logic
+        status: ,  // Default status can be kept or updated based on your logic
         finder: "N/A", // Default finder value, this can also be updated
         item_image,
       },
