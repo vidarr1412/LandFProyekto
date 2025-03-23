@@ -8,6 +8,9 @@ import "../style/prof.css";
 import  showAlert from '../utils/alert';
 import CryptoJS from "crypto-js";
 import jsPDF from "jspdf";
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function Profile() {
   const [user, setUser] = useState({
   
@@ -31,7 +34,7 @@ function Profile() {
     const fetchUserData = async () => {
       if (!userId) return;
       try {
-        const response = await fetch(`http://10.10.83.224:5000/profile/${userId}`, {
+        const response = await fetch(`${API_URL}/profile/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();
@@ -160,7 +163,7 @@ function Profile() {
     }
 
     try {
-      const response = await fetch(`http://10.10.83.224:5000/update-profile/${userId}`, {
+      const response = await fetch(`${API_URL}/update-profile/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

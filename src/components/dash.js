@@ -8,7 +8,9 @@ import Header from "./header";
 import Charts1 from "../visualization/lostChart.js"; // Import the Charts component
 import Charts2 from "../visualization/foundChart.js"
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, LineElement, PointElement } from 'chart.js';
-
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 // Register the necessary components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, LineElement, PointElement);
 
@@ -29,15 +31,15 @@ function Dashboard() {
       setLoading(true);
       try {
         // Fetch found items
-        const itemsResponse = await axios.get("http://10.10.83.224:5000/items");
+        const itemsResponse = await axios.get(`${API_URL}/items`);
         const foundItems = itemsResponse.data;
 
         // Fetch lost reports
-        const complaintsResponse = await axios.get("http://10.10.83.224:5000/complaints");
+        const complaintsResponse = await axios.get(`${API_URL}/complaints`);
         const lostReports = complaintsResponse.data;
 
         // Fetch retrieval requests
-        const retrievalResponse = await axios.get("http://10.10.83.224:5000/retrieval-requests");
+        const retrievalResponse = await axios.get(`${API_URL}/retrieval-requests`);
         const retrievalRequests = retrievalResponse.data;
 
         // Calculate data counts

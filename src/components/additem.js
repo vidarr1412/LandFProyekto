@@ -155,7 +155,7 @@ const fetchItems = async () => {
             // Use cached data if it's still valid
             if (now - timestamp < CACHE_EXPIRATION_MS) {
                 setRequests(data);
-                setLoading(false);
+      
                 return;
             }
         }
@@ -181,8 +181,10 @@ const fetchItems = async () => {
     } catch (error) {
         console.error('Error fetching items:', error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
+
+   setLoading(false);
 };
 
 
@@ -411,11 +413,13 @@ setLoading(true);
       console.log("🗑️ Deleting item from database with ID:", id);
       await axios.delete(`${API_URL}/items/${id}`);
       console.log(`✅ Item with ID ${id} deleted from database.`);
-      fetchItems();
       setLoading(false);
+      setShowModal(false);
   } catch (error) {
       console.log("❌ Error deleting item:", error);
   }
+  fetchItems();
+  
 };
 
 
@@ -1087,7 +1091,7 @@ setLoading(true);
                     <div className="button-container1">
                       <button type="submit" className="submit-btn1">Update</button>
                       {/* delete modal */}
-                      <button type="button" className="delete-btn1" onClick={() => { handleDelete(selectedItem._id); setShowModal(false); }}>Delete</button>
+                      <button type="button" className="delete-btn1" onClick={() => { handleDelete(selectedItem._id); }}>Delete</button>
                       <button type="button" className="cancel-btn1" onClick={() => { setIsEditing(false); setShowModal(false); }}> Cancel </button>
                     </div>
                   </form>
@@ -1229,7 +1233,7 @@ setLoading(true);
                   </div>
                   <div className="button-container1">
                     <button className="edit-btn1" onClick={handleEdit}>Edit</button>
-                    <button type="button" className="delete-btn1" onClick={() => { handleDelete(selectedItem._id); setShowModal(false); }}>Delete</button>
+                    <button type="button" className="delete-btn1" onClick={() => { handleDelete(selectedItem._id);  }}>Delete</button>
                     <button className="cancel-btn1" onClick={() => setShowModal(false)}>Cancel</button>
                   </div>
                   

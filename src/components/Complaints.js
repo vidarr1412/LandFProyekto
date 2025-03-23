@@ -12,7 +12,9 @@ import Header from "./header";
 import Filter from '../filterered/complaintsFilt'; // Import the Filter component
 import showAlert from '../utils/alert';
 import Modal from './image'; // Import the Modal component
-
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function Manage() {
     const [loading, setLoading] = useState(false);
   const [filterText, setFilterText] = useState("");
@@ -52,7 +54,7 @@ function Manage() {
     const fetchRequests = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://10.10.83.224:5000/complaints");
+        const response = await fetch(`${API_URL}/complaints`);
         const data = await response.json();
         setRequests(data);
         setFilteredRequests(data);
@@ -114,7 +116,7 @@ function Manage() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://10.10.83.224:5000/complaints", {
+      const response = await fetch(`${API_URL}/complaints`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComplaint),
@@ -136,6 +138,7 @@ function Manage() {
     }
   };
   const handleViewMore = (request) => {
+    fetchRequests();
     setSelectedRequest(request);
     setItemData(request);
     setIsEditing(false); // Ensure we are in view mode
@@ -151,7 +154,7 @@ function Manage() {
 setLoading(true);
       try {
         const response = await fetch(
-          `http://10.10.83.224:5000/complaints/${selectedRequest._id}`,
+          `${API_URL}/complaints/${selectedRequest._id}`,
           { method: "DELETE" }
         );
 
@@ -172,6 +175,7 @@ setLoading(true);
         alert("An error occurred while deleting the complaint. Please try again.");
       }
     }
+    fetchRequests();
   };
 
 
@@ -188,7 +192,7 @@ setLoading(true);
     };
 
     try {
-      const response = await fetch(`http://10.10.83.224:5000/complaints/${selectedRequest._id}`, {
+      const response = await fetch(`${API_URL}/complaints/${selectedRequest._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedRequest),
@@ -246,7 +250,7 @@ setLoading(true);
 
   const fetchRequests = async () => {
     try {
-      const response = await fetch("http://10.10.83.224:5000/complaints");
+      const response = await fetch(`${API_URL}/complaints`);
       const data = await response.json();
       setRequests(data);
     } catch (error) {
@@ -350,7 +354,7 @@ setLoading(true);
   const handleStatusChange = async (item) => {
     const newStatus = item.status === 'not-found' ? 'found' : 'not-found'; // Toggle status
     try {
-      await axios.put(`http://10.10.83.224:5000/complaints/${item._id}`, { ...item, status: newStatus });
+      await axios.put(`${API_URL}/complaints/${item._id}`, { ...item, status: newStatus });
 
       setRequests((prevRequests) =>
         prevRequests.map((req) =>
@@ -371,8 +375,11 @@ setLoading(true);
 
 
   const handleCloseImageModal = () => {
+    setIsEditing(false);
+    fetchRequests();
     setImageModalOpen(false);
     setSelectedImage('');
+    fetchRequests();
   };
 
   return (
@@ -412,7 +419,7 @@ setLoading(true);
 
           <div className="top-right-buttons3">
 
-            <button className="add-item-btn3" onClick={handleAddComplaint}>+ File Complaint</button>
+            <button className="add-item-btn3"onClick={() => { setIsEditing(false); handleAddComplaint(true) }} >+ File Complaint</button>
             {/* <button className="register-qr-btn3">Register QR Code</button>*/}
           </div>
 
@@ -725,7 +732,7 @@ setLoading(true);
                     <button type="submit" className="submit-btn3">Update</button>
                     {/* delete modal */}
                     <button type="button" className="delete-btn3" onClick={() => { handleDelete(selectedRequest._id); setShowModal(false); }}> Delete</button>
-                    <button type="button" className="cancel-btn3" onClick={() => { setIsEditing(false); setShowModal(false); }}>Cancel</button>
+                    <button type="button" className="cancel-btn3" onClick={() => { setIsEditing(false);setIsViewMore(false); setShowModal(false); }}>Cancel</button>
                   </div>
                 </form>
               ) : (
@@ -800,7 +807,7 @@ setLoading(true);
                   </div>
                   <div className="button-container3">
                     <button className="edit-btn3" onClick={() => setIsEditing(true)}>Edit</button>
-                    <button className="cancel-btn3" onClick={() => setShowModal(false)}>Cancel</button>
+                    <button className="cancel-btn3" onClick={() => { setIsEditing(false);setIsViewMore(false); setShowModal(false); }}>Cancel</button>
                   </div>
                 </div>
               )
@@ -1040,7 +1047,7 @@ setLoading(true);
 
                 <div className="button-container3">
                   <button type="submit" className="submit-btn3">Submit</button>
-                  <button type="button" className="cancel-btn3" onClick={() => setShowModal(false)}>Cancel</button>
+                  <button type="button" className="cancel-btn3"onClick={() => { setIsEditing(false);setIsViewMore(false); setShowModal(false); }}>Cancel</button>
                 </div>
               </form>
             )}

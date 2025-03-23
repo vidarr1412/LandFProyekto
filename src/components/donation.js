@@ -16,8 +16,11 @@ import Filter from '../filterered/donationFilt'; // Adjust the import path as ne
 import Modal from './image'; // Import the Modal component
 import { useParams } from "react-router-dom";
 import showAlert from '../utils/alert';
-
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function Foundation() {
+  
   const [filterText, setFilterText] = useState('');
   const [requests, setRequests] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
@@ -85,7 +88,7 @@ function Foundation() {
   const fetchItems2 = async () => {
     try {
       const response = await axios.get(
-        `http://10.10.83.224:5000/items/foundation/${foundationId}`
+        `${API_URL}/items/foundation/${foundationId}`
       );
       setItems(response.data);
     } catch (error) {
@@ -110,10 +113,10 @@ function Foundation() {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get('http://10.10.83.224:5000/foundations');
+      const response = await axios.get(`${API_URL}/foundations`);
       //10.10.83.224 SID
       //10.10.83.224 BH
-      const response2 = await axios.get('http://10.10.83.224:5000/items');
+      const response2 = await axios.get(`${API_URL}/items`);
       const sortedRequests = response.data.sort((a, b) => {
         // Combine DATE_FOUND and TIME_RETURNED into a single Date object
         const dateA = new Date(`${a.DATE_FOUND}T${a.TIME_RETURNED}`);
@@ -157,22 +160,22 @@ function Foundation() {
 
     try {
       if (selectedItem) {
-        await axios.put(`http://10.10.83.224:5000/foundations/${selectedItem._id}`, updatedData);
+        await axios.put(`${API_URL}/foundations/${selectedItem._id}`, updatedData);
         showAlert('Item Updated!', 'complaint_success');
         await Promise.all(foundationItems.map(async (item) => {
-          await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
+          await axios.put(`${API_URL}/items/${item._id}`, { 
               ...item, 
               STATUS: 'donated' 
           });
       }));
       } else {
-        const response = await axios.post('http://10.10.83.224:5000/foundations', updatedData);
+        const response = await axios.post(`${API_URL}/foundations`, updatedData);
         setRequests([...requests, response.data]);
         fetchItems();
         setShowModal(false);
         showAlert('Item Added!', 'complaint_success');
         await Promise.all(foundationItems.map(async (item) => {
-          await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
+          await axios.put(`${API_URL}/items/${item._id}`, { 
               ...item, 
               STATUS: 'donated' 
           });
@@ -216,49 +219,64 @@ function Foundation() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
+
+    try {
+        // Step 1: Try to fetch associated items, but allow deletion even if there are none
+        let foundationItems = [];
         try {
-            // Step 1: Fetch all items associated with the foundation
-            const response = await axios.get(`http://10.10.83.224:5000/items/foundation/${id}`);
-            const foundationItems = response.data;
+            const response = await axios.get(`${API_URL}/items/foundation/${id}`);
+            foundationItems = response.data;
 
-            // Step 2: Update all associated items' status to "unclaimed"
-            await Promise.all(foundationItems.map(async (item) => {
-                await axios.put(`http://10.10.83.224:5000/items/${item._id}`, { 
-                    ...item, 
-                    STATUS: 'unclaimed' 
-                });
-            }));
+        } catch (fetchError) {
+            console.warn('No associated items found or error fetching items:', fetchError);
 
-            // Step 3: Delete the foundation after updating items
-            await axios.delete(`http://10.10.83.224:5000/foundations/${id}`);
-
-            // Refresh the items list
-            fetchItems();
-
-            showAlert('Item Deleted and associated items marked as unclaimed!', 'complaint_error');
-        } catch (error) {
-            console.error('Error deleting item or updating statuses:', error);
-            alert('Error deleting item or updating statuses. Please try again.');
         }
+
+        // Step 2: Update associated items (if any) to "unclaimed"
+        if (foundationItems.length > 0) {
+            try {
+                await Promise.all(foundationItems.map(async (item) => {
+                    await axios.put(`${API_URL}/items/${item._id}`, { STATUS: 'unclaimed' });
+                }));
+            } catch (updateError) {
+            
+            }
+        }
+
+        // Step 3: Delete the foundation regardless of associated items
+        try {
+            await axios.delete(`${API_URL}/foundations/${id}`);
+            fetchItems();
+            showAlert('Foundation deleted successfully!', 'complaint_success');
+            setShowModal(false);
+        } catch (deleteError) {
+           
+            setShowModal(false);
+        }
+    } catch (error) {
+        console.error('Unexpected error:', error);
+        alert('An unexpected error occurred. Please try again.');
+        setShowModal(false);
     }
 };
 
-
-  const fetchFoundationItems = async (foundationId) => {
+const fetchFoundationItems = async (foundationId) => {
     try {
-      const response = await axios.get(`http://10.10.83.224:5000/items/foundation/${foundationId}`);
-      setFoundationItems(response.data);
+        const response = await axios.get(`${API_URL}/items/foundation/${foundationId}`);
+        setFoundationItems(response.data);
     } catch (error) {
-      console.error("Error fetching foundation items:", error);
-      showAlert("Failed to load items. Please try again.", "complaint_error");
-    }
+        console.warn('No items found or error fetching items:', error);
+    
+        setFoundationItems([]); // Set empty array to avoid UI issues
+      }
   };
+
 
   const handleStatusChange = async (foundation) => {
     const newStatus = foundation.foundation_status === 'ended' ? 'onGoing' : 'ended'; // Toggle status
     try {
-      await axios.put(`http://10.10.83.224:5000/foundation/${foundation._id}`, { ...foundation, foundation_status: newStatus });
+      await axios.put(`${API_URL}/foundation/${foundation._id}`, { ...foundation, foundation_status: newStatus });
       setRequests((prevRequests) =>
         prevRequests.map((req) =>
           req._id === foundation._id ? { ...req, foundation_status: newStatus } : req
@@ -684,7 +702,7 @@ function Foundation() {
                     <div className="button-container7">
                       <button type="submit" className="submit-btn7">Update</button>
                       {/* delete modal */}
-                      <button type="button" className="delete-btn7" onClick={() => { handleDelete(selectedItem._id); setShowModal(false); }}>Delete</button>
+                      <button type="button" className="delete-btn7" onClick={() => { handleDelete(selectedItem._id);  }}>Delete</button>
                       <button type="button" className="cancel-btn7" onClick={() => { setIsEditing(false); setShowModal(false); }}> Cancel </button>
                     </div>
                   </form>

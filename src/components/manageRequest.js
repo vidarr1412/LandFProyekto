@@ -9,7 +9,9 @@ import '../style/manageRequest.css';
 import Filter from '../filterered/manageFilt';
 import Modal from './image'; // Import the Modal component
 import { FaPlus } from "react-icons/fa6";
-
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function ManageRequest() {
   
   const [filterText, setFilterText] = useState('');
@@ -38,7 +40,7 @@ function ManageRequest() {
   const fetchRequests = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://10.10.83.224:5000/retrieval-requests');
+      const response = await axios.get(`${API_URL}/retrieval-requests`);
       console.log("API Response Data:", response.data);
 
       if (Array.isArray(response.data) && response.data.length > 0) {
@@ -57,7 +59,7 @@ function ManageRequest() {
 
   const fetchItemDetails = async (itemId) => {
     try {
-      const response = await axios.get(`http://10.10.83.224:5000/items/${itemId}`);
+      const response = await axios.get(`${API_URL}/items/${itemId}`);
       setItemDetails(response.data);
     } catch (error) {
       console.error('Error fetching item details:', error);
@@ -68,13 +70,13 @@ function ManageRequest() {
     let endpoint = '';
 
     if (type === 'request') {
-      endpoint = `http://10.10.83.224:5000/retrieval-request/${id}/status`;
+      endpoint = `${API_URL}/retrieval-request/${id}/status`;
     } else if (type === 'item') {
       if (!id) {
         console.error("Error: Item ID is undefined.");
         return;
       }
-      endpoint = `http://10.10.83.224:5000/found-item/${id}/status`;
+      endpoint = `${API_URL}/found-item/${id}/status`;
     }
 
     try {

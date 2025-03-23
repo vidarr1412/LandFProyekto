@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "..//style/log.css";
 import  showAlert from '../utils/alert';
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -21,7 +24,7 @@ function Auth() {
  
 
     try {
-      const response = await fetch("http://10.10.83.224:5000/signup", {
+      const response = await fetch(`${API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName,lastName,contactNumber, email, password,college ,year_lvl,}),
@@ -59,7 +62,7 @@ function Auth() {
     }
   
     try {
-      const response = await fetch("http://10.10.83.224:5000/login", {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

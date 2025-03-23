@@ -14,6 +14,9 @@ import moment from 'moment';
 import Filter from '../filterered/userCompFilt'; // Adjust the import path as necessary
 import Modal from './image'; // Import the Modal component
 import  showAlert from '../utils/alert';
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function UserComplaint() {
       const [loading, setLoading] = useState(false);
   const [filteredRequests, setFilteredRequests] = useState([]);
@@ -132,7 +135,7 @@ const handleCancelUpload = () => {
     };
 
     try {
-      const response = await fetch("http://10.10.83.224:5000/usercomplaints", {
+      const response = await fetch(`${API_URL}/usercomplaints`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComplaint),
@@ -201,7 +204,7 @@ const handleCancelUpload = () => {
 setLoading(true);
       try {
         const response = await fetch(
-          `http://10.10.83.224:5000/usercomplaints/${selectedRequest._id}`,
+          `${API_URL}/usercomplaints/${selectedRequest._id}`,
           { method: "DELETE" }
         );
 
@@ -235,7 +238,7 @@ setLoading(true);
   
     setLoading(true);
     try {
-      const response = await fetch(`http://10.10.83.224:5000/usercomplaints/${selectedRequest._id}`, {
+      const response = await fetch(`${API_URL}/usercomplaints/${selectedRequest._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedRequest),
@@ -283,7 +286,7 @@ setLoading(true);
       const userId = decodedToken.id; // Extract userId
       setLoading(true);
       // Fetch user-specific complaints using userId
-      const response = await fetch(`http://10.10.83.224:5000/usercomplaints/${userId}`);
+      const response = await fetch(`${API_URL}/usercomplaints/${userId}`);
       const data = await response.json();
       setLoading(false);
       setRequests(data); // Set the fetched data to the state
