@@ -5,7 +5,10 @@ import { IoMdAnalytics } from "react-icons/io";
 import { TbMessageReportFilled } from "react-icons/tb";
 import { NavLink } from "react-router-dom"; // Use NavLink for active class
 import { jwtDecode } from 'jwt-decode';
-import { FaHome, FaBox, FaQrcode, FaFileAlt, FaUserCheck, FaUser, FaSignOutAlt, FaChartLine, FaBars } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+
+import { FaHome, FaBox, FaQrcode, FaFileAlt, FaUserCheck, FaUser,FaUserPlus, FaSignOutAlt, FaChartLine, FaBars } from "react-icons/fa";
 import "../style/sidebar.css"; // Optional: for styling the sidebar
 //import Image from 'next/image'
 const Sidebar = () => {
@@ -30,13 +33,14 @@ const Sidebar = () => {
     }
     return null;
   };
-
+  const navigate = useNavigate();
   const userType = getUserType();
   const handleLogout = () => {
     console.log("Logging out...");
-    localStorage.clear(); // Remove the token from localStorage
-  };
-  
+    localStorage.removeItem("token"); // Clear only the token
+    window.location.href = "/";
+
+};
 
   useEffect(() => {
     const handlePageShow = (event) => {
@@ -65,53 +69,90 @@ const Sidebar = () => {
 
         <img src="log.png" alt="FIRI" className="logo" />
         <nav className="nav-menu">
-          {userType !== "admin@gmail.com" && (
+        {userType === null || userType === "" ? (
             <>
-              <NavLink to="/" activeClassName="active">
+              <NavLink to="/" >
                 <FaHome className="nav-icon" /> Home
               </NavLink>
-              <NavLink to="/userComplaints" activeClassName="active">
-                <FaBox className="nav-icon" /> File Report
-              </NavLink>
-              <NavLink to="/bulletinboard" activeClassName="active">
+              <NavLink to="/bulletinboard" >
                 <FaChartLine className="nav-icon" /> Bulletin
               </NavLink>
-              <NavLink to="/retrievalRequests" activeClassName="active">
+              <NavLink to="/login" >
+                <FaUserPlus className="nav-icon" /> Sign Up
+              </NavLink>
+            </>
+          ) : userType !== "admin@gmail.com" && (
+            <>
+              <NavLink to="/" >
+                <FaHome className="nav-icon" /> Home
+              </NavLink>
+              <NavLink to="/userComplaints" >
+                <FaBox className="nav-icon" /> File Report
+              </NavLink>
+              <NavLink to="/bulletinboard" >
+                <FaChartLine className="nav-icon" /> Bulletin
+              </NavLink>
+              <NavLink to="/retrievalRequests" >
                 <IoMdAnalytics   className="nav-icon" /> Retrieval Status
               </NavLink>
-              <NavLink to="/profile" activeClassName="active">
+              <NavLink to="/profile" >
               <FaHome className="nav-icon" /> Profile
             </NavLink>
-
+            <div className="logout">
+            <NavLink  >
+           
+          
+           
+              <button onClick={handleLogout}>
+              <FaSignOutAlt  /> Log Out
+              
+              </button>
+            </NavLink>
+         
+          </div>
 
             </>
           )}
           {userType === "admin@gmail.com" && (
             <>
-              <NavLink to="/dashboard" activeClassName="active">
+              <NavLink to="/dashboard" >
                 <FaChartLine className="nav-icon" /> Dashboard
               </NavLink>
-              <NavLink to="/Complaints" activeClassName="active">
+              <NavLink to="/Complaints" >
                 <FaBox className="nav-icon" /> Lost Complaint
               </NavLink>
-              <NavLink to="/additem" activeClassName="active">
+              <NavLink to="/additem" >
                 <FaQrcode className="nav-icon" /> Found Items
               </NavLink>
+              <NavLink to="/scan_item" >
+                <FaQrcode className="nav-icon" /> Scan QR
+              </NavLink>
+              
+              <NavLink to="/donation" >
+                <FaQrcode className="nav-icon" /> Donation
+              </NavLink>
             
-              <NavLink to="/manaRequests" activeClassName="active">
+              <NavLink to="/manaRequests" >
                 <FaUserCheck className="nav-icon" /> Manage Request
               </NavLink>
-              <NavLink to="/profile" activeClassName="active">
+              <NavLink to="/profile" >
               <FaHome className="nav-icon" /> Profile
             </NavLink>
-            </>
-          )}
-          <div className="logout">
-            <NavLink to="/login" activeClassName="active">
-              <FaSignOutAlt className="nav-icon" /> Log Out
-              <button onClick={handleLogout}></button>
+            <div className="logout">
+            <NavLink  >
+           
+          
+           
+              <button onClick={handleLogout}>
+              <FaSignOutAlt  /> Log Out
+              </button>
             </NavLink>
+         
           </div>
+            </>
+            
+          )}
+      
         </nav>
       </div>
     </>

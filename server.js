@@ -1,5 +1,6 @@
+require("dotenv").config(); // Load environment variables
 const express = require("express");
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); 
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const User = require("./src/models/User");
@@ -7,16 +8,19 @@ const Item = require('./src/models/Item'); // Import the Item model
 const jwt = require('jsonwebtoken');
 const Complaint = require('./src/models/Complaint'); // Import the Complaint model
 const RetrievalRequestSchema =require('./src/models/RetrievalRequest');
-
+const axios = require("axios"); // Ensure axios is installed
 const app = express();
-const PORT = 5000;
-
+const PORT =  5000;
+const MONGO_URI = process.env.MONGO_URI;
+const SECRET_KEY = process.env.SECRET_KEY;
+const SHEETBEST_URL = process.env.SHEETBEST_URL;
+const FoundationSchema = require('./src/models/Foundation');
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 mongoose
-.connect('mongodb+srv://quasi452:1412@cluster0.tv4qs.mongodb.net/firi?retryWrites=true&w=majority&appName=Cluster0')
+.connect(MONGO_URI)
 .then(() => {
   console.log('Connected to MongoDB!');
 })
@@ -24,7 +28,52 @@ mongoose
   .catch((error) => console.error("MongoDB connection error:", error));
 // Routes
 
-const SECRET_KEY = "polgary";
+
+const updateItemStatuses = async () => {
+  try {
+    const items = await Item.find({ STATUS: "unclaimed" }); // Get only unclaimed items
+    const foundations = await FoundationSchema.find();
+
+    for (const item of items) {
+      const itemDate = new Date(item.DATE_FOUND);
+      let matchedFoundationId = null;
+
+      console.log(`Checking unclaimed item ${item._id}: DATE_FOUND = ${item.DATE_FOUND}`);
+
+      for (const foundation of foundations) {
+        const startDate = new Date(foundation.foundation_start_date);
+        const endDate = new Date(foundation.foundation_end_date);
+// Validate that startDate does not exceed endDate if (startDate > endDate) { console.error(❌ Invalid foundation dates for foundation ${foundation._id}: start date ${foundation.foundation_start_date} exceeds end date ${foundation.foundation_end_date}); continue; // Skip this foundation }
+if(startDate>endDate) {
+  continue;
+}      
+if (itemDate >= startDate && itemDate <= endDate) {
+          matchedFoundationId = foundation._id;
+          console.log(`  ✅ Match found! Assigning foundation_id ${foundation._id} and updating STATUS to "donated"`);
+          break; // Stop at the first matching foundation
+        }
+      }
+
+      // Update only if foundation_id changed
+      if (matchedFoundationId && item.foundation_id?.toString() !== matchedFoundationId?.toString()) {
+        console.log(`  🔄 Updating item ${item._id}: foundation_id = ${matchedFoundationId}, STATUS = "donated"`);
+        await Item.findByIdAndUpdate(item._id, {
+          foundation_id: matchedFoundationId,
+          STATUS: "donated"
+        });
+      } else {
+        console.log(`  ⏩ No change for item ${item._id}`);
+      }
+    }
+
+    console.log("✅ Unclaimed items updated successfully.");
+  } catch (error) {
+    console.error("❌ Error updating item statuses:", error);
+  }
+};
+
+
+
 //--------------------signing upppp----------------------------------------
 app.post("/signup", async (req, res) => {
   const { firstName,lastName, email, password,usertype,contactNumber,college,year_lvl, } = req.body;
@@ -116,22 +165,6 @@ app.post("/login", async (req, res) => {
   res.json({ token });
 });
 
-
-//idk what is this ahahahah-------------------------------------------
-app.post("/register", async (req, res) => {
-  const { firstName,lastName,contactNumber, email, contact, college, id } = req.body;
-
-  try {
-    const newItem = new Item({ name, email, contact, college, id });
-    await newItem.save();
-    res.status(201).json({ message: "Item saved successfully" });
-  } catch (error) {
-    console.error("Error saving item to MongoDB:", error);
-    res.status(500).json({ message: "Error saving item" });
-  }
-});
-
-
 //-----------------------------------creating complaints------------------------------------------
 app.post("/complaints", async (req, res) => {
   const { complainer ,
@@ -147,22 +180,13 @@ time ,
 date,
 date_complained, 
 time_complained,
-
+status,
+duration,
  } = req.body;
 
-  try {
+  try {   
     const newComplaint = new Complaint({
-      // complainer,
-      // itemname,
-      // type,
-      // contact,
-      // date,
-      // location,
-      // time,
-      // status: "Not Found",
-      // finder: "N/A",
-      // description,
-      complainer ,
+complainer ,
 college ,
 year_lvl,
 itemname ,
@@ -175,8 +199,9 @@ time ,
 date,
 date_complained, 
 time_complained, 
-status: "Not Found",
+status,
 finder: "N/A",
+duration,
     });
 
     await newComplaint.save();
@@ -223,18 +248,6 @@ app.put("/complaints/:id", async (req, res) => {
     if (!complaint) {
       return res.status(404).json({ message: "Complaint not found" });
     }
-
-    // Update the complaint's fields with the new data if provided
-    // complaint.complainer = complainer || complaint.complainer;
-    // complaint.itemname = itemname || complaint.itemname;
-    // complaint.type = type || complaint.type;
-    // complaint.contact = contact || complaint.contact;
-    // complaint.date = date || complaint.date;
-    // complaint.location = location || complaint.location;
-    // complaint.time = time || complaint.time;
-    // complaint.status = status || complaint.status;
-    // complaint.finder = finder || complaint.finder;
-    // complaint.description=description||complaint.description;
     complaint.complainer = complainer || complaint.complainer;
     complaint.college=college||complaint.college ;
     complaint.year_lvl=year_lvl||complaint.year_lvl;
@@ -251,7 +264,7 @@ app.put("/complaints/:id", async (req, res) => {
     complaint.status = status||complaint.status ;
     complaint.finder = finder ||complaint.finder ;
     complaint.item_image = item_image||complaint.item_image;
-    // Save the updated complaint
+    //  para masave ang updated complaint
     await complaint.save();
 
     // Return a response with the updated complaint
@@ -282,42 +295,51 @@ app.delete("/complaints/:id", async (req, res) => {
   }
 });
 
-//------------------------------addding found items for admin database--------------------------------------------------
-app.post('/items', async (req, res) => {
-  const {    FINDER,//based  on their csv
-    FINDER_TYPE,//for data visualization 
-    ITEM,//item name ,based on their csv
-    ITEM_TYPE,//for data visualization
-    DESCRIPTION,//item description ,base on their csv
-    IMAGE_URL,//change to item image later
-    CONTACT_OF_THE_FINDER,//based on their csv
-    DATE_FOUND,//based on their csv
-    GENERAL_LOCATION,//for data visualization
-    FOUND_LOCATION,//based on their csv
-    TIME_RETURNED,  //time received
+
+app.post("/items", async (req, res) => {
+  let {
+    FINDER,
+    FINDER_TYPE,
+    ITEM,
+    ITEM_TYPE,
+    DESCRIPTION,
+    IMAGE_URL,
+    CONTACT_OF_THE_FINDER,
+    DATE_FOUND,
+    GENERAL_LOCATION,
+    FOUND_LOCATION,
+    TIME_RETURNED,
     OWNER,
     OWNER_COLLEGE,
     OWNER_CONTACT,
     OWNER_IMAGE,
     DATE_CLAIMED,
     TIME_CLAIMED,
-    STATUS } = req.body;
+    STATUS,
+    foundation_id,
+    POST_ID,
+    DURATION,  // ⬅️ New field to store duration
+  } = req.body;
+
+  // Ensure foundation_id is null if empty
+  if (!foundation_id) {
+    foundation_id = null;
+  }
 
   try {
-    
-    // Create a new Item object
+    // Step 1: Save to MongoDB with DURATION
     const newItem = new Item({
-      FINDER,//based  on their csv
-      FINDER_TYPE,//for data visualization 
-      ITEM,//item name ,based on their csv
-      ITEM_TYPE,//for data visualization
-      DESCRIPTION,//item description ,base on their csv
-      IMAGE_URL,//change to item image later
-      CONTACT_OF_THE_FINDER,//based on their csv
-      DATE_FOUND,//based on their csv
-      GENERAL_LOCATION,//for data visualization
-      FOUND_LOCATION,//based on their csv
-      TIME_RETURNED,  //time received
+      FINDER,
+      FINDER_TYPE,
+      ITEM,
+      ITEM_TYPE,
+      DESCRIPTION,
+      IMAGE_URL,
+      CONTACT_OF_THE_FINDER,
+      DATE_FOUND,
+      GENERAL_LOCATION,
+      FOUND_LOCATION,
+      TIME_RETURNED,
       OWNER,
       OWNER_COLLEGE,
       OWNER_CONTACT,
@@ -325,16 +347,59 @@ app.post('/items', async (req, res) => {
       DATE_CLAIMED,
       TIME_CLAIMED,
       STATUS,
+      foundation_id,
+      POST_ID,
+      DURATION,  // ⬅️ Saving duration here
     });
 
-    // Save the new item to the database
     await newItem.save();
+    await updateItemStatuses();
 
-    // Respond with the created item
-    res.status(201).json({ message: 'Item added successfully', item: newItem });
+    // Step 2: Fetch foundation_name if foundation_id exists
+    let foundationName = "";
+    if (foundation_id) {
+      const foundation = await FoundationSchema.findById(foundation_id);
+      if (foundation) {
+        foundationName = foundation.foundation_name;
+      }
+    }
+
+    // Step 3: Save to Google Sheets with foundation_name only
+    const sheetResponse = await axios.post(SHEETBEST_URL, [
+      {
+        FINDER,
+        FINDER_TYPE,
+        ITEM,
+        ITEM_TYPE,
+        DESCRIPTION,
+        IMAGE_URL,
+        CONTACT_OF_THE_FINDER,
+        DATE_FOUND,
+        GENERAL_LOCATION,
+        FOUND_LOCATION,
+        TIME_RETURNED,
+        OWNER,
+        OWNER_COLLEGE,
+        OWNER_CONTACT,
+        OWNER_IMAGE,
+        DATE_CLAIMED,
+        TIME_CLAIMED,
+        STATUS,
+        POST_ID: `www.facebook.com/${POST_ID}`, // Modify POST_ID here
+        foundation_id: foundationName, // Only foundation_name, not the _id
+        DURATION,  // ⬅️ Saving duration in Google Sheets
+      },
+    ]);
+
+    // Step 4: Respond with success message
+    res.status(201).json({
+      message: "Item added successfully",
+      item: newItem,
+      sheetResponse: sheetResponse.data,
+    });
   } catch (error) {
-    console.error('Error adding item to MongoDB:', error);
-    res.status(500).json({ message: 'Error adding item', error });
+    console.error("Error adding item:", error);
+    res.status(500).json({ message: "Error adding item", error });
   }
 });
 
@@ -357,7 +422,8 @@ app.post('/useritems', async (req, res) => {
     OWNER_IMAGE,
     DATE_CLAIMED,
     TIME_CLAIMED,
-    STATUS
+    STATUS,
+    foundation_id,
   } = req.body;
 
   try {
@@ -381,7 +447,7 @@ app.post('/useritems', async (req, res) => {
         OWNER_IMAGE,
         DATE_CLAIMED,
         TIME_CLAIMED,
-        STATUS
+        STATUS,foundation_id
     });
 
     // Save the new item to the database
@@ -396,15 +462,24 @@ app.post('/useritems', async (req, res) => {
 });
 
 //-----------------------------------printing found items for admin user----------------------------------
+app.get('/update-items-status', async (req, res) => {
+  await updateItemStatuses();
+  res.json({ message: "Item statuses updated successfully" });
+});
 app.get('/items', async (req, res) => {
   try {
-    const items = await Item.find();
+ 
+
+    const items = await Item.find().populate("foundation_id", "foundation_name"); 
+    await updateItemStatuses();
     res.json(items);
   } catch (error) {
-    console.error('Error fetching items:', error);
-    res.status(500).json({ message: 'Error fetching items', error });
+    console.error("Error fetching items:", error);
+    res.status(500).json({ message: "Error fetching items", error });
   }
+
 });
+
 //--------------------------------specific printing for found items in retrieval for admin user---------------------------
 app.get('/items/:itemId', async (req, res) => {
   try {
@@ -465,26 +540,46 @@ app.get('/useritems', async (req, res) => {
 });
 
 //-----------------------------updating found items for admin user------------------------------------
-app.put('/items/:id', async (req, res) => {
+app.put("/items/:id", async (req, res) => {
   try {
+    // Step 1: Update in MongoDB
     const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedItem) return res.status(404).json({ error: 'Item not found' });
-    res.status(200).json(updatedItem);
+    if (!updatedItem) return res.status(404).json({ error: "Item not found" });
+
+    // Step 2: Update in Google Sheets
+    const sheetResponse = await axios.put(`${SHEETBEST_URL}/FINDER/${updatedItem.FINDER}`, req.body);
+
+    // Step 3: Respond with updated item
+    res.status(200).json({
+      message: "Item updated successfully",
+      updatedItem,
+      sheetResponse: sheetResponse.data,
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update item' });
+    console.error("Error updating item:", error);
+    res.status(500).json({ error: "Failed to update item" });
   }
 });
 
 // -----------------------------------deleting found items for admin user------------------------------------
-app.delete('/items/:id', async (req, res) => {
+
+app.delete("/items/:id", async (req, res) => {
   try {
+    // Step 1: Find and delete the item in MongoDB
     const deletedItem = await Item.findByIdAndDelete(req.params.id);
-    if (!deletedItem) return res.status(404).json({ error: 'Item not found' });
-    res.status(200).json({ message: 'Item deleted successfully' });
+    if (!deletedItem) return res.status(404).json({ error: "Item not found" });
+
+    // Step 2: Delete from Google Sheets based on FINDER
+    await axios.delete(`${SHEETBEST_URL}/FINDER/${deletedItem.FINDER}`);
+
+    // Step 3: Respond with success message
+    res.status(200).json({ message: "Item deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete item' });
+    console.error("Error deleting item:", error);
+    res.status(500).json({ error: "Failed to delete item" });
   }
 });
+
 
 
 //--------------------adding complaints for student users-----------------------------------
@@ -503,21 +598,10 @@ app.post("/usercomplaints", async (req, res) => {
     date_complained, 
     time_complained, 
      userId,
-    item_image } = req.body;
+    item_image,status } = req.body;
 
   try {
     const newComplaint = new Complaint({
-      // complainer,
-      // itemname,
-      // type,
-      // contact,
-      // date,
-      // location,
-      // time,
-      // status: "Not Found",
-      // finder: "N/A",
-      // description,
-      // userId, // Add userId here
       complainer ,
       college ,
       year_lvl,
@@ -531,7 +615,7 @@ app.post("/usercomplaints", async (req, res) => {
       time ,
       date_complained, 
       time_complained, 
-      status: "Not Found",
+      status,
       finder: "N/A",
       userId, // Add userId here
       item_image,
@@ -579,20 +663,13 @@ app.put("/usercomplaints/:id", async (req, res) => {
     time ,
     date,
     date_complained, 
-    time_complained, userId,item_image } = req.body;
+    time_complained, userId,item_image ,status} = req.body;
 
   try {
     const updatedComplaint = await Complaint.findByIdAndUpdate(
       complaintId, 
       {
-        // complainer,
-        // itemname,
-        // type,
-        // contact,
-        // date,
-        // location,
-        // time,
-        // description,
+       
         complainer ,
         college ,
         year_lvl,
@@ -607,7 +684,7 @@ app.put("/usercomplaints/:id", async (req, res) => {
         date_complained, 
         time_complained, 
         userId, // userId is updated as well
-        status: "Not Found",  // Default status can be kept or updated based on your logic
+        status,
         finder: "N/A", // Default finder value, this can also be updated
         item_image,
       },
@@ -811,8 +888,147 @@ app.delete('/retrieval-requests/:id', async (req, res) => {
     res.status(500).json({ message: 'Error deleting request' });
   }
 });//goods
+//-------------------------donation------------------------
+app.post("/foundations", async (req, res) => {
+  const {
+    foundation_name,
+    foundation_type,
+    foundation_description,
+    foundation_link,
+    foundation_contact,
+    foundation_status,
+    foundation_image,
+    foundation_end_date,
+    foundation_start_date,
+  } = req.body;
 
-// Start server
+  try {
+    // Step 1: Save to MongoDB
+    const newFoundationSchema = new FoundationSchema({
+    foundation_name,
+    foundation_type,
+    foundation_description,
+    foundation_link,
+    foundation_contact,
+    foundation_image,
+    foundation_start_date,
+    foundation_end_date,
+    foundation_status,
+    });
+
+    await newFoundationSchema.save();
+
+    // Step 2: Save to Google Sheets (Sheet.best)
+
+
+    // Step 3: Respond with success message
+    res.status(201).json({
+      message: "Item added successfully",
+      FoundationSchema: newFoundationSchema,
+    
+    });
+  } catch (error) {
+    console.error("Error adding item:", error);
+    res.status(500).json({ message: "Error adding item", error });
+  }
+});
+
+app.put("/foundations/:id", async (req, res) => {
+  try {
+    // Step 1: Update in MongoDB
+    const updatedItem = await FoundationSchema.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedItem) return res.status(404).json({ error: "Item not found" });
+
+    // Step 2: Update in Google Sheets
+    // const sheetResponse = await axios.put(`${SHEETBEST_URL}/FINDER/${updatedItem.FINDER}`, req.body);
+
+    // Step 3: Respond with updated item
+    res.status(200).json({
+      message: "Item updated successfully",
+      updatedItem,
+      // sheetResponse: sheetResponse.data,
+    });
+  } catch (error) {
+    console.error("Error updating item:", error);
+    res.status(500).json({ error: "Failed to update item" });
+  }
+});
+
+app.get('/foundations', async (req, res) => {
+  try {
+    const foundation= await FoundationSchema.find();
+    res.json(foundation);
+  } catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ message: 'Error fetching items', error });
+  }
+});
+
+app.delete("/foundations/:id", async (req, res) => {
+  try {
+    // Step 1: Find and delete the item in MongoDB
+    const deletedItem = await FoundationSchema.findByIdAndDelete(req.params.id);
+    if (!deletedItem) return res.status(404).json({ error: "Item not found" });
+
+    // // Step 2: Delete from Google Sheets based on FINDER
+    // await axios.delete(`${SHEETBEST_URL}/FINDER/${deletedItem.FINDER}`);
+
+    // Step 3: Respond with success message
+    res.status(200).json({ message: "Item deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    res.status(500).json({ error: "Failed to delete item" });
+  }
+});
+app.put('/foundation/:id', async (req, res) => {
+  const { id } = req.params;
+  const { foundation_status } = req.body;
+
+  try {
+    const updatedFoundation = await FoundationSchema.findByIdAndUpdate(
+      id,
+      { foundation_status },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedFoundation) {
+      return res.status(404).json({ message: 'Foundation not found' });
+    }
+
+    res.json({ message: 'Foundation status updated', updatedFoundation });
+  } catch (error) {
+    console.error('Error updating foundation status:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.get("/items/foundation/:foundationId", async (req, res) => {
+  const { foundationId } = req.params;
+  console.log("✅ Foundation ID received:", foundationId); // Log incoming ID
+
+  if (!foundationId) {
+    console.log("❌ Missing Foundation ID");
+    return res.status(400).json({ error: "❌ Foundation ID is required!" });
+  }
+
+  try {
+    const items = await Item.find({ foundation_id: foundationId }).populate("foundation_id", "foundation_name foundation_contact"); 
+    console.log("✅ Items fetched:", items);
+
+    if (!items.length) {
+      console.log("❌ No items found!");
+      return res.status(404).json({ error: "❌ No items found for this foundation!" });
+    }
+
+    res.json(items);
+  } catch (error) {
+    console.error("❌ Error fetching items:", error);
+    res.status(500).json({ error: "❌ Internal Server Error" });
+  }
+});
+
+
+
 app.listen(PORT, () => {
   console.log(`deyamemyidol`);
 });

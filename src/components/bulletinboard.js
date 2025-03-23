@@ -14,9 +14,12 @@ import { jwtDecode } from 'jwt-decode';
 import Header from './header';
 import Filter from '../filterered/bulletinBoardFilt'; // Adjust the import path as necessary
 import  showAlert from '../utils/alert';
-
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Bulletin() {
+      const [loading, setLoading] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [requests, setRequests] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -60,14 +63,40 @@ function Bulletin() {
     );
   };
 
+  const CACHE_KEY = 'cachedUserItems';
+  const CACHE_EXPIRATION_MS = 5 * 60 * 1000; // 5 minutes
+  
   const fetchItems = async () => {
-    try {
-      const response = await axios.get('http://10.10.83.224:5000/useritems');
-      setRequests(response.data);
-    } catch (error) {
-      console.error('Error fetching items:', error);
-    }
+      setLoading(true);
+  
+      try {
+          // Check cache
+          const cachedData = sessionStorage.getItem(CACHE_KEY);
+          if (cachedData) {
+              const { data, timestamp } = JSON.parse(cachedData);
+              const now = new Date().getTime();
+  
+              if (now - timestamp < CACHE_EXPIRATION_MS) {
+                  setRequests(data);
+                  setLoading(false);
+                  return; // Use cached data, no need to fetch
+              }
+          }
+  
+          // Fetch new data if cache is expired or missing
+          const response = await axios.get(`${API_URL}/useritems`);
+          setRequests(response.data);
+  
+          // Save data in cache
+          sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data: response.data, timestamp: new Date().getTime() }));
+  
+      } catch (error) {
+          console.error('Error fetching items:', error);
+      } finally {
+          setLoading(false);
+      }
   };
+  
 
   // Handle modal data changes
   const handleModalChange = (e) => {
@@ -76,7 +105,7 @@ function Bulletin() {
   };
   const handleModalSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-
+    setLoading(true);
     try {
       const token = localStorage.getItem('token');
       const decodedToken = jwtDecode(token);
@@ -88,7 +117,7 @@ function Bulletin() {
       const now = new Date();
       const formattedDate = now.toISOString().split("T")[0]; // YYYY-MM-DD //5 user based
       const formattedTime = now.toTimeString().split(" ")[0]; // HH:MM:SS //6 user based
-      const response = await axios.post('http://10.10.83.224:5000/retrieval-request', {
+      const response = await axios.post(`${API_URL}/retrieval-request`, {
         claimer_name: claimer_name,//1
         claimer_college: claimer_college,//2
         claimer_lvl: claimer_lvl,//3
@@ -131,7 +160,7 @@ function Bulletin() {
         owner_image: '',
         status: 'pending',
       });
-
+      setLoading(false);
       setShowModal(false); // Close the modal after successful submission
     } catch (error) {
       console.error('Error submitting the form:', error); // Log any errors
@@ -236,11 +265,10 @@ function Bulletin() {
 
     // Apply sorting
     if (filters.sortByDate === 'ascending') {
-      filtered.sort((a, b) => new Date(a.DATE_FOUND) - new Date(b.DATE_FOUND));
+      filtered.sort((a, b) => (a.DATE_FOUND || "").localeCompare(b.DATE_FOUND || ""));
     } else if (filters.sortByDate === 'descending') {
-      filtered.sort((a, b) => new Date(b.DATE_FOUND) - new Date(a.DATE_FOUND));
+      filtered.sort((a, b) => (b.DATE_FOUND || "").localeCompare(a.DATE_FOUND || ""));
     }
-
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {
       setFilteredRequests(filtered);
@@ -271,8 +299,13 @@ function Bulletin() {
   };
 
 
-
   return (
+    <>
+       {loading && (
+      <div className="loading-overlay">
+        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -304,9 +337,12 @@ function Bulletin() {
             {displayedRequests.map((item) => (
               <div className="grid-item4" key={item._id}>
                 <h2>{item.ITEM}</h2>
-                {item.IMAGE_URL && (
-                  <img src={item.IMAGE_URL || "default-image-url"} alt="Product" className="item-image4" />
-                )}
+               
+                  <img src={item.IMAGE_URL || 'sad.jpg'}
+                   alt="Product" 
+                   className={`item-image4 ${!item.IMAGE_URL ? 'item-image4' : ''}`} // Add fallback class conditionally
+                   />
+                
                 <p><span>Date Found: </span> {item.DATE_FOUND}</p>
                 <p><span>Location: </span> {item.GENERAL_LOCATION}</p>
 
@@ -338,7 +374,7 @@ function Bulletin() {
               <form onSubmit={handleModalSubmit} className="form-fields4">
                 {/* Form fields */}
                 <div className="form-group4">
-                  <label htmlFor="item_name">Item Name:</label>
+                  <label htmlFor="item_name">Item Name<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="item_name"
@@ -352,7 +388,7 @@ function Bulletin() {
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description">Description<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="description"
@@ -366,7 +402,7 @@ function Bulletin() {
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="general_location">General Location</label>
+                  <label htmlFor="general_location">General Location<span className="asterisk3"> *</span></label>
                   <select
                     id="general_location"
                     name="general_location"
@@ -377,14 +413,28 @@ function Bulletin() {
                     }
                     required
                   >
-                    <option value="" disabled>Select a location</option>
-                    <option value="Gym">GYM</option>
+                    <option value="">Select a location</option>
+                    <option value="Gym">GYMNASIUM</option>
+                    <option value="adminBuilding">ADMIN BLG</option>
+                    <option value="mph">MPH</option>
                     <option value="mainLibrary">MAIN LIBRARY</option>
+                    <option value="lawn">LAWN</option>
+                    <option value="ids">IDS</option>
+                    <option value="clinic">CLINIC</option>
+                    <option value="canteen">CANTEEN</option>
+                    <option value="ceba">CEBA</option>
+                    <option value="ccs">CCS</option>
+                    <option value="cass">CASS</option>
+                    <option value="csm">CSM</option>
+                    <option value="coe">COE</option>
+                    <option value="ced">CED</option>
+                    <option value="chs">CHS</option>
+                    <option value="outsideIit">OUTSIDE IIT</option>
                   </select>
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="specific_location">Specific Location</label>
+                  <label htmlFor="specific_location">Specific Location<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="specific_location"
@@ -398,7 +448,7 @@ function Bulletin() {
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="date_Lost">Date Lost</label>
+                  <label htmlFor="date_Lost">Date Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="date"
                     id="date_Lost"
@@ -412,7 +462,7 @@ function Bulletin() {
                 </div>
 
                 <div className="form-group4">
-                  <label htmlFor="time_Lost">Time Lost</label>
+                  <label htmlFor="time_Lost">Time Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="time"
                     id="time_Lost"
@@ -469,6 +519,7 @@ function Bulletin() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

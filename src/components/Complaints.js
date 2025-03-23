@@ -10,8 +10,13 @@ import Pagination from './pagination';
 import axios from 'axios';
 import Header from "./header";
 import Filter from '../filterered/complaintsFilt'; // Import the Filter component
-import  showAlert from '../utils/alert';
+import showAlert from '../utils/alert';
+import Modal from './image'; // Import the Modal component
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function Manage() {
+    const [loading, setLoading] = useState(false);
   const [filterText, setFilterText] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showViewMoreModal, setShowViewMoreModal] = useState(false);
@@ -23,6 +28,8 @@ function Manage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isViewMore, setIsViewMore] = useState(false); // New state to track if modal is for viewing more details
   const itemsPerPage = 10;
+  const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
+  const [selectedImage, setSelectedImage] = useState(''); // State for selected image
 
   const [itemData, setItemData] = useState({
     complainer: '',
@@ -38,19 +45,21 @@ function Manage() {
     time: '',
     date_complained: '',
     time_complained: '',
-    status: 'not-found',
+    status: '',
     finder: '',
   });
 
   // Fetch all data from the database when the component mounts
   useEffect(() => {
     const fetchRequests = async () => {
+      setLoading(true);
       try {
-        const response = await fetch("http://10.10.83.224:5000/complaints");
+        const response = await fetch(`${API_URL}/complaints`);
         const data = await response.json();
         setRequests(data);
         setFilteredRequests(data);
         setCurrentPage(1); // Set current page to 1 when data is fetched 
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching requests:", error);
       }
@@ -70,15 +79,23 @@ function Manage() {
       return filteredRequests; // If no filter text, return all filtered requests
     }
 
-    return filteredRequests.filter(request =>
-      request.complainer.toLowerCase().includes(filterText.toLowerCase())
-    );
+    return filteredRequests.filter(request => {
+      const complainerMatch = request.complainer && request.complainer.toLowerCase().includes(filterText.toLowerCase());
+      const itemNameMatch = request.itemname && request.itemname.toLowerCase().includes(filterText.toLowerCase());
+      return complainerMatch || itemNameMatch;
+    });
   };
-
-
 
   const handleComplaintSubmit = async (e) => {
     e.preventDefault();
+
+    if (timerId) {
+      clearInterval(timerId); // Stop the timer
+      setTimerId(null);
+    }
+
+    console.log(`⏳ Complaint duration: ${time} seconds`); // ✅ Console log the duration
+
     const formData = new FormData(e.target);
     const newComplaint = {
       complainer: formData.get("complainer"),
@@ -94,10 +111,13 @@ function Manage() {
       time: formData.get("time"),
       date_complained: formData.get("date_complained"),
       time_complained: formData.get("time_complained"),
+      status: formData.get("status"),
+      duration: time, // Include duration
     };
 
+    setLoading(true);
     try {
-      const response = await fetch("http://10.10.83.224:5000/complaints", {
+      const response = await fetch(`${API_URL}/complaints`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComplaint),
@@ -105,9 +125,11 @@ function Manage() {
 
       if (response.ok) {
         const result = await response.json();
-        showAlert('Complaint Submitted', 'complaint_success');
-        setRequests([...requests, { ...newComplaint, status: "not-found", finder: "N/A" }]);
+        setLoading(false);
+        showAlert("Complaint Submitted", "complaint_success");
+        setRequests([...requests, { ...newComplaint, finder: "N/A" }]);
         setShowModal(false);
+        fetchRequests()
       } else {
         alert("Error filing complaint. Please try again.");
       }
@@ -116,8 +138,8 @@ function Manage() {
       alert("Error filing complaint. Please try again.");
     }
   };
-
   const handleViewMore = (request) => {
+    fetchRequests();
     setSelectedRequest(request);
     setItemData(request);
     setIsEditing(false); // Ensure we are in view mode
@@ -130,15 +152,16 @@ function Manage() {
       // Optimistically remove the complaint from the state
       const updatedRequests = requests.filter((req) => req._id !== selectedRequest._id);
       setRequests(updatedRequests);
-
+setLoading(true);
       try {
         const response = await fetch(
-          `http://10.10.83.224:5000/complaints/${selectedRequest._id}`,
+          `${API_URL}/complaints/${selectedRequest._id}`,
           { method: "DELETE" }
         );
 
         if (response.ok) {
           const result = await response.json();
+          setLoading(false);
           showAlert('Complaint Deleted', 'complaint_error');
           setShowViewMoreModal(false); // Close modal after successful deletion
         } else {
@@ -153,6 +176,7 @@ function Manage() {
         alert("An error occurred while deleting the complaint. Please try again.");
       }
     }
+    fetchRequests();
   };
 
 
@@ -162,13 +186,14 @@ function Manage() {
   // };
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const updatedRequest = {
       ...selectedRequest,
       ...itemData,
     };
 
     try {
-      const response = await fetch(`http://10.10.83.224:5000/complaints/${selectedRequest._id}`, {
+      const response = await fetch(`${API_URL}/complaints/${selectedRequest._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedRequest),
@@ -176,6 +201,7 @@ function Manage() {
 
       if (response.ok) {
         const result = await response.json();
+        setLoading(false);
         showAlert('Complaint Updated', 'complaint_success');
 
         setRequests(
@@ -209,10 +235,11 @@ function Manage() {
           date: '',
           date_complained: '',
           time_complained: '',
-          status: 'not-found',
+          status: '',
           finder: '',
         });
-
+        setIsEditing(false);
+        setIsViewMore(false);
       } else {
         alert("Error updating complaint. Please try again.");
       }
@@ -225,7 +252,7 @@ function Manage() {
 
   const fetchRequests = async () => {
     try {
-      const response = await fetch("http://10.10.83.224:5000/complaints");
+      const response = await fetch(`${API_URL}/complaints`);
       const data = await response.json();
       setRequests(data);
     } catch (error) {
@@ -239,36 +266,37 @@ function Manage() {
 
     // Apply filters
     if (filters.itemType) {
-        filtered = filtered.filter(item => item.type === filters.itemType);
+      filtered = filtered.filter(item => item.type === filters.itemType);
     }
 
     if (filters.dateLost) {
-        filtered = filtered.filter(item => item.date === filters.dateLost);
+      filtered = filtered.filter(item => item.date_complained === filters.dateLost);
     }
 
     if (filters.generalLocation) {
-        filtered = filtered.filter(item => item.general_location.toLowerCase().includes(filters.generalLocation.toLowerCase()));
+      filtered = filtered.filter(item => item.general_location.toLowerCase().includes(filters.generalLocation.toLowerCase()));
     }
 
     if (filters.status) {
-        filtered = filtered.filter(item => item.status === filters.status);
+      filtered = filtered.filter(item => item.status === filters.status);
     }
 
     // Apply sorting
-    if (filters.sortByDate === 'ascending') {
-        filtered.sort((a, b) => new Date(a.date_complained) - new Date(b.date_complained));
-    } else if (filters.sortByDate === 'descending') {
-        filtered.sort((a, b) => new Date(b.date_complained) - new Date(a.date_complained));
+       if (filters.sortByDate === 'descending') {
+      filtered.sort((a, b) => (a.date_complained || "").localeCompare(b.date_complained || ""));
+    } else if (filters.sortByDate === 'ascending') {
+      filtered.sort((a, b) => (b.date_complained || "").localeCompare(a.date_complained || ""));
     }
+    
 
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {
       setFilteredRequests(filtered);
     }
-  
-    
-    
-   
+
+
+
+
   };
 
   //UPDATE PAGINATIOn
@@ -278,20 +306,23 @@ function Manage() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  
+
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
-        setCurrentPage(pageNumber);
+      setCurrentPage(pageNumber);
     }
-};
+  };
 
   const [viewMode, setViewMode] = useState('table'); // Default to 'table' mode
   const toggleViewMode = () => {
     setViewMode((prevMode) => (prevMode === 'table' ? 'grid' : 'table'));
   };
 
+  const [time, setTime] = useState(0);
+  const [timerId, setTimerId] = useState(null);
+
+  // Reset and start the timer when the modal opens
   const handleAddComplaint = () => {
-    setSelectedRequest(null); // Clear selected request for new complaint
     setItemData({
       complainer: '',
       college: '',
@@ -306,34 +337,60 @@ function Manage() {
       date: '',
       date_complained: '',
       time_complained: '',
-      status: 'not-found',
-
+      status: '',
     });
-    setIsViewMore(false); // Set to file a complaint mode
-    setShowModal(true); // Open modal for adding a complaint
+
+    setTime(0); // Reset timer
+    setShowModal(true); // Open modal
+
+    // Start the timer
+    if (timerId) {
+      clearInterval(timerId);
+    }
+    const id = setInterval(() => {
+      setTime((prevTime) => prevTime + 1);
+    }, 1000);
+    setTimerId(id);
   };
 
   const handleStatusChange = async (item) => {
     const newStatus = item.status === 'not-found' ? 'found' : 'not-found'; // Toggle status
     try {
-      await axios.put(`http://10.10.83.224:5000/complaints/${item._id}`, { ...item, status: newStatus });
-      
+      await axios.put(`${API_URL}/complaints/${item._id}`, { ...item, status: newStatus });
+
       setRequests((prevRequests) =>
         prevRequests.map((req) =>
           req._id === item._id ? { ...req, status: newStatus } : req
         )
       );
-       // Alert the user of the status change
-       showAlert('Status Updated', 'complaint_success');
+      // Alert the user of the status change
+      showAlert('Status Updated', 'complaint_success');
     } catch (error) {
       console.error('Error updating status:', error);
     }
   };
 
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setImageModalOpen(true); // Open the image modal
+  };
 
 
-  
+  const handleCloseImageModal = () => {
+    setIsEditing(false);
+    fetchRequests();
+    setImageModalOpen(false);
+    setSelectedImage('');
+    fetchRequests();
+  };
+
   return (
+    <>
+        {loading && (
+          <div className="loading-overlay">
+            <img src="/load.gif" alt="Loading..." className="loading-gif" />
+          </div>
+        )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -363,10 +420,10 @@ function Manage() {
           </div>
 
           <div className="top-right-buttons3">
-              
-              <button className="add-item-btn3" onClick={handleAddComplaint}>+ File Complaint</button>
-              {/* <button className="register-qr-btn3">Register QR Code</button>*/}
-            </div>
+
+            <button className="add-item-btn3"onClick={() => { setIsEditing(false); handleAddComplaint(true) }} >+ File Complaint</button>
+            {/* <button className="register-qr-btn3">Register QR Code</button>*/}
+          </div>
 
           <Filter onApplyFilters={applyFilters} />
 
@@ -389,7 +446,7 @@ function Manage() {
                     <th>Date Complained</th>
                     <th>Time Complained</th>
                     <th>Status</th>
-                   
+
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -418,7 +475,7 @@ function Manage() {
                           <IoMdArrowDropdown className='arrow3' />
                         </button>
                       </td>
-                     
+
                       <td>
                         <button className="view-btn3" onClick={() => handleViewMore(item)}>
                           <FaPlus /> View More
@@ -441,8 +498,14 @@ function Manage() {
                   <p><span>Contact of the Complainer: </span> {item.contact}</p>
                   <p><span>Date: </span> {item.date}</p>
                   <p><span>Time: </span> {item.time}</p>
-                  <p><span>Status: </span> {item.status}</p>
-
+                 
+                  <button
+                    className={`status-btn3 ${item.status && typeof item.status === 'string' && item.status.toLowerCase() === 'not-found' ? 'not-found' : 'found'}`}
+                    onClick={() => handleStatusChange(item)}
+                  >
+                    {item.status || 'not-found'}
+                    <IoMdArrowDropdown className='arrow3' />
+                  </button>
                   <button className="view-btn3" onClick={() => handleViewMore(item)}>
                     <FaPlus /> View More
                   </button>
@@ -459,6 +522,8 @@ function Manage() {
         />
       </div>
 
+      <Modal isOpen={imageModalOpen} onClose={handleCloseImageModal} imageUrl={selectedImage} />
+
       {showModal && (
         <div className="modal-overlay3">
           <div className="modal3">
@@ -466,7 +531,7 @@ function Manage() {
 
             {isViewMore ? (
               isEditing ? (
-                <form onSubmit={handleUpdate}>
+                <form onSubmit={handleUpdate} className="form-fields3">
                   {/* Form fields for editing */}
                   <div className="form-group3">
                     <label htmlFor="complainerName">Complainer Name</label>
@@ -496,6 +561,7 @@ function Manage() {
                       <option value="ceba">CEBA</option>
                       <option value="chs">CHS</option>
                       <option value="ced">CED</option>
+                      <option value="N/A">N/A</option>
                     </select>
                   </div>
                   <div className="form-group3">
@@ -506,10 +572,13 @@ function Manage() {
                       value={itemData.year_lvl}
                       onChange={handleInputChange}
                     >
-                      <option value="First Year">1</option>
-                      <option value="Second Year">2</option>
-                      <option value="Third Year">3</option>
-                      <option value="Fourth Year">4</option>
+                            <option value="Faculty">Faculty</option>
+                      <option value="First Year">1st Year</option>
+                      <option value="Second Year">2nd Year</option>
+                      <option value="Third Year">3rd Year</option>
+                      <option value="Fourth Year">4th Year</option>
+                      <option value="Fifth Year">5th Year</option>
+                      <option value="N/A">N/A</option>
                     </select>
                   </div>
                   <div className="form-group3">
@@ -545,12 +614,12 @@ function Manage() {
                       value={itemData.type}
                       onChange={handleInputChange}
                     >
-                      <option value="Electronics">Electronics</option>
-                      <option value="Personal-Items">Personal Items</option>
-                      <option value="Clothing_Accessories">Clothing & Accessories</option>
-                      <option value="Bags_Stationery">Bags & stationary</option>
-                      <option value="Documents">Documents</option>
-                      <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                            <option value="">Please select</option>
+                               <option value="Electronics">Electronics</option>
+                            <option value="Personal Items">Personal Items</option>
+                            <option value="Clothing Accessories">Clothing & Accessories</option>
+                            <option value="Bags and Stationery">Bags & stationary</option>
+                            <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                     </select>
                   </div>
                   <div className="form-group3">
@@ -559,7 +628,7 @@ function Manage() {
                       type="text"
                       id="contact"
                       name="contact"
-                      maxLength="50"
+                       maxLength="100"
                       placeholder="Contact of the Complainer"
                       value={itemData.contact}
                       onChange={handleInputChange}
@@ -575,33 +644,34 @@ function Manage() {
                       value={itemData.general_location}
                       onChange={handleInputChange}
                     >
-                      <option value="Gym">GYMNASIUM</option>
-                      <option value="adminBuilding">ADMIN BLG</option>
-                      <option value="mph">MPH</option>
-                      <option value="mainLibrary">MAIN LIBRARY</option>
-                      <option value="lawn">LAWN</option>
-                      <option value="ids">IDS</option>
-                      <option value="clinic">CLINIC</option>
-                      <option value="canteen">CANTEEN</option>
-                      <option value="ceba">CEBA</option>
-                      <option value="ccs">CCS</option>
-                      <option value="cass">CASS</option>
-                      <option value="csm">CSM</option>
-                      <option value="coe">COE</option>
-                      <option value="ced">CED</option>
-                      <option value="chs">CHS</option>
-                      <option value="outsideIit">OUTSIDE IIT</option>
-
+                            <option value="CCS Area">CCS Area</option>
+                                <option value="CASS Area">CASS Area</option>
+                                <option value="CHS Area">CHS Area</option>
+                                <option value="CSM Area">CSM Area</option>
+                                <option value="IDS Area">IDS Area</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                                <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                                <option value="Food Court Area">Food Court Area</option>
+                                <option value="Research Facility">Research Facility</option>
+                                <option value="ATM & Banking Area">ATM & Banking Area</option>
+                                <option value="Institute Park & Lawn">Institute Park & Lawn</option>
+                                <option value="Restrooms (CRs)">Restrooms(CRs)</option>
+                                
 
                     </select>
                   </div>
                   <div className="form-group3">
-                    <label htmlFor="location">Location</label>
+                    <label htmlFor="location">Specific Location</label>
                     <textarea
-                      id="location"
+                      id="locationn"
                       name="location"
                       maxLength="200"
-                      placeholder="Location"
+                      placeholder="Specific location"
                       value={itemData.location}
                       onChange={handleInputChange}
                       required
@@ -659,26 +729,17 @@ function Manage() {
                       value={itemData.status}
                       onChange={handleInputChange}
                     >
+                         <option value="not-found">not-found</option>
                       <option value="found">found</option>
-                      <option value="not-found">not-found</option>
+                   
                     </select>
                   </div>
-                  <div className="form-group3">
-                    <label htmlFor="finder">Finder</label>
-                    <input
-                      type="text"
-                      id="finder"
-                      name="finder"
-                      placeholder="Finder's Name"
-                      value={itemData.finder}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+
                   <div className="button-container3">
                     <button type="submit" className="submit-btn3">Update</button>
                     {/* delete modal */}
                     <button type="button" className="delete-btn3" onClick={() => { handleDelete(selectedRequest._id); setShowModal(false); }}> Delete</button>
-                    <button type="button" className="cancel-btn3" onClick={() => { setIsEditing(false); setShowModal(false); }}>Cancel</button>
+                 <button type="button" className="cancel-btn3" onClick={() => { setIsViewMore(false);setIsEditing(false); setShowModal(false); }}>Cancel</button>
                   </div>
                 </form>
               ) : (
@@ -742,23 +803,25 @@ function Manage() {
                     </div>
                     <div className="detail-item3">
                       <strong>Image:</strong>
-                      <span> <img src={itemData.item_image||'sad.jpg'} className="avatar-image" style={{ 
-     width: '100px',  
-    height: '100px'
-   }}  /></span>
+                      <span> <img
+                        src={itemData.item_image || 'sad.jpg'}
+                        alt="Product"
+                        className="default-table-url33"
+                        onClick={() => handleImageClick(itemData.item_image || 'sad.jpg')} // Add click handler
+                      /></span>
                     </div>
-                 
+
                   </div>
                   <div className="button-container3">
                     <button className="edit-btn3" onClick={() => setIsEditing(true)}>Edit</button>
-                    <button className="cancel-btn3" onClick={() => setShowModal(false)}>Cancel</button>
+                    <button className="cancel-btn3" onClick={() => { setIsViewMore(false);setIsEditing(false); setShowModal(false); }}>Cancel</button>
                   </div>
                 </div>
               )
             ) : (
-              <form onSubmit={handleComplaintSubmit}>
+              <form onSubmit={handleComplaintSubmit} className="form-fields3">
                 <div className="form-group3">
-                  <label htmlFor="complainerName">Complainer Name</label>
+                  <label htmlFor="complainerName">Complainer Name<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="complainerName"
@@ -771,26 +834,29 @@ function Manage() {
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="complainerCollege">College</label>
+                  <label htmlFor="complainerCollege">College<span className="asterisk3"> *</span></label>
                   <select
                     id="college"
                     name="college"
                     value={itemData.college}
                     onChange={handleInputChange}
+                    required={!selectedRequest}
                   >
-                    option
+                    <option value="">Please select</option>
                     <option value="coe">COE</option>
-                      <option value="ccs">CCS</option>
-                      <option value="cass">CASS</option>
-                      <option value="csm">CSM</option>
-                      <option value="ceba">CEBA</option>
-                      <option value="chs">CHS</option>
-                      <option value="ced">CED</option>
+                    <option value="ccs">CCS</option>
+                    <option value="cass">CASS</option>
+                    <option value="csm">CSM</option>
+                    <option value="ceba">CEBA</option>
+                    <option value="chs">CHS</option>
+                    <option value="ced">CED</option>
+                    <option value="N/A">N/A</option>
                   </select>
+                  
                 </div>
 
                 <div className="form-group3">
-                  <label htmlFor="complainerLevel">Year Level</label>
+                  <label htmlFor="complainerLevel">Year Level<span className="asterisk3"> *</span></label>
 
                   <select
                     id="year_lvl"
@@ -799,16 +865,21 @@ function Manage() {
                     placeholder="Year Level"
                     value={itemData.year_lvl}
                     onChange={handleInputChange}
-                  >
-                    option
-                    <option value="First Year">1</option>
-                    <option value="Second Year">2</option>
-                    <option value="Third Year">3</option>
-                    <option value="Fourth Year">4</option>
+                    required={!selectedRequest}
+                    >
+                    <option value="">Please select</option>
+                    <option value="Faculty">Faculty</option>
+                    <option value="First Year">1st Year</option>
+                    <option value="Second Year">2nd Year</option>
+                    <option value="Third Year">3rd Year</option>
+                    <option value="Fourth Year">4th Year</option>
+                    <option value="Fifth Year">5th Year</option>
+                    <option value="N/A">N/A</option>
                   </select>
+
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="itemName">Item Name</label>
+                  <label htmlFor="itemName">Item Name<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="itemName"
@@ -822,7 +893,7 @@ function Manage() {
                 </div>
 
                 <div className="form-group3">
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description">Description<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="description"
@@ -836,27 +907,27 @@ function Manage() {
                 </div>
 
                 <div className="form-group3">
-                  <label htmlFor="itemType">Item Type</label>
+                  <label htmlFor="itemType">Item Type<span className="asterisk3"> *</span></label>
                   <select
                     id="itemType"
                     name="type"
                     placeholder="Item Type"
                     value={itemData.type}
                     onChange={handleInputChange}
-                  >
-                    option
-                    <option value="Electronics">Electronics</option>
-                      <option value="Personal-Items">Personal Items</option>
-                      <option value="Clothing_Accessories">Clothing & Accessories</option>
-                      <option value="Bags_Stationery">Bags & stationary</option>
-                      <option value="Documents">Documents</option>
-                      <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                    required={!selectedRequest}
+                    >
+                      <option value="">Please select</option>
+                               <option value="Electronics">Electronics</option>
+                            <option value="Personal Items">Personal Items</option>
+                            <option value="Clothing Accessories">Clothing & Accessories</option>
+                            <option value="Bags and Stationery">Bags & stationary</option>
+                            <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                   </select>
                 </div>
 
 
                 <div className="form-group3">
-                  <label htmlFor="contact">Contact of the Complainer</label>
+                  <label htmlFor="contact">Contact of the Complainer<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="contact"
@@ -871,48 +942,51 @@ function Manage() {
 
 
                 <div className="form-group3">
-                  <label htmlFor="general_location">General Location</label>
+                  <label htmlFor="general_location">General Location<span className="asterisk3"> *</span></label>
                   <select
                     id="general_location"
                     name="general_location"
                     placeholder="General Location"
                     value={itemData.general_location}
                     onChange={handleInputChange}
-                  >
-                    option
-                    <option value="Gym">GYMNASIUM</option>
-                      <option value="adminBuilding">ADMIN BLG</option>
-                      <option value="mph">MPH</option>
-                      <option value="mainLibrary">MAIN LIBRARY</option>
-                      <option value="lawn">LAWN</option>
-                      <option value="ids">IDS</option>
-                      <option value="clinic">CLINIC</option>
-                      <option value="canteen">CANTEEN</option>
-                      <option value="ceba">CEBA</option>
-                      <option value="ccs">CCS</option>
-                      <option value="cass">CASS</option>
-                      <option value="csm">CSM</option>
-                      <option value="coe">COE</option>
-                      <option value="ced">CED</option>
-                      <option value="chs">CHS</option>
-                      <option value="outsideIit">OUTSIDE IIT</option>
+                    required={!selectedRequest}
+                    >
+                     
+                     <option value="COET Area">COET Area</option>
+                                <option value="CCS Area">CCS Area</option>
+                                <option value="CASS Area">CASS Area</option>
+                                <option value="CHS Area">CHS Area</option>
+                                <option value="CSM Area">CSM Area</option>
+                                <option value="IDS Area">IDS Area</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                                <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                                <option value="Food Court Area">Food Court Area</option>
+                                <option value="Research Facility">Research Facility</option>
+                                <option value="ATM & Banking Area">ATM & Banking Area</option>
+                                <option value="Institute Park & Lawn">Institute Park & Lawn</option>
+                                <option value="Restrooms (CRs)">Restrooms(CRs)</option>
                   </select>
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="location">Location</label>
+                  <label htmlFor="location">Specific Location<span className="asterisk3"> *</span></label>
                   <textarea
                     type="text"
                     id="location"
                     name="location"
                     maxlength="200"
-                    placeholder="Location"
+                    placeholder="Specific Location"
                     value={itemData.location}
                     onChange={handleInputChange}
                     required={!selectedRequest}
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="date">Date Lost</label>
+                  <label htmlFor="date">Date Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="date"
                     id="date"
@@ -923,7 +997,7 @@ function Manage() {
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="time">Time Lost</label>
+                  <label htmlFor="time">Time Lost<span className="asterisk3"> *</span></label>
                   <input
                     type="time"
                     id="time"
@@ -934,7 +1008,7 @@ function Manage() {
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="date_complained">Date Complained</label>
+                  <label htmlFor="date_complained">Date Complained<span className="asterisk3"> *</span></label>
                   <input
                     type="date"
                     id="date_complained"
@@ -945,7 +1019,7 @@ function Manage() {
                   />
                 </div>
                 <div className="form-group3">
-                  <label htmlFor="time_complained">Time Complained</label>
+                  <label htmlFor="time_complained">Time Complained<span className="asterisk3"> *</span></label>
                   <input
                     type="time"
                     id="time_complained"
@@ -965,12 +1039,13 @@ function Manage() {
                     onChange={handleInputChange}
                   >
                     option
-                    <option value="found">found</option>
                     <option value="not-found">not-found</option>
+                    <option value="found">found</option>
+               
                   </select>
                 </div>
 
-                <div className="form-group3">
+                {/* <div className="form-group3">
                   <label htmlFor="finder">Finder</label>
                   <input
                     type="text"
@@ -981,11 +1056,11 @@ function Manage() {
                     onChange={handleInputChange}
 
                   />
-                </div>
+                </div> */}
 
                 <div className="button-container3">
                   <button type="submit" className="submit-btn3">Submit</button>
-                  <button type="button" className="cancel-btn3" onClick={() => setShowModal(false)}>Cancel</button>
+                  <button type="button" className="cancel-btn3"onClick={() => { setIsEditing(false);setIsViewMore(false); setShowModal(false); }}>Cancel</button>
                 </div>
               </form>
             )}
@@ -993,6 +1068,7 @@ function Manage() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

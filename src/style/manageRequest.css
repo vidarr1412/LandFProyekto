@@ -30,7 +30,7 @@
   }
 
   .search-bar5 input:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    border: .1rem solid #518be2;
     
   }
   
@@ -117,7 +117,7 @@
     margin: 30px auto 0; /* Center the container */
     overflow-x: auto; /* Enable horizontal scrolling */
     border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
-    border-radius: 5px; /* Optional: Add rounded corners */
+    border-radius: 1rem; /* Optional: Add rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
   }
 
@@ -348,7 +348,7 @@
   background-color: #f0f0f0; /* Background color for items */
   padding: 20px; /* Padding inside items */
   border: 1px solid #ccc; /* Optional: Border for items */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 1rem; /* Rounded corners */
   text-align: center; /* Center text */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
   width: 105%; /* Ensure grid items take full width of their cell */

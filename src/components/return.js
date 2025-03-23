@@ -4,7 +4,7 @@ import Sidebar from "./sidebar";
 import Header from "./header";
 import '../style/home.css'; 
 
-function Home() {
+function Return() {
   return (
     <div className="home-container">
       <Sidebar />
@@ -13,15 +13,17 @@ function Home() {
       <div className="main-content">
         {/* Content Section */}
         <div className="cont">
-          <h1>Find It, <br /> Retrieve It!</h1>
+          <h1>Please Return <br /> me to SID</h1>
           <p>
             Step into a world where the art of Interior Design is meticulously crafted to bring together timeless elegance and cutting-edge modern innovation. Allowing you to transform your living spaces into the epitome of luxury and sophistication.
           </p>
-          <NavLink to="/userComplaints">
-            <button className="get-qr-button">File Report Now</button>
+          <NavLink to="/mana">
+            <button className="get-qr-button">Register Now</button>
           </NavLink>
           <div className='divider'></div>
-
+          {/* <NavLink to="/mana">
+            <button className="get-qr-button">Find your Lost Item Now</button>
+          </NavLink> */}
         </div>
 
         {/* Statistics Section */}
@@ -88,4 +90,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Return;

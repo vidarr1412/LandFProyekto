@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "..//style/log.css";
 import  showAlert from '../utils/alert';
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -21,7 +24,7 @@ function Auth() {
  
 
     try {
-      const response = await fetch("http://10.10.83.224:5000/signup", {
+      const response = await fetch(`${API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName,lastName,contactNumber, email, password,college ,year_lvl,}),
@@ -31,10 +34,13 @@ function Auth() {
       setLoading(false); // Hide loading animation
 
       if (response.ok) {
-        alert("Sign up successful! Please log in.");
+     
+        showAlert('Sign Up Success!', 'signup_success');
         setIsLogin(true); // Switch to login form after successful sign up
       } else {
-        alert(data.message || "Sign up failed.");
+   
+        showAlert('Email already used!', 'signup_error');
+        //add alert here
       }
     } catch (err) {
       console.error(err);
@@ -45,37 +51,47 @@ function Auth() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     setLoading(true); // Show loading animation
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
+  
+    const email = e.target.email.value.trim();
+    const password = e.target.password.value.trim();
+  
+    if (!email || !password) {
+      setLoading(false);
+      alert("Please enter both email and password.");
+      return;
+    }
+  
     try {
-      const response = await fetch("http://10.10.83.224:5000/login", {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+  
       const data = await response.json();
-      setLoading(false); // Hide loading animation
-     showAlert('Log In Success!', 'complaint_success');
-     if (true) {  
-      // Store JWT in localStorage
-      localStorage.setItem("token", data.token);  // Store token in localStorage
-    
-      showAlert('Log In Success!', 'complaint_success');
-    
-      // Redirect to home page
-      window.location.href = "/"; // Redirect to the home page after login
-    } else {
-      alert(data.message || "Login failed.");
-    }
-    
+  
+      // Delay hiding loading animation for 3 seconds
+      setTimeout(() => {
+        setLoading(false);
+  
+        if (response.ok && data.token) {
+          localStorage.setItem("token", data.token); // Store JWT token
+          showAlert("Log In Success!", "complaint_success");
+          window.location.href = "/"; // Redirect to home page
+        } else {
+          alert(data.message || "Login failed. Please check your credentials.");
+        }
+      }, 3000); // 3-second delay
+  
     } catch (err) {
-      console.error(err);
-      alert("An error occurred during login.");
+      setTimeout(() => {
+        setLoading(false);
+        console.error("Login error:", err);
+        alert("An error occurred during login. Please try again.");
+      }, 3000); // Ensure error handling also respects the delay
     }
   };
-
+  
   return (
     <>
       {/* Loading Animation */}
@@ -93,16 +109,21 @@ function Auth() {
           <input type="text" name="firstName" placeholder="First Name" required />
           <input type="text" name="lastName" placeholder="Last Name" required />
           <select name="college" placeholder="college"  required >  
-                  <option value="ccs">CCS</option>
-                    <option value="coe">COE</option>
-                    <option value="cass">CASS</option>
-                    <option value="csm">CSM</option>
+                     <option value="">Please Select</option>
+                      <option value="coe">COE</option>
+                      <option value="ccs">CCS</option>
+                      <option value="cass">CASS</option>
+                      <option value="csm">CSM</option>
+                      <option value="ceba">CEBA</option>
+                      <option value="chs">CHS</option>
+                      <option value="ced">CED</option>
                     </select> 
           <select name="year_lvl" placeholder="year_lvl"  required >  
-                  <option value="First">1</option>
-                    <option value="Second">2</option>
-                    <option value="Third">3</option>
-                    <option value="Fourth">4</option>
+                  <option value="">Please Select</option>
+                  <option value="First Year">1</option>
+                    <option value="Second Year">2</option>
+                    <option value="Third Year">3</option>
+                    <option value="Fourth Year">4</option>
                     </select> 
           <input type="text" name="contactNumber" placeholder="Contact Number" required />
           <input type="email" name="email" placeholder="Email" required />

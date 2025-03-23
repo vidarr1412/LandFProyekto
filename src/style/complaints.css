@@ -32,7 +32,8 @@
   }
 
   .search-bar3 input:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    border: .1rem solid #518be2;
+
     
   }
   
@@ -121,12 +122,12 @@
     color: white;
     padding: 5px 12px;
     font-size: 15px;
-    margin: 15px 2px; /* Adds horizontal spacing between buttons */
+    margin: 0 2px; /* Adds horizontal spacing between buttons */
     border: none;
     width:115px;
     cursor: pointer;
     border-radius: 3px;
-    margin-left: 0px;
+    
     border-radius: 6px;
   }
 
@@ -201,7 +202,7 @@
   color: white;
   padding: 5px 12px;
   font-size: 12px;
-  margin: 10% 2px; /* Adds horizontal spacing between buttons */
+  margin: 0 2px; /* Adds horizontal spacing between buttons */
   border: none;
   cursor: pointer;
   font-size: 15px;
@@ -254,7 +255,7 @@ transform: translateY(-1px);
   background-color: #f0f0f0; /* Background color for items */
   padding: 20px; /* Padding inside items */
   border: 1px solid #ccc; /* Optional: Border for items */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 1rem; /* Rounded corners */
   text-align: center; /* Center text */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
   width: 105%; /* Ensure grid items take full width of their cell */
@@ -385,7 +386,7 @@ transform: translateY(-1px);
   margin: 30px auto 0; /* Center the container */
   overflow-x: auto; /* Enable horizontal scrolling */
   border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
-  border-radius: 5px; /* Optional: Add rounded corners */
+  border-radius: 1rem; /* Optional: Add rounded corners */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
 }
 
@@ -440,43 +441,67 @@ transform: translateY(-1px);
 }
 
 .modal3 {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: flex-start; /* Align items to the start */
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px; /* Adjusted for a single column layout */
+  width: 880px;         /* Extend the modal width */
+  margin: 50px auto;    /* Center modal on the screen */
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-height: 85vh; /* Limit height to enable scrolling */
   overflow-y: auto; /* Enable vertical scrolling */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  text-align: left;
 }
 
-.modal3 h3 {
+.modal3 h2 {
   margin-bottom: 20px;
   font-size: 1.8rem;
   color: #222222;
   text-align: center;
   font-weight: bold;
-  width: 100%;
 }
 
 .modal3 form {
-  display: flex;
-  flex-direction: column; /* Single column layout */
-  gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr, 1fr, 320px; /* Two columns for labels and inputs */
+  gap: 20px;
   width: 100%; /* Ensure the form takes full width */
 }
 
-.form-group3 {
+.form-and-camera3 {
   display: flex;
-  flex-direction: column; /* Stack label above input */
-  width: 100%; /* Ensure full width */
-}
+  gap: 20px;            /* Space between form and camera */
+  align-items: flex-start; /* Align items at the top; adjust if needed */
+  }
+  
+  .form-fields3 {
+  flex: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Two columns for fields */
+  gap: 15px;
+  }
+  
+  .form-group3 {
+  display: flex;
+  flex-direction: column;
+  }
+
+  /* If any input needs to span full width, you can use: */
+.form-group3.full-width {
+  grid-column: 1 / -1;
+  }
 
 .modal3 label {
+  font-weight: 500;
+  color: #444444;
+  margin-bottom: 5px;
+}
+
+.modal3 select {
+  font-weight: 500;
+  color: #444444;
+  margin-bottom: 5px;
+}
+
+.modal3 textarea {
   font-weight: 500;
   color: #444444;
   margin-bottom: 5px;
@@ -489,7 +514,7 @@ transform: translateY(-1px);
   font-size: 1rem;
   border: 1px solid #cccccc;
   border-radius: 6px;
-  width: 100%; /* Adjusted for full width in single column */
+  width: 90%; /* Adjusted for full width in single column */
 }
 
 .modal3 input:focus,
@@ -584,13 +609,14 @@ color: white;
   display: grid;
   grid-template-columns: 1fr 1fr; /* Two equal columns */
   gap: 10px; /* Space between grid items */
+  width: auto;
 }
 
 .detail-item3 {
   display: flex; /* Use flexbox to align items */
   justify-content: space-between; /* Space between label and value */
   padding: 8px 0; /* Adjust padding for detail items */
-  max-width: 100%; /* Prevent stretching beyond the container */
+  max-width:100%; /* Prevent stretching beyond the container */
 }
 
 .detail-item3 strong {
@@ -604,4 +630,31 @@ color: white;
   overflow-wrap: break-word; /* Break long words if necessary */
   flex: 1; /* Allow the span to take available space */
   max-width: 200px; /* Set a maximum width for the span */
+}
+
+/* -------------------------------------------------------------- */
+.default-table-url3 {
+  width: 100%;
+  height: auto;
+  
+  border-Radius: 5px; 
+  }
+  .default-table-url33 {
+  width: 77%;
+  height: 77%;
+  margin-bottom: 10px;
+  border-Radius: 5px; 
+  cursor:pointer;
+  }
+  
+  .default-table-url33:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+  }
+
+  /* ---------------------------------------------- */
+
+
+.asterisk3 {
+  color: red;
 }

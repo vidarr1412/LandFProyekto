@@ -56,38 +56,40 @@ const Filter = ({ onApplyFilters }) => {
                 <select value={itemType} onChange={(e) => setItemType(e.target.value)}>
                     <option value="">Select Item Type</option>
                     <option value="Electronics">Electronics</option>
-                    <option value="Personal-Items">Personal Items</option>
-                    <option value="Clothing_Accessories">Clothing & Accessories</option>
-                    <option value="Bags_Stationery">Bags & Stationery</option>
-                    <option value="Documents">Documents</option>
-                    <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                            <option value="Personal Items">Personal Items</option>
+                            <option value="Clothing Accessories">Clothing & Accessories</option>
+                            <option value="Bags and Stationery">Bags & stationary</option>
+                            <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                 </select>
 
                
                 <select value={generalLocation} onChange={(e) => setGeneralLocation(e.target.value)}>
                     <option value="">Select General Location</option>
-                    <option value="Gym">GYMNASIUM</option>
-                    <option value="adminBuilding">ADMIN BLG</option>
-                    <option value="mph">MPH</option>
-                    <option value="mainLibrary">MAIN LIBRARY</option>
-                    <option value="lawn">LAWN</option>
-                    <option value="ids">IDS</option>
-                    <option value="clinic">CLINIC</option>
-                    <option value="canteen">CANTEEN</option>
-                    <option value="ceba">CEBA</option>
-                    <option value="ccs">CCS</option>
-                    <option value="cass">CASS</option>
-                    <option value="csm">CSM</option>
-                    <option value="coe">COE</option>
-                    <option value="ced">CED</option>
-                    <option value="chs">CHS</option>
-                    <option value="outsideIit">OUTSIDE IIT</option>
+                                <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="COET Area">COET Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                                <option value="CHS Area">CHS Area</option>
+                                <option value="CSM Area">CSM Area</option>
+                                <option value="IDS Area">IDS Area</option>
+                                <option value="Food Court Area">Food Court Area</option>
+                                <option value="Research Facility">Research Facility</option>
+                                <option value="CCS Area">CCS Area</option>
+                                <option value="CASS Area">CASS Area</option>
+                                <option value="ATM & Banking Area">ATM & Banking Area</option>
+                                <option value="Institute Park & Lawn">Institute Park & Lawn</option>
+                                <option value="Restrooms (CRs)">Restrooms(CRs)</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
                 </select>
 
                 <select value={status} onChange={(e) => setStatus(e.target.value)}>
                     <option value="">Select Status</option>
                     <option value="unclaimed">Unclaimed</option>
                     <option value="claimed">Claimed</option>
+                    <option value="donated">Donated</option>
                 </select>
 
 

@@ -14,7 +14,11 @@ import moment from 'moment';
 import Filter from '../filterered/userCompFilt'; // Adjust the import path as necessary
 import Modal from './image'; // Import the Modal component
 import  showAlert from '../utils/alert';
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+const pageId = process.env.REACT_APP_pageId ;
+const API_URL = process.env.REACT_APP_API_URL;
 function UserComplaint() {
+      const [loading, setLoading] = useState(false);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +31,7 @@ function UserComplaint() {
   const [imageModalOpen, setImageModalOpen] = useState(false); // State for image modal
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
   const [imagePreview, setImagePreview] = useState(null);
-
+  const [viewMode, setViewMode] = useState('grid'); // Default to 'table' mode
   const [itemData, setItemData] = useState({
     itemname: '',
     type: '',
@@ -56,12 +60,7 @@ function UserComplaint() {
 
     fetchRequests();
 
-    const handleResize = () => {
-      setViewMode(window.innerWidth <= 768 ? 'grid' : 'table');
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    
 
   }, []);
 
@@ -95,7 +94,7 @@ const handleCancelUpload = () => {
   const handleComplaintSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-
+    setLoading(true);
     // Decode the JWT token to extract the userId
     const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
     const decodedToken = jwtDecode(token);
@@ -136,7 +135,7 @@ const handleCancelUpload = () => {
     };
 
     try {
-      const response = await fetch("http://10.10.83.224:5000/usercomplaints", {
+      const response = await fetch(`${API_URL}/usercomplaints`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComplaint),
@@ -148,6 +147,7 @@ const handleCancelUpload = () => {
         setRequests([...requests, { ...newComplaint, status: "not-found", finder: "N/A" }]);
         setShowModal(false);
         setImagePreview(null); // Reset image preview
+        setLoading(false);
       } else {
         alert("Error filing complaint. Please try again.");
       }
@@ -201,10 +201,10 @@ const handleCancelUpload = () => {
       // Optimistically remove the complaint from the state
       const updatedRequests = requests.filter((req) => req._id !== selectedRequest._id);
       setRequests(updatedRequests);
-
+setLoading(true);
       try {
         const response = await fetch(
-          `http://10.10.83.224:5000/usercomplaints/${selectedRequest._id}`,
+          `${API_URL}/usercomplaints/${selectedRequest._id}`,
           { method: "DELETE" }
         );
 
@@ -212,6 +212,7 @@ const handleCancelUpload = () => {
           const result = await response.json();
           showAlert('Complaint Deleted', 'complaint_error');
           setShowViewMoreModal(false); // Close modal after successful deletion
+          setLoading(false);
         } else {
           // Roll back the change in case of failure
           setRequests([...updatedRequests, selectedRequest]);
@@ -235,8 +236,9 @@ const handleCancelUpload = () => {
       ...itemData,
     };
   
+    setLoading(true);
     try {
-      const response = await fetch(`http://10.10.83.224:5000/usercomplaints/${selectedRequest._id}`, {
+      const response = await fetch(`${API_URL}/usercomplaints/${selectedRequest._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedRequest),
@@ -266,6 +268,7 @@ const handleCancelUpload = () => {
           status: 'not-found',
           item_image: '',
         });
+        setLoading(false);
       } else {
         alert("Error updating complaint. Please try again.");
       }
@@ -281,10 +284,11 @@ const handleCancelUpload = () => {
       const token = localStorage.getItem('token');
       const decodedToken = jwtDecode(token); // Decode the token
       const userId = decodedToken.id; // Extract userId
-
+      setLoading(true);
       // Fetch user-specific complaints using userId
-      const response = await fetch(`http://10.10.83.224:5000/usercomplaints/${userId}`);
+      const response = await fetch(`${API_URL}/usercomplaints/${userId}`);
       const data = await response.json();
+      setLoading(false);
       setRequests(data); // Set the fetched data to the state
     } catch (error) {
       console.error("Error fetching requests:", error);
@@ -304,7 +308,6 @@ const handleCancelUpload = () => {
 
 
 
-  const [viewMode, setViewMode] = useState('grid'); // Default to 'table' mode
   const toggleViewMode = () => {
     setViewMode((prevMode) => (prevMode === 'grid' ? 'table' : 'grid'));
   };
@@ -395,6 +398,12 @@ const handleCancelUpload = () => {
   };
 
   return (
+    <>
+    {loading && (
+      <div className="loading-overlay">
+        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -603,22 +612,25 @@ const handleCancelUpload = () => {
                     onChange={handleInputChange}
                   >
 
-                    <option value="Gym">GYMNASIUM</option>
-                    <option value="adminBuilding">ADMIN BLG</option>
-                    <option value="mph">MPH</option>
-                    <option value="mainLibrary">MAIN LIBRARY</option>
-                    <option value="lawn">LAWN</option>
-                    <option value="ids">IDS</option>
-                    <option value="clinic">CLINIC</option>
-                    <option value="canteen">CANTEEN</option>
-                    <option value="ceba">CEBA</option>
-                    <option value="ccs">CCS</option>
-                    <option value="cass">CASS</option>
-                    <option value="csm">CSM</option>
-                    <option value="coe">COE</option>
-                    <option value="ced">CED</option>
-                    <option value="chs">CHS</option>
-                    <option value="outsideIit">OUTSIDE IIT</option>
+<option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="COET Area">COET Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                                <option value="CHS Area">CHS Area</option>
+                                <option value="CSM Area">CSM Area</option>
+                                <option value="IDS Area">IDS Area</option>
+                                <option value="Food Court Area">Food Court Area</option>
+                                <option value="Research Facility">Research Facility</option>
+                                <option value="CCS Area">CSS Area</option>
+                                <option value="CASS Area">CASS Area</option>
+                                <option value="ATM & Banking Area">ATM & Banking Area</option>
+                                <option value="Institute Park & Lawn">Institute Park & Lawn</option>
+                                <option value="Restrooms (CRs)">Restrooms(CRs)</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                             
                   </select>
                 </div>
                 <div className="form-group2">
@@ -727,6 +739,7 @@ const handleCancelUpload = () => {
 
       )}
     </div>
+    </>
   );
 };
 
