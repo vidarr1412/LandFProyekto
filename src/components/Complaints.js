@@ -79,11 +79,12 @@ function Manage() {
       return filteredRequests; // If no filter text, return all filtered requests
     }
 
-    return filteredRequests.filter(request =>
-      request.complainer.toLowerCase().includes(filterText.toLowerCase())
-    );
+    return filteredRequests.filter(request => {
+      const complainerMatch = request.complainer && request.complainer.toLowerCase().includes(filterText.toLowerCase());
+      const itemNameMatch = request.itemname && request.itemname.toLowerCase().includes(filterText.toLowerCase());
+      return complainerMatch || itemNameMatch;
+    });
   };
-
 
   const handleComplaintSubmit = async (e) => {
     e.preventDefault();
@@ -237,7 +238,8 @@ setLoading(true);
           status: '',
           finder: '',
         });
-
+        setIsEditing(false);
+        setIsViewMore(false);
       } else {
         alert("Error updating complaint. Please try again.");
       }
@@ -268,7 +270,7 @@ setLoading(true);
     }
 
     if (filters.dateLost) {
-      filtered = filtered.filter(item => item.date === filters.dateLost);
+      filtered = filtered.filter(item => item.date_complained === filters.dateLost);
     }
 
     if (filters.generalLocation) {
@@ -559,6 +561,7 @@ setLoading(true);
                       <option value="ceba">CEBA</option>
                       <option value="chs">CHS</option>
                       <option value="ced">CED</option>
+                      <option value="N/A">N/A</option>
                     </select>
                   </div>
                   <div className="form-group3">
@@ -569,10 +572,13 @@ setLoading(true);
                       value={itemData.year_lvl}
                       onChange={handleInputChange}
                     >
-                      <option value="First Year">1</option>
-                      <option value="Second Year">2</option>
-                      <option value="Third Year">3</option>
-                      <option value="Fourth Year">4</option>
+                            <option value="Faculty">Faculty</option>
+                      <option value="First Year">1st Year</option>
+                      <option value="Second Year">2nd Year</option>
+                      <option value="Third Year">3rd Year</option>
+                      <option value="Fourth Year">4th Year</option>
+                      <option value="Fifth Year">5th Year</option>
+                      <option value="N/A">N/A</option>
                     </select>
                   </div>
                   <div className="form-group3">
@@ -622,7 +628,7 @@ setLoading(true);
                       type="text"
                       id="contact"
                       name="contact"
-                      maxLength="50"
+                       maxLength="100"
                       placeholder="Contact of the Complainer"
                       value={itemData.contact}
                       onChange={handleInputChange}
@@ -638,24 +644,24 @@ setLoading(true);
                       value={itemData.general_location}
                       onChange={handleInputChange}
                     >
-                        <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
-                                <option value="INSIDE IIT">INSIDE IIT</option>
-                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
-                                <option value="COET Area">COET Area</option>
-                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                            <option value="CCS Area">CCS Area</option>
+                                <option value="CASS Area">CASS Area</option>
                                 <option value="CHS Area">CHS Area</option>
                                 <option value="CSM Area">CSM Area</option>
                                 <option value="IDS Area">IDS Area</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                                <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
                                 <option value="Food Court Area">Food Court Area</option>
                                 <option value="Research Facility">Research Facility</option>
-                                <option value="CCS Area">CCS Area</option>
-                                <option value="CASS Area">CASS Area</option>
                                 <option value="ATM & Banking Area">ATM & Banking Area</option>
                                 <option value="Institute Park & Lawn">Institute Park & Lawn</option>
                                 <option value="Restrooms (CRs)">Restrooms(CRs)</option>
-                                <option value="CEBA Area">CEBA Area</option>
-                                <option value="CED Area">CED Area</option>
-                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                                
 
                     </select>
                   </div>
@@ -723,8 +729,9 @@ setLoading(true);
                       value={itemData.status}
                       onChange={handleInputChange}
                     >
+                         <option value="not-found">not-found</option>
                       <option value="found">found</option>
-                      <option value="not-found">not-found</option>
+                   
                     </select>
                   </div>
 
@@ -732,7 +739,7 @@ setLoading(true);
                     <button type="submit" className="submit-btn3">Update</button>
                     {/* delete modal */}
                     <button type="button" className="delete-btn3" onClick={() => { handleDelete(selectedRequest._id); setShowModal(false); }}> Delete</button>
-                    <button type="button" className="cancel-btn3" onClick={() => { setIsEditing(false);setIsViewMore(false); setShowModal(false); }}>Cancel</button>
+                 <button type="button" className="cancel-btn3" onClick={() => { setIsViewMore(false);setIsEditing(false); setShowModal(false); }}>Cancel</button>
                   </div>
                 </form>
               ) : (
@@ -807,7 +814,7 @@ setLoading(true);
                   </div>
                   <div className="button-container3">
                     <button className="edit-btn3" onClick={() => setIsEditing(true)}>Edit</button>
-                    <button className="cancel-btn3" onClick={() => { setIsEditing(false);setIsViewMore(false); setShowModal(false); }}>Cancel</button>
+                    <button className="cancel-btn3" onClick={() => { setIsViewMore(false);setIsEditing(false); setShowModal(false); }}>Cancel</button>
                   </div>
                 </div>
               )
@@ -843,6 +850,7 @@ setLoading(true);
                     <option value="ceba">CEBA</option>
                     <option value="chs">CHS</option>
                     <option value="ced">CED</option>
+                    <option value="N/A">N/A</option>
                   </select>
                   
                 </div>
@@ -860,10 +868,13 @@ setLoading(true);
                     required={!selectedRequest}
                     >
                     <option value="">Please select</option>
+                    <option value="Faculty">Faculty</option>
                     <option value="First Year">1st Year</option>
                     <option value="Second Year">2nd Year</option>
                     <option value="Third Year">3rd Year</option>
                     <option value="Fourth Year">4th Year</option>
+                    <option value="Fifth Year">5th Year</option>
+                    <option value="N/A">N/A</option>
                   </select>
 
                 </div>
@@ -940,24 +951,25 @@ setLoading(true);
                     onChange={handleInputChange}
                     required={!selectedRequest}
                     >
-                         <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
-                                <option value="INSIDE IIT">INSIDE IIT</option>
-                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
-                                <option value="COET Area">COET Area</option>
-                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
+                     
+                     <option value="COET Area">COET Area</option>
+                                <option value="CCS Area">CCS Area</option>
+                                <option value="CASS Area">CASS Area</option>
                                 <option value="CHS Area">CHS Area</option>
                                 <option value="CSM Area">CSM Area</option>
                                 <option value="IDS Area">IDS Area</option>
+                                <option value="CEBA Area">CEBA Area</option>
+                                <option value="CED Area">CED Area</option>
+                                <option value="INSIDE IIT">INSIDE IIT</option>
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
+                                <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                                <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
+                                <option value="Admission & Admin Offices">Admission & Admin Offices</option>
                                 <option value="Food Court Area">Food Court Area</option>
                                 <option value="Research Facility">Research Facility</option>
-                                <option value="CCS Area">CCS Area</option>
-                                <option value="CASS Area">CASS Area</option>
                                 <option value="ATM & Banking Area">ATM & Banking Area</option>
                                 <option value="Institute Park & Lawn">Institute Park & Lawn</option>
                                 <option value="Restrooms (CRs)">Restrooms(CRs)</option>
-                                <option value="CEBA Area">CEBA Area</option>
-                                <option value="CED Area">CED Area</option>
-                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
                   </select>
                 </div>
                 <div className="form-group3">
@@ -1027,8 +1039,9 @@ setLoading(true);
                     onChange={handleInputChange}
                   >
                     option
-                    <option value="found">found</option>
                     <option value="not-found">not-found</option>
+                    <option value="found">found</option>
+               
                   </select>
                 </div>
 

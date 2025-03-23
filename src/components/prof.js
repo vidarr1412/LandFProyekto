@@ -244,6 +244,7 @@ function Profile() {
   };
   
 
+
   return (
     <div className="home-container1">
       <Sidebar />
@@ -264,93 +265,102 @@ function Profile() {
         </div>
 
         <div className="profile-form">
-          <h3>Profile Update</h3>
-          <form onSubmit={handleUpdate}>
-            <div className="form-group">
-              <label>First Name</label>
-              <input type="text" value={user.firstName} onChange={(e) => setUser({ ...user, firstName: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>Last Name</label>
-              <input type="text" value={user.lastName} onChange={(e) => setUser({ ...user, lastName: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>Email Address</label>
-              <input type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>Contact Number</label>
-              <input type="text" value={user.contactNumber} onChange={(e) => setUser({ ...user, contactNumber: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label>College</label>
-       
-              <select name="college" placeholder="college"  value={user.college} onChange={(e) => setUser({ ...user, college: e.target.value })}   >  
-                     <option value="">Please Select</option>
-                      <option value="coe">COE</option>
-                      <option value="ccs">CCS</option>
-                      <option value="cass">CASS</option>
-                      <option value="csm">CSM</option>
-                      <option value="ceba">CEBA</option>
-                      <option value="chs">CHS</option>
-                      <option value="ced">CED</option>
-                    </select> 
-            </div>
-            <div className="form-group">
-              <label>Year Level</label>
-              <select
-  name="year_lvl"
-  value={user.year_lvl || ""}
-  onChange={(e) => setUser({ ...user, year_lvl: e.target.value })}
->
-  <option value="">Please Select</option>
-  <option value="First Year">First Year</option>
-  <option value="Second Year">Second Year</option>
-  <option value="Third Year">Third Year</option>
-  <option value="Fourth Year">Fourth Year</option>
-</select>
+          <div className="form-fields">
+            <h3>Profile Update</h3>
+            <form onSubmit={handleUpdate}>
 
-  
-            </div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <h3>Change Passworrd</h3>
+              <div className="form-group">
+                <label>First Name</label>
+                <input type="text" value={user.firstName} onChange={(e) => setUser({ ...user, firstName: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Last Name</label>
+                <input type="text" value={user.lastName} onChange={(e) => setUser({ ...user, lastName: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Contact Number</label>
+                <input type="text" value={user.contactNumber} onChange={(e) => setUser({ ...user, contactNumber: e.target.value })} />
+              </div>
 
-            <div className="form-group">
-              <label>Password (Leave blank to keep current password)</label>
-              <input 
-                type="password" 
-                value={user.password} 
-                onChange={(e) => setUser({ ...user, password: e.target.value })}  
-              />
-            </div>
+              <div className="form-group">
+                <label>College</label>
+                <select name="college"
+                  placeholder="college"
+                  value={user.college}
+                  onChange={(e) => setUser({ ...user, college: e.target.value })}   >
+                  <option value="">Please Select</option>
+                  <option value="coe">COE</option>
+                  <option value="ccs">CCS</option>
+                  <option value="cass">CASS</option>
+                  <option value="csm">CSM</option>
+                  <option value="ceba">CEBA</option>
+                  <option value="chs">CHS</option>
+                  <option value="ced">CED</option>
+                </select>
+              </div>
 
-            <div className="form-group  ">
-              <label>Confirm Password</label>
-              <input 
-                type="password" 
-                value={user.confirmPassword} 
-                onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}  
-              />
-            </div>
+              <div className="form-group">
+                <label>Year Level</label>
+                <select
+                  name="year_lvl"
+                  value={user.year_lvl || ""}
+                  onChange={(e) => setUser({ ...user, year_lvl: e.target.value })}
+                >
+                  <option value="">Please Select</option>
+                  <option value="First Year">First Year</option>
+                  <option value="Second Year">Second Year</option>
+                  <option value="Third Year">Third Year</option>
+                  <option value="Fourth Year">Fourth Year</option>
+                </select>
 
-           <div className="form-group">
-              <label>QR Code</label>
-              {userId && (
-        <div ref={qrCodeRef}>
-          <QRCodeCanvas value={generateQRValue(userId)} size={150} />
-        </div>
-      )}
-            </div>
-            <div className="boton"> 
-              <button type="button"  onClick={downloadQRCode} className="save-button">Download QR Code</button> <br></br>
-              <button onClick={generateQRCodePDF} className="save-button">Download QR Codes PDF</button> <br></br>
-              <button type="submit" className="ssave-button">Update Profile</button>
-            </div>
 
-          </form>
+              </div>
+
+              <h3>Change Password</h3>
+
+              <div className="form-group">
+                <label>Password (Leave blank to keep current password)</label>
+                <input
+                  type="password"
+                  value={user.password}
+                  onChange={(e) => setUser({ ...user, password: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  value={user.confirmPassword}
+                  onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}
+                />
+              </div>
+
+
+              <div className="boton">
+                <div className="qr-container">
+                  <h3>QR Code</h3>
+                  {userId && (
+                    <div ref={qrCodeRef}>
+                      <QRCodeCanvas value={generateQRValue(userId)} size={150} />
+                    </div>
+                  )}
+                </div>
+                <div className="button-container">
+                  <button type="button" onClick={downloadQRCode} className="save-button">Download QR Code</button>
+                  <br />
+                  <button onClick={generateQRCodePDF} className="save-button">Download QR Codes PDF</button>
+                  <br />
+                  <button type="submit" className="ssave-button">Update Profile</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
         </div>
       </div>
     </div>

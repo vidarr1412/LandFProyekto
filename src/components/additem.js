@@ -109,8 +109,10 @@ function Additem() {
 
     return filteredRequests.filter(request => {
       // Check if request.ITEM is defined before calling toLowerCase
-      const itemName = request.ITEM ? request.ITEM.toLowerCase() : '';
-      return itemName.includes(filterText.toLowerCase());
+      const itemMatch = request.ITEM && request.ITEM.toLowerCase().includes(filterText.toLowerCase());
+      const specificMatch = request.FOUND_LOCATION && request.FOUND_LOCATION.toLowerCase().includes(filterText.toLowerCase());
+      const descriptionMatch = request.DESCRIPTION && request.DESCRIPTION.toLowerCase().includes(filterText.toLowerCase());
+      return itemMatch || specificMatch || descriptionMatch;
     });
   };
 
@@ -488,11 +490,12 @@ setLoading(true);
     }
 
     // Apply sorting
-    if (filters.sortByDate === 'ascending') {
+    if (filters.sortByDate === 'descending') {
       filtered.sort((a, b) => (a.DATE_FOUND || "").localeCompare(b.DATE_FOUND || ""));
-    } else if (filters.sortByDate === 'descending') {
+    } else if (filters.sortByDate === 'ascending') {
       filtered.sort((a, b) => (b.DATE_FOUND || "").localeCompare(a.DATE_FOUND || ""));
     }
+
     
 
     // Only update filteredRequests if it has changed
