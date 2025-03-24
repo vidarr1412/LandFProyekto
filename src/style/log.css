@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 
@@ -108,8 +109,7 @@
   justify-content: center;
   flex-direction: column;
   padding: 0 40px;
-  height: 110%;
-  margin-top: 10px;
+  height: 100%;
 }
 
 .container input {
@@ -134,10 +134,11 @@
   outline: none;
 }
 
+
 .form-container {
   position: absolute;
   top: 0;
-  height: 95%;
+  height: 100%;
   transition: all 0.6s ease-in-out;
 }
 
@@ -157,15 +158,18 @@
   opacity: 0;
   z-index: 1;
 }
+
+/* dhea */
 .sign-up h1 {
-  margin-bottom: 8px;
+  margin-top: -10px;
+  margin-bottom: 0px;
 }
+
 .container.active .sign-up {
   transform: translateX(100%);
   opacity: 1;
   z-index: 5;
   animation: move 0.6s;
-  margin-top: -35px;
 }
 
 @keyframes move {
@@ -322,14 +326,29 @@
   height: 100px;
   object-fit: contain;
 }
+.gef {
+
+  margin: 0%;
+  align-items: center;
+  justify-content: center;
+}
+.gef h1 {
+  text-align: center;
+}
 /* -------------------------------------------------- */
 
 @media (max-width: 768px) {
+  /* dhea: media ra ang na change */
+
 
   /* Sign Up Form */
   .container {
-    width: 98%;
-    margin-left: 5px;
+
+    margin-top: 10px;
+    width: 95%;
+    margin-left: 10px;
+    height: 600px;
+    min-height: 100%;
   
   }
 
@@ -337,13 +356,46 @@
     font-size: 10px;
     width: 95px;
     margin-top: -5px;
+    color: #ffff;
   }
 
   .container form {
+    display: block;
+    background-image: url('loadphone.gif');
+    background-repeat: no-repeat; /* Prevent the GIF from repeating */
+    z-index: 1000;
     width: 110%;
     height: 100%;
+    margin-top: 0px;
+    margin-left: 0px;
 
+  }
 
+  .container select {
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 160%;
+    outline: none;
+    margin-right: 170px;
+  }
+  .container.active .sign-up {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: move 0.6s;
+    margin-left:-100px ;
+  }
+  .sign-up {
+    left: 0;
+    margin-top: -30px;
+    margin-left: -50px;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
   }
   .sign-up h1 {
     margin-left: -170px;
@@ -352,36 +404,87 @@
   .sign-up input {
     margin-left: -170px;
     padding: 10px;
+    width: 150%;
   }
 
+
   .sign-up button {
-    margin-left: -150px;
+    margin-left: -155px;
     background-color: #850F13;
+     width: 200PX;
+     height: 50px;
   }
 
   /* Sign In Form */
+  .gef {
+    position: absolute;
+   top: 100px;
+   margin-top: -100px;
+  }
+  .sign-in {
+    position: relative;
+    left: 100;
+    width: 50%;
+    z-index: 2000;
+  }
+  .gef h1 {
+    margin-top: 200px;
+    text-align: center;
+  } 
   .sign-in input {
+    
     margin-left: -20px;
+    width: 150%;
+  }
+
+  .sign-in button {
+    margin-left: -5px;
+
+     width: 200PX;
+     height: 50px;
   }
 
     /* toggle */
+
+
+    .toggle {
+      background-color: #512da8; 
+      background: linear-gradient(to right, #F3D558, #850F13);
+      color: #fff;
+      position: relative;
+      left: -100%;
+      height: 0%;
+      width: 200%;
+      transform: translateX(0);
+      transition: all 0.6s ease-in-out;
+      top: 100px;
+    } 
   .toggle-container {
-    position: absolute;
-    top: 0;
-    left: 70%;
-    width: 30%;
-    height: 100%;
+
+    margin-top:510px;
+    left:28%;
+    width: 50%;
+    height: 10%;
     overflow: hidden;
     transition: all 0.6s ease-in-out;
     border-radius: 0px 0 0 0px;
-    z-index: 1000;
-  }
 
+
+  }
+  .container.active .toggle-left {
+    transform: translateX(0);
+    background-color: #ffffff;
+    position: relative;
+    z-index: -1;
+  } 
   .container.active .toggle-container {
+    top: 20px;
     transform: translateX(-100%);
     border-radius: 0 0px 0px 0;
-    width: 30%;
-    margin-left: -40%;
+    width: 56%;
+    height: 15%;
+    margin-left:195px;
+
   }
 
 
@@ -413,22 +516,39 @@
 
 
   .container button.hidden1 {
-    margin-left: -60px;
-    width: 100px;
-    height: 8%;
+    background-color: transparent;
+    margin-top: 10px;
+    margin-left: -45%;
+    color: #000000;
+    width: 150px;
+    padding: 10px;
     display: flex;
     justify-content: center; /* Centers horizontally */
     align-items: center; /* Centers vertically */
     text-align: center; /* Ensures text inside is centered */
+    margin-bottom: 500px;
+    border-color: #ffffff;
+  }
+  .container button.hidden1:hover {
+    background-color: transparent;
+
   }
 
   .container button.hidden {
-    width: 100px;
-    height: 8%;
-    margin-left: 60px;
+    width: 150px;
+    position: relative;
+    padding: 10px;
+    margin-left: 50px;
     display: flex;
     justify-content: center; /* Centers horizontally */
     align-items: center; /* Centers vertically */
     text-align: center; /* Ensures text inside is centered */
+    margin-bottom: 490px;
+    background-color: transparent;
+    color: #000000;
+  }
+  .container button.hidden:hover {
+    background-color: transparent;
+
   }
 }

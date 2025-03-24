@@ -37,8 +37,8 @@ const Filter = ({ onApplyFilters }) => {
     };
 
     return (
-        <div className="filter-container">
-            <div className="filter-inputs-container">
+        <div className="compfilter-container">
+            <div className="compfilter-inputs-container">
                 <select value={itemType} onChange={(e) => setItemType(e.target.value)}>
                     <option value="">Select Item Type</option>
                     <option value="Electronics">Electronics</option>

@@ -201,9 +201,9 @@ function Profile() {
     if (!id) return "";
     
     // Encrypt user ID using AES
-    const encryptedId = CryptoJS.AES.encrypt(id, "1412").toString();
+    const encryptedId = CryptoJS.AES.encrypt(id, "mySuperSecretKey123!").toString();
     
-    return `<${encryptedId}>`;
+    return `http://10.10.83.224:3000/<${encryptedId}>`;
 };
 
   const downloadQRCode = () => {
@@ -256,7 +256,9 @@ function Profile() {
               Choose Avatar
             </button>
             <p>{selectedFile ? selectedFile.name : "No file chosen"}</p>
-            <button onClick={handleUpload}>Upload Avatar</button>
+            {/* dhea:: <button onClick={handleUpload}>Upload Avatar</button> */}
+            <button className="upload-button" onClick={handleUpload}>Upload Photo</button>
+
           </div>
         </div>
 
@@ -264,24 +266,25 @@ function Profile() {
           <h3>Profile Update</h3>
           <form onSubmit={handleUpdate}>
             <div className="form-group">
-              <label>First Name</label>
               <input type="text" value={user.firstName} onChange={(e) => setUser({ ...user, firstName: e.target.value })} />
+              <label for=''>First Name</label>
             </div>
             <div className="form-group">
-              <label>Last Name</label>
               <input type="text" value={user.lastName} onChange={(e) => setUser({ ...user, lastName: e.target.value })} />
+              <label for=''>Last Name</label>
+
             </div>
             <div className="form-group">
-              <label>Email Address</label>
               <input type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
+              <label for=''>Email Address</label>
+
             </div>
             <div className="form-group">
-              <label>Contact Number</label>
               <input type="text" value={user.contactNumber} onChange={(e) => setUser({ ...user, contactNumber: e.target.value })} />
+              <label>Contact Number</label>
+
             </div>
             <div className="form-group">
-              <label>College</label>
-       
               <select name="college" placeholder="college"  value={user.college} onChange={(e) => setUser({ ...user, college: e.target.value })}   >  
                      <option value="">Please Select</option>
                       <option value="coe">COE</option>
@@ -291,63 +294,75 @@ function Profile() {
                       <option value="ceba">CEBA</option>
                       <option value="chs">CHS</option>
                       <option value="ced">CED</option>
-                    </select> 
-            </div>
+                    </select>   
+                    <label>College</label>
+        
+                    </div>
             <div className="form-group">
-              <label>Year Level</label>
               <select
-  name="year_lvl"
-  value={user.year_lvl || ""}
-  onChange={(e) => setUser({ ...user, year_lvl: e.target.value })}
->
-  <option value="">Please Select</option>
-  <option value="First Year">First Year</option>
-  <option value="Second Year">Second Year</option>
-  <option value="Third Year">Third Year</option>
-  <option value="Fourth Year">Fourth Year</option>
-</select>
+                name="year_lvl"
+                value={user.year_lvl || ""}
+                onChange={(e) => setUser({ ...user, year_lvl: e.target.value })}
+              >
+                <option value="">Please Select</option>
+                <option value="First Year">First Year</option>
+                <option value="Second Year">Second Year</option>
+                <option value="Third Year">Third Year</option>
+                <option value="Fourth Year">Fourth Year</option>
+              </select>
+              <label>Year Level</label>
 
-  
             </div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <h3>Change Passworrd</h3>
 
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <h3>Change Passworrd (Leave blank to keep current password)</h3>
             <div className="form-group">
-              <label>Password (Leave blank to keep current password)</label>
               <input 
                 type="password" 
                 value={user.password} 
                 onChange={(e) => setUser({ ...user, password: e.target.value })}  
               />
+              <label>Password </label>
+
             </div>
 
             <div className="form-group  ">
-              <label>Confirm Password</label>
               <input 
                 type="password" 
                 value={user.confirmPassword} 
                 onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}  
               />
+             <label>Confirm Password</label>
+
             </div>
 
-           <div className="form-group">
+            <div className="form-group">
               <label>QR Code</label>
-              {userId && (
-        <div ref={qrCodeRef}>
-          <QRCodeCanvas value={generateQRValue(userId)} size={150} />
-        </div>
-      )}
-            </div>
-            <div className="boton"> 
-              <button type="button"  onClick={downloadQRCode} className="save-button">Download QR Code</button> <br></br>
-              <button onClick={generateQRCodePDF} className="save-button">Download QR Codes PDF</button> <br></br>
-              <button type="submit" className="ssave-button">Update Profile</button>
+             
+              {/* dhea */} <div className="qr-container">
+                {userId && (
+                  <div ref={qrCodeRef}>
+                    <QRCodeCanvas value={generateQRValue(userId)} size={150} />
+                  </div>
+                )}
+                <div className="button-group">
+                  <button type="button" className="save-button" onClick={downloadQRCode}>
+                    Download QR Code
+                  </button>
+                  <button className="save-button" onClick={generateQRCodePDF}>
+                    Download QR Codes PDF
+                  </button>
+                </div>  {/* dhea */}
+               
+              </div>
             </div>
 
           </form>
+              
+          <button type="submit" className="save-button2">Save Update</button>   {/* dhea */}
         </div>
       </div>
     </div>

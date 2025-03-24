@@ -1,7 +1,8 @@
 
 import { FaSearch, FaFilter } from 'react-icons/fa';
 import Sidebar from "./sidebar";
-// import '../style/scanner.css';
+// dhea
+import '../style/scanner.css'; 
 import axios from 'axios';
 import ReactQrScanner from 'react-qr-scanner'; // Import the QR scanner
 import emailjs from 'emailjs-com'; // Import EmailJS SDK
@@ -593,16 +594,15 @@ const sendEmail = (e) => {
     )}
     <div className="home-container">
       <Sidebar />
-      <header className="header">
-        <h2>FIRI LOGO</h2>
-      </header>
+     
+      <Header />   {/* dhea */}
       <div className="contentsms">
         <div className="manage-bulletin">
           <div className="breadcrumb">Manage Lost and Found {'>'} Manage Found Items</div>
-          <div className="top-right-buttons">
+          {/* <div className="top-right-buttons">
             <button className="add-item-btn">+ Add Found Item</button>
             <button className="register-qr-btn">Register QR Code</button>
-          </div>
+          </div> */}
           <div className="camera-sectionsms">
             {/* Use ReactQrScanner to handle QR code scanning */}
             {scanning && (

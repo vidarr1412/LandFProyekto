@@ -38,8 +38,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     console.log("Logging out...");
     localStorage.removeItem("token"); // Clear only the token
-    window.location.href = "/";
-
+    navigate("/login"); // Redirect to login
 };
 
   useEffect(() => {
@@ -71,84 +70,81 @@ const Sidebar = () => {
         <nav className="nav-menu">
         {userType === null || userType === "" ? (
             <>
-              <NavLink to="/" >
+            {/* dhea: add "activeclassname" --- orig code ky <NavLink to="/bulletinboard" > */}
+              <NavLink to="/" activeClassName="active">
                 <FaHome className="nav-icon" /> Home
               </NavLink>
-              <NavLink to="/bulletinboard" >
+              <NavLink to="/bulletinboard" activeClassName="active">
                 <FaChartLine className="nav-icon" /> Bulletin
               </NavLink>
-              <NavLink to="/login" >
+              <NavLink to="/login" activeClassName="active">
                 <FaUserPlus className="nav-icon" /> Sign Up
               </NavLink>
             </>
           ) : userType !== "admin@gmail.com" && (
             <>
-              <NavLink to="/" >
+              <NavLink to="/" activeClassName="active">
                 <FaHome className="nav-icon" /> Home
               </NavLink>
-              <NavLink to="/userComplaints" >
+              <NavLink to="/userComplaints" activeClassName="active">
                 <FaBox className="nav-icon" /> File Report
               </NavLink>
-              <NavLink to="/bulletinboard" >
+              <NavLink to="/bulletinboard" activeClassName="active">
                 <FaChartLine className="nav-icon" /> Bulletin
               </NavLink>
-              <NavLink to="/retrievalRequests" >
+              <NavLink to="/retrievalRequests" activeClassName="active">
                 <IoMdAnalytics   className="nav-icon" /> Retrieval Status
               </NavLink>
-              <NavLink to="/profile" >
+              <NavLink to="/profile" activeClassName="active">  {/* dhea: add "activeclassname" --- orig code ky <NavLink to="/bulletinboard" > */}
               <FaHome className="nav-icon" /> Profile
             </NavLink>
             <div className="logout">
-            <NavLink  >
-           
-          
-           
-              <button onClick={handleLogout}>
-              <FaSignOutAlt  /> Log Out
-              
+              <button onClick={handleLogout}> 
+              <FaSignOutAlt className="nav-icon" /> Log Out {/* dhea: <FaSignOutAlt  /> Log Out*/}
               </button>
-            </NavLink>
-         
-          </div>
+              </div>
 
             </>
           )}
           {userType === "admin@gmail.com" && (
             <>
-              <NavLink to="/dashboard" >
+             {/* dhea: add "activeclassname" --- orig code ky <NavLink to="/bulletinboard" > */}
+              <NavLink to="/dashboard" activeClassName="active">
                 <FaChartLine className="nav-icon" /> Dashboard
               </NavLink>
-              <NavLink to="/Complaints" >
+              <NavLink to="/Complaints" activeClassName="active">
                 <FaBox className="nav-icon" /> Lost Complaint
               </NavLink>
-              <NavLink to="/additem" >
+              <NavLink to="/additem" activeClassName="active">
                 <FaQrcode className="nav-icon" /> Found Items
               </NavLink>
-              <NavLink to="/scan_item" >
+              <NavLink to="/scan_item" activeClassName="active">
                 <FaQrcode className="nav-icon" /> Scan QR
               </NavLink>
               
-              <NavLink to="/donation" >
+              <NavLink to="/donation" activeClassName="active">
                 <FaQrcode className="nav-icon" /> Donation
               </NavLink>
             
-              <NavLink to="/manaRequests" >
+              <NavLink to="/manaRequests" activeClassName="active">
                 <FaUserCheck className="nav-icon" /> Manage Request
               </NavLink>
-              <NavLink to="/profile" >
+              <NavLink to="/profile" activeClassName="active">  {/* dhea: add "activeclassname" --- orig code ky <NavLink to="/bulletinboard" > */}
               <FaHome className="nav-icon" /> Profile
             </NavLink>
+
             <div className="logout">
-            <NavLink  >
-           
-          
-           
               <button onClick={handleLogout}>
-              <FaSignOutAlt  /> Log Out
+              <FaSignOutAlt className="nav-icon" /> Log Out {/* dhea: <FaSignOutAlt  /> Log Out*/}
+
               </button>
-            </NavLink>
+              </div>
+
+
+
+           
          
-          </div>
+
             </>
             
           )}

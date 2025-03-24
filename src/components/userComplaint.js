@@ -549,67 +549,29 @@ setLoading(true);
 
 
                 <div className="form-group2">
-                  <label htmlFor="itemName">Item Name</label>
                   <input
                     type="text"
                     id="itemName"
                     name="itemname"
                     maxLength="100"
-                    placeholder="Item Name"
                     value={itemData.itemname}
                     onChange={handleInputChange}
                     required={!selectedRequest}
                   />
+                  <label for="itemName">Item Name</label>
                 </div>
 
+                
                 <div className="form-group2">
-                  <label htmlFor="description">Description</label>
-                  <textarea
-                    type="text"
-                    id="description"
-                    name="description"
-                    maxLength="500"
-                    placeholder="Description"
-                    value={itemData.description}
-                    onChange={handleInputChange}
-                    required={!selectedRequest}
-                  />
-                </div>
-
-                <div className="form-group2">
-                  <label htmlFor="itemType">Item Type</label>
-                  <select
-                    id="itemType"
-                    name="type"
-                    maxLength="100"
-                    placeholder="Item Type"
-                    value={itemData.type}
-                    onChange={handleInputChange}
-                  >
-                    <option value="Electronics">Electronics</option>
-                    <option value="Personal-Items">Personal Items</option>
-                    <option value="Clothing_Accessories">Clothing & Accessories</option>
-                    <option value="Bags_Stationery">Bags & stationary</option>
-                    <option value="Documents">Documents</option>
-                    <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
-                  </select>
-                </div>
-
-
-
-
-                <div className="form-group2">
-                  <label htmlFor="general_location">General Location</label>
                   <select
                     id="general_location"
                     name="general_location"
                     maxLength="200"
-                    placeholder="General Location"
                     value={itemData.general_location}
                     onChange={handleInputChange}
                   >
 
-<option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
+                <option value="Pedestrian & Traffic Zones">Pedestrian & Traffic Zones</option>
                                 <option value="INSIDE IIT">INSIDE IIT</option>
                                 <option value="Institute Gymnasium Area">Institute Gymnasium Area</option>
                                 <option value="COET Area">COET Area</option>
@@ -626,25 +588,60 @@ setLoading(true);
                                 <option value="Restrooms (CRs)">Restrooms(CRs)</option>
                                 <option value="CEBA Area">CEBA Area</option>
                                 <option value="CED Area">CED Area</option>
-                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>
-                             
+                                <option value="OUTSIDE IIT">OUTSIDE IIT</option>                         
                   </select>
+                  <label for="general_location">General Location</label>
+
                 </div>
+
+
                 <div className="form-group2">
-                  <label htmlFor="Slocation">Specific Location</label>
+                  <select
+                    id="itemType"
+                    name="type"
+                    maxLength="100"
+                    value={itemData.type}
+                    onChange={handleInputChange}
+                  >
+                    <option value="Electronics">Electronics</option>
+                    <option value="Personal-Items">Personal Items</option>
+                    <option value="Clothing_Accessories">Clothing & Accessories</option>
+                    <option value="Bags_Stationery">Bags & stationary</option>
+                    <option value="Documents">Documents</option>
+                    <option value="Sports_Miscellaneous">Sports & Miscellaneous</option>
+                  </select>
+                  <label for="itemType">Item Type</label>
+
+                </div>
+
+                <div className="form-group2">
                   <input
                     type="text"
                     id="location"
                     name="location"
                     maxLength="200"
-                    placeholder="Location"
                     value={itemData.location}
                     onChange={handleInputChange}
                     required={!selectedRequest}
                   />
+                  <label for="Slocation">Specific Location</label>
                 </div>
+
                 <div className="form-group2">
-                  <label htmlFor="date">Date Lost</label>
+                  <textarea
+                    type="text"
+                    id="description"
+                    name="description"
+                    maxLength="500"
+                    value={itemData.description}
+                    onChange={handleInputChange}
+                    required={!selectedRequest}
+                  />
+                <label for="description">Description</label>
+
+                </div>
+                {/*  diri*/}
+                <div className="form-group2">
                   <input
                     type="date"
                     id="date"
@@ -653,9 +650,10 @@ setLoading(true);
                     onChange={handleInputChange}
                     required={!selectedRequest}
                   />
+                  <label for="date">Date Lost</label>
+
                 </div>
                 <div className="form-group2">
-                  <label htmlFor="time">Time Lost</label>
                   <input
                     type="time"
                     id="time"
@@ -664,11 +662,12 @@ setLoading(true);
                     onChange={handleInputChange}
                     required={!selectedRequest}
                   />
+                  <label for="time">Time Lost</label>
+
                 </div>
 
 
                 <div className="form-group2">
-                  <label htmlFor="item_image">Item Image</label>
                   <input
                     type="file"
                     id="item_image"
@@ -678,7 +677,9 @@ setLoading(true);
                       handleImageUpload(e);
                       setImagePreview(null); // Reset preview when a new file is selected
                     }}
-/>
+                  />
+                   <label for="item_image">Item Image</label>
+
                 </div>
 
 

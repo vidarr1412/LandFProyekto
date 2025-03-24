@@ -458,7 +458,8 @@ function Foundation() {
                       <td><img
                         src={foundation.foundation_image || "default-table-url7"}
                         alt="Product"
-                        className="default-table-url77"
+                        // {/*dhea: prev - className="default-table-url77" */}
+                        className="default-table-url770" 
                         onClick={() => handleImageClick(foundation.foundation_image || "default-table-url7")} // Add click handler
                       /></td>
                       <td>{foundation.foundation_contact}</td>
@@ -558,7 +559,7 @@ function Foundation() {
                 <div className="form-and-camera7">
                   <form onSubmit={handleFormSubmit} className="form-fields7">
                     <div className="form-group7">
-                      <label htmlFor="foundation_name">Foundation Name</label>
+                      <label htmlFor="foundation_name">Foundation Name </label>
                       <input
                         type="text"
                         id="foundation_name"
@@ -925,7 +926,7 @@ function Foundation() {
                             onClick={() => handleImageClick(item.IMAGE_URL || "default-grid-url7")} // Add click handler
                           />
                           <div className="donation-header7">
-                            <h2>{item.ITEM}</h2>
+                            <h1>{item.ITEM}</h1>  {/*dhea */}
                            
                               <div className="donation-info-container7">
                               <div className="data-set-container">

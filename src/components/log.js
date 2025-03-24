@@ -102,6 +102,7 @@ function Auth() {
       {/* Sign Up Form */}
       <div className={`form-container sign-up`}>
         <form onSubmit={handleSignUp}>
+        
           <h1>Create Account</h1>
           <input type="text" name="firstName" placeholder="First Name" required />
           <input type="text" name="lastName" placeholder="Last Name" required />
@@ -132,10 +133,14 @@ function Auth() {
         {/* Sign In Form */}
         <div className={`form-container sign-in`}>
           <form onSubmit={handleSignIn}>
-            <h1>Sign In</h1>
-            <input type="email" name="email" placeholder="Email" required />
-            <input type="password" name="password" placeholder="Password" required />
-            <button type="submit">Sign In</button>
+
+          <div className="gef">
+           <h1>Sign In</h1>
+              <input type="email" name="email" placeholder="Email" required />
+              <input type="password" name="password" placeholder="Password" required />
+              <button type="submit">Sign In</button>
+          </div>
+
           </form>
         </div>
 

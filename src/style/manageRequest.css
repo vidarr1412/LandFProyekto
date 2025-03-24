@@ -1,378 +1,186 @@
 /* General layout */
   
-  .breadcrumb5 {
-    margin: 10px 8px 0 -20px;
-    font-size: 20px;
-    color: #000000;
-    font-weight: bold;
-  }
-  .manage-bulletin5 {
-    margin: 30px;
-    display: flex;
-    align-items: flex-start; /* Align to the top */
-    flex-grow: 1; /* Take up the remaining space */
-    padding: 50px;
-    margin-left: 240px; /* Space to avoid8lap with the sidebar */
-    flex-direction:column;
-  }
+.breadcrumb5 {
+  margin: 10px 8px 0 -20px;
+  font-size: 20px;
+  color: #000000;
+  font-weight: bold;
+}
+.manage-bulletin5 {
+  margin: 30px;
+  display: flex;
+  align-items: flex-start; /* Align to the top */
+  flex-grow: 1; /* Take up the remaining space */
+  padding: 50px;
+  margin-left: 240px; /* Space to avoid8lap with the sidebar */
+  flex-direction:column;
+}
 
+
+/* ----------------------------------------------------------------------------- */
+
+
+
+.search-bar5 {
+  display: flex; /* Enable flexbox for alignment */
+  align-items: center; /* Vertically center items */
+  left: -20px;
+  margin-top: 50px;
   
-  /* ----------------------------------------------------------------------------- */
+}
+
+.search-bar5 input:hover {
+  border: .1rem solid #1565dd;
   
-  
-  
-  .search-bar5 {
-    display: flex; /* Enable flexbox for alignment */
-    align-items: center; /* Vertically center items */
-    left: -20px;
-    margin-top: 50px;
-    
-  }
+}
 
-  .search-bar5 input:hover {
-    border: .1rem solid #518be2;
-    
-  }
-  
-  .search-bar5 input {
-    width: 435px;
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-  }
+.search-bar5 input {
+  width: 435px;
+  height: 35px; /* Increased height for better visual balance with icons */
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  border: 1px solid #6d6c6c;
+  border-radius: 35px;
+}
 
-  .search-bar5 select:focus, .search-bar5 input:focus {
-    border-color: #3c6abe;
-    outline: none;
-    box-shadow: 0 0 5px rgb(60, 106, 190);
+.search-bar5 select:focus, .search-bar5 input:focus {
+  border-color: #3c6abe;
+  outline: none;
+  box-shadow: 0 0 5px rgb(60, 106, 190);
 
-  }
+}
 
-  .search-bar5 input::placeholder {
-    font-weight: bold;
-    font-size:17px;
-    color: #888;
+.search-bar5 input::placeholder {
+  font-weight: bold;
+  font-size:17px;
+  color: #888;
 
-  }
-  
-  .search-icon5, .filter-icon5 {
-    color: #a92525;
-    cursor: pointer;
-    width: 30px; /* Adjust icon size for better proportion with the input */
-    height: 30px; /* Maintain square aspect ratio */
-  }
+}
 
-  .search-icon5:hover, .filter-icon5:hover{
-    transform: translateY(-3px);
-  }
+.search-icon5, .filter-icon5 {
+  color: #a92525;
+  cursor: pointer;
+  width: 30px; /* Adjust icon size for better proportion with the input */
+  height: 30px; /* Maintain square aspect ratio */
+}
 
-  .search-input5 {
-    padding: 10px 40px 10px 40px; /* Add padding to the input */
-    width: 100%; /* Full width */
-    border: 1px solid #ccc; /* Border style */
-    border-radius: 4px; /* Rounded corners */
-    background: url('search.1024x1024.png') no-repeat 400px center; /* Background image */
-    background-size: 30px; /* Size of the icon */
-  }
-  
+.search-icon5:hover, .filter-icon5:hover{
+  transform: translateY(-3px);
+}
+
+.search-input5 {
+  padding: 10px 40px 10px 40px; /* Add padding to the input */
+  width: 100%; /* Full width */
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 4px; /* Rounded corners */
+  background: url('search.1024x1024.png') no-repeat 400px center; /* Background image */
+  background-size: 30px; /* Size of the icon */
+}
+
 
 /* Top-Right Buttons Container */
 .top-right-buttons5 {
-  display: flex; /* Enable flexbox for alignment */
-  align-items: center; /* Vertically center items */
-  left: -480px;
-  top: 100px;
-  gap: 10px; /* Add spacing between the input and icons */
-  position: relative;
-  }
+display: flex; /* Enable flexbox for alignment */
+align-items: center; /* Vertically center items */
+left: -480px;
+top: 100px;
+gap: 10px; /* Add spacing between the input and icons */
+position: relative;
+}
+
+/* Button Styling */
+.add-item-btn5, .register-qr-btn5 {
+  background-color: #800000; /* Dark red color for buttons */
+  color: white;
+  padding: 10px 10px; /* Adjusted padding for better button sizing */
+  font-size: 20px;
+  height: 60px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px; /* Space between buttons */
+}
+
+.add-item-btn5:hover, .register-qr-btn5:hover {
+  background-color: #660000; /* Darker red on hover */
+  color: #ffd324;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------- */
+
+.table-container5 {
+  width: 100%; /* Full width of the parent */
+  max-width: 1600px; /* Set a max width for the container */
+  margin: 30px auto 0; /* Center the container */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+  border-radius: 1rem; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+}
+
+
+
+.ffound-items-table5 {
   
-  /* Button Styling */
-  .add-item-btn5, .register-qr-btn5 {
-    background-color: #800000; /* Dark red color for buttons */
-    color: white;
-    padding: 10px 10px; /* Adjusted padding for better button sizing */
-    font-size: 20px;
-    height: 60px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px; /* Space between buttons */
-  }
-  
-  .add-item-btn5:hover, .register-qr-btn5:hover {
-    background-color: #660000; /* Darker red on hover */
-    color: #ffd324;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
-
-  /* --------------------------------------------------------- */
-
-  .table-container5 {
-    width: 100%; /* Full width of the parent */
-    max-width: 1600px; /* Set a max width for the container */
-    margin: 30px auto 0; /* Center the container */
-    overflow-x: auto; /* Enable horizontal scrolling */
-    border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
-    border-radius: 1rem; /* Optional: Add rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
-  }
-
-
-
-  .ffound-items-table5 {
-    
-    width: 100%; /* Full width of the parent */
-    border-collapse: collapse; /* Collapse borders */
-    font-size: 14px;
-    table-layout: auto; /* Use fixed table layout to respect column widths */
+  width: 100%; /* Full width of the parent */
+  border-collapse: collapse; /* Collapse borders */
+  font-size: 14px;
+  table-layout: auto; /* Use fixed table layout to respect column widths */
 }
 
 
 
 .ffound-items-table5 th, .ffound-items-table5 td {
-    padding: 10px;
-    border: 1px solid #d5d2d2;
-    text-align: center;
-    overflow: hidden; /* Prevent overflow */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-    white-space: normal; /* Allow text to wrap */
-    vertical-align: top; /* Align text to the top */
-    overflow-wrap: break-word; /* Allow long words to break */
-    max-width: 200px; /* Set a max width for cells */
+  padding: 10px;
+  border: 1px solid #d5d2d2;
+  text-align: center;
+  overflow: hidden; /* Prevent overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  white-space: normal; /* Allow text to wrap */
+  vertical-align: top; /* Align text to the top */
+  overflow-wrap: break-word; /* Allow long words to break */
+  max-width: 200px; /* Set a max width for cells */
 }
 
 
 .ffound-items-table5 th {
-    background-color: #ddd;
+  background-color: #ddd;
 }
 
 .ffound-items-table5 tr {
-    height: auto; /* Allow rows to stretch based on content */
+  height: auto; /* Allow rows to stretch based on content */
 }
 
 .ffound-items-table5 th.action, .ffound-items-table5 td.action {
-    width: 50px; /* Adjust width as needed */
-    text-align: center; /* Center-align the buttons */
+  width: 50px; /* Adjust width as needed */
+  text-align: center; /* Center-align the buttons */
 }
 
 
 
-  
-  .view-btn5 {
-    background-color: #4c75af;
-    color: white;
-    padding: 5px 12px;
-    font-size: 15px;
-    margin: 7px 2px; /* Adds horizontal spacing between buttons */
-    border: none;
-    width:115px;
-    cursor: pointer;
-    border-radius: 3px;
-    margin-left: 0px;
-    border-radius: 6px;
-  }
 
-
-  .view-btn5:hover{
-    background-color: #6ba2f0;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  transform: translateY(-1px);
-  }
-  
-  
-
-
-
-  
-  /* modal
-  .modal-overlay1 {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal1 {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  
-  .modal1 form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .modal1 .submit-btn1,
-  .modal1 .cancel-btn1 {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .modal1 .submit-btn1 {
-    background: #4caf50;
-    color: white;
-  }
-  
-  .modal1 .cancel-btn1 {
-    background: #f44336;
-    color: white;
-  } */
-  
-  
-
-.item-pic-input5 {
-    border: 2px dashed #aaaaaa;
-    padding: 20px;
-    text-align: center;
-    border-radius: 6px;
-    background: #f9f9f9;
-    font-size: 1rem;
-    color: #777777;
-    cursor: pointer;
-    width: 100%; /* Ensures the input takes full width */
-}
-
-.item-pic5 input:hover {
-    background: #f1f1f1;
-}
-
-.submit-btn5,
-.cancel-btn5,.delete-btn5, .close-btn5,
-.approved-btn5,.decline-btn5,.reAccept-btn5  {
-    padding: 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 48%; /* Adjusted for button alignment */
-
-}
-
-.button-container-secondary5{
- width:100%;
-}
-
-.submit-btn5 {
-    background-color: #45a049;
-    color: white;
-}
-
-.cancel-btn5 {
-    background-color: #FF0000;
-    color: white;
-}
-
-.delete-btn5 {
-  background-color: #8B0000;
+.view-btn5 {
+  background-color: #4c75af;
   color: white;
-}
-
-.close-btn5{
-  background-color: #FF0000;
-  color: white;
-}
-
-.submit-btn5:hover {
-    background-color: #61ce67;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-}
-
-.cancel-btn5:hover {
-    background-color: #dd1f1f;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
-
-  .delete-btn5:hover {
-    background-color: #c01515;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
-
-  .close-btn5:hover {
-    background-color: #dd1f1f;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
-
-  
-  .button-container5 {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    
-  }
-
-
-
-.arrow5 {
-  width: 14px; /* Adjust icon size for better proportion with the input */
-  height: 14px; /* Maintain square aspect ratio */
+  padding: 5px 12px;
+  font-size: 15px;
+  margin: 7px 2px; /* Adds horizontal spacing between buttons */
+  border: none;
+  width:115px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-left: 0px;
+  border-radius: 6px;
 }
 
 
-/* --------------------------------------------------- */
-.grid-container5 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
-  margin-top: 30px;
-  margin-left: -37px;
-  row-gap: 35px; /* Space between grid items */
-  column-gap:85px;
-  padding: 16px; /* Padding around the grid */
-  width: 100%; /* Ensure the grid takes full width */
-  justify-items: left; /* Center items within their grid cells */
-}
-
-.grid-item5 {
-  overflow-y: auto;  /* Enable vertical scrolling */
-  word-wrap: break-word;
-  background-color: #f0f0f0; /* Background color for items */
-  padding: 20px; /* Padding inside items */
-  border: 1px solid #ccc; /* Optional: Border for items */
-  border-radius: 1rem; /* Rounded corners */
-  text-align: center; /* Center text */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
-  width: 105%; /* Ensure grid items take full width of their cell */
-}
-
-
-.grid-item5 h2 {
-  overflow: hidden; /* Hide overflowing content */
-  color: #8B0000;
-  text-align: center; /* Align text to the left */
-  font-weight: bold; /* Make the text bold */
-  margin-bottom:20px ; /* Remove default margin */
-
-  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
-}
-
-.grid-item5 p {
-  margin-top: 20px;
-  text-align: left; /* Align text to the left */
-  margin: 5px 0; /* Add some vertical spacing */
-  font-weight: normal; /* Normal weight for paragraph text */
-  max-height: 200px; /* Set a maximum height for paragraphs */
-  overflow-y: auto; /* Enable vertical scrolling for paragraphs */
-  
+.view-btn5:hover{
+  background-color: #6ba2f0;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+transform: translateY(-1px);
 }
 
 
@@ -380,59 +188,8 @@
 
 
 
-/* .description5 {
-  display: block; /* Ensure it takes up space 
-  max-height: 120px;  Limit height 
-  overflow-y: auto;  Enable scrolling if content exceeds 
-}
-
-.location5 {
-  display: block;  Ensure it takes up space 
-  max-height: 120px;  Limit height 
-  overflow-y: auto;  Enable scrolling if content exceeds 
-} */
-
-
-
-.view-mode-toggle5 {
-  background: none; /* No background */
-  border: none; /* No border */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-size: 38px; /* Adjust size of the icon */
-  color: #8B0000; /* Change color as needed */
-  padding: 5px; /* Add some padding */
-  
-  margin-top: 5px;
-  
-}
-
-
-.view-mode-toggle5:hover {
-  
-  transform: translateY(-2px);
-  color: #a50303; /* Change color on hover */
-}
-
-/* -------------------------------------------- */
-
-/* .default-image-url5 {
-  width: 100%;
-  height: auto;
-  
-  border-Radius: 5px; 
-}
-.default-image-url55 {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-  border-Radius: 5px; 
-} */
-
-
-
-
-/* ----------------------------------------------------- */
-.modal-overlay5 {
+/* modal
+.modal-overlay1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -442,224 +199,437 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+}
+
+.modal1 {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal1 form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal1 .submit-btn1,
+.modal1 .cancel-btn1 {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal1 .submit-btn1 {
+  background: #4caf50;
+  color: white;
+}
+
+.modal1 .cancel-btn1 {
+  background: #f44336;
+  color: white;
+} */
+
+
+
+.item-pic-input5 {
+  border: 2px dashed #aaaaaa;
+  padding: 20px;
+  text-align: center;
+  border-radius: 6px;
+  background: #f9f9f9;
+  font-size: 1rem;
+  color: #777777;
+  cursor: pointer;
+  width: 100%; /* Ensures the input takes full width */
+}
+
+.item-pic5 input:hover {
+  background: #f1f1f1;
+}
+
+.submit-btn5,
+.cancel-btn5,.delete-btn5, .close-btn5,
+.approved-btn5,.decline-btn5,.reAccept-btn5  {
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 48%; /* Adjusted for button alignment */
+
+}
+
+.button-container-secondary5{
+width:100%;
+}
+
+.submit-btn5 {
+  background-color: #45a049;
+  color: white;
+}
+
+.cancel-btn5 {
+  background-color: #FF0000;
+  color: white;
+}
+
+.delete-btn5 {
+background-color: #8B0000;
+color: white;
+}
+
+.close-btn5 {
+background-color: #FF0000;
+color: white;
+}
+
+
+
+.submit-btn5:hover {
+  background-color: #61ce67;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.cancel-btn5:hover {
+  background-color: #dd1f1f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.delete-btn5:hover {
+  background-color: #c01515;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.close-btn5:hover {
+  background-color: #dd1f1f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+
+.button-container5 {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  
+}
+
+
+
+.arrow5 {
+width: 14px; /* Adjust icon size for better proportion with the input */
+height: 14px; /* Maintain square aspect ratio */
+}
+
+
+/* --------------------------------------------------- */
+.grid-container5 {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+margin-top: 30px;
+margin-left: -37px;
+row-gap: 35px; /* Space between grid items */
+column-gap:85px;
+padding: 16px; /* Padding around the grid */
+width: 100%; /* Ensure the grid takes full width */
+justify-items: left; /* Center items within their grid cells */
+}
+
+.grid-item5 {
+overflow-y: auto;  /* Enable vertical scrolling */
+word-wrap: break-word;
+background-color: #f0f0f0; /* Background color for items */
+padding: 20px; /* Padding inside items */
+border: 1px solid #ccc; /* Optional: Border for items */
+border-radius: 1rem; /* Rounded corners */
+text-align: center; /* Center text */
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+width: 105%; /* Ensure grid items take full width of their cell */
+}
+
+
+.grid-item5 h2 {
+overflow: hidden; /* Hide overflowing content */
+color: #8B0000;
+text-align: center; /* Align text to the left */
+font-weight: bold; /* Make the text bold */
+margin-bottom:20px ; /* Remove default margin */
+
+overflow-y: auto; /* Enable vertical scrolling for paragraphs */
+}
+
+.grid-item5 p {
+margin-top: 20px;
+text-align: left; /* Align text to the left */
+margin: 5px 0; /* Add some vertical spacing */
+font-weight: normal; /* Normal weight for paragraph text */
+max-height: 200px; /* Set a maximum height for paragraphs */
+overflow-y: auto; /* Enable vertical scrolling for paragraphs */
+
+}
+
+
+
+
+
+
+/* .description5 {
+display: block; /* Ensure it takes up space 
+max-height: 120px;  Limit height 
+overflow-y: auto;  Enable scrolling if content exceeds 
+}
+
+.location5 {
+display: block;  Ensure it takes up space 
+max-height: 120px;  Limit height 
+overflow-y: auto;  Enable scrolling if content exceeds 
+} */
+
+
+
+.view-mode-toggle5 {
+background: none; /* No background */
+border: none; /* No border */
+cursor: pointer; /* Pointer cursor on hover */
+font-size: 38px; /* Adjust size of the icon */
+color: #8B0000; /* Change color as needed */
+padding: 5px; /* Add some padding */
+
+margin-top: 5px;
+
+}
+
+
+.view-mode-toggle5:hover {
+
+transform: translateY(-2px);
+color: #a50303; /* Change color on hover */
+}
+
+/* -------------------------------------------- */
+
+/* .default-image-url5 {
+width: 100%;
+height: auto;
+
+border-Radius: 5px; 
+}
+.default-image-url55 {
+width: 100%;
+height: auto;
+margin-bottom: 10px;
+border-Radius: 5px; 
+} */
+
+
+
+
+/* ----------------------------------------------------- */
+.modal-overlay5 {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1100;
 }
 
 .modal5 {
-  width: 700px;         /* Extend the modal width */
-  margin: 50px auto;    /* Center modal on the screen */
-  padding: 20px;
-  background: rgba(0, 0, 0, 0);
-  border-radius: 8px;
- 
+width: 700px;         /* Extend the modal width */
+margin: 50px auto;    /* Center modal on the screen */
+padding: 20px;
+background: rgba(0, 0, 0, 0);
+border-radius: 8px;
+
 }
 
 .modal5 h2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #222222;
-  text-align: center;
-  font-weight: bold;
+margin-bottom: 20px;
+font-size: 1.8rem;
+color: #222222;
+text-align: center;
+font-weight: bold;
 }
 .card5 {
-  background: #f9f9f9; /* Light background for the card */
-  border-radius: 25px; /* Rounded corners */
-  padding: 20px; /* Padding inside the card */
-  margin-bottom: 20px; /* Space between cards */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  max-height: 600px;
-  overflow-y: auto;
+background: #f9f9f9; /* Light background for the card */
+border-radius: 25px; /* Rounded corners */
+padding: 20px; /* Padding inside the card */
+margin-bottom: 20px; /* Space between cards */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+max-height: 600px;
 }
 
 
 
 
 .card5 h2 {
-  margin-bottom: 15px; /* Space below the heading */
-  font-size: 1.5rem; /* Font size for the heading */
-  color: #333; /* Darker color for the heading */
-  text-align: center; /* Center the heading */
+margin-bottom: 15px; /* Space below the heading */
+font-size: 1.5rem; /* Font size for the heading */
+color: #333; /* Darker color for the heading */
+text-align: center; /* Center the heading */
 }
 
 
 
 .modal5 form {
-  display: grid;
-  grid-template-columns: 1fr, 1fr, 320px; /* Two columns for labels and inputs */
-  gap: 20px;
-  width: 100%; /* Ensure the form takes full width */
+display: grid;
+grid-template-columns: 1fr, 1fr, 320px; /* Two columns for labels and inputs */
+gap: 20px;
+width: 100%; /* Ensure the form takes full width */
 }
 
 .form-group5 {
-  display: flex;
-  flex-direction: column; /* Stack label above input */
-  width: 100%; /* Ensure full width */
+display: flex;
+flex-direction: column; /* Stack label above input */
+width: 100%; /* Ensure full width */
 }
 
 
 
 .modal5 label {
-  font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
+font-weight: 500;
+color: #444444;
+margin-bottom: 5px;
 }
 
 .modal5 select{
 font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  width: 90%;
+color: #444444;
+margin-bottom: 5px;
+padding: 12px;
+font-size: 1rem;
+border: 1px solid #cccccc;
+border-radius: 6px;
+width: 90%;
 }
 
 .modal5 textarea{
 font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-  height: 50px;
+color: #444444;
+margin-bottom: 5px;
+height: 50px;
 }
 
 .modal5 input,
 .modal5 textarea {
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  width: 90%;
+padding: 12px;
+font-size: 1rem;
+border: 1px solid #cccccc;
+border-radius: 6px;
+width: 90%;
 }
 
 .modal5 input:focus,
 .modal5 select:focus,
 .modal5 textarea:focus {
-  border-color: #3c6abe;
-  outline: none;
-  box-shadow: 0 0 5px rgb(60, 106, 190);
+border-color: #3c6abe;
+outline: none;
+box-shadow: 0 0 5px rgb(60, 106, 190);
 }
 
 .form-and-camera5 {
-  display: flex;
-  gap: 20px;            /* Space between form and camera */
-  align-items: flex-start; /* Align items at the top; adjust if needed */
+display: flex;
+gap: 20px;            /* Space between form and camera */
+align-items: flex-start; /* Align items at the top; adjust if needed */
 }
 
 .form-fields5 {
-  flex: 2;
-  display: grid;
-  grid-template-columns: 1fr 1fr;  /* Two columns for fields */
-  gap: 15px;
+flex: 2;
+display: grid;
+grid-template-columns: 1fr 1fr;  /* Two columns for fields */
+gap: 15px;
 }
 
 .form-group5 {
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
 }
 
 /* If any input needs to span full width, you can use: */
 .form-group5.full-width {
-  grid-column: 1 / -1;
+grid-column: 1 / -1;
 }
 
 .camera-section5 {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  /* Fix the height to roughly match the form fields height */
-  height: 100%;
-  padding-top: 10px;
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+/* Fix the height to roughly match the form fields height */
+height: 100%;
+padding-top: 10px;
 }
 
 .camera-buttons5 {
-  margin-top: 10px;
+margin-top: 10px;
 }
 
 .captured-image5 {
-  margin-top: 10px;
-  width: 320px; /* or any desired width */
-  height: auto;
+margin-top: 10px;
+width: 320px; /* or any desired width */
+height: auto;
 }
 
-@media (max-width: 768px) {
-  .manage-bulletin5 {
-    margin-left: 0px; /* Space to avoid8lap with the sidebar */
 
-  }
-  .search-bar5 {
-    margin-left: -20px;
-    
-  }
-  .search-bar5 input {
-    width: 250px;
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-  }
-
-  .grid-container5 {
-    margin-top: 50px;
-    width: 110%; /* Ensure the grid takes full width */
-  }
-
-
-  .modal5 {
-    width: 85%; 
-    min-width: 100px ;        /* Extend the modal width */
-  }
-
-  .modal5 select{
-      width: 100%;
-    }
-}
 
 /* ----------------------------------------------------------- */
 
 .tabs5 {
-  margin: 0 0 10px   100px;
-  padding: 5px;
-  border-radius: 0px;
-  margin-top: 20px;
-  border-bottom: 2px solid #a51d21; /* Permanent line below the tabs */
-  
+/* margin: 0 0 10px   100px; */
+margin-bottom: 10px ;
+margin-left: 100px;
+padding: 5px;
+border-radius: 0px;
+margin-top: 20px;
+border-bottom: 2px solid #a51d21; /* Permanent line below the tabs */
+
 }
 
 .tab-button5 {
-  background-color: #ffffff;
-  border: 0px solid #ccc;
-  padding: 10px 100px;
-  margin-right: 5px;
-  cursor: pointer;
-  border-radius: 15px;
-  transition: background-color 0.3s;
-  margin-right:10px;
-  font-weight: bold; /* Make text bold */
-  font-size: 17px;
+background-color: #ffffff;
+border: 0px solid #ccc;
+padding: 10px 100px;
+margin-right: 5px;
+cursor: pointer;
+border-radius: 15px;
+transition: background-color 0.3s;
+margin-right:10px;
+font-weight: bold; /* Make text bold */
+font-size: 17px;
 }
 
 
 .tab-button5.active {
-  background-color: #a51d21;
-  color: white;
+background-color: #a51d21;
+color: white;
 }
 
 .tab-button5.active:hover {
-  color: #a51d21;
-  border: 0px solid #ccc;
-  background-color: white;
-  text-shadow: -3px 3px 4px rgba(0, 0, 0, 0); /* Add text shadow */
+color: #a51d21;
+border: 0px solid #ccc;
+background-color: white;
+text-shadow: -3px 3px 4px rgba(0, 0, 0, 0); /* Add text shadow */
 }
 
 .tab-button5:hover {
-  background-color: #ffffff;
-  color:#000000;
-  transform: translateY(-3px);
-  text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
+background-color: #ffffff;
+color:#000000;
+transform: translateY(-3px);
+text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
 }
 
 
@@ -668,98 +638,99 @@ font-weight: 500;
 
 
 .approved-btn5 {
-    background-color: #45a049;
-    color: white;
+  background-color: #45a049;
+  color: white;
 }
 
+
 .decline-btn5 {
-    background-color: #FF0000;
-    color: white;
-    margin-left:10px
+  background-color: #FF0000;
+  color: white;
+  margin-left:10px
 }
 
 .reAccept-btn5 {
-  background-color:#45a049;
-  color: white;
-  margin-right:10px
+background-color:#45a049;
+color: white;
+margin-right:10px
 }
 
 .approved-btn5:hover {
-    background-color: #61ce67;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
+  background-color: #61ce67;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
 }
 
 .decline-btn5:hover {
-    background-color: #dd1f1f;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
+  background-color: #dd1f1f;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
 
-  .reAccept-btn5:hover {
-    background-color: #61ce67;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-  }
- 
+.reAccept-btn5:hover {
+  background-color: #61ce67;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
 
 
 .modal-details5 {
-  display: grid; /* Use grid layout */
-  grid-template-columns: 1fr 1fr; /* Two equal columns */
-  gap: 20px; /* Space between columns */
-  margin-top: 20px; /* Space above the details */
+display: grid; /* Use grid layout */
+grid-template-columns: 1fr 1fr; /* Two equal columns */
+gap: 20px; /* Space between columns */
+margin-top: 20px; /* Space above the details */
 }
 
 .modal-detail5 {
-  padding: 10px; /* Add padding for better spacing */
+padding: 10px; /* Add padding for better spacing */
 }
 
 .modal-detail5  h2{
-  text-align: left;
-  margin-bottom: 20px;
+text-align: left;
+margin-bottom: 20px;
 }
 
 .modal-detail5:not(:last-child) {
-  border-right: 1px solid #ccc; /* Add a vertical line between the two columns */
+border-right: 1px solid #ccc; /* Add a vertical line between the two columns */
 }
 
-  
-  
+
+
 
 
 /* -------------------------------------------- */
 
 .default-image-url2 {
-  width: 100%;
-  height: auto;
-  
-  
-  border-Radius: 5px; 
+width: 100%;
+height: auto;
+
+
+border-Radius: 5px; 
 }
 .default-image-url12 {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-  border-Radius: 25px;
-   
+width: 100%;
+height: auto;
+margin-bottom: 10px;
+border-Radius: 25px;
+ 
 }
 
 .default-image-url12:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 transform: translateY(-1px);
 cursor: pointer;
 }
 
 .default-image-url13 {
-  width:100%;
-  height:39%;
-  margin-bottom: 10px;
-  border-Radius: 25px; 
-  
+width:100%;
+height:39%;
+margin-bottom: 10px;
+border-Radius: 25px; 
+
 }
 .default-image-url13:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 transform: translateY(-1px);
 cursor: pointer;
 }
@@ -767,30 +738,200 @@ cursor: pointer;
 /* ----------------------------------------------------------------------------- */
 
 .status-btn5 {
-  color: white;
-  padding: 5px 12px;
-  font-size: 12px;
-  margin: 0px 2px; /* Adds horizontal spacing between buttons */
-  border: none;
-  font-size: 15px;
-  border-radius: 20px;
-  margin-left: 0px;
-  display: inline-block; /* Ensure it behaves like a button */
-  max-height: none; /* Remove max-height */
-  overflow: visible; /* Ensure overflow is visible */
+color: white;
+padding: 5px 12px;
+font-size: 12px;
+margin: 0px 2px; /* Adds horizontal spacing between buttons */
+border: none;
+font-size: 15px;
+border-radius: 20px;
+margin-left: 0px;
+display: inline-block; /* Ensure it behaves like a button */
+max-height: none; /* Remove max-height */
+overflow: visible; /* Ensure overflow is visible */
 }
 
 
 .status-btn5.declined {
-   background-color: red; /* Red for unclaimed */ 
-  }
+ background-color: red; /* Red for unclaimed */ 
+}
 
 .status-btn5.approved {
-   background-color: #4CAF50; /* Green for claimed */
-   }
+ background-color: #4CAF50; /* Green for claimed */
+ }
 
 .status-btn5.pending { 
-  background-color: #FFC107 ; /* Green for claimed */ 
+background-color: #FFC107 ; /* Green for claimed */ 
 }
 
 
+@media (max-width: 768px) {
+
+/* dhea: media ra ang na change */
+
+.table-container5 {
+ 
+  width: 145%; /* Full width of the parent */
+  max-width: 1600px; /* Set a max width for the container */
+  margin: -10px auto 0px -40px; /* Center the container */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+  border-radius: 1rem; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+}
+
+
+
+.ffound-items-table5 {
+
+  width: 100%; /* Full width of the parent */
+  border-collapse: collapse; /* Collapse borders */
+  font-size: 14px;
+  table-layout: auto; /* Use fixed table layout to respect column widths */
+}
+
+
+.grid-item5 {
+margin-top: -80px;
+margin-bottom: 70px;
+overflow-y: auto;  /* Enable vertical scrolling */
+word-wrap: break-word;
+background-color: #f0f0f0; /* Background color for items */
+padding: 20px; /* Padding inside items */
+border: 1px solid #ccc; /* Optional: Border for items */
+border-radius: 1rem; /* Rounded corners */
+text-align: center; /* Center text */
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+width: 105%; /* Ensure grid items take full width of their cell */
+}
+
+.manage-bulletin5 {
+  margin-left: 0px; /* Space to avoid8lap with the sidebar */
+
+}
+.search-bar5 {
+  margin-left: -25px;
+  margin-bottom: 10px;
+
+
+
+  
+}
+.search-bar5 input {
+  width: 250px;
+  height: 35px; /* Increased height for better visual balance with icons */
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  border: 1px solid #ada8a8;
+  border-radius: 35px;
+}
+
+.grid-container5 {
+  margin-top: 50px;
+  width: 110%; /* Ensure the grid takes full width */
+}
+/* filterfilter */
+.tabs5 {
+margin-bottom: 10px;
+margin-left: -12px;
+padding: 0px;
+border-radius: 0px;
+margin-top: 20px;
+border-bottom: 2px solid #ffffff; /* Permanent line below the tabs */
+display: flex; /* Use flexbox for layout */
+flex-wrap: nowrap; /* Prevent wrapping, keep everything in one row */
+gap: 0px; /* Space between the buttons */
+}
+
+.tab-button5 {
+width: 30%; /* Buttons will take up 30% of the container width */
+background-color: #f0f0f0;
+padding: 5px 5px; /* Adds a bit more padding for better spacing */
+font-size: 16px; /* Increased font size for readability */
+text-align: center;
+justify-content: center;
+display: flex; /* Flex ensures proper centering of the button content */
+border-bottom: 1px solid #f0f0f0; /* Adds a permanent line below each button */
+box-sizing: border-box; /* Ensures padding and margins are included in the width calculation */
+}
+
+
+.tab-button5.active {
+  background-color: #a51d21;
+  color: #ffffff; /* Adjusted color for better contrast when active */
+}
+
+
+/* modal */
+.modal5 {
+  background-color: #fafafa;
+  width: 85%;            /* Set modal width to 85% of the parent container */
+  min-width: 100px;      /* Minimum width of 100px */
+  max-height: 80vh;      /* Set a maximum height to allow scrolling */
+  overflow-y: auto;      /* Enable vertical scrolling when content overflows */
+  overflow-x: hidden;    /* Prevent horizontal scrolling */
+  padding: 20px;         /* Add padding for better spacing inside the modal */
+}
+
+
+.modal5 select{
+    width: 100%;
+  }
+
+  .modal-details5 {
+
+    flex-direction: column;
+    display: flex;
+    gap: 10px; /* Space between columns */
+    margin-top: 0px; /* Space above the details */
+    padding: 10px;
+  }
+
+  .card5 {
+    margin-bottom:10px;
+    max-height: 110%;
+    padding-bottom: 10px;
+  }
+
+  .card5 h2 {
+    margin-bottom: 20px;
+    margin-top: -10px;
+    margin-left: 8px;
+    font-size: 1.8rem;
+    color: #fefefe;
+    text-align: center;
+    font-size: larger;
+    font-weight: large;
+    background-color: #850F13;
+    padding: 10px;
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers text vertically */
+    justify-content: center; /* Centers text horizontally */
+    width: 90%; /* Ensures full width */
+    border-radius: 6px; /* Optional: Adds rounded corners */
+  }
+
+  .button-container5 {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;  /* Center all buttons horizontally */
+    flex-wrap: nowrap;        /* Prevent wrapping to the next line */
+    gap: 10px;                /* Space between buttons */
+  }
+  
+  .button-container-secondary5 {
+      display: flex;            /* Make sure the secondary container also uses flexbox */
+      gap: 0px;                /* Space between the approve/decline buttons */
+  }
+
+  .approved-btn5, .decline-btn5, .reAccept-btn5, .close-btn5   {
+    padding: 10px;
+    font-size: small;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 48%;
+  }
+}

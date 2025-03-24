@@ -611,13 +611,18 @@ setLoading(true);
               {viewMode === 'table' ? <FaTable /> : <IoGridOutline />}
             </button>
 
-            <button
-  className="view-excel-toggle1"
-  onClick={handleDownload}
-  
->
-  <FaFileExcel size={20} />
-</button>
+
+              <div className="tooltip-contexcel">
+              <button
+                  className="view-excel-toggle1"
+                  onClick={handleDownload} >
+                  <FaFileExcel size={30} />
+
+
+                </button>
+                    <span className="tooltip-excel">Download</span>
+                </div>
+
           </div>
 
           <div className="top-right-buttons1">

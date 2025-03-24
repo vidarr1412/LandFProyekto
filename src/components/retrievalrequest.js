@@ -440,7 +440,7 @@ function UserRetrievalRequests() {
                   <input type="file" id="owner_image" name="owner_image" accept="image/*" onChange={handleImageUpload} />
                 </div>
                 <div className="button-container6">
-                  <button type="button" onClick={handleUpdateRequest} className="update-btn6">Save Changes</button>
+                  <button type="button" onClick={handleUpdateRequest} className="update-btn6">Update</button>   {/* dhea */}
                   <button type="button" onClick={closeModal} className="close-btn-manager6">Cancel</button>
                 </div>
               </form>

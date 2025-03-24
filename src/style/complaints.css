@@ -303,80 +303,7 @@ transform: translateY(-1px);
 
 }
 /* ------------------------------------------------------------- */
-@media (max-width: 768px) {
-  .manage-bulletin3 {
-    margin: 30px;
-    display: flex;
-    align-items: flex-start; /* Align to the top */
-    flex-grow: 1; /* Take up the remaining space */
-    padding: 50px;
-      flex-direction:column;
-  }
 
-  .breadcrumb3 {
-    margin: 10px 8px 0 -50px;
-    font-size: 20px;
-    color:#800000;
-    font-weight: bold;
-    width: 150%;
-  }
-
-  .search-bar3 input {
-    width: 320px;
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-    margin-top: 50px;
-    margin-left: -50px;
-  }
-
-  .top-right-buttons3 {
-    display: flex; /* Enable flexbox for alignment */
-    margin-top: 250px;
-    margin-left: -320px;
-    }
-
-   
-
-  .grid-container3 {
-    margin-top: 50px;
-  }
-
-  .grid-item3 {
-    margin-left: -30px;
-    width: 130%; /* Ensure grid items take full width of their cell */
-  }
-  /* modal ---------------------------------- */
-  .modal-overlay3 {
-  width: 100%;
-}
-  .modal3 {
-    display: flex;
-    width: 80%;
-    max-width: 800px; /* Adjusted for more space */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    text-align: left;
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
-
-  .modal3 form {
-    display: flex;
-    flex-direction: column; /* Single column layout */
-    gap: 10px;
-    width: 90%; /* Ensure the form takes full width */
-  }
-
-  .modal3 select{
-      padding: 12px;
-      font-size: 1rem;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      width: 110%; /* Adjusted for full width in single column */
-    }
-}
 
 /* FEB_10_25------------------------------------------------------------------------------ */
 
@@ -437,7 +364,7 @@ transform: translateY(-1px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .modal3 {
@@ -514,7 +441,7 @@ transform: translateY(-1px);
   font-size: 1rem;
   border: 1px solid #cccccc;
   border-radius: 6px;
-  width: 90%; /* Adjusted for full width in single column */
+  width: 100%; /* Adjusted for full width in single column */
 }
 
 .modal3 input:focus,
@@ -572,6 +499,16 @@ color: white;
   color: white;
   }
 
+  /* dhea */
+  .submit-btn3, .cancel-btn3 , .delete-btn3 , .edit-btn3 {
+    padding: 10px;
+    font-size: small;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 48%;
+  }
 .submit-btn3:hover {
   background-color: #61ce67;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -654,7 +591,147 @@ color: white;
 
   /* ---------------------------------------------- */
 
-
 .asterisk3 {
   color: red;
+}
+
+@media (max-width: 768px) { /* dhea: media ra ang na change */
+
+  .manage-bulletin3 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+      flex-direction:column;
+  }
+
+  .breadcrumb3 {
+    margin: 10px 8px 0 -50px;
+    font-size: 20px;
+    color:#800000;
+    font-weight: bold;
+    width: 150%;
+  }
+
+  .search-bar3 {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    margin-top: 0px;
+     /*height: 3  00px; Full viewport height to center vertically */
+    margin-top: -20px;
+    
+  }
+  .search-bar3 input {
+    width: 250px;
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+    margin-top: 20px;
+    margin-left: -60px;
+  }
+
+
+  .table-container3 {
+    width: 170%; /* Full width of the parent */
+    max-width: 1600px; /* Set a max width for the container */
+    margin: 30px auto 0 -70px; /* Center the container */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+    border-radius: 1rem; /* Optional: Add rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+  }
+  
+  .ffound-items-table3 {
+    width: 100%; /* Full width of the table */
+    border-collapse: collapse; /* Collapse borders */
+    font-size: 14px; /* Font size */
+    table-layout: auto; /* Use auto layout to allow for dynamic widths */
+  }
+  
+
+  .top-right-buttons3 {
+    display: flex; /* Enable flexbox for alignment */
+    margin-top: 30px;
+    margin-left: 0px;
+    justify-content: center;
+    }
+
+   
+
+  .grid-container3 {
+    margin-top: 50px;
+  }
+
+  .grid-item3 {
+    margin-left: -30px;
+    width: 130%; /* Ensure grid items take full width of their cell */
+  }
+
+  .add-item-btn3, .register-qr-btn3 {
+    width: 100%;
+    min-width: 200px;
+    font-size: 15px;
+    margin-left: 0px;
+
+  }
+
+  .detail-grid3 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between grid items */
+    width: auto;
+  }
+
+  
+  
+  .button-container3 {
+    display: flex;
+    align-items: center; /* Align buttons to the start (left) */
+    width: 100%; /* Ensure it takes full width */
+    gap: 10px; /* Space between buttons */
+    justify-content: center;
+
+}
+  /* modal ---------------------------------- */
+  .modal-overlay3 {
+  width: 100%;
+}
+  .modal3 {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    max-width: 800px; /* Adjusted for more space */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+
+  .modal3 form {
+    display: flex;
+    flex-direction: column; /* Single column layout */
+    gap: 10px;
+    width: 90%; /* Ensure the form takes full width */
+  }
+
+  .modal3 select{
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #cccccc;
+      border-radius: 6px;
+      width: 110%; /* Adjusted for full width in single column */
+    }
+
+    .modal3 h2 {
+      background-color: #660000;
+      margin-bottom: 20px;
+      font-size: larger;
+      color: #ffffff;
+      text-align: center;
+      font-weight: bold;
+      padding: 10px;
+      }
 }
