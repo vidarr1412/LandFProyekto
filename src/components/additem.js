@@ -626,7 +626,7 @@ setLoading(true);
     <>
     {loading && (
       <div className="loading-overlay">
-        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+        <img src="/loadinggif.gif" alt="Loading..." className="loading-gif" />
       </div>
     )}
     <div className="home-container">
@@ -643,7 +643,7 @@ setLoading(true);
           <div className="search-bar1">
             <input
               type="text"
-              placeholder="Search Item Name"
+              placeholder="Search"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
               className="search-input1"
@@ -651,14 +651,19 @@ setLoading(true);
             <button onClick={toggleViewMode} className="view-mode-toggle1">
               {viewMode === 'table' ? <FaTable /> : <IoGridOutline />}
             </button>
+            <div className="tooltip-contexcel">
+              <button
+                  className="view-excel-toggle1"
+                  onClick={handleDownload} >
+                  <FaFileExcel size={30} />
 
-            <button
-  className="view-excel-toggle1"
-  onClick={handleDownload}
-  
->
-  <FaFileExcel size={20} />
-</button>
+
+                </button>
+                    <span className="tooltip-excel">Download</span>
+              
+
+          </div>
+
           </div>
 
           <div className="top-right-buttons1">

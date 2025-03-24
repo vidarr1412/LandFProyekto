@@ -97,7 +97,7 @@ function Auth() {
       {/* Loading Animation */}
       {loading && (
         <div className="loading-overlay">
-          <img src="/load.gif" alt="Loading..." className="loading-gif" />
+          <img src="/logingif.gif" alt="Loading..." className="loading-gif" />
         </div>
       )}
       

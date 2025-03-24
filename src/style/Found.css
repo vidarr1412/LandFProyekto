@@ -250,6 +250,36 @@ height: 14px; /* Maintain square aspect ratio */
 }
 
 
+.tooltip-contexcel {
+  margin-top: 10px;
+  margin-left: -5px;
+  position: relative; /* Position relative for absolute positioning of tooltip */
+  display: inline-block; /* Allow tooltip to be positioned relative to the input */
+}
+
+.tooltip-excel {
+  visibility: hidden; /* Hidden by default */
+  width: 80px; /* Set width of tooltip */
+  background-color: #555; /* Dark background */
+  color: #fff; /* White text */
+  text-align: center; /* Center text */
+  border-radius: 5px; /* Rounded corners */
+  padding: 5px; /* Padding */
+  position: absolute; /* Position tooltip */
+  z-index: 1; /* Ensure tooltip is above other elements */
+  left: 100%; /* Center tooltip */
+  margin-left: -80px; /* Adjust to center */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s; /* Smooth transition */
+  font-size: 14px;
+}
+
+/* Show tooltip on hover */
+.tooltip-contexcel:hover .tooltip-excel {
+  visibility: visible; /* Show tooltip */
+  opacity: 1; /* Make tooltip visible */
+  margin-top: 100px;
+}
 
 
 
@@ -763,7 +793,7 @@ font-size: 38px; /* Adjust size of the icon */
 color: #8B0000; /* Change color as needed */
 padding: 5px; /* Add some padding */
 
-margin-top: 50px;
+margin-top: 60px;
 
 }
 

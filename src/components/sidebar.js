@@ -71,13 +71,13 @@ const Sidebar = () => {
         <nav className="nav-menu">
         {userType === null || userType === "" ? (
             <>
-              <NavLink to="/" >
+              <NavLink to="/" >E
                 <FaHome className="nav-icon" /> Home
               </NavLink>
               <NavLink to="/bulletinboard" >
                 <FaChartLine className="nav-icon" /> Bulletin
               </NavLink>
-              <NavLink to="/login" >
+              <NavLink to="/login"  >
                 <FaUserPlus className="nav-icon" /> Sign Up
               </NavLink>
             </>
@@ -89,7 +89,7 @@ const Sidebar = () => {
               <NavLink to="/userComplaints" >
                 <FaBox className="nav-icon" /> File Report
               </NavLink>
-              <NavLink to="/bulletinboard" >
+              <NavLink to="/bulletinboard"  >
                 <FaChartLine className="nav-icon" /> Bulletin
               </NavLink>
               <NavLink to="/retrievalRequests" >
@@ -99,17 +99,10 @@ const Sidebar = () => {
               <FaHome className="nav-icon" /> Profile
             </NavLink>
             <div className="logout">
-            <NavLink  >
-           
-          
-           
-              <button onClick={handleLogout}>
-              <FaSignOutAlt  /> Log Out
-              
+              <button onClick={handleLogout}> 
+              <FaSignOutAlt className="nav-icon" /> Log Out {/* dhea: <FaSignOutAlt  /> Log Out*/}
               </button>
-            </NavLink>
-         
-          </div>
+              </div>
 
             </>
           )}
@@ -118,37 +111,32 @@ const Sidebar = () => {
               <NavLink to="/dashboard" >
                 <FaChartLine className="nav-icon" /> Dashboard
               </NavLink>
-              <NavLink to="/Complaints" >
+              <NavLink to="/Complaints">
                 <FaBox className="nav-icon" /> Lost Complaint
               </NavLink>
               <NavLink to="/additem" >
                 <FaQrcode className="nav-icon" /> Found Items
               </NavLink>
-              <NavLink to="/scan_item" >
+             {/* <NavLink to="/scan_item" >
                 <FaQrcode className="nav-icon" /> Scan QR
-              </NavLink>
+              </NavLink>*/}
               
-              <NavLink to="/donation" >
+              <NavLink to="/donation"  >
                 <FaQrcode className="nav-icon" /> Donation
               </NavLink>
             
-              <NavLink to="/manaRequests" >
+              <NavLink to="/manaRequests"  >
                 <FaUserCheck className="nav-icon" /> Manage Request
               </NavLink>
-              <NavLink to="/profile" >
+              <NavLink to="/profile"  >
               <FaHome className="nav-icon" /> Profile
             </NavLink>
             <div className="logout">
-            <NavLink  >
-           
-          
-           
               <button onClick={handleLogout}>
-              <FaSignOutAlt  /> Log Out
+              <FaSignOutAlt className="nav-icon" /> Log Out {/* dhea: <FaSignOutAlt  /> Log Out*/}
+
               </button>
-            </NavLink>
-         
-          </div>
+              </div>
             </>
             
           )}

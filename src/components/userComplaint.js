@@ -401,7 +401,7 @@ setLoading(true);
     <>
     {loading && (
       <div className="loading-overlay">
-        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+        <img src="/loadinggif.gif" alt="Loading..." className="loading-gif" />
       </div>
     )}
     <div className="home-container">
@@ -419,7 +419,7 @@ setLoading(true);
           <div className="search-bar2">
             <input
               type="text"
-              placeholder="Search Item Name"
+              placeholder="Search"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
               className="search-input3"

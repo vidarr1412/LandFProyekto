@@ -264,7 +264,7 @@ function UserRetrievalRequests() {
     <>
     {loading && (
    <div className="loading-overlay">
-     <img src="/load.gif" alt="Loading..." className="loading-gif" />
+     <img src="/loadinggif.gif" alt="Loading..." className="loading-gif" />
    </div>
  )}
     <div className="home-container">

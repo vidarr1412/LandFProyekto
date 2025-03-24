@@ -303,7 +303,7 @@ function Bulletin() {
     <>
        {loading && (
       <div className="loading-overlay">
-        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+        <img src="/loadinggif.gif" alt="Loading..." className="loading-gif" />
       </div>
     )}
     <div className="home-container">
@@ -322,7 +322,7 @@ function Bulletin() {
           <div className="search-bar4">
             <input
               type="text"
-              placeholder="Search Item Name"
+              placeholder="Search"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
               className="search-input4"

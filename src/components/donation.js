@@ -432,7 +432,7 @@ const fetchFoundationItems = async (foundationId) => {
           <div className="search-bar7">
             <input
               type="text"
-              placeholder="Search Foundation Name"
+              placeholder="Search"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
               className="search-input7"

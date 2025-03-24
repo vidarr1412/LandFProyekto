@@ -128,9 +128,14 @@ function ManageRequest() {
     return filtered;
   };
 
-  const filteredRequests = getFilteredRequests().filter((request) =>
-    request.item_name.toLowerCase().includes(filterText.toLowerCase())
-  );
+  const filteredRequests = getFilteredRequests().filter((request) => {
+    const lowerCaseFilterText = filterText.toLowerCase();
+    return (
+      (request.item_name?.toLowerCase().includes(lowerCaseFilterText) || '') ||
+      (request.description?.toLowerCase().includes(lowerCaseFilterText) || '') ||
+      (request.location?.toLowerCase().includes(lowerCaseFilterText) || '')
+    );
+  });
 
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
@@ -160,7 +165,7 @@ function ManageRequest() {
     <>
     {loading && (
       <div className="loading-overlay">
-        <img src="/load.gif" alt="Loading..." className="loading-gif" />
+        <img src="/loadinggif.gif" alt="Loading..." className="loading-gif" />
       </div>
     )}
 
@@ -174,9 +179,10 @@ function ManageRequest() {
           <div className="search-bar5">
             <input
               type="text"
-              placeholder="Search Item Name"
+              placeholder="Search"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
+              className="search-input5"
             />
             <button onClick={toggleViewMode} className="view-mode-toggle5">
               {viewMode === 'table' ? <FaTable />: <IoGridOutline />}
