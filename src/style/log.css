@@ -159,7 +159,6 @@
   z-index: 1;
 }
 
-/* dhea */
 .sign-up h1 {
   margin-top: -10px;
   margin-bottom: 0px;
@@ -326,24 +325,12 @@
   height: 100px;
   object-fit: contain;
 }
-.gef {
-
-  margin: 0%;
-  align-items: center;
-  justify-content: center;
-}
-.gef h1 {
-  text-align: center;
-}
 /* -------------------------------------------------- */
 
 @media (max-width: 768px) {
-  /* dhea: media ra ang na change */
-
 
   /* Sign Up Form */
   .container {
-
     margin-top: 10px;
     width: 95%;
     margin-left: 10px;
@@ -360,17 +347,23 @@
   }
 
   .container form {
-    display: block;
     background-image: url('loadphone.gif');
     background-repeat: no-repeat; /* Prevent the GIF from repeating */
-    z-index: 1000;
     width: 110%;
     height: 100%;
-    margin-top: 0px;
-    margin-left: 0px;
-
+    margin-top: -10px;
+    margin-left: 50px;
+    z-index: 1000;
   }
-
+  .container form, .sign-up {
+    background-image: url('loadphone.gif');
+    background-repeat: no-repeat; /* Prevent the GIF from repeating */
+    width: 110%;
+    height: 100%;
+    margin-top: -10px;
+    margin-left: 10px;
+    z-index: 1000;
+  }
   .container select {
     background-color: #eee;
     border: none;
@@ -400,6 +393,7 @@
   .sign-up h1 {
     margin-left: -170px;
     font-size: 30px;
+    margin-top: 100px;
   }
   .sign-up input {
     margin-left: -170px;
@@ -415,25 +409,20 @@
      height: 50px;
   }
 
-  /* Sign In Form */
-  .gef {
-    position: absolute;
-   top: 100px;
-   margin-top: -100px;
+  .try {
+    /* hide and gif  */
+    width: 100%;
+    background-color: #ffffff;
+    margin-top: -100px;
   }
+
+  /* Sign In Form */
   .sign-in {
-    position: relative;
     left: 100;
     width: 50%;
-    z-index: 2000;
   }
-  .gef h1 {
-    margin-top: 200px;
-    text-align: center;
-  } 
   .sign-in input {
-    
-    margin-left: -20px;
+    margin-left: -73px;
     width: 150%;
   }
 
@@ -460,8 +449,7 @@
       top: 100px;
     } 
   .toggle-container {
-
-    margin-top:510px;
+    margin-top:500px;
     left:28%;
     width: 50%;
     height: 10%;
@@ -528,6 +516,7 @@
     text-align: center; /* Ensures text inside is centered */
     margin-bottom: 500px;
     border-color: #ffffff;
+
   }
   .container button.hidden1:hover {
     background-color: transparent;

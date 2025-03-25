@@ -23,7 +23,7 @@ export { storage, ref, uploadString, getDownloadURL };
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { getFirestore, doc, updateDoc } from 'firebase/firestore';
-
+  
 // Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBEqa8xOrWXqt9I68WdC4uE3W1vnA8jvW0",

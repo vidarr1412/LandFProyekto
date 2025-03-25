@@ -74,7 +74,7 @@ function Home() {
         <h2>Meet Our Developer Team</h2>
         <div className="developer-grid">
           <div className="developer-card">
-            <img src="1.png" alt="Paul Gary L. Oca" className="developer-img" />
+            <img src="po.jpg" alt="polgari" className="developer-img" />
             <h3>Paul Gary L. Oca</h3>
             <p>Back-End Developer</p>
             <div className="social-icons">
@@ -91,7 +91,7 @@ function Home() {
           </div>
 
           <div className="developer-card">
-            <img src="1.png" alt="Paul Gary L. Oca" className="developer-img" />
+            <img src="mo.jpg" alt="moshe" className="developer-img" />
             <h3>Christian Albert B. Muaña</h3>
             <p>Front-End Developer</p>
             <div className="social-icons">
@@ -108,7 +108,7 @@ function Home() {
           </div>
 
           <div className="developer-card">
-            <img src="1.png" alt="Paul Gary L. Oca" className="developer-img" />
+            <img src="de.jpg" alt="deya" className="developer-img" />
             <h3>Jean Dhea Mae Ampong</h3>
             <p>Front-End Developer</p>
             <div className="social-icons">
