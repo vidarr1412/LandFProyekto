@@ -15,6 +15,7 @@ import Filter from '../filterered/foundFilt'; // Adjust the import path as neces
 import Modal from './image'; // Import the Modal component
 import { FaFileExcel } from "react-icons/fa"; // Import the Excel icon
 import showAlert from '../utils/alert';
+import { set } from 'mongoose';
 
 function Additem() {
     const [loading, setLoading] = useState(false);
@@ -112,7 +113,8 @@ function Additem() {
       const itemMatch = request.ITEM && request.ITEM.toLowerCase().includes(filterText.toLowerCase());
       const specificMatch = request.FOUND_LOCATION && request.FOUND_LOCATION.toLowerCase().includes(filterText.toLowerCase());
       const descriptionMatch = request.DESCRIPTION && request.DESCRIPTION.toLowerCase().includes(filterText.toLowerCase());
-      return itemMatch || specificMatch || descriptionMatch;
+      const finderMatch = request.FINDER && request.FINDER.toLowerCase().includes(filterText.toLowerCase());
+      return itemMatch || specificMatch || descriptionMatch || finderMatch;
     });
   };
 
@@ -374,9 +376,12 @@ const fetchItems = async () => {
         console.error("Error submitting form:", error);
         alert("Error submitting form. Please try again.");
     }
+    setImage(null); // Reset the captured image
+    setOwnerImage(null); // Reset the captured owner image
+    setItemData({...itemData, IMAGE_URL: '', OWNER_IMAGE: ''}); // Reset the image URLs in the form
     setLoading(false);
     setShowModal(false);
-
+    
 };
 
 const handleDelete = async (id) => {

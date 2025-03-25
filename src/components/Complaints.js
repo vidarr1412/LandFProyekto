@@ -622,19 +622,9 @@ setLoading(true);
                             <option value="Sports and Miscellaneous">Sports & Miscellaneous</option>
                     </select>
                   </div>
-                  <div className="form-group3">
-                    <label htmlFor="contact">Contact of the Complainer</label>
-                    <input
-                      type="text"
-                      id="contact"
-                      name="contact"
-                       maxLength="100"
-                      placeholder="Contact of the Complainer"
-                      value={itemData.contact}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
+
+                  
+
                   <div className="form-group3">
                     <label htmlFor="general_location">General Location</label>
                     <select
@@ -677,6 +667,21 @@ setLoading(true);
                       required
                     />
                   </div>
+
+                  <div className="form-group3">
+                    <label htmlFor="contact">Contact of the Complainer</label>
+                    <input
+                      type="text"
+                      id="contact"
+                      name="contact"
+                       maxLength="100"
+                      placeholder="Contact of the Complainer"
+                      value={itemData.contact}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
                   <div className="form-group3">
                     <label htmlFor="date">Date Lost</label>
                     <input
@@ -925,22 +930,6 @@ setLoading(true);
                   </select>
                 </div>
 
-
-                <div className="form-group3">
-                  <label htmlFor="contact">Contact of the Complainer<span className="asterisk3"> *</span></label>
-                  <input
-                    type="text"
-                    id="contact"
-                    name="contact"
-                    maxlength="50"
-                    placeholder="Contact of the Complainer"
-                    value={itemData.contact}
-                    onChange={handleInputChange}
-                    required={!selectedRequest}
-                  />
-                </div>
-
-
                 <div className="form-group3">
                   <label htmlFor="general_location">General Location<span className="asterisk3"> *</span></label>
                   <select
@@ -985,6 +974,21 @@ setLoading(true);
                     required={!selectedRequest}
                   />
                 </div>
+
+                <div className="form-group3">
+                  <label htmlFor="contact">Contact of the Complainer<span className="asterisk3"> *</span></label>
+                  <input
+                    type="text"
+                    id="contact"
+                    name="contact"
+                    maxlength="50"
+                    placeholder="Contact of the Complainer"
+                    value={itemData.contact}
+                    onChange={handleInputChange}
+                    required={!selectedRequest}
+                  />
+                </div>
+
                 <div className="form-group3">
                   <label htmlFor="date">Date Lost<span className="asterisk3"> *</span></label>
                   <input
