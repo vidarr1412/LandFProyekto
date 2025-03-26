@@ -410,9 +410,9 @@ setLoading(true);
 
       <div className="content">
         <div className="manage-bulletin2">
-        <div className='tit'>
-            <div className="breadcrumb5">File</div>
-            <div className="breadcrumb0">Report</div>
+        <div className='tit3'>
+            <div className="breadcrumb53">File</div>
+            <div className="breadcrumb03">Report</div>
           </div>
 
 

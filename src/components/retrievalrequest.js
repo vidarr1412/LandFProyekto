@@ -272,9 +272,9 @@ function UserRetrievalRequests() {
       <Header />
       <div className="content">
         <div className="manage-bulletin6">
-        <div className='tit'>
-            <div className="breadcrumb5">Retrieval</div>
-            <div className="breadcrumb0">Status</div>
+        <div className='tit1'>
+            <div className="breadcrumb51">Retrieval</div>
+            <div className="breadcrumb01">Status</div>
           </div>
           <div className="search-bar6">
             <input type="text" placeholder="Search Item Names" value={filterText} onChange={(e) => setFilterText(e.target.value)}

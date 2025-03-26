@@ -313,8 +313,9 @@ function Bulletin() {
 
       <div className="content">
         <div className="manage-bulletin4">
-        <div className='tit'>
-            <div className="breadcrumb5">Bulletin</div>
+        <div className='tit2'>
+            <div className="breadcrumb52">Bulletin</div>
+            <div className="breadcrumb02">Board</div>
 
           </div>
 

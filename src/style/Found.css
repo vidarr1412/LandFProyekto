@@ -1,10 +1,30 @@
 /* General layout */
-  
-.breadcrumb1 {
-  margin: 10px 8px 0 0px;
-  font-size: 20px;
-  color: #000000;
+.tit5 {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px; /* Adds space between the breadcrumb items */
+  align-items: center; /* Centers breadcrumb items vertically */
+  font-family: 'Georgia';
+}
+
+.breadcrumb55 {
+  font-size: 40px;
+  color: #ffffff;
   font-weight: bold;
+
+  background-color: #a51d21;
+  border-radius: 10px;
+  padding: 5px 10px; /* Adjust padding for better spacing */
+}
+
+.breadcrumb05{
+
+  font-size: 40px;
+  margin-left: 0px;
+  color: #a51d21;
+  font-weight: bold;
+ 
+
 }
 .manage-bulletin1 {
   margin: 30px;
@@ -789,21 +809,83 @@ text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3 ); /* Add text shadow */
     .manage-bulletin1 {
       margin-left: 0px;
     }
+    .tit5 {
+      margin-top: 20px;
+      margin: 0px -20px;
+
+      display: flex;
+      gap: 10px; /* Adds space between the breadcrumb items */
+      align-items: center; /* Centers breadcrumb items vertically */
+      font-family: 'Georgia';
+
+    }
     
-    .breadcrumb1 {
-      margin: 10px 0px -10px 0px;
-      width: 105%;
-      color: #800000;
+    .breadcrumb55 {
+      font-size: 25px;
+      color: #ffffff;
+      font-weight: bold;
+    
+      background-color: #a51d21;
+      border-radius: 10px;
+      padding: 5px 10px; /* Adjust padding for better spacing */
+    }
+    
+    .breadcrumb05 {
+    
+      font-size: 25px;
+      margin-left: 0px;
+      color: #a51d21;
+      font-weight: bold;
     }
     
     .search-bar1 {
-      margin-left: -30px;
+      margin-left: -10px;
+      margin-top: -80px;
+      
     }
-    
     .search-bar1 input {
-      width: 220px;
-      margin-top: 50px
+      height: 25px; /* Increased height for better visual balance with icons */
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 15px;
+      border: 1px solid #6d6c6c;
+      border-radius: 35px;
+      margin-left: -20px;
+      width: 210px;
+      margin-top: 90px;
     }
+
+    .view-mode-toggle1 {
+      background: none; /* No background */
+      border: none; /* No border */
+      cursor: pointer; /* Pointer cursor on hover */
+      font-size: 38px; /* Adjust size of the icon */
+      color: #8B0000; /* Change color as needed */
+      padding: 5px; /* Add some padding */
+      margin-top: 100px;
+      margin-left: 0px;
+      
+      }
+
+      .view-excel-toggle1 {
+        background: none; /* No background */
+        border: none; /* No border */
+        cursor: pointer; /* Pointer cursor on hover */
+        font-size: 38px; /* Adjust size of the icon */
+        color: #45a049; /* Green color for the icon */
+        padding: 10px 5px; /* Increase padding for better spacing */
+        margin-top: 90px;
+        border-radius: 8px; /* Rounded corners for the button */
+        transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease; /* Smooth transition effects */
+      }
+
+        
+      /* Top-Right Buttons Container */
+      .top-right-buttons1 {
+        margin-top: 5px;
+        margin-left: 0px;
+        gap: 5px;
+      }
     /* table */
   
     .table-container1 {
@@ -861,17 +943,7 @@ text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3 ); /* Add text shadow */
       white-space: nowrap; /* Prevent the text from wrapping into multiple lines */
     }
     
-    .view-excel-toggle1 {
-      background: none; /* No background */
-      border: none; /* No border */
-      cursor: pointer; /* Pointer cursor on hover */
-      font-size: 38px; /* Adjust size of the icon */
-      color: #45a049; /* Green color for the icon */
-      padding: 10px 5px; /* Increase padding for better spacing */
-      margin-top: 50px;
-      border-radius: 8px; /* Rounded corners for the button */
-      transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease; /* Smooth transition effects */
-    }
+
     /* modal---- */
     .modal-overlay1 {
       position: fixed;
@@ -1019,15 +1091,5 @@ text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3 ); /* Add text shadow */
         width: 48%;
       }
 
-      .view-mode-toggle1 {
-        background: none; /* No background */
-        border: none; /* No border */
-        cursor: pointer; /* Pointer cursor on hover */
-        font-size: 38px; /* Adjust size of the icon */
-        color: #8B0000; /* Change color as needed */
-        padding: 5px; /* Add some padding */
-        margin-top: 60px;
-        margin-left: 0px;
-        
-        }
+
     }

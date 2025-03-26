@@ -1,9 +1,28 @@
 /* General layout */
   
-.breadcrumb3 {
-  margin: 10px 8px 0px;
-  font-size: 20px;
-  color: #000000;
+.tit4 {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px; /* Adds space between the breadcrumb items */
+  align-items: center; /* Centers breadcrumb items vertically */
+  font-family: 'Georgia';
+}
+
+.breadcrumb54 {
+  font-size: 40px;
+  color: #ffffff;
+  font-weight: bold;
+
+  background-color: #a51d21;
+  border-radius: 10px;
+  padding: 5px 10px; /* Adjust padding for better spacing */
+}
+
+.breadcrumb04 {
+
+  font-size: 40px;
+  margin-left: 0px;
+  color: #a51d21;
   font-weight: bold;
 }
 
@@ -606,34 +625,54 @@ color: red;
     flex-direction:column;
 }
 
-.breadcrumb3 {
-  margin: 10px 8px 0 -50px;
-  font-size: 20px;
-  color:#800000;
-  font-weight: bold;
-  width: 150%;
+.tit4 {
+  display: flex;
+  margin: 0px -50px;
+  gap: 10px; /* Adds space between the breadcrumb items */
+  align-items: center; /* Centers breadcrumb items vertically */
+  font-family: 'Georgia';
 }
 
+.breadcrumb54 {
+  font-size: 25px;
+  color: #ffffff;
+  font-weight: bold;
+
+  background-color: #a51d21;
+  border-radius: 10px;
+  padding: 5px 10px; /* Adjust padding for better spacing */
+}
+
+.breadcrumb04 {
+  width: 180px;
+  font-size: 25px;
+  margin-left: 0px;
+  color: #a51d21;
+  font-weight: bold;
+
+}
 .search-bar3 {
-  display: flex;
-  align-items: center; /* Vertically center items */
-  margin-top: 0px;
-   /*height: 3  00px; Full viewport height to center vertically */
-  margin-top: -20px;
+  margin-left: -30px;
+  margin-top: -80px;
   
 }
 .search-bar3 input {
-  width: 250px;
-  height: 35px; /* Increased height for better visual balance with icons */
+  height: 25px; /* Increased height for better visual balance with icons */
   padding: 10px;
   border-radius: 5px;
   font-size: 15px;
   border: 1px solid #6d6c6c;
   border-radius: 35px;
-  margin-top: 20px;
-  margin-left: -60px;
+  margin-left: -20px;
+  width: 240px;
+  margin-top: 100px;
 }
 
+.view-mode-toggle3{
+  margin-top: 110px;
+  margin-left:0px;
+  
+}
 
 .table-container3 {
   width: 170%; /* Full width of the parent */
@@ -655,7 +694,7 @@ color: red;
 
 .top-right-buttons3 {
   display: flex; /* Enable flexbox for alignment */
-  margin-top: 30px;
+  margin-top:5px;
   margin-left: 0px;
   justify-content: center;
   }

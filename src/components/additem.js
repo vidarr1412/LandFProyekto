@@ -635,9 +635,9 @@ setLoading(true);
 
       <div className="content">
         <div className="manage-bulletin1">
-        <div className='tit'>
-            <div className="breadcrumb5">Found</div>
-            <div className="breadcrumb0">Items</div>
+        <div className='tit5'>
+            <div className="breadcrumb55">Found</div>
+            <div className="breadcrumb05">Items</div>
           </div>
 
 

@@ -122,6 +122,7 @@
         transition: background-color 0.3s;
         width: 138%;
         margin-left: -48px;
+        margin-top: -10px;
     }
     
     .filter-inputs-container3 select {

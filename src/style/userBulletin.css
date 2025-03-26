@@ -1,11 +1,31 @@
 /* General layout */
-  
-  .breadcrumb4 {
-    margin: 10px 8px 0 -20px;
-    font-size: 20px;
-    color: #000000;
-    font-weight: bold;
-  }
+.tit2 {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px; /* Adds space between the breadcrumb items */
+  align-items: center; /* Centers breadcrumb items vertically */
+  font-family: 'Georgia';
+}
+
+.breadcrumb52{
+  font-size: 40px;
+  color: #ffffff;
+  font-weight: bold;
+
+  background-color: #a51d21;
+  border-radius: 10px;
+  padding: 5px 10px; /* Adjust padding for better spacing */
+}
+
+.breadcrumb02 {
+
+  font-size: 40px;
+  margin-left: 0px;
+  color: #a51d21;
+  font-weight: bold;
+ 
+
+}
   .manage-bulletin4 {
     margin: 30px;
     display: flex;
@@ -355,7 +375,7 @@
     
     align-items: flex-start; /* Align buttons to the start (left) */
     width: 100%; /* Ensure it takes full width */
-    margin-top: 20px; /* Add some space above the buttons */
+    margin-top: 0px; /* Add some space above the buttons */
     gap: 10px; /* Space between buttons */
 }
 
@@ -684,6 +704,18 @@ width: 100%;
   margin-top: -40px; /* Add some space above the image */
 }
 
+.submit-btn4,
+.cancel-btn4,.delete-btn4 {
+  padding: 10px;
+  font-size: small;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 48%;
+
+}
+
 @media (max-width: 768px) {
   .manage-bulletin4 {
     margin: 30px;
@@ -695,15 +727,49 @@ width: 100%;
     flex-direction:column;
 
   }
+  .tit2 {
+    display: flex;
+    margin: 0px -20px;
+    gap: 10px; /* Adds space between the breadcrumb items */
+    align-items: center; /* Centers breadcrumb items vertically */
+    font-family: 'Georgia';
+  }
 
+  .breadcrumb52 {
+    font-size: 30px;
+    color: #ffffff;
+    font-weight: bold;
+  
+    background-color: #a51d21;
+    border-radius: 10px;
+    padding: 5px 10px; /* Adjust padding for better spacing */
+  }
+  
+  .breadcrumb02 {
+  
+    font-size: 30px;
+    margin-left: 0px;
+    color: #a51d21;
+    font-weight: bold;
+  }
+  
+  .search-bar4 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    margin-top: -140px;
+    
+  }
   .search-bar4 input {
-    width: 280px;
-    height: 35px; /* Increased height for better visual balance with icons */
+    height: 25px; /* Increased height for better visual balance with icons */
     padding: 10px;
     border-radius: 5px;
     font-size: 15px;
     border: 1px solid #6d6c6c;
     border-radius: 35px;
+    margin-left: -20px;
+    width: 280px;
+    margin-top: 110px;
 
   }
 
@@ -931,6 +997,13 @@ flex-direction: column;
   border-radius: 6px;
   cursor: pointer;
   width: 48%;
-
 }
+.uploaded-image4 {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  margin-top: 0px; /* Add some space above the image */
+}
+
 }

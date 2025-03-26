@@ -1,11 +1,31 @@
 /* General layout */
-  
-  .breadcrumb6 {
-    margin: 10px 8px 0 -20px;
-    font-size: 20px;
-    color: #000000;
-    font-weight: bold;
-  }
+.tit1 {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px; /* Adds space between the breadcrumb items */
+  align-items: center; /* Centers breadcrumb items vertically */
+  font-family: 'Georgia';
+}
+
+.breadcrumb51 {
+  font-size: 40px;
+  color: #ffffff;
+  font-weight: bold;
+
+  background-color: #a51d21;
+  border-radius: 10px;
+  padding: 5px 10px; /* Adjust padding for better spacing */
+}
+
+.breadcrumb01 {
+
+  font-size: 40px;
+  margin-left: 0px;
+  color: #a51d21;
+  font-weight: bold;
+ 
+
+}
   .manage-bulletin6 {
     margin: 30px;
     display: flex;
@@ -773,6 +793,18 @@ font-weight: 500;
   box-shadow: 0 0 5px rgb(60, 106, 190);
 }
 
+
+.submit-btn6,
+.cancel-btn6,.delete-btn6, .close-btn-manager6 ,.update-btn6 {
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 48%; /* Adjusted for button alignment */
+
+}
 /* --------------------------------------------------- */
 
 
@@ -782,21 +814,58 @@ font-weight: 500;
   .manage-bulletin6 {
     padding: 50px;
     margin-left: 0px; /* Space to avoid8lap with the sidebar */
+  }
+
+  .tit1 {
+    display: flex;
+    margin: 0px -20px;
+    gap: 10px; /* Adds space between the breadcrumb items */
+    align-items: center; /* Centers breadcrumb items vertically */
+    font-family: 'Georgia';
+  }
+
+  .breadcrumb51 {
+    font-size: 30px;
+    color: #ffffff;
+    font-weight: bold;
   
+    background-color: #a51d21;
+    border-radius: 10px;
+    padding: 5px 10px; /* Adjust padding for better spacing */
+  }
+  
+  .breadcrumb01 {
+  
+    font-size: 30px;
+    margin-left: 0px;
+    color: #a51d21;
+    font-weight: bold;
   }
   .grid-item6 {
 
     width: 110%; /* Ensure grid items take full width of their cell */
   }
+  .search-bar6 {
+    margin-left: 15px;
+    margin-top: -140px;
     
+  }
   .search-bar6 input {
-    width: 300px;
-    height: 35px; /* Increased height for better visual balance with icons */
+    height: 25px; /* Increased height for better visual balance with icons */
     padding: 10px;
     border-radius: 5px;
     font-size: 15px;
     border: 1px solid #6d6c6c;
     border-radius: 35px;
+    margin-left: -20px;
+    width: 240px;
+    margin-top: 100px;
+
+  }
+  .view-mode-toggle6{
+    margin-top: 110px;
+    margin-left:0px;
+    
   }
   .manage-bulletin6 {
     padding: 50px;
@@ -808,15 +877,7 @@ font-weight: 500;
     width: 120%; /* Ensure grid items take full width of their cell */
   }
     
-  .search-bar6 input {
-    width: 250px;
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-  }
+
 
   .button-container6 {
     display: flex;

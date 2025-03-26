@@ -134,8 +134,8 @@
         border: 1px solid #ccc; /* Border for the container */
         border-radius: 30px; /* Rounded corners */
         transition: background-color 0.3s; /* Smooth transition for background color */
-        margin-left: -18px;
-        margin-top: 20px;
+        margin-left: -19px;
+        margin-top: 10px;
     }
     
     .filter-inputs-container4 select {

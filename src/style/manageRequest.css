@@ -14,11 +14,13 @@
 
   background-color: #a51d21;
   border-radius: 10px;
-  padding: 5px 8px; /* Adjust padding for better spacing */
+  padding: 5px 10px; /* Adjust padding for better spacing */
 }
 
 .breadcrumb0 {
+
   font-size: 40px;
+  margin-left: 0px;
   color: #a51d21;
   font-weight: bold;
  
@@ -486,7 +488,6 @@
   margin-bottom: 20px; /* Space between cards */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   max-height: 600px;
-  overflow-y: auto;
   border: 1px solid #eae7e7;
 }
 
@@ -827,6 +828,8 @@ cursor: pointer;
 
   .tit {
     margin-top: 20px;
+    margin: 0px -20px;
+
     display: flex;
     gap: 10px; /* Adds space between the breadcrumb items */
     align-items: center; /* Centers breadcrumb items vertically */
@@ -841,34 +844,44 @@ cursor: pointer;
   
     background-color: #a51d21;
     border-radius: 10px;
-    padding: 5px 8px; /* Adjust padding for better spacing */
+    padding: 5px 10px; /* Adjust padding for better spacing */
   }
   
   .breadcrumb0 {
+  
     font-size: 25px;
+    margin-left: 0px;
     color: #a51d21;
     font-weight: bold;
-   
-  
   }
   .search-bar5 {
-    margin-left: -25px;
-    margin-bottom: 10px;
-  
-  
-  
+    margin-left: -0px;
+    margin-top: -80px;
     
   }
   .search-bar5 input {
-    width: 250px;
-    height: 35px; /* Increased height for better visual balance with icons */
+    height: 25px; /* Increased height for better visual balance with icons */
     padding: 10px;
     border-radius: 5px;
     font-size: 15px;
-    border: 1px solid #ada8a8;
+    border: 1px solid #6d6c6c;
     border-radius: 35px;
+    margin-left: -20px;
+    width: 230px;
+    margin-top: 95px;
   }
   
+  .view-mode-toggle5 {
+    background: none; /* No background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 38px; /* Adjust size of the icon */
+    color: #8B0000; /* Change color as needed */
+    padding: 5px; /* Add some padding */
+    margin-top: 100px;
+    margin-left: 0px;
+    }
+
   .grid-container5 {
     margin-top: 50px;
     width: 110%; /* Ensure the grid takes full width */

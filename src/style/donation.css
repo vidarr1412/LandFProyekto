@@ -1,10 +1,30 @@
 /* General layout */
-  
-.breadcrumb7 {
-  margin: 10px 8px 0 0px;
-  font-size: 20px;
-  color: #000000;
+.tit6 {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px; /* Adds space between the breadcrumb items */
+  align-items: center; /* Centers breadcrumb items vertically */
+  font-family: 'Georgia';
+}
+
+.breadcrumb56{
+  font-size: 40px;
+  color: #ffffff;
   font-weight: bold;
+
+  background-color: #a51d21;
+  border-radius: 10px;
+  padding: 5px 10px; /* Adjust padding for better spacing */
+}
+
+.breadcrumb06{
+
+  font-size: 40px;
+  margin-left: 0px;
+  color: #a51d21;
+  font-weight: bold;
+ 
+
 }
 .manage-bulletin7 {
   margin: 30px;
@@ -970,7 +990,6 @@ a:hover {
         max-height: 82vh; /* Limit height to enable scrolling */
         display: flex;
         flex-direction: column; /* Stack children vertically */
-        overflow-y: auto;
         max-width: 100%;
       }
       
@@ -1174,29 +1193,72 @@ a:hover {
     margin-left: 0;
   }
   
-  .breadcrumb1 {
-    margin: 10px 0px -10px 0px;
-    width: 105%;
-    color: #800000;
+  .tit6 {
+    margin-top: 20px;
+    margin: 0px -20px;
+
+    display: flex;
+    gap: 10px; /* Adds space between the breadcrumb items */
+    align-items: center; /* Centers breadcrumb items vertically */
+    font-family: 'Georgia';
+
   }
   
-  .search-bar1 {
-    margin-left: -35px;
-    margin-top: -20px;
+  .breadcrumb56 {
+    font-size: 25px;
+    color: #ffffff;
+    font-weight: bold;
+  
+    background-color: #a51d21;
+    border-radius: 10px;
+    padding: 5px 10px; /* Adjust padding for better spacing */
   }
   
-  .search-bar1 input {
-    width: 230px;
-    margin-top: 50px
-  }
+  .breadcrumb06 {
   
-  
-  /* Top-Right Buttons Container */
-  .top-right-buttons1 {
+    font-size: 25px;
     margin-left: 0px;
-    gap: 5px;
+    color: #a51d21;
+    font-weight: bold;
   }
-  
+
+  .search-bar7 {
+    margin-left: -0px;
+    margin-top: -80px;
+    
+  }
+  .search-bar7 input {
+    height: 25px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+    margin-left: -20px;
+    width: 230px;
+    margin-top: 95px;
+  }
+
+  .view-mode-toggle7 {
+    background: none; /* No background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 38px; /* Adjust size of the icon */
+    color: #8B0000; /* Change color as needed */
+    padding: 5px; /* Add some padding */
+    margin-top: 100px;
+    margin-left: 0px;
+    }
+
+  .top-right-buttons7 {
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Vertically center items */
+    margin-left: 20px;
+    margin-top: 10px;
+    gap: 10px; /* Add spacing between the input and icons */
+    }
+
+    /* buttons */
   .add-item-btn1, .register-qr-btn1 {
     width: 100%;
     min-width: 150px;
@@ -1225,26 +1287,6 @@ a:hover {
     margin-left: 0px; /* Space to avoid8lap with the sidebar */
     flex-direction:column;
   }
-  .search-bar7 input {
-    width: 255px;
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-    margin-top: 50px;
-    margin-left: -30px;
-  }
-
-  .top-right-buttons7 {
-    display: flex; /* Enable flexbox for alignment */
-    align-items: center; /* Vertically center items */
-    margin-left: 20px;
-    margin-top: 20px;
-    gap: 10px; /* Add spacing between the input and icons */
-    }
-
 
     .table-container7 {
       width: 140%; /* Full width of the parent */
@@ -1343,7 +1385,7 @@ a:hover {
     justify-content: center;
     width: auto; /* Fixed width for the image */
     max-width: 18rem;
-    min-width: 10em;
+    min-width: 18em;
     height: auto; /* Maintain aspect ratio */
     border-radius: 2rem; /* Rounded corners for images */
     cursor: pointer; /* Pointer cursor on hover */
@@ -1412,12 +1454,10 @@ a:hover {
       max-height: 85vh; /* Limit height to enable scrolling */
       display: flex;
       flex-direction: column; /* Stack children vertically */
-      overflow-y: auto;
       max-width: 100%;
     } 
 
     .donation-container7 {
-    overflow-y: auto; /* Enable vertical scrolling */
     padding: 16px; /* Add some padding */
     border-radius: 1rem; /* Rounded corners */
     border: 1px solid #ffffff; /* Optional: Border for items */
@@ -1484,10 +1524,9 @@ a:hover {
       }
 
       .modal7 h2 {
-        background-color: #660000;
         margin-bottom: 20px;
         font-size: larger;
-        color: #ffffff;
+        color: #000000;
         text-align: center;
         font-weight: bold;
         padding: 10px;
