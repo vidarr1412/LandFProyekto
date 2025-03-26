@@ -410,8 +410,9 @@ setLoading(true);
 
       <div className="content">
         <div className="manage-bulletin2">
-          <div className="breadcrumb2">
-            Lost and Found {'>'} File Report
+        <div className='tit'>
+            <div className="breadcrumb5">File</div>
+            <div className="breadcrumb0">Report</div>
           </div>
 
 
@@ -558,7 +559,6 @@ setLoading(true);
                     id="itemName"
                     name="itemname"
                     maxLength="100"
-                    placeholder="Item Name"
                     value={itemData.itemname}
                     onChange={handleInputChange}
                     required={!selectedRequest}
@@ -572,7 +572,6 @@ setLoading(true);
                     id="description"
                     name="description"
                     maxLength="500"
-                    placeholder="Description"
                     value={itemData.description}
                     onChange={handleInputChange}
                     required={!selectedRequest}
@@ -585,7 +584,6 @@ setLoading(true);
                     id="itemType"
                     name="type"
                     maxLength="100"
-                    placeholder="Item Type"
                     value={itemData.type}
                     onChange={handleInputChange}
                   >
@@ -607,7 +605,6 @@ setLoading(true);
                     id="general_location"
                     name="general_location"
                     maxLength="200"
-                    placeholder="General Location"
                     value={itemData.general_location}
                     onChange={handleInputChange}
                   >
@@ -635,12 +632,11 @@ setLoading(true);
                 </div>
                 <div className="form-group2">
                   <label htmlFor="Slocation">Specific Location</label>
-                  <input
+                  <textarea
                     type="text"
                     id="location"
                     name="location"
                     maxLength="200"
-                    placeholder="Location"
                     value={itemData.location}
                     onChange={handleInputChange}
                     required={!selectedRequest}

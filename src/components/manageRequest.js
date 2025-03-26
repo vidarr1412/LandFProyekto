@@ -174,7 +174,10 @@ function ManageRequest() {
       <Header />
       <div className="content">
         <div className="manage-bulletin5">
-          <div className="breadcrumb5">Manage Lost and Found {'>'} Manage Request</div>
+          <div className='tit'>
+            <div className="breadcrumb5">Manage</div>
+            <div className="breadcrumb0">Request</div>
+          </div>
 
           <div className="search-bar5">
             <input
@@ -321,6 +324,7 @@ function ManageRequest() {
 
                 </div>
               )}
+              
             </div>
 
             <div className="button-container5">

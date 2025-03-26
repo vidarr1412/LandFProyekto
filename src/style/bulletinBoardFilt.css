@@ -101,3 +101,70 @@
     visibility: visible; /* Show tooltip */
     opacity: 1; /* Make tooltip visible */
 }
+
+
+@media (max-width: 768px) { 
+    .filter-container3 {
+
+        gap: 10px;
+        margin-left: 25px;
+        margin-top: 80px;
+        margin-bottom: 50px;
+        width: auto;
+    }
+    .filter-inputs-container3 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        transition: background-color 0.3s;
+        width: 138%;
+        margin-left: -48px;
+    }
+    
+    .filter-inputs-container3 select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        transition: border-color 0.3s, background-color 0.3s;
+        width: 100%;
+    }
+
+    .filter-inputs-container3 button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    .tooltip-container3 {
+        position: relative;
+        display: inline-block; 
+
+    }
+
+    .tooltip3 {
+        visibility: hidden; /* Hidden by default */
+        width: 100px; /* Set width of tooltip */
+        background-color: #555; /* Dark background */
+        color: #fff; /* White text */
+        text-align: center; /* Center text */
+        border-radius: 5px; /* Rounded corners */
+        padding: 5px; /* Padding */
+        position: absolute; /* Position tooltip */
+        z-index: 1; /* Ensure tooltip is above other elements */
+        bottom: 125%; /* Position above the input */
+        left: 50%; /* Center tooltip */
+        margin-left: -100px; /* Adjust to center */
+        opacity: 0; /* Hidden by default */
+        transition: opacity 0.3s; /* Smooth transition */
+    }
+    
+    
+}

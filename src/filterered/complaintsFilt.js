@@ -37,8 +37,8 @@ const Filter = ({ onApplyFilters }) => {
     };
 
     return (
-        <div className="filter-container">
-            <div className="filter-inputs-container">
+        <div className="compfilter-container">
+            <div className="compfilter-inputs-container">
                 <select value={itemType} onChange={(e) => setItemType(e.target.value)}>
                     <option value="">Select Item Type</option>
                     <option value="Electronics">Electronics</option>
@@ -94,7 +94,7 @@ const Filter = ({ onApplyFilters }) => {
                     <option value="ascending">Sort by Date (Ascending)</option>
                     <option value="descending">Sort by Date (Descending)</option>
                 </select>
-                <span className="tooltip">Select Date complaint</span>
+                <span className="tooltip">Sort Date Lost</span>
                 </div>
 
                 <button onClick={handleUndoAllChanges} disabled={JSON.stringify(initialFilters) === JSON.stringify({ itemType, dateLost, generalLocation, status, sortByDate })}>

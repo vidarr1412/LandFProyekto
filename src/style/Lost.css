@@ -34,35 +34,45 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 2000;
 }
 
 .modal2 {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: flex-start; /* Align items to the start */
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 800px; /* Adjusted for more space */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  /* dhea */
+  max-height: 90vh; /* Set max height to 90% of the viewport */
+  overflow-y: auto; /* Enable vertical scrolling */ 
 }
 
 .modal2 h2 {
-    margin-bottom: 20px;
+  padding: 10px;
+  width: 90%;
+    margin-top: -10px;
+    margin-bottom: 50px;
     font-size: 1.8rem;
-    color: #222222;
+    color: #000000;
     text-align: center;
     font-weight: bold;
+    margin-left: 40px;
+    border-bottom: 2px solid #a51d21
 }
 
 .modal2 form {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Two columns for labels and inputs */
-    gap: 20px;
+    gap: 10px 40px;
     width: 100%; /* Ensure the form takes full width */
+    margin-right: 5rem;
+    margin-top: -30px;
 }
 
 .form-group2 {
@@ -182,11 +192,10 @@
 .status-btn2{
   color: white;
   padding: 5px 12px;
-  font-size: 12px;
   margin: 0px 2px; /* Adds horizontal spacing between buttons */
   border: none;
   font-size: 15px;
-  border-radius: 20px;
+  border-radius: 1rem;
   margin-left: 0px;
   display: inline-block; /* Ensure it behaves like a button */
   max-height: none; /* Remove max-height */
@@ -222,129 +231,6 @@
 
 
 
-
-
-
-@media (max-width: 768px) {
-  /* Fixed Header */
-  .content {
-    width: 100%;
-  }
-
-  .manage-bulletin2 {
-    margin: 30px;
-    display: flex;
-    align-items: flex-start; /* Align to the top */
-    flex-grow: 1; /* Take up the remaining space */
-    padding: 50px;
-    flex-direction:column;
-  }
-
-  .search-bar2 {
-    margin-left: -10px;
-    margin-top: -70px;
-    
-  }
-  .search-bar2 input {
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-    margin-left: -50px;
-    width: 260px;
-  }
-
-  .view-mode-toggle2 {
-
-    margin-left: 05px;
-    
-  }
-
-  .breadcrumb2 {
-    margin-top: 0px;
-    margin-left: -60px;
-    font-size: 25px;
-    color:#800000;
-    font-weight: bold;
-    width: 160%;
-  }
-
-
-  .sidhead {
-    width: 85%;
-    height: 120%;
-    margin-left: 240px;
-    margin-top: -3px;
-  }
-
-  .grid-item2 {
-    background-color: #f0f0f0; /* Background color for items */
-    padding: 20px; /* Padding inside items */
-    border: 1px solid #ccc; /* Optional: Border for items */
-    border-radius: 4px; /* Rounded corners */
-    text-align: center; /* Center text */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
-    width: 250px; /* Ensure grid items take full width of their cell */
-    margin-left: -26px;
-  } 
-
-  .grid-container2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
-    margin-top: 30px;
-
-    row-gap: 35px; /* Space between grid items */
-    column-gap:85px;
-    padding: 16px; /* Padding around the grid */
-    justify-items: left; /* Center items within their grid cells */
-  }
-  
-  .top-right-buttons2 {
-    display: flex; /* Enable flexbox for alignment */
-    align-items: center; /* Vertically center items */
-    margin-left: -345px;
-    gap: 10px; /* Add spacing between the input and icons */
-    
-    }
-
-    .page-nav2 {
-      height: 40px;
-      font-weight: bold;
-      font-size: 12px;
-      border: 1px solid #8B0000;
-      background-color: #fff;
-      cursor: pointer;
-      color: #8B0000;
-      border-radius:  10px;
-      margin-left: 0;
-  }
-
-  .ppagination1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0px; /* Adjust margin to avoid covering the table */
-    margin-left: 10px;
-    margin-bottom: 50px; /* Add some space below the pagination */
-  }
-
-  .add-item-btn2, .register-qr-btn2 {
-    background-color: #800000; /* Dark red color for buttons */
-    color: white;
-    padding: 10px 20px; /* Adjusted padding for better button sizing */
-    font-size: 15px;
-    height: 60px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px; /* Space between buttons */
-    width: 150px;
-  }
-}
-
-
 /*FEB-19-25 ------------------------------------------------------ */
 
 
@@ -354,7 +240,7 @@
   margin: 30px auto 0; /* Center the container */
   overflow-x: auto; /* Enable horizontal scrolling */
   border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
-  border-radius: 5px; /* Optional: Add rounded corners */
+  border-radius: 1rem; /* Optional: Add rounded corners */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
 }
 
@@ -375,7 +261,7 @@
   vertical-align: top; /* Align text to the top */
   
   word-wrap: break-word; /* Allow long words to break */
-  max-width: 200px; /* Set a max width for cells */
+  max-width: 2rem; /* Set a max width for cells */
 }
 
 .ffound-items-table2 th {
@@ -405,8 +291,7 @@
 }
 
 .search-bar2 input:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  
+  border: .1rem solid #1565dd;
 }
 
 .search-bar2 input {
@@ -551,11 +436,11 @@ transform: translateY(-1px);
   background-color: #f0f0f0; /* Background color for items */
   padding: 20px; /* Padding inside items */
   border: 1px solid #ccc; /* Optional: Border for items */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 1rem; /* Rounded corners */
   text-align: center; /* Center text */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
   width: 105%; /* Ensure grid items take full width of their cell */
-  max-height: 550px;
+  max-height: 35rem;
 }
 
 
@@ -613,7 +498,7 @@ cursor: pointer;
   width: 100%;
   height: 30%;
   margin-bottom: 10px;
-  border-Radius: 5px; 
+  border-Radius: 1rem; 
 }
 
 .default-grid-url13:hover {
@@ -623,6 +508,7 @@ transform: translateY(-1px);
 
 /* ------------------------------------------------- */
 .form-and-camera2 {
+  width: 100%;
   display: flex;
   gap: 20px;            /* Space between form and camera */
   align-items: flex-start; /* Align items at the top; adjust if needed */
@@ -636,9 +522,67 @@ transform: translateY(-1px);
 }
 
 .form-group2 {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  margin: 10px 0;
 }
+
+.form-group2 label {
+  position: absolute;
+  margin-top: -10px;
+  left: 0;
+  transform: translateY(0); /* Ensure it stays at the top */
+  font-size: 16px; /* Adjust size so it stays smaller at the top */
+  pointer-events: none;
+  padding: 0 5px;
+  display: block;
+  font-weight: bold;
+  color: #000000;
+  background-color: #ffff;
+  margin-left: 10px;
+}
+
+.form-group2 input,
+.form-group2 input[type="date"],
+.form-group2 input[type="time"],
+.form-group2 input[type="file"] {
+  width: 110%;
+  height:5vh;
+  padding: 0.5rem;
+  border: 1px solid #b1b1b1;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.form-group2 textarea {
+width: 100%;
+ max-height: 100%;
+ height: 3rem;
+
+}
+
+.form-group2 select{
+  height: 2.9rem;
+  width: 110%;
+}
+.form-group2 input:focus~label,
+.form-group2 input:valid~label,
+.form-group2 select:focus~label,
+.form-group2 select:valid~label,
+.form-group2 textarea:focus~label,
+.form-group2 textarea:valid~label,
+.form-group2 input[type="date"]:focus~label,
+.form-group2 input[type="date"]:valid~label,
+.form-group2 input[type="time"]:focus~label,
+.form-group2 input[type="time"]:valid~label,
+.form-group2 input[type="file"]:focus~label {
+  background-color: #f8fcf9;
+  color: rgb(7, 7, 7);
+  font-size: 14px; /* Keeps the label size smaller when the field is focused or valid */
+  margin-top:-10px;
+}
+
 
 /* If any input needs to span full width, you can use: */
 .form-group2.full-width {
@@ -654,6 +598,7 @@ transform: translateY(-1px);
   /* Fix the height to roughly match the form fields height */
   height: 100%;
   padding-top: 10px;
+  margin-top: -50px;
 }
 
 /* Image preview in the third column */
@@ -669,4 +614,281 @@ transform: translateY(-1px);
   border: 1px solid #ccc;
   border-radius: 15px;
   margin-top: 10px; /* Add some space above the image */
+}
+
+
+@media (max-width: 768px) {
+  /* Fixed Header */
+
+  /* dhea: media ra ang na change */
+
+  .manage-bulletin2 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+    flex-direction:column;
+  }
+
+  .search-bar2 {
+    margin-left: -10px;
+    margin-top: -70px;
+    width: 100%;
+    min-width: 280px;
+    
+  }
+  .search-bar2 input {
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+    margin-left: -50px;
+    width: 500px;
+    margin-top: 100px;
+
+  }
+
+  .view-mode-toggle2 {
+    margin-top: 115px;
+    margin-left: 5px;
+    
+  }
+
+  .breadcrumb2 {
+    margin-top: 0px;
+    margin-left: -60px;
+    font-size: 25px;
+    color:#800000;
+    font-weight: bold;
+    width: 160%;
+  }
+
+  .grid-item2 {
+    background-color: #f0f0f0; /* Background color for items */
+    padding: 20px; /* Padding inside items */
+    border: 1px solid #ccc; /* Optional: Border for items */
+    border-radius: 4px; /* Rounded corners */
+    text-align: center; /* Center text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+    width: 280px; /* Ensure grid items take full width of their cell */
+    margin-left: -26px;
+    min-width: 200px;
+    width: 100%;
+  } 
+
+  .grid-container2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+    margin-top: 30px;
+    row-gap: 35px; /* Space between grid items */
+    column-gap:85px;
+    padding: 16px; /* Padding around the grid */
+    justify-items: left; /* Center items within their grid cells */
+    min-width: 130%;
+    margin-left: -45px;
+  }
+  
+  .top-right-buttons2 {
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Vertically center items */
+    margin-left: -10px;
+    gap: 10px; /* Add spacing between the input and icons */
+
+    
+    }
+
+    .page-nav2 {
+      height: 40px;
+      font-weight: bold;
+      font-size: 12px;
+      border: 1px solid #8B0000;
+      background-color: #fff;
+      cursor: pointer;
+      color: #8B0000;
+      border-radius:  10px;
+      margin-left: 0;
+  }
+
+  .ppagination1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px; /* Adjust margin to avoid covering the table */
+    margin-left: 10px;
+    margin-bottom: 50px; /* Add some space below the pagination */
+  }
+
+  .add-item-btn2 {
+    background-color: #800000; /* Dark red color for buttons */
+    color: white;
+    padding: 10px 20px; /* Adjusted padding for better button sizing */
+    font-size: 15px;
+    height: 60px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 200px;
+  }
+
+  .modal2 {
+    max-height: 85vh; /* Adjust max height for smaller screens */
+    width: 80%;
+}
+/* tbaale */
+.ffound-items-table2 th, .ffound-items-table2 td {
+  padding: 10px;
+  border: 1px solid #d5d2d2;
+  text-align: center;
+  overflow: hidden; /* Prevent overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  white-space: normal; /* Allow text to wrap */
+  vertical-align: top; /* Align text to the top */
+  
+  word-wrap: break-word; /* Allow long words to break */
+  max-width: 10rem; /* Set a max width for cells */
+}
+
+.table-container2 {
+  width: 165%; /* Full width of the parent */
+  max-width: 1600px; /* Set a max width for the container */
+  margin: 30px auto 0; /* Center the container */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+  border-radius: 1rem; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+  margin-left: -65px;
+}
+
+
+.modal2 h2 {
+  margin: 0 -10px 0px 5px;
+
+  margin-bottom: 30px;
+  margin-top: -10px;
+  font-size: 1.5rem;
+  color: #000000;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  display: flex; /* Enables flexbox */
+  align-items: center; /* Centers text vertically */
+  justify-content: center; /* Centers text horizontally */
+  width: 90%; /* Ensures full width */
+  border-radius: 0px; /* Optional: Adds rounded corners */
+  border-bottom: 2px solid #a51d21;
+}
+
+
+.modal2 form {
+    grid-template-columns: 1fr; /* Single column layout */
+    color: #444444;
+    margin-top: 0px;
+
+}
+
+
+.modal2 select{
+    width: 95%; /* Full width */
+}
+
+.modal2 input{
+    width: 100%; /* Full width */
+    min-height: 3rem;
+
+}
+.modal2 textarea {
+  width: 90%; /* Full width */
+}
+
+.modal2 input[type="date"],
+.modal2 input[type="time"] {
+    width: 100%; /* Full width */
+    padding: 25px; /* Adjust padding for consistency */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+.modal2 input[type="file"] {
+    width: 100%; /* Full width */
+    padding: 25px; /* Smaller padding for upload buttons */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+
+/* .form-group2 {
+  position: relative;
+  margin: 20px 0;
+}
+
+.form-group2 label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  padding: 0 5px;
+  transition: 0.3s ease all;
+  display: block;
+  font-weight: bold;
+  color: #808080;
+}
+
+.form-group2 input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #080808;
+  border-radius: 3px;
+  outline: none;
+  font-size: 16px;
+}
+
+.form-group2 input:focus~label, 
+.form-group2 input:valid~label {
+  top: 0;
+  background-color: #45a049;
+  color: white;
+  font-size: 14px;
+} */
+
+
+.button-container2 {  
+    align-items: stretch;
+    margin-bottom: 20px;
+}
+
+.submit-btn2,
+.cancel-btn2,
+.delete-btn2 {
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 48%; /* Adjusted for button alignment */
+}
+
+
+
+  .form-and-camera2 {
+      flex-direction: column; /* Stack items vertically */
+      gap: 10px; /* Reduce gap for better spacing on mobile */
+  }
+  .uploaded-image2 {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    margin-top: 20px; /* Add some space above the image */
+    align-items: center;
+    justify-content: center;
+  }
+
 }

@@ -24,7 +24,7 @@
 .search-bar1 {
   display: flex;
   align-items: center; /* Vertically center items */
-  margin-top: 0px;
+  margin-top: -8px;
    /*height: 3  00px; Full viewport height to center vertically */
 
   
@@ -249,198 +249,6 @@ width: 14px; /* Adjust icon size for better proportion with the input */
 height: 14px; /* Maintain square aspect ratio */
 }
 
-
-.tooltip-contexcel {
-  margin-top: 10px;
-  margin-left: -5px;
-  position: relative; /* Position relative for absolute positioning of tooltip */
-  display: inline-block; /* Allow tooltip to be positioned relative to the input */
-}
-
-.tooltip-excel {
-  visibility: hidden; /* Hidden by default */
-  width: 80px; /* Set width of tooltip */
-  background-color: #555; /* Dark background */
-  color: #fff; /* White text */
-  text-align: center; /* Center text */
-  border-radius: 5px; /* Rounded corners */
-  padding: 5px; /* Padding */
-  position: absolute; /* Position tooltip */
-  z-index: 1; /* Ensure tooltip is above other elements */
-  left: 100%; /* Center tooltip */
-  margin-left: -80px; /* Adjust to center */
-  opacity: 0; /* Hidden by default */
-  transition: opacity 0.3s; /* Smooth transition */
-  font-size: 14px;
-}
-
-/* Show tooltip on hover */
-.tooltip-contexcel:hover .tooltip-excel {
-  visibility: visible; /* Show tooltip */
-  opacity: 1; /* Make tooltip visible */
-  margin-top: 100px;
-}
-
-
-
-
-
-/* ------------------------------------------------------ */
-
-@media (max-width: 768px) {
-.manage-bulletin1 {
-  margin-left: 0;
-}
-
-.breadcrumb1 {
-  margin: 10px 0px -10px 0px;
-  width: 105%;
-  color: #800000;
-}
-
-.search-bar1 {
-  margin-left: -30px;
-}
-
-.search-bar1 input {
-  width: 260px;
-  margin-top: 50px
-}
-
-
-/* Top-Right Buttons Container */
-.top-right-buttons1 {
-  margin-left: -330px;
-  gap: 5px;
-}
-
-.add-item-btn1, .register-qr-btn1 {
-  width: 100%;
-  min-width: 150px;
-  font-size: 15px;
-}
-
-.status-btn1 {
-  border-radius: 5px;
-}
-.grid-container1 {
-  margin-top: 50px;
-}
-.grid-item1 {
-  width: 110%; /* Ensure grid items take full width of their cell */
-}
-
-
-/* modal---- */
-.modal-overlay1 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal1 {
-  width: 85%;         /* Adjust width for responsiveness */
-  max-width: 600px;   /* Limit maximum width */
-  margin: 50px auto;  /* Center modal on the screen */
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-height: 80vh;   /* Limit height to enable scrolling */
-  overflow-y: auto;   /* Enable vertical scrolling */
-}
-
-.modal1 h2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #222222;
-  text-align: center;
-  font-weight: bold;
-}
-
-.modal1 form {
-  display: flex;
-  flex-direction: column; /* Single column layout */
-  gap: 15px;
-  width: 90%; /* Ensure the form takes full width */
-}
-
-.form-group1 {
-  display: flex;
-  flex-direction: column; /* Stack label above input */
-  width: 100%; /* Ensure full width */
-}
-
-.modal1 label {
-  font-weight: 500;
-  color: #444444;
-  margin-bottom: 5px;
-}
-
-.modal1 select,
-.modal1 textarea,
-.modal1 input {
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  width: 100%; /* Adjusted for full width in single column */
-}
-
-.modal1 input:focus,
-.modal1 select:focus,
-.modal1 textarea:focus {
-  border-color: #3c6abe;
-  outline: none;
-  box-shadow: 0 0 5px rgb(60, 106, 190);
-}
-
-/* Camera section moved after STATUS and set to full width */
-.status-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.camera-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%; /* Full width for single column layout */
-  padding-top: 10px;
-}
-
-.camera-section video,
-.captured-image {
-  width: 100%; /* Ensure full width */
-  max-width: 100%;
-  height: auto;
-}
-
-.camera-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.form-and-camera {
-  flex-direction: column;
-}
-.camera-section {
-  order: 1; /* Move the camera section below */
-}
-}
-/* FEB-11-2025------------------------------------------------------------------------------ */
-
 .table-container1 {
 width: 100%; /* Full width of the parent */
 max-width: 1600px; /* Set a max width for the container */
@@ -538,6 +346,8 @@ color: white;
 background-color: #0090ea;
 color: white;
 }
+
+
 
 .submit-btn1:hover {
 background-color: #61ce67;
@@ -711,6 +521,7 @@ gap: 10px; /* Space between grid items */
 width: auto;
 }
 
+/* dhea */
 .detail-item1 {
 display: flex; /* Use flexbox to align items */
 justify-content: space-between; /* Space between label and value */
@@ -718,6 +529,16 @@ padding: 8px 0; /* Adjust padding for detail items */
 max-width: 100%; /* Prevent stretching beyond the container */
 
 }
+
+.detail-item2 {
+  display: flex; /* Use flexbox to align items */
+  justify-content: space-between; /* Space between label and value */
+  padding: 8px 0; /* Adjust padding for detail items */
+  max-width: 100%; /* Prevent stretching beyond the container */
+  
+  }
+
+/* dhea */
 
 .detail-item1 strong {
 color: #555; /* Label color */
@@ -792,8 +613,8 @@ cursor: pointer; /* Pointer cursor on hover */
 font-size: 38px; /* Adjust size of the icon */
 color: #8B0000; /* Change color as needed */
 padding: 5px; /* Add some padding */
-
 margin-top: 60px;
+margin-left: 10px;
 
 }
 
@@ -810,21 +631,60 @@ color: #a50303; /* Change color on hover */
   border: none; /* No border */
   cursor: pointer; /* Pointer cursor on hover */
   font-size: 38px; /* Adjust size of the icon */
- color: #45a049;
-  padding: 5px; /* Add some padding */
-  
+  color: #45a049; /* Green color for the icon */
+  padding: 10px 15px; /* Increase padding for better spacing */
   margin-top: 50px;
-  
-  }
-  
-  
-  .view-excel-toggle1:hover {
-    color: #9fcaa1;
-  transform: translateY(-2px);
+  border-radius: 8px; /* Rounded corners for the button */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease; /* Smooth transition effects */
+}
 
-  
-  
-  }
+/* Hover state */
+.view-excel-toggle1:hover {
+  color: #9fcaa1; /* Lighter green on hover */
+  transform: translateY(-4px); /* Slight lift effect */}
+
+/* Focus state */
+.view-excel-toggle1:focus {
+  outline: none; /* Remove outline */
+}
+
+/* Active state (when clicked) */
+.view-excel-toggle1:active {
+  transform: translateY(1px); /* Slightly pushed down when clicked */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lighter shadow when clicked */
+}
+
+/* filtered.css */
+.tooltip-contexcel {
+  margin-top: 10px;
+  margin-left: -5px;
+  position: relative; /* Position relative for absolute positioning of tooltip */
+  display: inline-block; /* Allow tooltip to be positioned relative to the input */
+}
+
+.tooltip-excel {
+  visibility: hidden; /* Hidden by default */
+  width: 80px; /* Set width of tooltip */
+  background-color: #555; /* Dark background */
+  color: #fff; /* White text */
+  text-align: center; /* Center text */
+  border-radius: 5px; /* Rounded corners */
+  padding: 5px; /* Padding */
+  position: absolute; /* Position tooltip */
+  z-index: 1; /* Ensure tooltip is above other elements */
+  left: 100%; /* Center tooltip */
+  margin-left: -80px; /* Adjust to center */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s; /* Smooth transition */
+  font-size: 14px;
+}
+
+/* Show tooltip on hover */
+.tooltip-contexcel:hover .tooltip-excel {
+  visibility: visible; /* Show tooltip */
+  opacity: 1; /* Make tooltip visible */
+  margin-top: 100px;
+}
 
 /* --------------------------------------------------------- */
 
@@ -922,5 +782,252 @@ text-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3 ); /* Add text shadow */
   border-radius: 1rem;
   }
 
+  @media (max-width: 768px) {
 
+    /* dhea: media ra ang na change */
+
+    .manage-bulletin1 {
+      margin-left: 0px;
+    }
+    
+    .breadcrumb1 {
+      margin: 10px 0px -10px 0px;
+      width: 105%;
+      color: #800000;
+    }
+    
+    .search-bar1 {
+      margin-left: -30px;
+    }
+    
+    .search-bar1 input {
+      width: 220px;
+      margin-top: 50px
+    }
+    /* table */
   
+    .table-container1 {
+      width: 140%;
+
+      margin: 30px auto 0 -30px; /* Center the container */
+      overflow-x: auto; /* Enable horizontal scrolling */
+      border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+      border-radius: 1rem; /* Optional: Add rounded corners */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+      }
+    
+    /* Top-Right Buttons Container */
+    .top-right-buttons1 {
+      width: 100%;
+      margin-left: -0px;
+      gap: 5px;
+    }
+    
+    .add-item-btn1, .register-qr-btn1 {
+      width: 100%;
+      min-width: 150px;
+      font-size: 15px;
+    }
+    
+    .status-btn1 {
+      border-radius: 5px;
+    }
+    .grid-container1 {
+      margin-top: 50px;
+    }
+    .grid-item1 {
+      width: 110%; /* Ensure grid items take full width of their cell */
+    }
+    .tabs1 {
+      display: flex; /* Use flexbox */
+      justify-content: center; /* Center items horizontally */
+      margin: 0 4rem 2rem; /* Keep your existing margins */
+      padding: 5px;
+      border-radius: 0px;
+      margin-top: 20px;
+      border-bottom: 2px solid #a51d21; /* Permanent line below the tabs */
+    }
+    
+    .tab-button1 {
+      background-color: #ffffff;
+      border: 0px solid #ccc;
+      padding: 10px 30px;
+      margin-right: 10px; /* Corrected margin-right */
+      cursor: pointer;
+      border-radius: 15px;
+      transition: background-color 0.3s;
+      font-weight: bold; /* Make text bold */
+      font-size: 16px;
+      white-space: nowrap; /* Prevent the text from wrapping into multiple lines */
+    }
+    
+    .view-excel-toggle1 {
+      background: none; /* No background */
+      border: none; /* No border */
+      cursor: pointer; /* Pointer cursor on hover */
+      font-size: 38px; /* Adjust size of the icon */
+      color: #45a049; /* Green color for the icon */
+      padding: 10px 5px; /* Increase padding for better spacing */
+      margin-top: 50px;
+      border-radius: 8px; /* Rounded corners for the button */
+      transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease; /* Smooth transition effects */
+    }
+    /* modal---- */
+    .modal-overlay1 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .modal1 {
+
+      width: 85%;         /* Adjust width for responsiveness */
+      max-width: 600px;   /* Limit maximum width */
+      margin: 50px auto;  /* Center modal on the screen */
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-height: 80vh;   /* Limit height to enable scrolling */
+      overflow-y: auto;   /* Enable vertical scrolling */
+
+    }
+    
+    .modal1 h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: #222222;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .modal1 form {
+      display: flex;
+      flex-direction: column; /* Single column layout */
+      gap: 15px;
+      width: 90%; /* Ensure the form takes full width */
+    }
+    
+    .form-group1 {
+      display: flex;
+      flex-direction: column; /* Stack label above input */
+      width: 100%; /* Ensure full width */
+    }
+    
+    .modal1 label {
+      font-weight: 500;
+      color: #444444;
+      margin-bottom: 5px;
+    }
+    
+    .modal1 select,
+    .modal1 textarea,
+    .modal1 input {
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #cccccc;
+      border-radius: 6px;
+      width: 100%; /* Adjusted for full width in single column */
+    }
+    
+    .modal1 input:focus,
+    .modal1 select:focus,
+    .modal1 textarea:focus {
+      border-color: #3c6abe;
+      outline: none;
+      box-shadow: 0 0 5px rgb(60, 106, 190);
+    }
+    
+    /* Camera section moved after STATUS and set to full width */
+    .status-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .camera-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%; /* Full width for single column layout */
+      padding-top: 10px;
+    }
+    
+    .camera-section video,
+    .captured-image {
+      width: 100%; /* Ensure full width */
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .camera-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .form-and-camera {
+      flex-direction: column;
+    }
+    .camera-section {
+      order: 1; /* Move the camera section below */
+    }
+
+    .button-container1 {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    .detail-grid1 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px; /* Space between grid items */
+      width: auto;
+      }
+      
+    .detail-item1 {
+      padding: 5px;
+    }
+    .detail-item2 {
+      display: flex; /* Use flexbox to align items */
+      justify-content: space-between; /* Space between label and value */
+      flex-direction: column;
+      padding: 8px 0; /* Adjust padding for detail items */
+      max-width: 100%; /* Prevent stretching beyond the container */
+      }
+
+      .cancel-btn1, .edit-btn1,.delete-btn1, .submit-btn1 {
+        padding: 10px;
+        font-size: small;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 48%;
+      }
+
+      .view-mode-toggle1 {
+        background: none; /* No background */
+        border: none; /* No border */
+        cursor: pointer; /* Pointer cursor on hover */
+        font-size: 38px; /* Adjust size of the icon */
+        color: #8B0000; /* Change color as needed */
+        padding: 5px; /* Add some padding */
+        margin-top: 60px;
+        margin-left: 0px;
+        
+        }
+    }

@@ -251,17 +251,6 @@
     background: #f1f1f1;
 }
 
-.submit-btn6,
-.cancel-btn6,.delete-btn6, .close-btn-manager6 ,.update-btn6 {
-    padding: 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 48%; /* Adjusted for button alignment */
-
-}
 
 .submit-btn6 {
     background-color: #45a049;
@@ -461,7 +450,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 5000;
 }
 
 .modal6 {
@@ -571,9 +560,12 @@ font-weight: 500;
 }
 
 .modal-details6 {
+  padding: 40px;
+  background-color: #faf8f8;
   display: grid; /* Use grid layout */
   grid-template-columns: 1fr 1fr; /* Two equal columns */
   gap: 20px; /* Space between columns */
+  border-radius: 10px;
   margin-top: 20px; /* Space above the details */
 }
 
@@ -649,27 +641,6 @@ font-weight: 500;
   margin-top: 10px; /* Add some space above the image */
 }
 
-@media (max-width: 768px) {
-  .manage-bulletin6 {
-    padding: 50px;
-    margin-left: 0px; /* Space to avoid8lap with the sidebar */
-  
-  }
-  .grid-item6 {
-
-    width: 110%; /* Ensure grid items take full width of their cell */
-  }
-    
-  .search-bar6 input {
-    width: 300px;
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-  }
-}
 
 /* ------------------------------------------ */
 
@@ -806,5 +777,161 @@ font-weight: 500;
 
 
 
+@media (max-width: 768px) {
 
+  .manage-bulletin6 {
+    padding: 50px;
+    margin-left: 0px; /* Space to avoid8lap with the sidebar */
+  
+  }
+  .grid-item6 {
+
+    width: 110%; /* Ensure grid items take full width of their cell */
+  }
+    
+  .search-bar6 input {
+    width: 300px;
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+  }
+  .manage-bulletin6 {
+    padding: 50px;
+    margin-left: 0px; /* Space to avoid8lap with the sidebar */
+  
+  }
+  .grid-item6 {
+    margin-left: -10px;
+    width: 120%; /* Ensure grid items take full width of their cell */
+  }
+    
+  .search-bar6 input {
+    width: 250px;
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+  }
+
+  .button-container6 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    justify-content: center;
+  }
+  /* MODAL */
+  .card6 {
+    background: #f9f9f9; /* Light background for the card */
+    border-radius: 25px; /* Rounded corners */
+    padding: 20px; /* Padding inside the card */
+    margin-bottom: 20px; /* Space between cards */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-height: 600px;
+    overflow-y: auto;
+    max-width:  100%;
+    width: 250px;
+    margin-left: -15px;
+
+  }
+
+  .form-fields6 {
+    flex: 2;
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for fields */
+    gap: 15px;
+  }
+  
+  .form-and-camera6 {
+    flex-direction: column;
+    
+  }
+
+  /* table */
+
+  .table-container6 {
+    width: 140%; /* Full width of the parent */
+    max-width: 1600px; /* Set a max width for the container */
+    margin: 30px auto 0 -30px; /* Center the container */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+  }
+
+
+/* modal */
+  .modal66 {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start */
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 850px; /* Adjusted for a single column layout */
+    max-height: 85vh; /* Limit height to enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+
+  .modal66 h2 {
+    margin-bottom: 20px;
+    margin-top: 0px;
+    font-size: 1.8rem;
+    color: #fefefe;
+    text-align: center;
+    font-weight: bold;
+    background-color: #850F13;
+    padding: 10px;
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers text vertically */
+    justify-content: center; /* Centers text horizontally */
+    width: 90%; /* Ensures full width */
+    border-radius: 6px; /* Optional: Adds rounded corners */
+    font-size: larger;
+  }
+
+  .modal-details6 {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between columns */
+    margin-top: 20px; /* Space above the details */
+    margin-left: -10px;
+    padding-right: 10px; /* Prevents content from being cut off due to scrollbar */
+  }
+  
+  
+.modal6 {
+
+  width: 700px;         /* Extend the modal width */
+  margin: 70px auto;    /* Center modal on the screen */
+  padding: 20px;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 8px;
+  background-color: transparent;
+  max-height: 700px; /* Adjust based on the desired maximum height */
+  overflow-y: auto; /* Enables vertical scrolling */
+}
+
+
+.submit-btn6,
+.cancel-btn6,.delete-btn6, .close-btn-manager6 ,.update-btn6 {
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 48%; /* Adjusted for button alignment */
+
+}
+} 
 

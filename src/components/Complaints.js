@@ -399,8 +399,9 @@ setLoading(true);
 
       <div className="content">
         <div className="manage-bulletin3">
-          <div className="breadcrumb3">
-            Manage Lost And Found {'>'} Manage Reports and Complaints
+          <div className='tit'>
+            <div className="breadcrumb5">Manage</div>
+            <div className="breadcrumb0">Reports and Complaints</div>
           </div>
 
 
@@ -588,7 +589,6 @@ setLoading(true);
                       id="itemName"
                       name="itemname"
                       maxLength="100"
-                      placeholder="Item Name"
                       value={itemData.itemname}
                       onChange={handleInputChange}
                       required
@@ -600,7 +600,6 @@ setLoading(true);
                       id="description"
                       name="description"
                       maxLength="500"
-                      placeholder="Description"
                       value={itemData.description}
                       onChange={handleInputChange}
                       required
@@ -629,7 +628,6 @@ setLoading(true);
                       id="contact"
                       name="contact"
                        maxLength="100"
-                      placeholder="Contact of the Complainer"
                       value={itemData.contact}
                       onChange={handleInputChange}
                       required
@@ -640,7 +638,6 @@ setLoading(true);
                     <select
                       id="general_location"
                       name="general_location"
-                      placeholder="General Location"
                       value={itemData.general_location}
                       onChange={handleInputChange}
                     >
@@ -671,7 +668,6 @@ setLoading(true);
                       id="locationn"
                       name="location"
                       maxLength="200"
-                      placeholder="Specific location"
                       value={itemData.location}
                       onChange={handleInputChange}
                       required
@@ -885,7 +881,6 @@ setLoading(true);
                     id="itemName"
                     name="itemname"
                     maxlength="100"
-                    placeholder="Item Name"
                     value={itemData.itemname}
                     onChange={handleInputChange}
                     required={!selectedRequest}
@@ -899,7 +894,6 @@ setLoading(true);
                     id="description"
                     name="description"
                     maxlength="500"
-                    placeholder="Description"
                     value={itemData.description}
                     onChange={handleInputChange}
                     required={!selectedRequest}
@@ -911,7 +905,6 @@ setLoading(true);
                   <select
                     id="itemType"
                     name="type"
-                    placeholder="Item Type"
                     value={itemData.type}
                     onChange={handleInputChange}
                     required={!selectedRequest}
@@ -933,7 +926,6 @@ setLoading(true);
                     id="contact"
                     name="contact"
                     maxlength="50"
-                    placeholder="Contact of the Complainer"
                     value={itemData.contact}
                     onChange={handleInputChange}
                     required={!selectedRequest}
@@ -946,7 +938,6 @@ setLoading(true);
                   <select
                     id="general_location"
                     name="general_location"
-                    placeholder="General Location"
                     value={itemData.general_location}
                     onChange={handleInputChange}
                     required={!selectedRequest}
@@ -979,7 +970,6 @@ setLoading(true);
                     id="location"
                     name="location"
                     maxlength="200"
-                    placeholder="Specific Location"
                     value={itemData.location}
                     onChange={handleInputChange}
                     required={!selectedRequest}

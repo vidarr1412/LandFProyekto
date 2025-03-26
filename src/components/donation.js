@@ -424,8 +424,10 @@ const fetchFoundationItems = async (foundationId) => {
 
       <div className="content">
         <div className="manage-bulletin7">
-          <div className="breadcrumb7">Manage Lost and Found {'>'} Manage Found Items</div>
-
+        <div className='tit'>
+            <div className="breadcrumb5">Manage</div>
+            <div className="breadcrumb0">Donation</div>
+          </div>
 
 
 

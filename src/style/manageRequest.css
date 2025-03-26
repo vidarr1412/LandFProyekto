@@ -1,11 +1,30 @@
 /* General layout */
-  
-  .breadcrumb5 {
-    margin: 10px 8px 0 -20px;
-    font-size: 20px;
-    color: #000000;
-    font-weight: bold;
-  }
+.tit {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px; /* Adds space between the breadcrumb items */
+  align-items: center; /* Centers breadcrumb items vertically */
+  font-family: 'Georgia';
+}
+
+.breadcrumb5 {
+  font-size: 40px;
+  color: #ffffff;
+  font-weight: bold;
+
+  background-color: #a51d21;
+  border-radius: 10px;
+  padding: 5px 8px; /* Adjust padding for better spacing */
+}
+
+.breadcrumb0 {
+  font-size: 40px;
+  color: #a51d21;
+  font-weight: bold;
+ 
+
+}
+
   .manage-bulletin5 {
     margin: 30px;
     display: flex;
@@ -313,14 +332,13 @@
     transform: translateY(-1px);
   }
 
-  
   .button-container5 {
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    
+    display: flex;           /* Make the container a flexbox */
+    justify-content: center; /* Center the buttons horizontally */
+    flex-wrap: nowrap;       /* Ensure items don't wrap to a new line */
   }
-
+  
 
 
 .arrow5 {
@@ -442,7 +460,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .modal5 {
@@ -469,6 +487,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   max-height: 600px;
   overflow-y: auto;
+  border: 1px solid #eae7e7;
 }
 
 
@@ -583,41 +602,6 @@ font-weight: 500;
   height: auto;
 }
 
-@media (max-width: 768px) {
-  .manage-bulletin5 {
-    margin-left: 0px; /* Space to avoid8lap with the sidebar */
-
-  }
-  .search-bar5 {
-    margin-left: -20px;
-    
-  }
-  .search-bar5 input {
-    width: 250px;
-    height: 35px; /* Increased height for better visual balance with icons */
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #6d6c6c;
-    border-radius: 35px;
-  }
-
-  .grid-container5 {
-    margin-top: 50px;
-    width: 110%; /* Ensure the grid takes full width */
-  }
-
-
-  .modal5 {
-    width: 85%; 
-    min-width: 100px ;        /* Extend the modal width */
-  }
-
-  .modal5 select{
-      width: 100%;
-    }
-}
-
 /* ----------------------------------------------------------- */
 
 .tabs5 {
@@ -705,9 +689,12 @@ font-weight: 500;
 
 
 .modal-details5 {
+  padding: 40px;
+  background-color: #faf8f8;
   display: grid; /* Use grid layout */
   grid-template-columns: 1fr 1fr; /* Two equal columns */
   gap: 20px; /* Space between columns */
+  border-radius: 10px;
   margin-top: 20px; /* Space above the details */
 }
 
@@ -793,4 +780,200 @@ cursor: pointer;
   background-color: #FFC107 ; /* Green for claimed */ 
 }
 
+@media (max-width: 768px) {
 
+  /* dhea: media ra ang na change */
+  
+  .table-container5 {
+   
+    width: 145%; /* Full width of the parent */
+    max-width: 1600px; /* Set a max width for the container */
+    margin: -10px auto 0px -40px; /* Center the container */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+    border-radius: 1rem; /* Optional: Add rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+  }
+  
+  
+  
+  .ffound-items-table5 {
+  
+    width: 100%; /* Full width of the parent */
+    border-collapse: collapse; /* Collapse borders */
+    font-size: 14px;
+    table-layout: auto; /* Use fixed table layout to respect column widths */
+  }
+  
+  
+  .grid-item5 {
+  margin-top: -80px;
+  margin-bottom: 70px;
+  overflow-y: auto;  /* Enable vertical scrolling */
+  word-wrap: break-word;
+  background-color: #f0f0f0; /* Background color for items */
+  padding: 20px; /* Padding inside items */
+  border: 1px solid #ccc; /* Optional: Border for items */
+  border-radius: 1rem; /* Rounded corners */
+  text-align: center; /* Center text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for items */
+  width: 105%; /* Ensure grid items take full width of their cell */
+  }
+  
+  .manage-bulletin5 {
+    margin-left: 0px; /* Space to avoid8lap with the sidebar */
+  
+  }
+
+  .tit {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px; /* Adds space between the breadcrumb items */
+    align-items: center; /* Centers breadcrumb items vertically */
+    font-family: 'Georgia';
+
+  }
+  
+  .breadcrumb5 {
+    font-size: 25px;
+    color: #ffffff;
+    font-weight: bold;
+  
+    background-color: #a51d21;
+    border-radius: 10px;
+    padding: 5px 8px; /* Adjust padding for better spacing */
+  }
+  
+  .breadcrumb0 {
+    font-size: 25px;
+    color: #a51d21;
+    font-weight: bold;
+   
+  
+  }
+  .search-bar5 {
+    margin-left: -25px;
+    margin-bottom: 10px;
+  
+  
+  
+    
+  }
+  .search-bar5 input {
+    width: 250px;
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #ada8a8;
+    border-radius: 35px;
+  }
+  
+  .grid-container5 {
+    margin-top: 50px;
+    width: 110%; /* Ensure the grid takes full width */
+  }
+  /* filterfilter */
+  .tabs5 {
+  margin-bottom: 10px;
+  margin-left: -12px;
+  padding: 0px;
+  border-radius: 0px;
+  margin-top: 20px;
+  border-bottom: 2px solid #ffffff; /* Permanent line below the tabs */
+  display: flex; /* Use flexbox for layout */
+  flex-wrap: nowrap; /* Prevent wrapping, keep everything in one row */
+  gap: 0px; /* Space between the buttons */
+  }
+  
+  .tab-button5 {
+  width: 30%; /* Buttons will take up 30% of the container width */
+  background-color: #f0f0f0;
+  padding: 5px 5px; /* Adds a bit more padding for better spacing */
+  font-size: 16px; /* Increased font size for readability */
+  text-align: center;
+  justify-content: center;
+  display: flex; /* Flex ensures proper centering of the button content */
+  border-bottom: 1px solid #f0f0f0; /* Adds a permanent line below each button */
+  box-sizing: border-box; /* Ensures padding and margins are included in the width calculation */
+  }
+  
+  
+  .tab-button5.active {
+    background-color: #a51d21;
+    color: #ffffff; /* Adjusted color for better contrast when active */
+  }
+  
+  
+  /* modal */
+  .modal5 {
+    background-color: #fafafa;
+    width: 85%;            /* Set modal width to 85% of the parent container */
+    min-width: 100px;      /* Minimum width of 100px */
+    max-height: 80vh;      /* Set a maximum height to allow scrolling */
+    overflow-y: auto;      /* Enable vertical scrolling when content overflows */
+    overflow-x: hidden;    /* Prevent horizontal scrolling */
+    padding: 20px;         /* Add padding for better spacing inside the modal */
+  }
+  
+  
+  .modal5 select{
+      width: 100%;
+    }
+  
+    .modal-details5 {
+  
+      flex-direction: column;
+      display: flex;
+      gap: 10px; /* Space between columns */
+      margin-top: 0px; /* Space above the details */
+      padding: 10px;
+    }
+  
+    .card5 {
+      margin-bottom:10px;
+      max-height: 110%;
+      padding-bottom: 10px;
+    }
+  
+    .card5 h2 {
+      margin-bottom: 20px;
+      margin-top: -10px;
+      margin-left: 8px;
+      font-size: 1.8rem;
+      color: #fefefe;
+      text-align: center;
+      font-size: larger;
+      font-weight: large;
+      background-color: #850F13;
+      padding: 10px;
+      display: flex; /* Enables flexbox */
+      align-items: center; /* Centers text vertically */
+      justify-content: center; /* Centers text horizontally */
+      width: 90%; /* Ensures full width */
+      border-radius: 6px; /* Optional: Adds rounded corners */
+    }
+  
+    .button-container5 {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;  /* Center all buttons horizontally */
+      flex-wrap: nowrap;        /* Prevent wrapping to the next line */
+      gap: 10px;                /* Space between buttons */
+    }
+    
+    .button-container-secondary5 {
+        display: flex;            /* Make sure the secondary container also uses flexbox */
+        gap: 0px;                /* Space between the approve/decline buttons */
+    }
+  
+    .approved-btn5, .decline-btn5, .reAccept-btn5, .close-btn5   {
+      padding: 10px;
+      font-size: small;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 48%;
+    }
+  }

@@ -190,6 +190,9 @@
   transform: translateY(-1px);
   }
   
+
+
+
   .ppagination4 {
     display: flex;
     justify-content: center;
@@ -475,147 +478,6 @@ transform: translateY(-1px);
 }
 
 
-  @media (max-width: 768px) {
-    .manage-bulletin4 {
-      margin: 30px;
-      display: flex;
-      align-items: flex-start; /* Align to the top */
-      flex-grow: 1; /* Take up the remaining space */
-      padding: 50px;
-      margin-left: 0px; /* Space to avoid8lap with the sidebar */
-      flex-direction:column;
-
-    }
-
-    .search-bar4 input {
-      width: 280px;
-      height: 35px; /* Increased height for better visual balance with icons */
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 15px;
-      border: 1px solid #6d6c6c;
-      border-radius: 35px;
-
-    }
-
-    .grid-container4 {
-
-      width: 110%; /* Ensure the grid takes full width */
-
-    }
-    
-
-    .ppagination1 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 0px; /* Adjust margin to avoid covering the table */
-      margin-left: 8px;
-      margin-bottom: 50px; 
-      min-width: 10px;
-      font-size: small;
-
-    }
-    
-    .page-nav1 {
-      height: min-content;
-      width: 80px;
-      font-size: small;
-      margin-left: -2px;
-
-    }
-
-  /* MODAL */
-
-    .modal-overlay4.active {
-      display: flex; /* Show modal when the "active" class is added */
-    }
-    .modal-overlay4 {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-  }
-
-  .modal4 {
-      display: flex;
-      flex-direction: column; /* Stack items vertically */
-      align-items: flex-start; /* Align items to the start */
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      width: 80%;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      text-align: left;
-      z-index: 5;
-  }
-
-  .modal4 h3 {
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-      color: #222222;
-      text-align: center;
-      font-weight: bold;
-  }
-
-  .modal4 form {
-    display: grid;
-    grid-template-columns: 1fr; /* Change to a single-column layout */
-    gap: 15px;
-    width: 100%; /* Ensure the form takes full width */
-}
-
-
-  .form-group4 {
-      display: flex;
-      flex-direction: column; /* Stack label above input */
-      width: 100%; /* Ensure full width */
-  }
-
-  .modal4 label {
-      font-weight: 500;
-      color: #444444;
-      margin-bottom: 5px;
-  }
-
-  .modal3 select{
-    font-weight: 500;
-      color: #444444;
-      margin-bottom: 5px;
-  }
-
-  .modal4 textarea{
-    font-weight: 500;
-      color: #444444;
-      margin-bottom: 5px;
-      height: 50px;
-  }
-
-  .modal4 input,
-  .modal4 select,
-  .modal4 textarea {
-      padding: 12px;
-      font-size: 1rem;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      width: 90%;
-  }
-
-  .modal4 input:focus,
-  .modal4 select:focus,
-  .modal4 textarea:focus {
-      border-color: #3c6abe;
-      outline: none;
-      box-shadow: 0 0 5px rgb(60, 106, 190);
-  }
-  }
-
   /* -------------------------------------------------------------------------- */
   
   .modal-overlay4 {
@@ -632,35 +494,104 @@ transform: translateY(-1px);
 }
 
 .modal4 {
-  width: 880px;         /* Extend the modal width */
-  margin: 50px auto;    /* Center modal on the screen */
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-height: 85vh; /* Limit height to enable scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  /* dhea */
+  height: 55%;
+  max-height: 100vh; /* Set max height to 90% of the viewport */
+  overflow-y: auto; /* Enable vertical scrolling */ 
 }
 
-.modal4 h3 {
-    margin-bottom: 20px;
+.modal4 h2 {
+  padding: 10px;
+  width: 90%;
+    margin-top: -10px;
+    margin-bottom: 50px;
     font-size: 1.8rem;
-    color: #222222;
+    color: #000000;
     text-align: center;
     font-weight: bold;
+    margin-left: 40px;
+    border-bottom: 2px solid #a51d21
 }
 
 .modal4 form {
   display: grid;
- 
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 40px;
   width: 100%; /* Ensure the form takes full width */
+
+  margin-top: -30px;
 }
 
 .form-group4 {
-  display: flex;
-  flex-direction: column; /* Stack label above input */
-  width: 100%; /* Ensure full width */
+  position: relative;
+  margin: 10px 0;
+}
+
+.form-group4 label {
+  position: absolute;
+  margin-top: -10px;
+  left: 0;
+  transform: translateY(0); /* Ensure it stays at the top */
+  font-size: 16px; /* Adjust size so it stays smaller at the top */
+  pointer-events: none;
+  padding: 0 5px;
+  display: block;
+  font-weight: bold;
+  color: #000000;
+  background-color: #ffff;
+  margin-left: 10px;
+}
+
+.form-group4 input,
+.form-group4 input[type="date"],
+.form-group4 input[type="time"],
+.form-group4 input[type="file"] {
+  width: 110%;
+  height:5vh;
+  padding: 0.5rem;
+  border: 1px solid #b1b1b1;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.form-group4 textarea {
+width: 100%;
+ max-height: 100%;
+ height: 3rem;
+
+}
+
+.form-group4 select{
+  height: 2.9rem;
+  width: 110%;
+}
+.form-group4 input:focus~label,
+.form-group4 input:valid~label,
+.form-group4 select:focus~label,
+.form-group4 select:valid~label,
+.form-group4 textarea:focus~label,
+.form-group4 textarea:valid~label,
+.form-group4 input[type="date"]:focus~label,
+.form-group4 input[type="date"]:valid~label,
+.form-group4 input[type="time"]:focus~label,
+.form-group4 input[type="time"]:valid~label,
+.form-group4 input[type="file"]:focus~label {
+  background-color: #f8fcf9;
+  color: rgb(7, 7, 7);
+  font-size: 14px; /* Keeps the label size smaller when the field is focused or valid */
+  margin-top:-10px;
 }
 
 
@@ -676,8 +607,7 @@ transform: translateY(-1px);
     color: #444444;
     margin-bottom: 5px;
 }
-
-.modal4 textarea{
+.modal2 textarea{
   font-weight: 500;
     color: #444444;
     margin-bottom: 5px;
@@ -687,11 +617,13 @@ transform: translateY(-1px);
 .modal4 input,
 .modal4 select,
 .modal4 textarea {
+  width: 100%;
+  height: 5vh;
     padding: 12px;
     font-size: 1rem;
     border: 1px solid #cccccc;
     border-radius: 6px;
-    width: 90%;
+
 }
 
 .modal4 input:focus,
@@ -703,8 +635,9 @@ transform: translateY(-1px);
 }
 
 .form-and-camera4 {
+  width: 100%;
   display: flex;
-  gap: 20px;            /* Space between form and camera */
+  gap: 60px;            /* Space between form and camera */
   align-items: flex-start; /* Align items at the top; adjust if needed */
 }
 
@@ -748,5 +681,256 @@ transform: translateY(-1px);
   height: auto;
   border: 1px solid #ccc;
   border-radius: 15px;
-  margin-top: 10px; /* Add some space above the image */
+  margin-top: -40px; /* Add some space above the image */
+}
+
+@media (max-width: 768px) {
+  .manage-bulletin4 {
+    margin: 30px;
+    display: flex;
+    align-items: flex-start; /* Align to the top */
+    flex-grow: 1; /* Take up the remaining space */
+    padding: 50px;
+    margin-left: 0px; /* Space to avoid8lap with the sidebar */
+    flex-direction:column;
+
+  }
+
+  .search-bar4 input {
+    width: 280px;
+    height: 35px; /* Increased height for better visual balance with icons */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid #6d6c6c;
+    border-radius: 35px;
+
+  }
+
+  .grid-container4 {
+    margin-top: -40px;
+    width: 110%; /* Ensure the grid takes full width */
+
+  }
+  
+
+  .ppagination1 {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping into multiple rows */
+    justify-content: center;
+    align-items: center;
+    gap: 2px; /* Adjust space between items */
+    margin-top: 0px;
+    margin-left: 20px;
+    margin-top: -60px;
+    min-width: 0px;
+    font-size: small;
+    max-width: 90%; /* Controls the number of items per row, ensuring they fit within this width */
+    overflow: hidden; /* Ensure that any overflowing content is hidden */
+}
+
+.page-nav1 {
+    height: min-content;
+    width: 80px;
+    font-size: small;
+    margin-left: -2px;
+    text-align: center;
+    padding: 8px;
+}
+
+/* MODAL */
+
+  .modal-overlay4.active {
+    display: flex; /* Show modal when the "active" class is added */
+  }
+  .modal-overlay4 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal4 {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the start */
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 80%;
+    height: 80%;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    z-index: 5;
+}
+
+.modal4 h2 {
+  padding: 10px;
+  width: 90%;
+    margin-top: -10px;
+    margin-bottom: 50px;
+    font-size: 1.8rem;
+    color: #000000;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 0px;
+    border-bottom: 2px solid #a51d21
+}
+
+.modal4 form {
+  display: grid;
+  grid-template-columns: 1fr; /* Change to a single-column layout */
+  gap: 15px;
+  width: 100%; /* Ensure the form takes full width */
+}
+
+
+.form-group4 {
+  position: relative;
+  margin: 10px 0;
+}
+
+.form-group4 label {
+  position: absolute;
+  margin-top: -10px;
+  left: 0;
+  transform: translateY(0); /* Ensure it stays at the top */
+  font-size: 16px; /* Adjust size so it stays smaller at the top */
+  pointer-events: none;
+  padding: 0 5px;
+  display: block;
+  font-weight: bold;
+  color: #000000;
+  background-color: #ffff;
+  margin-left: 10px;
+}
+
+.form-group4 input,
+.form-group4 input[type="date"],
+.form-group4 input[type="time"],
+.form-group4 input[type="file"] {
+  width: 110%;
+  height:5vh;
+  padding: 0.5rem;
+  border: 1px solid #b1b1b1;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.form-group4 textarea {
+width: 100%;
+ max-height: 100%;
+ height: 3rem;
+
+}
+
+.form-group4 select{
+  height: 2.9rem;
+  width: 110%;
+}
+.form-group4 input:focus~label,
+.form-group4 input:valid~label,
+.form-group4 select:focus~label,
+.form-group4 select:valid~label,
+.form-group4 textarea:focus~label,
+.form-group4 textarea:valid~label,
+.form-group4 input[type="date"]:focus~label,
+.form-group4 input[type="date"]:valid~label,
+.form-group4 input[type="time"]:focus~label,
+.form-group4 input[type="time"]:valid~label,
+.form-group4 input[type="file"]:focus~label {
+  background-color: #f8fcf9;
+  color: rgb(7, 7, 7);
+  font-size: 14px; /* Keeps the label size smaller when the field is focused or valid */
+  margin-top:-10px;
+}
+
+.modal4 label {
+    font-weight: 500;
+    color: #444444;
+    margin-bottom: 5px;
+}
+
+.modal3 select{
+  font-weight: 500;
+    color: #444444;
+    margin-bottom: 5px;
+}
+
+.modal4 textarea{
+  font-weight: 500;
+    color: #444444;
+    margin-bottom: 5px;
+    height: 50px;
+}
+
+.modal4 input,
+.modal4 select{
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    width: 100%;
+    min-height: 3rem;
+}
+
+.modal4 textarea {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  width: 90%;
+}
+
+.modal4 input[type="date"],
+.modal4 input[type="time"] {
+    width: 100%; /* Full width */
+    padding: 25px; /* Adjust padding for consistency */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+.modal4 input[type="file"] {
+    width: 100%; /* Full width */
+    padding: 25px; /* Smaller padding for upload buttons */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.modal4 input:focus,
+.modal4 select:focus,
+.modal4 textarea:focus {
+    border-color: #3c6abe;
+    outline: none;
+    box-shadow: 0 0 5px rgb(60, 106, 190);
+}
+
+.form-and-camera4 {
+  display: flex;
+  gap: 20px;            /* Space between form and camera */
+flex-direction: column;
+
+  }
+
+  .submit-btn4,
+.cancel-btn4,.delete-btn4 {
+  padding: 10px;
+  font-size: small;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 48%;
+
+}
 }

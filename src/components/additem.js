@@ -635,8 +635,10 @@ setLoading(true);
 
       <div className="content">
         <div className="manage-bulletin1">
-          <div className="breadcrumb1">Manage Lost and Found {'>'} Manage Found Items</div>
-
+        <div className='tit'>
+            <div className="breadcrumb5">Found</div>
+            <div className="breadcrumb0">Items</div>
+          </div>
 
 
 

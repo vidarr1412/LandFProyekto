@@ -313,8 +313,10 @@ function Bulletin() {
 
       <div className="content">
         <div className="manage-bulletin4">
-          <div className="breadcrumb4">Lost and Found {'>'} Bulletin</div>
+        <div className='tit'>
+            <div className="breadcrumb5">Bulletin</div>
 
+          </div>
 
 
 
@@ -350,7 +352,7 @@ function Bulletin() {
                   setSelectedItem(item);
                   setShowModal(true);
                 }}>
-                  <FaPlus /> View More
+                  <FaPlus /> Request
                 </button>
               </div>
             ))}
@@ -374,17 +376,19 @@ function Bulletin() {
               <form onSubmit={handleModalSubmit} className="form-fields4">
                 {/* Form fields */}
                 <div className="form-group4">
-                  <label htmlFor="item_name">Item Name<span className="asterisk3"> *</span></label>
                   <input
                     type="text"
                     id="item_name"
                     name="item_name"
                     maxLength="50"
-                    placeholder="Item Name"
+
                     value={itemData.item_name}
                     onChange={handleModalChange}
                     required
                   />
+
+                <label for="item_name">Item Name<span className="asterisk3"> *</span></label>
+
                 </div>
 
                 <div className="form-group4">

@@ -3,8 +3,8 @@
     display: flex;
     flex-direction: column; /* Stack the filter inputs vertically */
     gap: 10px;
-    margin-left:520px;
-    margin-top: -10px;
+    margin-left:31rem;
+    margin-top: -13px;
     margin-bottom: -10px;
     width:auto;
 }
@@ -101,3 +101,71 @@
     visibility: visible; /* Show tooltip */
     opacity: 1; /* Make tooltip visible */
 }
+
+@media (max-width: 768px) {
+
+.filter-inputs-container4 select {
+
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    transition: border-color 0.3s, background-color 0.3s;
+    flex: 1; /* Allow inputs to grow and fill space */
+    min-width: 0px; /* Set a minimum width for inputs */
+    }
+
+    .filter-container4 {
+        display: flex;
+        flex-direction: column; /* Stack the filter inputs vertically */
+        gap: 10px;
+        margin-left: -5px;
+        margin-top: 50px;
+        margin-bottom: -10px;
+        width: auto;
+
+    }
+    
+    .filter-inputs-container4 {
+        width: 121%;
+        display: grid; /* Use grid layout */
+        grid-template-columns: repeat(2, 1fr); /* Create 2 columns with equal width */
+        gap: 10px; /* Space between grid items */
+        padding: 10px; /* Add padding to the container */
+        border: 1px solid #ccc; /* Border for the container */
+        border-radius: 30px; /* Rounded corners */
+        transition: background-color 0.3s; /* Smooth transition for background color */
+        margin-left: -18px;
+        margin-top: 20px;
+    }
+    
+    .filter-inputs-container4 select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        transition: border-color 0.3s, background-color 0.3s;
+    }
+
+    .tooltip-container4{
+        width: 100%;
+        position: relative; /* Position relative for absolute positioning of tooltip */
+        display: inline-block; /* Allow tooltip to be positioned relative to the input */
+    }
+
+    .tooltip4 {
+        visibility: hidden; /* Hidden by default */
+        width: 100px; /* Set width of tooltip */
+        background-color: #555; /* Dark background */
+        color: #fff; /* White text */
+        text-align: center; /* Center text */
+        border-radius: 5px; /* Rounded corners */
+        padding: 5px; /* Padding */
+        position: absolute; /* Position tooltip */
+        z-index: 1; /* Ensure tooltip is above other elements */
+        bottom: 125%; /* Position above the input */
+        left: 50%; /* Center tooltip */
+        margin-left: -70px; /* Adjust to center */
+        opacity: 0; /* Hidden by default */
+        transition: opacity 0.3s; /* Smooth transition */
+    }
+}                 

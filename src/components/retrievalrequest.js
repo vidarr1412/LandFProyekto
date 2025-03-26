@@ -272,8 +272,10 @@ function UserRetrievalRequests() {
       <Header />
       <div className="content">
         <div className="manage-bulletin6">
-          <div className="breadcrumb6">Manage Lost and Found {'>'} Manage Request</div>
-
+        <div className='tit'>
+            <div className="breadcrumb5">Retrieval</div>
+            <div className="breadcrumb0">Status</div>
+          </div>
           <div className="search-bar6">
             <input type="text" placeholder="Search Item Names" value={filterText} onChange={(e) => setFilterText(e.target.value)}
               className="search-input6"
@@ -385,9 +387,10 @@ function UserRetrievalRequests() {
                 <div className="card6">
                   <h2>Requests Details</h2>
                   <img
-                    src={itemDetails.IMAGE_URL || "default-image-url6"}
+                    src={itemDetails.IMAGE_URL || 'sad.jpg'}
                     alt="Product"
-                    className="default-image-url16"
+                    className={`default-image-url12 ${!itemDetails.IMAGE_URL  ? '.default-image-url12' : ''}`} // Add fallback class conditionally
+                    onClick={() => handleImageClick(itemDetails.IMAGE_URL || 'sad.jpg')} // Add click handler
                   />
                   <p><strong>Item Type:</strong> {itemDetails.ITEM || "N/A"}</p>
                   <p><strong>Description:</strong> {itemDetails.DESCRIPTION || "N/A"}</p>

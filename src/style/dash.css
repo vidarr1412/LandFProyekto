@@ -82,26 +82,6 @@
 }
 
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .dashboard-cards1 {
-      margin-left: 10px;
-  }
-
-  .dah1 h2 {
-      margin-top: 90px;  /* Adjust the space from the top */
-      margin-left: 80px;
-  }
-
-  .charts-container {
-      margin-left: 10px; /* Adjust for smaller screens */
-      width: 90%; /* Full width on smaller screens */
-  }
-
-  .chart-card {
-      min-width: 100%; /* Full width for chart cards on small screens */
-  }
-}
 
 
 /* Charts Container */
@@ -167,14 +147,7 @@
   border-radius: 1rem; /* Optional: Add rounded corners */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
   }
-  
 
-  .ffound-items-table1 {
-    width: 100%; /* Full width of the table */
-    border-collapse: collapse; /* Collapse borders */
-    font-size: 14px; /* Font size */
-    table-layout: auto; /* Use auto layout to allow for dynamic widths */
-    }
     
     .ffound-items-table1 th, .ffound-items-table1 td {
     padding: 10px;
@@ -201,3 +174,46 @@
     width: 50px; /* Adjust width as needed */
     text-align: center; /* Center-align the buttons */
     }
+
+    @media (max-width: 768px) {
+/* dhea: media ra ang na change */
+
+      .ffound-items-table5 {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        table-layout: auto;
+    }
+      .table-container1 {
+        width: 145%; /* Full width of the parent */
+        max-width: 1600px; /* Set a max width for the container */
+        margin:30px auto 0 -38px; /* Center the container */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        border: 1px solid #d5d2d2; /* Optional: Add a border around the container */
+        border-radius: 1rem; /* Optional: Add rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+        
+        }
+    }
+
+    
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-cards1 {
+      margin-left: 10px;
+  }
+
+  .dah1 h2 {
+      margin-top: 90px;  /* Adjust the space from the top */
+      margin-left: 80px;
+  }
+
+  .charts-container {
+      margin-left: 10px; /* Adjust for smaller screens */
+      width: 90%; /* Full width on smaller screens */
+  }
+
+  .chart-card {
+      min-width: 100%; /* Full width for chart cards on small screens */
+  }
+}
