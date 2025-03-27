@@ -82,7 +82,8 @@ function Manage() {
     return filteredRequests.filter(request => {
       const complainerMatch = request.complainer && request.complainer.toLowerCase().includes(filterText.toLowerCase());
       const itemNameMatch = request.itemname && request.itemname.toLowerCase().includes(filterText.toLowerCase());
-      return complainerMatch || itemNameMatch;
+      const descriptionMatch = request.description && request.description.toLowerCase().includes(filterText.toLowerCase());
+      return complainerMatch || itemNameMatch || descriptionMatch;
     });
   };
 

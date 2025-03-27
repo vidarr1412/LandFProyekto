@@ -7,6 +7,10 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
   const [isChartsContainerVisible, setChartsContainerVisible] = useState(false);
 
 
+  const [selectedLocationYear, setSelectedLocationYear] = useState(null);
+  const [selectedLocationMonth, setSelectedLocationMonth] = useState(null);
+
+
   // Prepare data for charts
   const foundItemsByFinderType = {};
   const statusDistribution = { claimed: 0, unclaimed: 0, donated: 0 };
@@ -23,14 +27,7 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
 
 
 
-    // Count status distribution
-    if (item.STATUS === 'claimed') {
-      statusDistribution.claimed += 1;
-    } else if (item.STATUS === 'unclaimed') {
-      statusDistribution.unclaimed += 1;
-    } else if (item.STATUS === 'donated') {
-      statusDistribution.donated += 1;
-    }
+
 
     // Prepare timeline data
     const dateFound = item.DATE_FOUND ? item.DATE_FOUND.split('T')[0] : null; // Check if DATE_FOUND exists
@@ -48,27 +45,47 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
   });
 
   // ***************************************************************************************************************
-  const locationMatchData = {};
+  const handleLocationYearChange = (e) => setSelectedLocationYear(Number(e.target.value) || null);
+  const handleLocationMonthChange = (e) => setSelectedLocationMonth(Number(e.target.value) || null);
+
+  const filteredLocationMatchData = {};
 
   complaintsData.forEach(complaint => {
-    const location = complaint.general_location; // Lost item location
-    if (!locationMatchData[location]) {
-      locationMatchData[location] = { lost: 0, found: 0 };
+    const date = new Date(complaint.date); // Assuming complaint.date exists
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Months are 0-indexed
+
+    if ((selectedLocationYear ? year === selectedLocationYear : true) &&
+      (selectedLocationMonth ? month === selectedLocationMonth : true)) {
+      const location = complaint.general_location; // Lost item location
+      if (!filteredLocationMatchData[location]) {
+        filteredLocationMatchData[location] = { lost: 0, found: 0 };
+      }
+      filteredLocationMatchData[location].lost += 1;
     }
-    locationMatchData[location].lost += 1;
   });
 
+  // ************************************************************************************************
+
+
   foundItemsData.forEach(item => {
-    const location = item.GENERAL_LOCATION; // Found item location
-    if (!locationMatchData[location]) {
-      locationMatchData[location] = { lost: 0, found: 0 };
+    const date = new Date(item.DATE_FOUND); // Assuming DATE_FOUND exists
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Months are 0-indexed
+
+    if ((selectedLocationYear ? year === selectedLocationYear : true) &&
+      (selectedLocationMonth ? month === selectedLocationMonth : true)) {
+      const location = item.GENERAL_LOCATION; // Found item location
+      if (!filteredLocationMatchData[location]) {
+        filteredLocationMatchData[location] = { lost: 0, found: 0 };
+      }
+      filteredLocationMatchData[location].found += 1;
     }
-    locationMatchData[location].found += 1;
   });
 
   // Compute match percentage per location
-  const locationMatchRates = Object.keys(locationMatchData).map(location => {
-    const { lost, found } = locationMatchData[location];
+  const filteredLocationMatchRates = Object.keys(filteredLocationMatchData).map(location => {
+    const { lost, found } = filteredLocationMatchData[location];
     return {
       location,
       lost,
@@ -80,7 +97,48 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
   // *************************************************************************************************
 
 
+// Step 1: Calculate lost complaints based on selected year and month
+const filteredLostItemsData = complaintsData.filter(complaint => {
+  const date = new Date(complaint.date); // Assuming complaint.date exists
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // Months are 0-indexed
 
+  return (selectedLocationYear ? year === selectedLocationYear : true) &&
+    (selectedLocationMonth ? month === selectedLocationMonth : true);
+});
+
+// Prepare recovery rates for lost items by item type
+const recoveryRateByItemType = {};
+
+// Group lost items by item type
+filteredLostItemsData.forEach(complaint => {
+  const itemType = complaint.type; // Use the 'type' field for item type
+  if (!recoveryRateByItemType[itemType]) {
+    recoveryRateByItemType[itemType] = { totalLost: 0, totalFound: 0 };
+  }
+  recoveryRateByItemType[itemType].totalLost += 1; // Increment total lost count
+
+  // Check if the complaint has a status indicating it has been found
+  if (complaint.status === 'found') {
+    recoveryRateByItemType[itemType].totalFound += 1; // Increment found count only if status is 'found'
+  }
+});
+
+// Prepare data for the recovery rate table
+const recoveryRateDataByItemType = Object.keys(recoveryRateByItemType).map(type => {
+  const { totalLost, totalFound } = recoveryRateByItemType[type];
+  return {
+    type,
+    totalLost,
+    totalFound,
+    recoveryRate2: totalLost > 0 ? ((totalFound / totalLost) * 100).toFixed(1) : "N/A",
+  };
+});
+
+// Now recoveryRateDataByItemType contains the recovery rates based on lost complaints
+
+
+  // **********************************************************************************
 
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(null);
@@ -124,13 +182,47 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
     setFilteredData(processDataByTime(complaintsData, foundItemsData, selectedYear, selectedMonth));
   }, [selectedYear, selectedMonth, complaintsData, foundItemsData]);
 
-  // Compute recovery rates
-  const itemTypeMatchRates = filteredData.map(({ type, lost, found }) => ({
-    type,
-    lost,
-    found,
-    recoveryRate: lost > 0 ? ((found / lost) * 100).toFixed(1) : "N/A",
-  }));
+  // Step 1: Add filtering logic for found items based on selected year and month
+  const filteredFoundItemsData2 = foundItemsData.filter(item => {
+    const dateFound = new Date(item.DATE_FOUND); // Assuming DATE_FOUND exists
+    const year = dateFound.getFullYear();
+    const month = dateFound.getMonth() + 1; // Months are 0-indexed
+
+    return (selectedLocationYear ? year === selectedLocationYear : true) &&
+      (selectedLocationMonth ? month === selectedLocationMonth : true);
+  });
+
+  // Prepare recovery rates for found items only
+  const recoveryRates = filteredFoundItemsData2.map(item => {
+    if (item.STATUS === 'claimed') {
+      return { type: item.ITEM_TYPE, claimed: 1, found: 1 }; // Found and claimed
+    } else if (item.STATUS === 'unclaimed') {
+      return { type: item.ITEM_TYPE, claimed: 0, found: 1 }; // Found but not claimed
+    }
+    return null; // Exclude donated items
+  }).filter(Boolean); // Remove null values
+
+  // Aggregate recovery rates by item type
+  const recoveryRateByType = {};
+  recoveryRates.forEach(({ type, claimed, found }) => {
+    if (!recoveryRateByType[type]) {
+      recoveryRateByType[type] = { claimed: 0, found: 0 };
+    }
+    recoveryRateByType[type].claimed += claimed;
+    recoveryRateByType[type].found += found;
+  });
+
+
+  // Prepare data for the recovery rate table
+  const recoveryRateData = Object.keys(recoveryRateByType).map(type => {
+    const { claimed, found } = recoveryRateByType[type];
+    return {
+      type,
+      claimed,
+      found,
+      recoveryRate: found > 0 ? ((claimed / found) * 100).toFixed(1) : "N/A",
+    };
+  });
 
   // *****************************************************************************************************
 
@@ -172,17 +264,59 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
       avgDays: (total / itemTypeClaimingTimes[type].length).toFixed(1),
     };
   });
+  // ****************************************************************************************
 
+  // Step 1: Add filtering logic for found items based on selected year and month
+  const filteredFoundItemsData = foundItemsData.filter(item => {
+    const dateFound = new Date(item.DATE_FOUND); // Assuming DATE_FOUND exists
+    const year = dateFound.getFullYear();
+    const month = dateFound.getMonth() + 1; // Months are 0-indexed
 
+    return (selectedLocationYear ? year === selectedLocationYear : true) &&
+      (selectedLocationMonth ? month === selectedLocationMonth : true);
+  });
+
+  // Prepare chart data for Found Items by Finder Type
+  const filteredFoundItemsByFinderType = {};
+  filteredFoundItemsData.forEach(item => {
+    if (item.FINDER_TYPE) {
+      filteredFoundItemsByFinderType[item.FINDER_TYPE] = (filteredFoundItemsByFinderType[item.FINDER_TYPE] || 0) + 1;
+    }
+  });
+
+  // ****************************************************************************************************************************
+
+  // Step 1: Add filtering logic for found items based on selected year and month
+  const filteredFoundItemsDataForStatus = foundItemsData.filter(item => {
+    const dateClaimed = new Date(item.DATE_FOUND); // Assuming DATE_CLAIMED exists
+    const year = dateClaimed.getFullYear();
+    const month = dateClaimed.getMonth() + 1; // Months are 0-indexed
+
+    return (selectedLocationYear ? year === selectedLocationYear : true) &&
+      (selectedLocationMonth ? month === selectedLocationMonth : true);
+  });
+
+  // Prepare status distribution data based on filtered found items
+  const filteredStatusDistribution = { claimed: 0, unclaimed: 0, donated: 0 };
+
+  filteredFoundItemsDataForStatus.forEach(item => {
+    if (item.STATUS === 'claimed') {
+      filteredStatusDistribution.claimed += 1;
+    } else if (item.STATUS === 'unclaimed') {
+      filteredStatusDistribution.unclaimed += 1;
+    } else if (item.STATUS === 'donated') {
+      filteredStatusDistribution.donated += 1;
+    }
+  });
 
   // --------------------------------------------------------------------------------------------------
 
   const locationMatchChartData = {
-    labels: locationMatchRates.map(data => data.location),
+    labels: filteredLocationMatchRates.map(data => data.location),
     datasets: [
       {
         label: 'Lost Items',
-        data: locationMatchRates.map(data => data.lost),
+        data: filteredLocationMatchRates.map(data => data.lost),
         backgroundColor: 'rgba(255, 99, 132, 0.6)', // Red for lost items
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
@@ -190,7 +324,7 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
       },
       {
         label: 'Found Items',
-        data: locationMatchRates.map(data => data.found),
+        data: filteredLocationMatchRates.map(data => data.found),
         backgroundColor: 'rgba(75, 192, 192, 0.6)', // Blue for found items
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
@@ -201,10 +335,10 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
   // --------------------------------------------------------------------------------------------------  
   // Prepare chart data for Found Items by Finder Type
   const finderTypeChartData = {
-    labels: Object.keys(foundItemsByFinderType),
+    labels: Object.keys(filteredFoundItemsByFinderType),
     datasets: [{
       label: 'Found Items by Finder Type',
-      data: Object.values(foundItemsByFinderType),
+      data: Object.values(filteredFoundItemsByFinderType),
       backgroundColor: 'rgba(153, 102, 255, 0.6)',
       borderColor: 'rgba(153, 102, 255, 1)',
       borderWidth: 1,
@@ -213,11 +347,11 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
 
 
   // --------------------------------------------------------------------------------------------------
-  // Prepare chart data for Status Distribution
+  // Prepare chart data for Found Item Status Distribution
   const statusChartData = {
-    labels: Object.keys(statusDistribution),
+    labels: Object.keys(filteredStatusDistribution),
     datasets: [{
-      data: Object.values(statusDistribution),
+      data: Object.values(filteredStatusDistribution),
       backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
       hoverBackgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
     }],
@@ -226,58 +360,80 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
 
   // --------------------------------------------------------------------------------------------------
   // Prepare timeline data for the chart based on selected interval
-  const filteredTimelineData = {};
-  Object.keys(timelineData).forEach(date => {
-    const dateObj = new Date(date);
-    let formattedDate;
+const filteredTimelineData = {};
+Object.keys(timelineData).forEach(date => {
+  const dateObj = new Date(date);
+  let formattedDate;
 
-    switch (timelineInterval) {
-      case 'daily':
-        formattedDate = dateObj.toLocaleDateString(); // Format: "MM/DD/YYYY"
-        break;
-      case 'monthly':
-        formattedDate = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' }); // Format: "Month Year"
-        break;
-      case 'quarterly':
-        const quarter = Math.floor(dateObj.getMonth() / 3) + 1;
-        formattedDate = `Q${quarter} ${dateObj.getFullYear()}`; // Format: "Q1 2023"
-        break;
-      case 'yearly':
-        formattedDate = dateObj.getFullYear(); // Format: "2023"
-        break;
-      default:
-        formattedDate = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+  switch (timelineInterval) {
+    case 'daily':
+      formattedDate = dateObj.toLocaleDateString(); // Format: "MM/DD/YYYY"
+      break;
+    case 'monthly':
+      formattedDate = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' }); // Format: "Month Year"
+      break;
+    case 'quarterly':
+      const quarter = Math.floor(dateObj.getMonth() / 3) + 1;
+      formattedDate = `Q${quarter} ${dateObj.getFullYear()}`; // Format: "Q1 2023"
+      break;
+    case 'yearly':
+      formattedDate = dateObj.getFullYear(); // Format: "2023"
+      break;
+    default:
+      formattedDate = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+  }
+
+  if (!filteredTimelineData[formattedDate]) {
+    filteredTimelineData[formattedDate] = { found: 0, claimed: 0 };
+  }
+
+  filteredTimelineData[formattedDate].found += timelineData[date].found;
+  filteredTimelineData[formattedDate].claimed += timelineData[date].claimed;
+});
+
+// Sort the dates in chronological order
+const sortedTimelineKeys = Object.keys(filteredTimelineData).sort((a, b) => {
+  if (timelineInterval === 'quarterly') {
+    // Extract quarter and year for comparison
+    const [quarterA, yearA] = a.split(' ');
+    const [quarterB, yearB] = b.split(' ');
+
+    const quarterNumA = parseInt(quarterA.replace('Q', ''));
+    const quarterNumB = parseInt(quarterB.replace('Q', ''));
+
+    // Compare years first
+    if (yearA === yearB) {
+      return quarterNumA - quarterNumB; // Sort by quarter if years are the same
     }
+    return yearA - yearB; // Sort by year
+  } else {
+    // For daily, monthly, and yearly, use Date object for sorting
+    const dateA = new Date(a);
+    const dateB = new Date(b);
+    return dateA - dateB; // Sort in ascending order
+  }
+});
 
-    if (!filteredTimelineData[formattedDate]) {
-      filteredTimelineData[formattedDate] = { found: 0, claimed: 0 };
-    }
-
-    filteredTimelineData[formattedDate].found += timelineData[date].found;
-    filteredTimelineData[formattedDate].claimed += timelineData[date].claimed;
-  });
-
-  // Prepare timeline chart data
-  const timelineChartData = {
-    labels: Object.keys(filteredTimelineData),
-    datasets: [
-      {
-        label: 'Items Found',
-        data: Object.values(filteredTimelineData).map(data => data.found),
-        fill: false,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-      },
-      {
-        label: 'Items Claimed',
-        data: Object.values(filteredTimelineData).map(data => data.claimed),
-        fill: false,
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-      },
-    ],
-  };
-
+// Prepare timeline chart data
+const timelineChartData = {
+  labels: sortedTimelineKeys,
+  datasets: [
+    {
+      label: 'Items Found',
+      data: sortedTimelineKeys.map(date => filteredTimelineData[date].found),
+      fill: false,
+      backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+    },
+    {
+      label: 'Items Claimed',
+      data: sortedTimelineKeys.map(date => filteredTimelineData[date].claimed),
+      fill: false,
+      backgroundColor: 'rgba(255, 99, 132, 0.6)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+    },
+  ],
+};
   // --------------------------------------------------------------------------------------------------
   // Prepare chart data for Found Items by Item Type
 
@@ -315,58 +471,79 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
 
 
   // Prepare stacked bar chart data
-  const complaintsByTimeIntervalAndCollege = {};
-  foundItemsData.forEach(item => {
-    const dateFound = item.DATE_FOUND ? item.DATE_FOUND.split('T')[0] : null;
-    const college = item.ITEM_TYPE; // Assuming you have a COLLEGE field in your data
-    const dateObj = new Date(dateFound);
-    let formattedDate;
+  // Prepare stacked bar chart data
+const complaintsByTimeIntervalAndCollege = {};
+foundItemsData.forEach(item => {
+  const dateFound = item.DATE_FOUND ? item.DATE_FOUND.split('T')[0] : null;
+  const college = item.ITEM_TYPE; // Assuming you have a COLLEGE field in your data
+  const dateObj = new Date(dateFound);
+  let formattedDate;
 
-    switch (timelineInterval) {
-      case 'daily':
-        formattedDate = dateObj.toLocaleDateString(); // Format: "MM/DD/YYYY"
-        break;
-      case 'monthly':
-        formattedDate = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' }); // Format: "Month Year"
-        break;
-      case 'quarterly':
-        const quarter = Math.floor(dateObj.getMonth() / 3) + 1;
-        formattedDate = `Q${quarter} ${dateObj.getFullYear()}`; // Format: "Q1 2023"
-        break;
-      case 'yearly':
-        formattedDate = dateObj.getFullYear(); // Format: "2023"
-        break;
-      default:
-        formattedDate = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+  switch (timeInterval) {
+    case 'daily':
+      formattedDate = dateObj.toLocaleDateString(); // Format: "MM/DD/YYYY"
+      break;
+    case 'monthly':
+      formattedDate = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' }); // Format: "Month Year"
+      break;
+    case 'quarterly':
+      const quarter = Math.floor(dateObj.getMonth() / 3) + 1;
+      formattedDate = `Q${quarter} ${dateObj.getFullYear()}`; // Format: "Q1 2023"
+      break;
+    case 'yearly':
+      formattedDate = dateObj.getFullYear(); // Format: "2023"
+      break;
+    default:
+      formattedDate = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+  }
+
+  if (!complaintsByTimeIntervalAndCollege[formattedDate]) {
+    complaintsByTimeIntervalAndCollege[formattedDate] = {};
+  }
+
+  complaintsByTimeIntervalAndCollege[formattedDate][college] = (complaintsByTimeIntervalAndCollege[formattedDate][college] || 0) + 1;
+});
+
+// Sort the labels in chronological order
+const labels = Object.keys(complaintsByTimeIntervalAndCollege).sort((a, b) => {
+  if (timeInterval === 'quarterly') {
+    // Extract quarter and year for comparison
+    const [quarterA, yearA] = a.split(' ');
+    const [quarterB, yearB] = b.split(' ');
+
+    const quarterNumA = parseInt(quarterA.replace('Q', ''));
+    const quarterNumB = parseInt(quarterB.replace('Q', ''));
+
+    // Compare years first
+    if (yearA === yearB) {
+      return quarterNumA - quarterNumB; // Sort by quarter if years are the same
     }
+    return yearA - yearB; // Sort by year
+  } else {
+    // For daily and monthly, use Date object for sorting
+    const dateA = new Date(a);
+    const dateB = new Date(b);
+    return dateA - dateB; // Sort in ascending order
+  }
+});
 
-    if (!complaintsByTimeIntervalAndCollege[formattedDate]) {
-      complaintsByTimeIntervalAndCollege[formattedDate] = {};
-    }
+// Prepare chart data for stacked bar chart
+const colleges = [...new Set(foundItemsData.map(item => item.ITEM_TYPE))]; // Unique colleges
 
-    complaintsByTimeIntervalAndCollege[formattedDate][college] = (complaintsByTimeIntervalAndCollege[formattedDate][college] || 0) + 1;
-  });
-
-  // Prepare chart data for stacked bar chart
-  const labels = Object.keys(complaintsByTimeIntervalAndCollege);
-  const colleges = [...new Set(foundItemsData.map(item => item.ITEM_TYPE))]; // Unique colleges
-
-  const datasets = colleges.map(college => {
-    return {
-      label: college,
-      data: labels.map(label => complaintsByTimeIntervalAndCollege[label][college] || 0), // Count for each time interval
-      backgroundColor: getRandomColor(), // You can customize this color
-    };
-  });
-
-
-  const stackedBarChartData = {
-    labels: labels,
-    datasets: datasets,
+const datasets = colleges.map(college => {
+  return {
+    label: college,
+    data: labels.map(label => complaintsByTimeIntervalAndCollege[label][college] || 0), // Count for each time interval
+    backgroundColor: getRandomColor(), // You can customize this color
   };
+});
 
+const stackedBarChartData = {
+  labels: labels,
+  datasets: datasets,
+};
 
-
+// ------------------------------------------------------------------------------------------------------
 
 
   // Prepare filtered claiming times based on selected interval
@@ -546,6 +723,24 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
 
           <div className="chart-card">
             <h3>Lost vs. Found Items by General Location</h3>
+
+            <div className="time-interval-container">
+              <label htmlFor="locationYear">Year:</label>
+              <select id="locationYear" onChange={handleLocationYearChange}>
+                <option value="">All Years</option>
+                {availableYears.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
+
+              <label htmlFor="locationMonth">Month:</label>
+              <select id="locationMonth" onChange={handleLocationMonthChange}>
+                <option value="">All Months</option>
+                {[...Array(12)].map((_, i) => (
+                  <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                ))}
+              </select>
+            </div>
             <Bar data={locationMatchChartData} options={{
               responsive: true,
               scales: {
@@ -555,7 +750,7 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
             }} />
           </div>
 
-          <div className="chart-card">
+          {/* <div className="chart-card">
             <h3>Match Rate of Lost and Found Items by Location</h3>
             <table>
               <thead>
@@ -567,7 +762,7 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
                 </tr>
               </thead>
               <tbody>
-                {locationMatchRates.map((data, index) => (
+                {filteredLocationMatchRates.map((data, index) => (
                   <tr key={index}>
                     <td>{data.location}</td>
                     <td>{data.lost}</td>
@@ -577,18 +772,58 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
                 ))}
               </tbody>
             </table>
-          </div>
+          </div> */}
+
 
           <div className="chart-card">
             <h3>Found Items by Finder Type</h3>
+
+            {/* Year & Month Selection */}
+            <div className="time-interval-container">
+              <label htmlFor="finderTypeYear">Year:</label>
+              <select id="finderTypeYear" onChange={handleLocationYearChange}>
+                <option value="">All Years</option>
+                {availableYears.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
+
+              <label htmlFor="finderTypeMonth">Month:</label>
+              <select id="finderTypeMonth" onChange={handleLocationMonthChange}>
+                <option value="">All Months</option>
+                {[...Array(12)].map((_, i) => (
+                  <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Bar Chart */}
             <Bar data={finderTypeChartData} options={barFinderTypeOptions} />
           </div>
 
           <div className="chart-card">
             <h3>Found Item Status Distribution</h3>
+
+            {/* Year & Month Selection */}
+            <div className="time-interval-container">
+              <label htmlFor="statusYear">Year:</label>
+              <select id="statusYear" onChange={handleLocationYearChange}>
+                <option value="">All Years</option>
+                {availableYears.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
+
+              <label htmlFor="statusMonth">Month:</label>
+              <select id="statusMonth" onChange={handleLocationMonthChange}>
+                <option value="">All Months</option>
+                {[...Array(12)].map((_, i) => (
+                  <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                ))}
+              </select>
+            </div>
             <Pie data={statusChartData} options={commonOptions} />
           </div>
-
 
 
 
@@ -620,25 +855,70 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
           </div>
 
           <div className="chart-card">
-            <div className="table-container1">
+            <h3>Recovery Rate of Found Items by Item Type</h3>
+            <div className="time-interval-container">
+              <label htmlFor="statusYear">Year:</label>
+              <select id="statusYear" onChange={handleLocationYearChange}>
+                <option value="">All Years</option>
+                {availableYears.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
 
-              <h3>Recovery Rate by Item Type</h3>
+              <label htmlFor="statusMonth">Month:</label>
+              <select id="statusMonth" onChange={handleLocationMonthChange}>
+                <option value="">All Months</option>
+                {[...Array(12)].map((_, i) => (
+                  <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                ))}
+              </select>
+            </div>
+            <div className="table-container1">
+              
+              
               <table className="ffound-items-table1">
                 <thead>
                   <tr>
                     <th>Item Type</th>
-                    <th>Lost Items</th>
+                    <th>Claimed Items</th>
                     <th>Found Items</th>
                     <th>Recovery Rate (%)</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {itemTypeMatchRates.map((data, index) => (
+                  {recoveryRateData.map((data, index) => (
                     <tr key={index}>
                       <td>{data.type}</td>
-                      <td>{data.lost}</td>
+                      <td>{data.claimed}</td>
                       <td>{data.found}</td>
                       <td>{data.recoveryRate}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+          <div className="chart-card">
+            <h3>Recovery Rate of Lost Items by Item Type</h3>
+            <div className="table-container1">
+              <table className="ffound-items-table1">
+                <thead>
+                  <tr>
+                    <th>Item Type</th>
+                    <th>Total Lost Items</th>
+                    <th>Total Found Items</th>
+                    <th>Recovery Rate (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recoveryRateDataByItemType.map((data, index) => (
+                    <tr key={index}>
+                      <td>{data.type}</td>
+                      <td>{data.totalLost}</td>
+                      <td>{data.totalFound}</td>
+                      <td>{data.recoveryRate2}%</td>
                     </tr>
                   ))}
                 </tbody>
@@ -677,43 +957,43 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
 
 
           <div className="chart-card">
-            
-              <h3>Found Items Average Claiming Timeline: Date Found vs. Date Claimed</h3>
-              <div className="time-interval-container">
-                <label htmlFor="claimingTimelineInterval">Select Time Interval: </label>
-                <select id="claimingTimelineInterval" value={claimingTimelineInterval} onChange={handleIntervalChange}>
-                  <option value="daily">Daily</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="quarterly">Quarterly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
-              </div>
-              <Line data={avgClaimingTimelineChartData} options={{ responsive: true, plugins: { legend: { display: true } } }} />
-              <div className="table-container1">
-                <h4>Average Claiming Time by Item Type</h4>
-                <table className="ffound-items-table1">
-                  <thead>
-                    <tr>
-                      <th>Item Type</th>
-                      <th>Average Claiming Time (Days)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {avgClaimingTimes.map((data, index) => (
-                      <tr key={index}>
-                        <td>{data.type}</td>
-                        <td>{data.avgDays}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+
+            <h3>Found Items Average Claiming Timeline: Date Found vs. Date Claimed</h3>
+            <div className="time-interval-container">
+              <label htmlFor="claimingTimelineInterval">Select Time Interval: </label>
+              <select id="claimingTimelineInterval" value={claimingTimelineInterval} onChange={handleIntervalChange}>
+                <option value="daily">Daily</option>
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="yearly">Yearly</option>
+              </select>
             </div>
-            
-          </>
+            <Line data={avgClaimingTimelineChartData} options={{ responsive: true, plugins: { legend: { display: true } } }} />
+            <div className="table-container1">
+              <h4>Average Claiming Time by Item Type</h4>
+              <table className="ffound-items-table1">
+                <thead>
+                  <tr>
+                    <th>Item Type</th>
+                    <th>Average Claiming Time (Days)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {avgClaimingTimes.map((data, index) => (
+                    <tr key={index}>
+                      <td>{data.type}</td>
+                      <td>{data.avgDays}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </>
       )}
-        </div>
-      );
+    </div>
+  );
 };
 
-      export default FoundCharts;
+export default FoundCharts;
