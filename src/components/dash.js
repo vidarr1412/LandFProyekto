@@ -139,7 +139,7 @@ function Dashboard() {
             </div>
           </div>
         </div>
-
+<div className="charts-container69">
         {/* Charts Section */}
         <Charts1
           complaintsData={complaintsData}
@@ -157,6 +157,11 @@ function Dashboard() {
           handleIntervalChange={handleIntervalChange}
         />
       </div>
+      <div className="for-phone-only">
+      <h5>Use PC to View <br></br>&nbsp;&nbsp;&nbsp;&nbsp;More</h5>
+
+      </div>
+    </div>
     </div>
     </>
   );

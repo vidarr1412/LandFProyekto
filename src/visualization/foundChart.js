@@ -252,7 +252,7 @@ const recoveryRateDataByItemType = Object.keys(recoveryRateByItemType).map(type 
       }
     } else {
       // Optionally handle cases where dates are missing
-      console.warn(`Missing dates for item: ${JSON.stringify(item)}`);
+
     }
   });
 

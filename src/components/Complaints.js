@@ -82,7 +82,8 @@ function Manage() {
     return filteredRequests.filter(request => {
       const complainerMatch = request.complainer && request.complainer.toLowerCase().includes(filterText.toLowerCase());
       const itemNameMatch = request.itemname && request.itemname.toLowerCase().includes(filterText.toLowerCase());
-      return complainerMatch || itemNameMatch;
+      const descriptionMatch = request.description && request.description.toLowerCase().includes(filterText.toLowerCase());
+      return complainerMatch || itemNameMatch || descriptionMatch;
     });
   };
 
@@ -281,13 +282,29 @@ setLoading(true);
       filtered = filtered.filter(item => item.status === filters.status);
     }
 
-    // Apply sorting
-       if (filters.sortByDate === 'descending') {
-      filtered.sort((a, b) => (a.date_complained || "").localeCompare(b.date_complained || ""));
-    } else if (filters.sortByDate === 'ascending') {
-      filtered.sort((a, b) => (b.date_complained || "").localeCompare(a.date_complained || ""));
-    }
+    // // Apply sorting
+    //    if (filters.sortByDate === 'descending') {
+    //   filtered.sort((a, b) => (a.date_complained || "").localeCompare(b.date_complained || ""));
+    // } else if (filters.sortByDate === 'ascending') {
+    //   filtered.sort((a, b) => (b.date_complained || "").localeCompare(a.date_complained || ""));
+    // }
     
+
+// Apply sorting
+if (filters.sortByDate === 'ascending') {
+  filtered.sort((a, b) => {
+    const combinedA = `${a.date_complained}T${a.time_complained}`;
+    const combinedB = `${b.date_complained}T${b.time_complained}`;
+    return combinedB.localeCompare(combinedA); // Sort by combined date and time descending
+  });
+} else if (filters.sortByDate === 'descending') {
+  filtered.sort((a, b) => {
+    const combinedA = `${a.date_complained}T${a.time_complained}`;
+    const combinedB = `${b.date_complained}T${b.time_complained}`;
+    return combinedA.localeCompare(combinedB); // Sort by combined date and time ascending
+  });
+}
+
 
     // Only update filteredRequests if it has changed
     if (JSON.stringify(filtered) !== JSON.stringify(filteredRequests)) {

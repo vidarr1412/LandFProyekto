@@ -30,7 +30,9 @@
   border-radius: 10px;
   margin-bottom: 1rem;
 }
-
+.for-phone-only{
+display: none;
+}
 /* Card Styling */
 .dashboard-card1 {
   background: #ffffff;
@@ -194,6 +196,9 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
         
         }
+        .charts-container69{
+display: none;
+        }
     }
 
     
@@ -201,6 +206,21 @@
 @media (max-width: 768px) {
   .dashboard-cards1 {
       margin-left: 10px;
+  }
+  .for-phone-only{
+
+    display: block;
+    align-items: center;
+    margin: auto;
+    width: 50%;
+  }
+  .for-phone-only h5{
+    font-size: 1.5rem;
+  width: 100%;
+    text-align: center;
+       color: #333;
+    
+    text-align:justify ;
   }
 
   .dah1 h2 {
