@@ -176,6 +176,39 @@ display: none;
     width: 50px; /* Adjust width as needed */
     text-align: center; /* Center-align the buttons */
     }
+    .filter-container9 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between; /* Space between filters */
+      margin: 20px 0; /* Margin for spacing */
+    }
+    
+    .filter9 {
+      display: flex;
+      align-items: center; /* Center align items vertically */
+      gap: 1rem;
+    }
+    
+    .filter9 label {
+      font-size: 1.2rem; /* Font size for the label */
+      color: #333; /* Color for the label text */
+      margin-right: 10px; /* Space between label and select */
+    }
+    
+    .filter9 select {
+      padding: 10px; /* Padding inside the select box */
+      font-size: 1rem; /* Font size for the select text */
+      border: 1px solid #ddd; /* Border color */
+      border-radius: 5px; /* Rounded corners */
+      background-color: #ffffff; /* Background color */
+      transition: border-color 0.3s; /* Smooth transition for border color */
+    }
+    
+    /* Change border color on focus */
+    .filter9 select:focus {
+      border-color: #850F13; /* Change border color on focus */
+      outline: none; /* Remove default outline */
+    }
 
     @media (max-width: 768px) {
 /* dhea: media ra ang na change */
