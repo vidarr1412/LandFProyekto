@@ -5,11 +5,11 @@
   align-items: center;
   padding: 20px;
   margin-left: 200px;
-  background-image: url('msu.jpg');
+  background-image: url('msu3.png');
   background-size: cover;
   background-position: center;
   color: #fff;
-  height: auto; /* Adjust based on content */
+  height: 100vh; /* Adjust based on content */
   box-sizing: border-box;
   margin-bottom: 60px;
 }
@@ -17,15 +17,26 @@
 
 /* Remove large margin */
 .cont {
+  color: #ffffff;
+  background-color: #970e0e37;
   text-align: start;
   max-width: 600px;
   width: 100%;
-  margin-left: -500px;
+  margin-left: -900px;
   margin-top: 180px; /* Adjust for proper spacing */
+  padding: 10px;
+  border-radius: 8px;
 }
+
 .cont h1 {
   font-size: 8vh;
+
 }
+.cont p {
+  font-size: 1.8rem;
+
+}
+
 
 /* Statistics Section - Ensure it's visible */
 .statistics {
@@ -285,7 +296,7 @@ li {
   width: 100%; /* Adjust width to fit screen */
   margin-left: 0; /* Remove margin on mobile */
   padding: 10px; /* Adjust padding */
-  background-image: url('msuphone.jpg'); /* Add your background image */
+  background-image: url('msuphone.png'); /* Add your background image */
   background-size: cover; 
   background-position: center; /* Keep the center of the image visible */
   background-repeat: no-repeat; /* Prevent the image from repeating */
