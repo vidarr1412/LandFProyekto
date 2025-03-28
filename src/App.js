@@ -17,12 +17,7 @@ import RetrievalRequests from './components/retrievalrequest';
 import DonatedItems from './components/donatedList';
 import Return from './components/return';
 
-const originalWarn = console.warn;
-console.warn = (message, ...args) => {
-  if (!message.includes("Reader: Support for defaultProps")) {
-    originalWarn(message, ...args);
-  }
-};
+
 
 // Helper function to check if the user is an admin
 const isAdmin = () => {

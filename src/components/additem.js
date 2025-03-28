@@ -160,7 +160,7 @@ const fetchItems = async () => {
       
                 return;
             }
-        }
+              }
 
         // Fetch new data if cache is expired or missing
         const response = await axios.get(`${API_URL}/items`); // ✅ Correct
@@ -180,9 +180,9 @@ const fetchItems = async () => {
         setCurrentPage(1); // Reset to first page
         setRequests(sortedRequests);
 
-    } catch (error) {
+       } catch (error) {
         console.error('Error fetching items:', error);
-    } finally {
+     } finally {
       setLoading(false);
     }
 
@@ -374,29 +374,35 @@ const fetchItems = async () => {
         console.error("Error submitting form:", error);
         alert("Error submitting form. Please try again.");
     }
+    setImage(null);
+    setOwnerImage(null);
+    setItemData({ ...itemData, IMAGE_URL: "", OWNER_IMAGE: "" });
     setLoading(false);
     setShowModal(false);
 
 };
 
 const handleDelete = async (id) => {
-  sessionStorage.removeItem('cachedItems');
 
+setLoading(true);
   if (!id) {
       console.log("⚠️ No ID provided. Skipping deletion.");
       return;
   }
-setLoading(true);
+
 
   try {
-    const res = await axios.get(`${API_URL}/items`); // ✅ Correct
-      const item = res.data;
+    const res = await axios.get(`${API_URL}/items/${id}`); // Fetch specific item
+    const item = res.data; // Ensure item is an object
+    
+   
       console.log("Fetched item before delete:", item);
-
+      setLoading(true);
       if (!item.POST_ID) {
           console.log("⚠️ No POST_ID found. Skipping Facebook deletion.");
       } else {
           console.log("🗑️ Deleting Facebook post with POST_ID:", item.POST_ID);
+          
           try {
               const response = await fetch(`https://graph.facebook.com/v19.0/${item.POST_ID}?access_token=${accessToken}`, {
                   method: "DELETE",
@@ -415,13 +421,14 @@ setLoading(true);
       console.log("🗑️ Deleting item from database with ID:", id);
       await axios.delete(`${API_URL}/items/${id}`);
       console.log(`✅ Item with ID ${id} deleted from database.`);
-      setLoading(false);
-      setShowModal(false);
+ 
   } catch (error) {
       console.log("❌ Error deleting item:", error);
   }
+    sessionStorage.removeItem('cachedItems');
   fetchItems();
-  
+  setLoading(false);
+  setShowModal(false);
 };
 
 

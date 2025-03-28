@@ -36,7 +36,7 @@ function Foundation() {
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
   const { foundationId } = useParams(); // ✅ Extract foundationId from URL
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [itemsModalOpen, setItemsModalOpen] = useState(false); // State for items modal
   const [foundationItems, setFoundationItems] = useState([]); // State to hold items for the selected foundation
@@ -80,9 +80,11 @@ function Foundation() {
 
   //NEW FIXED
   useEffect(() => {
+    setLoading(true);
     if (foundationId) {
       fetchItems();
     }
+    setLoading(false);
   }, [foundationId]);
 
   const fetchItems2 = async () => {
@@ -112,6 +114,7 @@ function Foundation() {
 
 
   const fetchItems = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`${API_URL}/foundations`);
       //10.10.83.224 SID
@@ -128,6 +131,7 @@ function Foundation() {
     } catch (error) {
       console.error('Error fetching items:', error);
     }
+    setLoading(false);
   };
 
   const handleInputChange = (e) => {
@@ -154,7 +158,7 @@ function Foundation() {
     // Check if adding a new item and no image is captured
     //ep 1: Upload the image to Firebase Storage if available
 
-
+setLoading(true);
     // Step 2: Update foundationData with the image URL
     const updatedData = { ...foundationData, };
 
@@ -162,6 +166,7 @@ function Foundation() {
       if (selectedItem) {
         await axios.put(`${API_URL}/foundations/${selectedItem._id}`, updatedData);
         showAlert('Item Updated!', 'complaint_success');
+   
         await Promise.all(foundationItems.map(async (item) => {
           await axios.put(`${API_URL}/items/${item._id}`, { 
               ...item, 
@@ -171,8 +176,7 @@ function Foundation() {
       } else {
         const response = await axios.post(`${API_URL}/foundations`, updatedData);
         setRequests([...requests, response.data]);
-        fetchItems();
-        setShowModal(false);
+     
         showAlert('Item Added!', 'complaint_success');
         await Promise.all(foundationItems.map(async (item) => {
           await axios.put(`${API_URL}/items/${item._id}`, { 
@@ -181,11 +185,15 @@ function Foundation() {
           });
       }));
       } 
-    
+      fetchItems();
+      setShowModal(false);
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Error submitting form. Please try again.');
     }
+    setLoading(false);
+    fetchItems();
+    setShowModal(false);
   };
   const handleImageUpload = (e) => {
     const file = e.target.files[0]; // Get the selected file
@@ -307,7 +315,7 @@ const fetchFoundationItems = async (foundationId) => {
     );
     setImage(null); // Reset the captured image when opening the modal
     setShowModal(true);
-
+setLoading(false);
     // Reset the view mode and editing state when opening the "Add Found Item" modal
     setIsViewMore(false); // Ensure we are not in view mode
     setIsEditing(false); // Ensure we are not in editing mode
@@ -380,6 +388,7 @@ const fetchFoundationItems = async (foundationId) => {
 
 
   const handleViewMore = (request) => {
+    setLoading(false);
     setSelectedItem(request);
     setFoundationData(request);
     setIsEditing(false); // Ensure we are in view mode
@@ -390,6 +399,7 @@ const fetchFoundationItems = async (foundationId) => {
   };
 
   const handleEdit = () => {
+    setLoading(false);
     setIsEditing(true); // Switch to edit mode
     // startCamera(); // Start the camera when editing
   };
@@ -418,6 +428,11 @@ const fetchFoundationItems = async (foundationId) => {
 
 
   return (
+    <>    {loading && (
+      <div className="loading-overlay">
+        <img src="/loadinggif.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -703,43 +718,11 @@ const fetchFoundationItems = async (foundationId) => {
                       <button type="submit" className="submit-btn7">Update</button>
                       {/* delete modal */}
                       <button type="button" className="delete-btn7" onClick={() => { handleDelete(selectedItem._id);  }}>Delete</button>
-                      <button type="button" className="cancel-btn7" onClick={() => { setIsEditing(false); setShowModal(false); }}> Cancel </button>
+                      <button type="button" className="cancel-btn7" onClick={() => { setIsEditing(false); setShowModal(false); setLoading(false);}}> Cancel </button>
                     </div>
                   </form>
 
 
-                  {/* Camera Section on the Right */}
-                  {/* <div className="camera-section">
-                    <video ref={videoRef} width="320" height="240" autoPlay />
-                    <canvas ref={canvasRef} style={{ display: 'none' }} />
-                    <div className="camera-buttons">
-                      <button type="button" onClick={captureImage}>Capture Image</button>
-                    </div> */}
-                  {/* Show the saved image only when updating an existing item */}
-                  {/* {selectedItem && foundationData.IMAGE_URL && !image && (
-                      <img src={foundationData.IMAGE_URL} alt="Saved" className="captured-image" />
-                    )} */}
-
-                  {/* Show the captured image if available */}
-                  {/* {image && (
-                      <img src={image} alt="Captured" className="captured-image" />
-                    )}
-                  </div> */}
-                  {/* <div className="camera-section">
-                    <video ref={videoRef} width="320" height="240" autoPlay />
-                    <canvas ref={canvasRef} style={{ display: 'none' }} />
-                    <div className="camera-buttons">
-                      <button type="button" onClick={captureImage}>Capture Image</button>
-                    </div>
-            
-                    {selectedItem && foundationData.foundation_image && !image && (
-                      <img src={foundationData.foundation_image} alt="Saved" className="captured-image" />
-                    )}
-
-                    {image && (
-                      <img src={image} alt="Captured" className="captured-image" />
-                    )}
-                  </div> */}
 
                 </div>
               ) : (
@@ -784,7 +767,7 @@ const fetchFoundationItems = async (foundationId) => {
                     )}
 
 
-                    <button className="cancel-btn7" onClick={() => setShowModal(false)}>Cancel</button>
+                    <button className="cancel-btn7" onClick={() =>{ setShowModal(false);setLoading(false);}}>Cancel</button>
                   </div>
                 </div>
               )
@@ -911,7 +894,7 @@ const fetchFoundationItems = async (foundationId) => {
                     <button type="submit" className="submit-btn7">Submit</button>
                     {/* delete modal */}
 
-                    <button type="button" className="cancel-btn7" onClick={() => setShowModal(false)}> Cancel </button>
+                    <button type="button" className="cancel-btn7" onClick={() => {setShowModal(false);setLoading(false);}}> Cancel </button>
                   </div>
 
                 </form>
@@ -983,7 +966,8 @@ const fetchFoundationItems = async (foundationId) => {
         </div>
       )}
         </div>
-      );
+        </>);
+      
 }
 
       export default Foundation;

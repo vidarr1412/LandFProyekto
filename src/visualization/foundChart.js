@@ -160,7 +160,7 @@ const FoundCharts = ({ foundItemsData, timelineInterval, handleIntervalChange, t
       }
     } else {
       // Optionally handle cases where dates are missing
-      console.warn(`Missing dates for item: ${JSON.stringify(item)}`);
+  
     }
   });
 

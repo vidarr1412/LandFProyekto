@@ -4,13 +4,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-const originalWarn = console.warn;
-console.warn = (message, ...args) => {
-  if (typeof message === "string" && message.includes("Reader: Support for defaultProps")) {
-    return; // Suppress this specific warning
-  }
-  originalWarn.apply(console, [message, ...args]);
-};
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

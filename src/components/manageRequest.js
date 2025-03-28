@@ -174,7 +174,7 @@ function ManageRequest() {
       <Header />
       <div className="content">
         <div className="manage-bulletin5">
-          <div className="breadcrumb5">Manage Lost and Found {'>'} Manage Request</div>
+          <div className="breadcrumb5">Manage Lost and Found {'>'} asdasdanage Request</div>
 
           <div className="search-bar5">
             <input
