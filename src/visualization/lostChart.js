@@ -1,6 +1,6 @@
 // Charts.js
 import React, { useEffect, useState } from "react";
-import { Bar, Pie, Line, Scatter } from 'react-chartjs-2';
+import { Bar, Pie, Line } from 'react-chartjs-2';
 
 const Charts = ({
   complaintsData,
@@ -11,7 +11,9 @@ const Charts = ({
   // State for charts container visibility
   const [isChartsContainerVisible, setChartsContainerVisible] = useState(false);
 
-
+  // State for year and month filters
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Months are 0-indexed
 
   // Prepare data for charts
   const complaintsByCollege = {};
@@ -19,13 +21,20 @@ const Charts = ({
   const complaintsByYearLevel = {};
   const statusDistribution = { found: 0, notFound: 0 };
   const complaintsTimeline = {};
-  
 
-  complaintsData.forEach(complaint => {
+  // Filter complaintsData based on selected year and month
+  const filteredComplaintsData = complaintsData.filter(complaint => {
+    const complaintDate = new Date(complaint.date);
+    const yearMatches = selectedYear ? complaintDate.getFullYear() === selectedYear : true;
+    const monthMatches = selectedMonth ? complaintDate.getMonth() + 1 === selectedMonth : true;
+    return yearMatches && monthMatches;
+  });
+
+  filteredComplaintsData.forEach(complaint => {
     // Complaints by College
     complaintsByCollege[complaint.college] = (complaintsByCollege[complaint.college] || 0) + 1;
 
-    // Complaints by College
+    // Complaints by General Location
     complaintsByGeneralLocation[complaint.general_location] = (complaintsByGeneralLocation[complaint.general_location] || 0) + 1;
 
     // Complaints by Year Level
@@ -78,9 +87,6 @@ const Charts = ({
     return trendLineData; // Return the trend line data
   }
 
-
-
-
   // *****************************************************************************************************************************
   // Assuming complaintsByCollege is an object where keys are college names and values are complaint counts
   const complaintsByCollegeData = Object.entries(complaintsByCollege).map(([college, count]) => ({ college, count }));
@@ -105,7 +111,7 @@ const Charts = ({
     "More than a Week": 0,
   };
 
-  complaintsData.forEach(complaint => {
+  filteredComplaintsData.forEach(complaint => {
     if (complaint.date && complaint.date_complained) {
       // Combine date and time into a full timestamp
       const lostDateTime = new Date(`${complaint.date}T${complaint.time}`);
@@ -125,7 +131,6 @@ const Charts = ({
       }
     }
   });
-
 
   const totalHours = Object.entries(resolutionTimeRanges).reduce((acc, [key, value]) => {
     if (key === "Same Day (0-6 hours)") return acc + value * 3; // Avg ~3 hours
@@ -258,25 +263,27 @@ const Charts = ({
   });
 
   // Prepare timeline data for the chart
-  const timelineChartData = {
-    labels: Object.keys(filteredComplaintsTimeline),
-    datasets: [
-      {
-        label: 'Complaints Lost',
-        data: Object.values(filteredComplaintsTimeline).map(data => data.lost),
-        fill: false,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-      },
-      {
-        label: 'Complaints Filed',
-        data: Object.values(filteredComplaintsTimeline).map(data => data.complained),
-        fill: false,
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-      },
-    ],
-  };
+const sortedTimelineKeys = Object.keys(filteredComplaintsTimeline).sort((a, b) => new Date(a) - new Date(b));
+
+const timelineChartData = {
+  labels: sortedTimelineKeys,
+  datasets: [
+    {
+      label: 'Complaints Lost',
+      data: sortedTimelineKeys.map(date => filteredComplaintsTimeline[date].lost),
+      fill: false,
+      backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+    },
+    {
+      label: 'Complaints Filed',
+      data: sortedTimelineKeys.map(date => filteredComplaintsTimeline[date].complained),
+      fill: false,
+      backgroundColor: 'rgba(255, 99, 132, 0.6)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+    },
+  ],
+};
 
 
   // const scatterChartData = {
@@ -289,7 +296,7 @@ const Charts = ({
   //   }],
   // };
 
-  
+
 
   //---------------------------------------------------------------
   // Prepare data for the stacked bar chart
@@ -305,7 +312,7 @@ const Charts = ({
 
   const complaintsByTimeIntervalAndCollege = {};
 
-  complaintsData.forEach(complaint => {
+  filteredComplaintsData.forEach(complaint => {
     const dateComp = new Date(complaint.date_complained);
     let formattedDate;
 
@@ -338,7 +345,7 @@ const Charts = ({
 
   // Prepare chart data for stacked bar chart
   const labels = Object.keys(complaintsByTimeIntervalAndCollege);
-  const colleges = [...new Set(complaintsData.map(complaint => complaint.college))]; // Unique colleges
+  const colleges = [...new Set(filteredComplaintsData.map(complaint => complaint.college))]; // Unique colleges
 
   const datasets = colleges.map(college => {
     return {
@@ -526,10 +533,31 @@ const Charts = ({
       </h2>
       {isChartsContainerVisible && (
         <>
+
+
           <div className="chart-card">
             <h3 >
               Lost Complaints by College
             </h3>
+            <div className="filter-container9">
+              <div className="filter9">
+                <h3>Filter by Year:</h3>
+                <select value={selectedYear} onChange={(e) => setSelectedYear(Number(e.target.value))}>
+                  <option value="">All Years</option>
+                  {Array.from(new Set(complaintsData.map(complaint => new Date(complaint.date).getFullYear()))).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+
+                <h3>Filter by Month:</h3>
+                <select value={selectedMonth} onChange={(e) => setSelectedMonth(Number(e.target.value))}>
+                  <option value="">All Months</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <Bar data={collegeChartData} options={barCollegeOptions} />
           </div>
 
@@ -554,6 +582,25 @@ const Charts = ({
             <h3 >
               Lost Complaints by Year Level
             </h3>
+            <div className="filter-container9">
+              <div className="filter9">
+                <h3>Filter by Year:</h3>
+                <select value={selectedYear} onChange={(e) => setSelectedYear(Number(e.target.value))}>
+                  <option value="">All Years</option>
+                  {Array.from(new Set(complaintsData.map(complaint => new Date(complaint.date).getFullYear()))).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+
+                <h3>Filter by Month:</h3>
+                <select value={selectedMonth} onChange={(e) => setSelectedMonth(Number(e.target.value))}>
+                  <option value="">All Months</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <Bar data={yearLevelChartData} options={barYearOptions} />
           </div>
 
@@ -561,6 +608,25 @@ const Charts = ({
             <h3 >
               Lost Complaints by General Location
             </h3>
+            <div className="filter-container9">
+              <div className="filter9">
+                <h3>Filter by Year:</h3>
+                <select value={selectedYear} onChange={(e) => setSelectedYear(Number(e.target.value))}>
+                  <option value="">All Years</option>
+                  {Array.from(new Set(complaintsData.map(complaint => new Date(complaint.date).getFullYear()))).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+
+                <h3>Filter by Month:</h3>
+                <select value={selectedMonth} onChange={(e) => setSelectedMonth(Number(e.target.value))}>
+                  <option value="">All Months</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <Bar data={generalChartData} options={barGeneralOptions} />
           </div>
 
@@ -568,12 +634,50 @@ const Charts = ({
             <h3 >
               Lost Complaint Status Distribution
             </h3>
+            <div className="filter-container9">
+              <div className="filter9">
+                <h3>Filter by Year:</h3>
+                <select value={selectedYear} onChange={(e) => setSelectedYear(Number(e.target.value))}>
+                  <option value="">All Years</option>
+                  {Array.from(new Set(complaintsData.map(complaint => new Date(complaint.date).getFullYear()))).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+
+                <h3>Filter by Month:</h3>
+                <select value={selectedMonth} onChange={(e) => setSelectedMonth(Number(e.target.value))}>
+                  <option value="">All Months</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <Pie data={statusChartData} options={pieOptions} />
           </div>
 
           <div className="chart-card">
             <h3>Lost Complaint Resolution Time Distribution</h3>
             <p>⏳ Average Time Before Complaints Are Filed: <strong> {avgReportTime} hours</strong></p>
+            <div className="filter-container9">
+              <div className="filter9">
+                <h3>Filter by Year:</h3>
+                <select value={selectedYear} onChange={(e) => setSelectedYear(Number(e.target.value))}>
+                  <option value="">All Years</option>
+                  {Array.from(new Set(complaintsData.map(complaint => new Date(complaint.date).getFullYear()))).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+
+                <h3>Filter by Month:</h3>
+                <select value={selectedMonth} onChange={(e) => setSelectedMonth(Number(e.target.value))}>
+                  <option value="">All Months</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <Pie data={resolutionTimeChartData} options={{ responsive: true }} />
           </div>
 
@@ -597,7 +701,6 @@ const Charts = ({
             <h3>Lost Complaint Reporting Delays (Scatter Plot)</h3>
             <Scatter data={scatterChartData} options={scatterOptions} />
           </div> */}
-
 
         </>
       )}

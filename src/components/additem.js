@@ -380,49 +380,54 @@ const fetchItems = async () => {
 };
 
 const handleDelete = async (id) => {
-  sessionStorage.removeItem('cachedItems');
 
-  if (!id) {
-      console.log("⚠️ No ID provided. Skipping deletion.");
-      return;
-  }
-setLoading(true);
-
-  try {
-    const res = await axios.get(`${API_URL}/items`); // ✅ Correct
-      const item = res.data;
-      console.log("Fetched item before delete:", item);
-
-      if (!item.POST_ID) {
-          console.log("⚠️ No POST_ID found. Skipping Facebook deletion.");
-      } else {
-          console.log("🗑️ Deleting Facebook post with POST_ID:", item.POST_ID);
-          try {
-              const response = await fetch(`https://graph.facebook.com/v19.0/${item.POST_ID}?access_token=${accessToken}`, {
-                  method: "DELETE",
-              });
-
-              if (!response.ok) {
-                  throw new Error(`Facebook API error: ${response.status}`);
-              }
-
-              console.log(`✅ Successfully deleted Facebook post ${item.POST_ID}`);
-          } catch (fbError) {
-              console.log("⚠️ Skipping Facebook deletion due to error.");
-          }
-      }
-
-      console.log("🗑️ Deleting item from database with ID:", id);
-      await axios.delete(`${API_URL}/items/${id}`);
-      console.log(`✅ Item with ID ${id} deleted from database.`);
-      setLoading(false);
-      setShowModal(false);
-  } catch (error) {
-      console.log("❌ Error deleting item:", error);
-  }
-  fetchItems();
+  setLoading(true);
+    if (!id) {
+        console.log("⚠️ No ID provided. Skipping deletion.");
+        return;
+    }
   
-};
+  
+    try {
+      const res = await axios.get(`${API_URL}/items/${id}`); // Fetch specific item
+      const item = res.data; // Ensure item is an object
+      
+     
+        console.log("Fetched item before delete:", item);
+        setLoading(true);
+        if (!item.POST_ID) {
+            console.log("⚠️ No POST_ID found. Skipping Facebook deletion.");
+        } else {
+            console.log("🗑️ Deleting Facebook post with POST_ID:", item.POST_ID);
+            
+            try {
+                const response = await fetch(`https://graph.facebook.com/v19.0/${item.POST_ID}?access_token=${accessToken}`, {
+                    method: "DELETE",
+                });
+  
+                if (!response.ok) {
+                    throw new Error(`Facebook API error: ${response.status}`);
+                }
+  
+                console.log(`✅ Successfully deleted Facebook post ${item.POST_ID}`);
+            } catch (fbError) {
+                console.log("⚠️ Skipping Facebook deletion due to error.");
+            }
+        }
+  
+        console.log("🗑️ Deleting item from database with ID:", id);
+        await axios.delete(`${API_URL}/items/${id}`);
+        console.log(`✅ Item with ID ${id} deleted from database.`);
+   
+    } catch (error) {
+        console.log("❌ Error deleting item:", error);
+    }
+      sessionStorage.removeItem('cachedItems');
+    fetchItems();
+    setLoading(false);
+    setShowModal(false);
+  };
+  
 
 
   const handleDownload = () => {
