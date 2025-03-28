@@ -159,9 +159,9 @@ p span:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 3000;
 }
 
 .loading-gif {
-  width: 80px;
+  width: 10%
 }

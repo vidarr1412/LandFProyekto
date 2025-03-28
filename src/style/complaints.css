@@ -460,7 +460,6 @@ padding: 12px;
 font-size: 1rem;
 border: 1px solid #cccccc;
 border-radius: 6px;
-width: 100%; /* Adjusted for full width in single column */
 }
 
 .modal3 input:focus,

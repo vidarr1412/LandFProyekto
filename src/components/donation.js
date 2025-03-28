@@ -36,7 +36,7 @@ function Foundation() {
   const [selectedImage, setSelectedImage] = useState(''); // State for selected image
   const { foundationId } = useParams(); // ✅ Extract foundationId from URL
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [itemsModalOpen, setItemsModalOpen] = useState(false); // State for items modal
   const [foundationItems, setFoundationItems] = useState([]); // State to hold items for the selected foundation
@@ -71,18 +71,22 @@ function Foundation() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+
     fetchItems();
     if (showModal) {
       // startCamera(); // Start camera when modal is shown
     }
+
   }, [showModal]);
 
 
   //NEW FIXED
   useEffect(() => {
+
     if (foundationId) {
       fetchItems();
     }
+
   }, [foundationId]);
 
   const fetchItems2 = async () => {
@@ -112,6 +116,7 @@ function Foundation() {
 
 
   const fetchItems = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`${API_URL}/foundations`);
       //10.10.83.224 SID
@@ -125,9 +130,11 @@ function Foundation() {
       });
       setCurrentPage(1); // Set current page to 1 when data is fetched
       setRequests(sortedRequests);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching items:', error);
     }
+    setLoading(false);
   };
 
   const handleInputChange = (e) => {
@@ -161,24 +168,28 @@ function Foundation() {
     try {
       if (selectedItem) {
         await axios.put(`${API_URL}/foundations/${selectedItem._id}`, updatedData);
+        setLoading(true);
         showAlert('Item Updated!', 'complaint_success');
         await Promise.all(foundationItems.map(async (item) => {
           await axios.put(`${API_URL}/items/${item._id}`, { 
               ...item, 
               STATUS: 'donated' 
           });
+         
       }));
       } else {
         const response = await axios.post(`${API_URL}/foundations`, updatedData);
+        setLoading(true);
         setRequests([...requests, response.data]);
         fetchItems();
-        setShowModal(false);
+   
         showAlert('Item Added!', 'complaint_success');
         await Promise.all(foundationItems.map(async (item) => {
           await axios.put(`${API_URL}/items/${item._id}`, { 
               ...item, 
               STATUS: 'donated' 
           });
+     
       }));
       } 
     
@@ -186,6 +197,8 @@ function Foundation() {
       console.error('Error submitting form:', error);
       alert('Error submitting form. Please try again.');
     }
+    setShowModal(false);
+    setLoading(false);
   };
   const handleImageUpload = (e) => {
     const file = e.target.files[0]; // Get the selected file
@@ -219,8 +232,9 @@ function Foundation() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this item?')) return;
 
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
+setLoading(true);
     try {
         // Step 1: Try to fetch associated items, but allow deletion even if there are none
         let foundationItems = [];
@@ -249,7 +263,7 @@ function Foundation() {
             await axios.delete(`${API_URL}/foundations/${id}`);
             fetchItems();
             showAlert('Foundation deleted successfully!', 'complaint_success');
-            setShowModal(false);
+          
         } catch (deleteError) {
            
             setShowModal(false);
@@ -259,6 +273,9 @@ function Foundation() {
         alert('An unexpected error occurred. Please try again.');
         setShowModal(false);
     }
+    fetchItems();
+    setShowModal(false);
+    setLoading(false);
 };
 
 const fetchFoundationItems = async (foundationId) => {
@@ -418,6 +435,12 @@ const fetchFoundationItems = async (foundationId) => {
 
 
   return (
+    <>
+    {loading && (
+      <div className="loading-overlay">
+        <img src="/loadinggif.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    )}
     <div className="home-container">
       <Sidebar />
       <Header />
@@ -985,7 +1008,7 @@ const fetchFoundationItems = async (foundationId) => {
         </div>
       )}
         </div>
-      );
+     </> );
 }
 
       export default Foundation;
